@@ -609,7 +609,7 @@
     updateCountdown();
 
     // Form Submission
-  document.getElementById("email-form").addEventListener("submit", function (e) {
+    document.getElementById("email-form").addEventListener("submit", function (e) {
     e.preventDefault();
     const emailInput = document.querySelector("input[name='email']");
     const email = emailInput.value;
@@ -617,9 +617,9 @@
 
     fetch(endpoint, {
       method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `email=${encodeURIComponent(email)}`
+      body: new URLSearchParams({
+      email: email
+      })
     })
     .then(() => {
       document.getElementById("form-feedback").textContent = "✅ 感謝你！我們已收到你的電郵。";
@@ -629,7 +629,7 @@
       document.getElementById("form-feedback").textContent = "❌ 發生錯誤，請稍後再試。";
       console.error(err);
     });
-  });
+    });
 
     // FAQ Accordion
     const faqQuestions = document.querySelectorAll(".faq-question");
