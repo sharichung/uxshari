@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="立即免費下載 Figma UX 教學、免費 UX 設計資源、港澳台 UX 線上課程入口。助你建立 UX Portfolio，成功轉職 UX 設計！">
+  <meta name="keywords" content="本挑戰適合來自 香港、台灣、澳門、新加波等 的 UX 初學者，課程為 正體中文 UX 線上教學，搭配 Figma 練習與 UX 實戰任務。">
+  <meta name="author" content="UX Shari">
+  <meta property="og:title" content="UX Shari 職場級 UX/UI 訓練營">
+  <meta property="og:description" content="免費 UX/UI 挑戰包、Figma UX 教學、設計功課交件資源入口，一站式解鎖！">
+  <meta property="og:image" content="https://yourdomain.com/og-image.jpg">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <title>UX Shari UX/UI 訓練營｜Figma UX 教學＋作品集挑戰</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap"
+    rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <div class="logo-container">
+        <a href="#" class="logo futuristic-hover">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 1017.99 1024" width="24" height="24"><path d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z" style="fill:#ff9500"/></svg>
+          
+          UX Shari
+        </a>
+        <button class="mobile-menu-toggle">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12H21" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M3 6H21" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M3 18H21" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">課程特色</a>
+        <a href="#testimonials" class="nav-link">學員心得</a>
+        <a href="#faq" class="nav-link">常見問題</a>
+        <a href="#hero" class="nav-link cta">立即開始UX/UI之旅</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-grid"></div>
+    <div class="container hero-content">
+      <h1 class="hero-title tech-title hero-title-white">UX/UI 新手 28 天從零開始，<br>打造<span class="hero-title-orange">職場級作品集</span>！</h1>
+      <p class="hero-subtitle">沒經驗、沒學過 UX？加入我們的免費訓練，28 天完成作品集，跨出轉職第一步！</p>
+      <p class="hero-subtitle">練習真實產品設計流程，建立職涯第一份 UX 實戰經驗！</p>
+      <div class="deadline-alert">
+        <p class="mb-0">本週截止！免費挑戰包下載只限至 5 月 20 日</p>
+      </div>
+      <p id="countdown" class="countdown">倒數已結束！</p>
+      <p class="hero-subtitle">適合 UX 零基礎、設計系學生、PM、行銷人，或任何想轉職 UX 的你！</p>
+
+      <form id="email-form" class="email-form">
+        <label for="email"></label>
+        <input type="email" name="email" class="form-input" placeholder="輸入你的電郵" required="">
+        <button type="submit" class="btn btn-primary" aria-label="開始 28 天轉職計畫">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+            <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"></rect>
+          </svg>
+          立即開始UX/UI之旅
+        </button>
+      </form>
+
+      <div id="form-feedback" class="form-feedback"></div>
+      <p class="form-note">下載後可獲得：Figma 指南、功課表、線上課連結（價值 HK$499）</p>
+      <p class="form-note">放心，我們只會寄你挑戰包與學習連結，不會打擾你。</p>
+
+      <div class="power-meter">
+        <div class="power-level"></div>
+      </div>
+    </div>
+    <div class="particle"
+      style="top: 52.3423%; left: 65.1031%; width: 2.38327px; height: 2.38327px; opacity: 0.521617; animation-duration: 24.0279s; animation-delay: 1.29177s;">
+    </div>
+    <div class="particle"
+      style="top: 49.2368%; left: 17.685%; width: 3.99797px; height: 3.99797px; opacity: 0.799861; animation-duration: 24.7719s; animation-delay: 3.15556s;">
+    </div>
+    <div class="particle"
+      style="top: 11.2068%; left: 16.3855%; width: 4.83835px; height: 4.83835px; opacity: 0.596596; animation-duration: 13.7594s; animation-delay: 4.70607s;">
+    </div>
+    <div class="particle"
+      style="top: 78.1309%; left: 72.7469%; width: 4.13423px; height: 4.13423px; opacity: 0.366066; animation-duration: 20.853s; animation-delay: 4.80806s;">
+    </div>
+    <div class="particle"
+      style="top: 93.305%; left: 41.0611%; width: 3.49156px; height: 3.49156px; opacity: 0.781306; animation-duration: 17.7168s; animation-delay: 4.17252s;">
+    </div>
+    <div class="particle"
+      style="top: 22.0005%; left: 92.1417%; width: 2.21895px; height: 2.21895px; opacity: 0.304808; animation-duration: 15.6224s; animation-delay: 0.410074s;">
+    </div>
+    <div class="particle"
+      style="top: 39.2053%; left: 33.0768%; width: 2.72814px; height: 2.72814px; opacity: 0.390493; animation-duration: 17.1893s; animation-delay: 4.23946s;">
+    </div>
+    <div class="particle"
+      style="top: 59.289%; left: 71.8465%; width: 2.55817px; height: 2.55817px; opacity: 0.469964; animation-duration: 24.4678s; animation-delay: 4.83689s;">
+    </div>
+    <div class="particle"
+      style="top: 70.6221%; left: 69.7125%; width: 4.39489px; height: 4.39489px; opacity: 0.498568; animation-duration: 21.4642s; animation-delay: 4.48498s;">
+    </div>
+    <div class="particle"
+      style="top: 25.1684%; left: 3.97652%; width: 4.47902px; height: 4.47902px; opacity: 0.300592; animation-duration: 17.3987s; animation-delay: 1.12764s;">
+    </div>
+  </header>
+
+  <main>
+    <section id="testimonials" class="testimonials">
+      <div class="container">
+        <h2 class="section-title tech-title">💬 他們從迷惘出發，現在是<span class="glow hero-title-blue">團隊主力</span>設計師！</h2>
+        <p class="section-subtitle">有些學員一開始完全沒接觸過 UX，有些則在工作中卡關、急需轉型。透過系統性的訓練與實戰指導，他們一步步累積實力，成功打造屬於自己的設計職涯。</p>
+
+        <div class="testimonial-category">
+          <h3 class="category-title">從零開始</h3>
+          <div class="testimonial-grid">
+            <div class="testimonial-card">
+              <div class="superhero-badge skill-1">超能力解鎖</div>
+              <div class="testimonial-header">
+                <div class="testimonial-avatar">C</div>
+                <div>
+                  <h3 class="testimonial-name">Cynthia</h3>
+                  <p class="testimonial-position">香港｜親子娛樂品牌</p>
+                </div>
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">第一次學 UX，就做到能轉職！從只有社群貼文經驗，到能主導公司 App 和網站改版，成功轉職為 UX/UI 設計師。</p>
+                <div class="testimonial-quote">💬「學到很多業界知識，真的專業！🫶」</div>
+              </div>
+              <div class="testimonial-footer">
+                <a href="#hero" class="btn btn-primary btn-sm">我也想試試 →</a>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <div class="superhero-badge skill-3">實力爆表</div>
+              <div class="testimonial-header">
+                <div class="testimonial-avatar">S</div>
+                <div>
+                  <h3 class="testimonial-name">Sarah Cheng</h3>
+                  <p class="testimonial-position">台灣｜品牌策略與數位設計顧問</p>
+                </div>
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">設計新手也能成為團隊核心設計師，從零開始學習設計系統，現在負責整個網站的設計與維護，朝更進階的 UX 能力邁進。</p>
+                <div class="testimonial-quote">💬「學到很多業界知識，真的專業！🫶」</div>
+              </div>
+              <div class="testimonial-footer">
+                <a href="#hero" class="btn btn-primary btn-sm">我也想試試 →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-category">
+          <h3 class="category-title mt-4">設計轉職</h3>
+          <div class="testimonial-grid">
+            <div class="testimonial-card">
+              <div class="superhero-badge skill-2">技能滿格</div>
+              <div class="testimonial-header">
+                <div class="testimonial-avatar">S</div>
+                <div>
+                  <h3 class="testimonial-name">Steph</h3>
+                  <p class="testimonial-position">新加坡｜銀行 CX 團隊</p>
+                </div>
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">從內訓講師，變身 CX 設計主管。一開始完全沒 UX 經驗，卻因部門調動臨時被指派做研究，現在主導產品研究與設計策略。</p>
+                <div class="testimonial-quote">💬「學到很多業界知識，真的專業！🫶」</div>
+              </div>
+              <div class="testimonial-footer">
+                <a href="#hero" class="btn btn-primary btn-sm">我也想試試 →</a>
+              </div>
+            </div>
+
+            <div class="testimonial-card">
+              <div class="superhero-badge skill-2">設計達人</div>
+              <div class="testimonial-header">
+                <div class="testimonial-avatar">陳</div>
+                <div>
+                  <h3 class="testimonial-name">陳志謙</h3>
+                  <p class="testimonial-position">台灣｜健康科技新創</p>
+                </div>
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">新創公司 UX 工具人，逐步釐清 UX/UI 流程，現在能獨立提出設計解決方案，繼續成長中！</p>
+                <div class="testimonial-quote">💬「學到很多業界知識，真的專業！🫶」</div>
+              </div>
+              <div class="testimonial-footer">
+                <a href="#hero" class="btn btn-primary btn-sm">我也想試試 →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-category">
+          <h3 class="category-title mt-4">地域突破</h3>
+          <div class="testimonial-grid">
+            <div class="testimonial-card advanced">
+              <div class="superhero-badge skill-4">作品集簡報大師</div>
+              <div class="testimonial-header">
+                <div class="testimonial-avatar">C</div>
+                <div>
+                  <h3 class="testimonial-name">Chelsey</h3>
+                  <p class="testimonial-position">香港｜英國 UX/UI 設計師</p>
+                </div>
+              </div>
+              <div class="testimonial-content">
+                <p class="testimonial-text">已是設計師，也能靠語言與簡報力突破！為了挑戰英國遠端職位，報名 1 對 1 輔導，強化英文口說、面試技巧與作品集簡報。</p>
+                <div class="testimonial-quote">💬「成功入職英國設計公司，實現遠距工作夢！」</div>
+              </div>
+              <div class="testimonial-footer">
+                <a href="#hero" class="btn btn-primary btn-sm">我也想試試 →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="final-cta" style="text-align:center; margin-top: 2rem;">
+          <p>🎯 你也能成為下一個成功案例！</p>
+          <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
+          <a href="#hero" class="btn btn-primary btn-lg">立即開始UX/UI之旅 →</a>
+        </div>
+      </div>
+    </section>
+    
+    
+
+    <section id="features" class="features">
+      <div class="container">
+        <h2 class="section-title tech-title">🚀 28 天 UX/UI 挑戰，<span class="glow">超能力</span>養成計劃</h2>
+        <p class="section-subtitle">專為港澳台地區設計的中文 UX/UI 課程，從基礎開始，循序漸進，讓你輕鬆上手</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon floating">📝</div>
+            <h3 class="feature-title">實戰任務導向</h3>
+            <p class="feature-text">每週有明確的設計任務，從研究到原型，一步步累積作品集內容，不再只有理論沒有實作。</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon floating">🔍</div>
+            <h3 class="feature-title">Figma 專業指導</h3>
+            <p class="feature-text">從零開始學習 Figma，掌握業界標準工具，包含完整的操作教學與設計技巧。</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon floating">👥</div>
+            <h3 class="feature-title">社群互動學習</h3>
+            <p class="feature-text">加入學習社群，與其他學員交流心得，互相激勵，共同成長。</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon floating">🏆</div>
+            <h3 class="feature-title">作品集指導</h3>
+            <p class="feature-text">學會如何說明你的設計決策，打造能吸引 UX 招聘主管注意的作品集！</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon floating">🌏</div>
+            <h3 class="feature-title">在地化案例</h3>
+            <p class="feature-text">以港澳台地區的產品與服務為案例，更貼近本地市場需求與使用者習慣。</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon floating">🎓</div>
+            <h3 class="feature-title">完全免費開始</h3>
+            <p class="feature-text">免費獲取入門資源包，先體驗再決定是否深入學習，無任何隱藏費用。</p>
+          </div>
+        </div>
+        <div class="final-cta" style="text-align:center; margin-top: 2rem;">
+          <p>🎯 你也能成為下一個成功案例！</p>
+          <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
+          <a href="#hero" class="btn btn-primary btn-lg">立即開始UX/UI之旅 →</a>
+        </div>
+      </div>
+      <div class="particle"
+        style="top: 52.9699%; left: 37.0571%; width: 4.55905px; height: 4.55905px; opacity: 0.353195; animation-duration: 16.3657s; animation-delay: 4.63305s;">
+      </div>
+      <div class="particle"
+        style="top: 33.4037%; left: 75.5331%; width: 4.98016px; height: 4.98016px; opacity: 0.513915; animation-duration: 18.2073s; animation-delay: 2.66127s;">
+      </div>
+      <div class="particle"
+        style="top: 28.1642%; left: 48.3564%; width: 2.10927px; height: 2.10927px; opacity: 0.384; animation-duration: 10.1651s; animation-delay: 2.04264s;">
+      </div>
+      <div class="particle"
+        style="top: 84.2233%; left: 13.9682%; width: 4.55829px; height: 4.55829px; opacity: 0.79063; animation-duration: 21.1847s; animation-delay: 4.88817s;">
+      </div>
+      <div class="particle"
+        style="top: 3.34942%; left: 47.539%; width: 3.67941px; height: 3.67941px; opacity: 0.787693; animation-duration: 20.5156s; animation-delay: 0.301743s;">
+      </div>
+      <div class="particle"
+        style="top: 73.6789%; left: 29.6504%; width: 3.72335px; height: 3.72335px; opacity: 0.33687; animation-duration: 21.9635s; animation-delay: 1.64263s;">
+      </div>
+      <div class="particle"
+        style="top: 77.8234%; left: 18.7012%; width: 2.29971px; height: 2.29971px; opacity: 0.689186; animation-duration: 10.7542s; animation-delay: 4.38145s;">
+      </div>
+      <div class="particle"
+        style="top: 74.2988%; left: 46.5593%; width: 3.91471px; height: 3.91471px; opacity: 0.302969; animation-duration: 13.3478s; animation-delay: 0.358582s;">
+      </div>
+      <div class="particle"
+        style="top: 52.0335%; left: 68.4004%; width: 3.1449px; height: 3.1449px; opacity: 0.334112; animation-duration: 21.7154s; animation-delay: 4.59007s;">
+      </div>
+      <div class="particle"
+        style="top: 32.9538%; left: 23.7394%; width: 3.39426px; height: 3.39426px; opacity: 0.669346; animation-duration: 12.6226s; animation-delay: 2.71555s;">
+      </div>
+    </section>
+
+    <section id="advanced-options" class="advanced-options">
+      <div class="container">
+        <h2 class="section-title tech-title">進階學習模式</h2>
+        <p class="section-subtitle">根據你的需求，選擇最適合的進階學習方式，快速達成目標！</p>
+
+        <div class="options-grid">
+          <div class="option-card">
+            <div class="option-icon">📦</div>
+            <h3 class="option-title">預錄課 + 任務包</h3>
+            <p class="option-text">隨時進行的課程，包含證書與資源下載，適合想靈活安排時間的學員。</p>
+          </div>
+
+          <div class="option-card">
+            <div class="option-icon">👩‍💻</div>
+            <h3 class="option-title">每週小班 Live 指導課</h3>
+            <p class="option-text">50 分鐘 Zoom 互動實戰，與導師和同學即時交流，解決學習中的疑問。</p>
+          </div>
+
+          <div class="option-card">
+            <div class="option-icon">🧑‍🏫</div>
+            <h3 class="option-title">1 對 1 UX或面試輔導</h3>
+            <p class="option-text">由專業設計師個別訓練，針對你的需求進行面試技巧與作品集簡報指導。</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="final-cta" style="text-align:center; margin-top: 2rem;">
+        <p>🎯 你也能成為下一個成功案例！</p>
+        <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
+        <a href="#hero" class="btn btn-primary btn-lg">立即開始UX/UI之旅 →</a>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="container">
+        <h2 class="section-title tech-title">常見問題</h2>
+        <p class="section-subtitle">有任何疑問？我們在這裡為你解答</p>
+
+        <div class="faq-container">
+          <div class="faq-item">
+            <div class="faq-question">我完全沒有設計經驗，適合參加嗎？</div>
+            <div class="faq-answer">
+              非常適合！我們的課程就是為零基礎的學員設計的，從最基本的 UX/UI 概念開始教起，循序漸進，讓你輕鬆入門。許多學員都是從完全沒有設計背景開始，現在已經成功轉職或在工作中應用所學。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">需要先安裝什麼軟體嗎？</div>
+            <div class="faq-answer">
+              你只需要註冊一個免費的 Figma 帳號即可。Figma 是一個基於網頁的設計工具，不需要下載安裝，只要有瀏覽器和網路連接就能使用。我們會在課程中教你如何使用 Figma 的各項功能。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">28 天真的能學會 UX/UI 設計嗎？</div>
+            <div class="faq-answer">
+              28 天的目標是幫助你建立 UX/UI
+              設計的基礎知識和技能，並完成一個初階作品集項目。這不會讓你成為專家，但絕對能讓你具備入門級的實力，並為進一步學習打下堅實基礎。許多學員在完成挑戰後，已經能夠處理簡單的設計任務。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">課程內容是什麼語言？</div>
+            <div class="faq-answer">
+              所有課程內容均為正體中文，特別適合香港、台灣、澳門等地區的學員。我們的案例和教學內容也會考慮本地市場的特點和需求。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">免費資源包包含哪些內容？</div>
+            <div class="faq-answer">
+              免費資源包包含：Figma 基礎教學指南、28 天學習路線圖、第一週的任務說明和範例、設計資源連結集合，以及線上社群邀請連結。這些資源足以讓你開始學習並完成第一週的任務。
+            </div>
+          </div>
+        </div>
+        <div class="final-cta" style="text-align:center; margin-top: 2rem;">
+          <p>🎯 你也能成為下一個成功案例！</p>
+          <p>UX Shari 提供最適合新手的 UX/UI 線上課程，透過 28 天挑戰式學習模式，結合作品集實作、面試準備與實戰技巧，幫助你從設計小白成為能獨立操作 Figma 與 UX 流程的職場設計師。</p>
+          <a href="#hero" class="btn btn-primary btn-lg">立即開始UX/UI之旅 →</a>
+        </div>
+      </div>
+      
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-particles">
+        <div class="particle" style="top: 20%; left: 10%; animation-duration: 15s;"></div>
+        <div class="particle" style="top: 30%; left: 20%; animation-duration: 25s;"></div>
+        <div class="particle" style="top: 70%; left: 30%; animation-duration: 20s;"></div>
+        <div class="particle" style="top: 40%; left: 70%; animation-duration: 18s;"></div>
+        <div class="particle" style="top: 60%; left: 80%; animation-duration: 22s;"></div>
+        <div class="particle" style="top: 80%; left: 40%; animation-duration: 19s;"></div>
+        <div class="particle" style="top: 10%; left: 50%; animation-duration: 21s;"></div>
+        <div class="particle" style="top: 50%; left: 90%; animation-duration: 17s;"></div>
+      </div>
+      <div class="container">
+        <h2 class="cta-title tech-title">準備好開始你的 UX/UI <span class="glow">超能力</span>養成之旅了嗎？</h2>
+        <p class="cta-text">立即下載免費資源包，開始你的 28 天 UX/UI 挑戰！</p>
+        <a href="#hero" class="btn btn-secondary btn-lg">立即開始UX/UI之旅 →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>UX Shari</h3>
+          <p>幫助港澳台地區的 UX/UI 初學者建立專業技能，打造出色作品集，成功轉職或升級職場技能。</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/uxshari/" class="social-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></rect>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@uxshari" class="social-link">
+              <svg width="18" height="18" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="26" height="20" rx="4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 9v6l6-3-6-3z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>              
+            </a>
+            <a href="https://www.linkedin.com/in/sharichung/" class="social-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M2 9h4v12H2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>快速連結</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#hero">首頁</a></li>
+            <li class="footer-link"><a href="#features">課程特色</a></li>
+            <li class="footer-link"><a href="#testimonials">學員心得</a></li>
+            <li class="footer-link"><a href="#faq">常見問題</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>資源</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="#">Figma 教學</a></li>
+            <li class="footer-link"><a href="#">UX 設計指南</a></li>
+            <li class="footer-link"><a href="#">UI 設計資源</a></li>
+            <li class="footer-link"><a href="#">作品集範例</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>聯絡我們</h3>
+          <ul class="footer-links">
+            <li class="footer-link"><a href="mailto:info@uxshari.com">info@uxshari.com</a></li>
+            <li class="footer-link"><a href="#">加入 Discord 社群</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © <span id="current-year"></span> UX Shari. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Countdown Timer
+    function updateCountdown() {
+      const deadline = new Date("May 20, 2025 23:59:59").getTime();
+      const now = new Date().getTime();
+      const timeLeft = deadline - now;
+
+      if (timeLeft <= 0) {
+        document.getElementById("countdown").innerHTML = "倒數已結束！";
+        return;
+      }
+
+      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML = `⏰ 倒數：${days} 天 ${hours} 小時 ${minutes} 分鐘 ${seconds} 秒`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Form Submission
+    document.getElementById("email-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = this.email.value;
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwy4pc0CE4dC4orpduWV3WboAi-xIvKXTMAjiWSlek9Wy9I0zvM029zeAFyT_-V4d-t/exec"; // 替換為你的 Apps Script 部署 URL
+
+    try {
+      const response = await fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({ email }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const result = await response.json();
+      if (result.status === "success") {
+        alert("✅ 成功！資料已送出！");
+        this.reset();
+      } else {
+        alert("❌ 發生錯誤，請稍後再試！");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("❌ 發生錯誤，請稍後再試！");
+    }
+  });
+
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll(".faq-question");
+
+    faqQuestions.forEach(question => {
+      question.addEventListener("click", () => {
+        const answer = question.nextElementSibling;
+        const isActive = question.classList.contains("active");
+
+        // Close all other answers
+        document.querySelectorAll(".faq-answer").forEach(item => {
+          item.classList.remove("show");
+        });
+
+        document.querySelectorAll(".faq-question").forEach(item => {
+          item.classList.remove("active");
+        });
+
+        // Toggle current answer
+        if (!isActive) {
+          answer.classList.add("show");
+          question.classList.add("active");
+        }
+      });
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 70,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Mobile Menu Toggle
+    document.querySelector('.mobile-menu-toggle').addEventListener('click', function () {
+      document.querySelector('.nav-links').classList.toggle('show');
+    });
+
+    // Create floating particles
+    function createParticles() {
+      const heroSection = document.querySelector('.hero');
+      const featuresSection = document.querySelector('.features');
+
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.width = `${Math.random() * 3 + 2}px`;
+        particle.style.height = particle.style.width;
+        particle.style.opacity = Math.random() * 0.5 + 0.3;
+        particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+
+        if (i < 10) {
+          heroSection.appendChild(particle);
+        } else {
+          featuresSection.appendChild(particle);
+        }
+      }
+    }
+
+    // Call the function when the page loads
+    window.addEventListener('load', createParticles);
+  </script>
+  <script>
+    (function () {
+      function c() {
+        var b = a.contentDocument || a.contentWindow.document;
+        if (b) {
+          var d = b.createElement('script');
+          d.innerHTML =
+            "window.__CF$cv$params={r:'940517a637ed7771',t:'MTc0NzMzNzg3Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+          b.getElementsByTagName('head')[0].appendChild(d)
+        }
+      }
+      if (document.body) {
+        var a = document.createElement('iframe');
+        a.height = 1;
+        a.width = 1;
+        a.style.position = 'absolute';
+        a.style.top = 0;
+        a.style.left = 0;
+        a.style.border = 'none';
+        a.style.visibility = 'hidden';
+        document.body.appendChild(a);
+        if ('loading' !== document.readyState) c();
+        else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+        else {
+          var e = document.onreadystatechange || function () {};
+          document.onreadystatechange = function (b) {
+            e(b);
+            'loading' !== document.readyState && (document.onreadystatechange = e, c())
+          }
+        }
+      }
+    })();
+
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script><iframe height="1" width="1"
+    style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>
