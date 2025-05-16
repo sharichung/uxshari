@@ -826,26 +826,23 @@ body {
 .advanced-options {
   padding: 6rem 0;
   background-color: var(--dark-blue);
-  color: var(--light);
   position: relative;
   overflow: hidden;
 }
 
-.advanced-options .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+.advanced-options::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 20%, rgba(255, 87, 34, 0.05) 0%, transparent 50%);
+  opacity: 0.8;
 }
 
-.advanced-options .section-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
-}
-
-.advanced-options .section-subtitle {
+.section-subtitle {
   text-align: center;
   max-width: 800px;
   margin: 0 auto 3rem;
@@ -856,17 +853,36 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .option-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(110, 0, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 149, 0, 0.1);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 2.5rem;
   text-align: center;
   transition: all 0.3s;
   position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
 .option-card:hover {
@@ -877,44 +893,65 @@ body {
 
 .option-icon {
   font-size: 3rem;
-  margin-bottom: 1rem;
-  color: var(--primary);
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  position: relative;
+}
+
+.option-icon::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 149, 0, 0.1);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
 }
 
 .option-title {
-  font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  font-size: 1.25rem;
   color: var(--light);
   font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
 }
 
 .option-text {
+  color: var(--gray-light);
   font-size: 1rem;
-  color: var(--gray);
   line-height: 1.7;
 }
 
-.guidance {
-  margin-top: 3rem;
+.final-cta {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 800px;
+  margin: 0 auto;
   text-align: center;
-  font-size: 1rem;
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.final-cta p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--gray-light);
+}
+
+.final-cta p:first-child {
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--light);
+  margin-bottom: 1rem;
 }
 
-.guidance ul {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0;
-}
 
-.guidance li {
-  margin-bottom: 0.5rem;
-}
-
-.guidance strong {
-  color: var(--primary);
-}
 
 /* FAQ */
 .faq {
@@ -1028,11 +1065,11 @@ body {
 
 .particle {
   position: absolute;
-  width: 5px;
-  height: 5px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
   animation: float 15s infinite linear;
+  z-index: 1;
 }
 
 @keyframes float {
@@ -1040,7 +1077,6 @@ body {
     transform: translateY(0) rotate(0deg);
     opacity: 1;
   }
-
   100% {
     transform: translateY(-100vh) rotate(360deg);
     opacity: 0;
@@ -1202,21 +1238,6 @@ body {
 }
 
 /* Glowing Effect */
-.glow- {
-  animation: glow 2s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow: 0 0 5px rgba(255, 149, 0, 0.5), 0 0 10px rgba(255, 149, 0, 0.3);
-  }
-
-  to {
-    text-shadow: 0 0 10px rgba(255, 149, 0, 0.7), 0 0 20px rgba(255, 149, 0, 0.5), 0 0 30px rgba(255, 149, 0, 0.3);
-  }
-}
-
-/* Glowing Effect - Orange */
 .glow {
   animation: glow 2s ease-in-out infinite alternate;
 }
