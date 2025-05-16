@@ -170,7 +170,7 @@ body {
 
 .nav-link.cta {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: white;
+  color: var(--dark);
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
@@ -385,13 +385,14 @@ body {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: white;
+  color: var(--dark);
   box-shadow: var(--glow);
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 7px 15px rgba(255, 149, 0, 0.4);
+  color: var(--dark);
 }
 
 .btn-secondary {
