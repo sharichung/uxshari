@@ -47,6 +47,8 @@
     </div>
   </nav>
 
+  
+
   <header id="hero" class="hero">
     <div class="hero-grid"></div>
     <div class="container hero-content">
@@ -57,7 +59,7 @@
       </div>
       <p id="countdown" class="countdown">倒數已結束！</p>
       <p class="hero-subtitle">適合 UX 零基礎、設計系學生、PM、行銷人，或任何想轉職 UX 的你！</p>
-      <form id="email-form" class="email-form">
+      <form id="email-form" class="email-form" action="https://script.google.com/macros/s/your_web_app_id/exec" method="POST">
         <label for="email" class="sr-only">電郵地址</label>
         <input type="email" name="email" class="form-input" placeholder="輸入你的電郵" required aria-label="輸入你的電郵">
         <button type="submit" class="btn btn-primary" aria-label="開始 28 天轉職計畫">
@@ -70,6 +72,37 @@
           立即開始UX/UI之旅
         </button>
       </form>
+
+      <form id="emailForm">
+        <input type="email" name="email" id="emailInput" placeholder="Enter your email" required>
+        <button type="submit">Submit</button>
+        <p id="responseMessage"></p>
+      </form>
+      
+      <script>
+        const form = document.getElementById("emailForm");
+        const emailInput = document.getElementById("emailInput");
+        const responseMessage = document.getElementById("responseMessage");
+      
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = emailInput.value;
+      
+          try {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbwy4pc0CE4dC4orpduWV3WboAi-xIvKXTMAjiWSlek9Wy9I0zvM029zeAFyT_-V4d-t/exec", {
+              method: "POST",
+              body: new URLSearchParams({ email })
+            });
+      
+            const text = await response.text();
+            responseMessage.textContent = text === "Success" ? "Thank you! Your email was submitted." : "Something went wrong.";
+            emailInput.value = "";
+          } catch (error) {
+            responseMessage.textContent = "Error submitting form.";
+            console.error(error);
+          }
+        });
+      </script>
 
       <div id="form-feedback" class="form-feedback"></div>
       <p class="form-note">下載後可獲得：Figma 指南、功課表、線上課連結（價值 HK$499）</p>
