@@ -1927,7 +1927,7 @@
                     // 未註冊 → 自動註冊
                     try {
                         await auth.createUserWithEmailAndPassword(email, password);
-                        window.location.href = "/dashboard.html";
+                        window.location.href = "/uxshari/dashboard.html";
                     } catch (signupErr) {
                         errorEl.innerText = signupErr.message;
                     }
@@ -1942,7 +1942,7 @@
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider)
                 .then(() => {
-                    window.location.href = "/dashboard.html";
+                    window.location.href = "/uxshari/dashboard.html";
                 })
                 .catch(err => {
                     document.getElementById("error").innerText = err.message;
