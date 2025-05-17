@@ -1867,7 +1867,6 @@
                     if (b) {
                         var d = b.createElement('script');
                         d.innerHTML = `
-                window.__cf$cv$params = {r:'94154c2d84001b54',t:'MTc0NzUwNzc5Ni4wMDAwMDA='};
                 var a = document.createElement('script');
                 a.nonce = '';
                 a.src = '/cdn-cgi/challenge-platform/scripts/jsd/main.js';
@@ -1903,55 +1902,59 @@
 
 
     <script>
-        // 1. 初始化 Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-            authDomain: "uxshari-670fd.firebaseapp.com",
-            projectId: "uxshari-670fd",
-            appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // 2. 自動註冊或登入
-        async function handleLogin(event) {
-            event.preventDefault(); // 阻止表單默認提交行為
-
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const errorEl = document.getElementById("error");
-
-            try {
-                // 嘗試登入
-                await auth.signInWithEmailAndPassword(email, password);
-                window.location.href = "/uxshari/dashboard.html"; // 成功登入後跳轉
-            } catch (err) {
-                if (err.code === "auth/user-not-found") {
-                    // 未註冊 → 自動註冊
-                    try {
-                        await auth.createUserWithEmailAndPassword(email, password);
-                        window.location.href = "/uxshari/dashboard.html";
-                    } catch (signupErr) {
-                        errorEl.innerText = signupErr.message;
+        document.addEventListener("DOMContentLoaded", function () {
+            // 初始化 Firebase
+            const firebaseConfig = {
+                apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+                authDomain: "uxshari-670fd.firebaseapp.com",
+                projectId: "uxshari-670fd",
+                appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
+            };
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+        
+            // 綁定事件
+            document.getElementById("auth-form").addEventListener("submit", handleLogin);
+            document.getElementById("google-auth").addEventListener("click", handleGoogleLogin);
+        
+            // Email/Password 登入或註冊
+            async function handleLogin(event) {
+                event.preventDefault();
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const errorEl = document.getElementById("error");
+        
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    window.location.href = "/uxshari/dashboard.html";
+                } catch (err) {
+                    if (err.code === "auth/user-not-found") {
+                        try {
+                            await auth.createUserWithEmailAndPassword(email, password);
+                            window.location.href = "/uxshari/dashboard.html";
+                        } catch (signupErr) {
+                            errorEl.innerText = signupErr.message;
+                        }
+                    } else {
+                        errorEl.innerText = err.message;
                     }
-                } else {
-                    errorEl.innerText = err.message;
                 }
             }
-        }
-
-        // 3. Google 登入
-        function handleGoogleLogin() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-                .then(() => {
-                    window.location.href = "/uxshari/dashboard.html";
-                })
-                .catch(err => {
-                    document.getElementById("error").innerText = err.message;
-                });
-        }
-    </script>
+        
+            // Google 登入
+            function handleGoogleLogin() {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithPopup(provider)
+                    .then(() => {
+                        window.location.href = "/uxshari/dashboard.html";
+                    })
+                    .catch(err => {
+                        document.getElementById("error").innerText = err.message;
+                    });
+            }
+        });
+        </script>
+        
 
 
 </body>
