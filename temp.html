@@ -1403,7 +1403,7 @@
                     <div class="form-group">
                         <label for="password" class="form-label">
                             <span>密碼</span>
-                            <a href="#" class="forgot-password" id="forgot-password">忘記密碼？</a>
+                            <a href="#" class="forgot-password" id="forgot-password" onclick="openPasswordResetModal()">忘記密碼？</a>
                         </label>
                         <input type="password" id="password" class="form-input" placeholder="你的密碼" required=""
                             minlength="6">
@@ -1955,7 +1955,45 @@
         });
         </script>
         
+<script>
+    //Forgot Password
+    function openPasswordResetModal() {
+    const modal = document.getElementById("password-reset-modal");
+    modal.classList.add("active");
+}
 
+// Close the modal when the close button or cancel button is clicked
+document.getElementById("close-reset-modal").addEventListener("click", () => {
+    document.getElementById("password-reset-modal").classList.remove("active");
+});
+
+document.getElementById("cancel-reset").addEventListener("click", () => {
+    document.getElementById("password-reset-modal").classList.remove("active");
+});
+</script>
+
+<script>
+
+    // 密碼重設功能
+document.getElementById("submit-reset").addEventListener("click", async () => {
+    const email = document.getElementById("reset-email").value;
+    const errorEl = document.getElementById("error"); // 可選：顯示錯誤訊息的元素
+
+    if (!email) {
+        alert("請輸入電子郵件地址！");
+        return;
+    }
+
+    try {
+        await firebase.auth().sendPasswordResetEmail(email);
+        alert("密碼重設連結已發送到您的電子郵件！");
+        document.getElementById("password-reset-modal").classList.remove("active"); // 關閉彈窗
+    } catch (error) {
+        console.error("密碼重設失敗：", error);
+        alert("發送密碼重設連結時出現錯誤：" + error.message);
+    }
+});
+</script>
 
 </body>
 
