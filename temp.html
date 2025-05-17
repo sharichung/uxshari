@@ -15,6 +15,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap"
         rel="stylesheet">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         :root {
             --primary: #ff9500;
@@ -1407,7 +1408,7 @@
                         <input type="password" id="password" class="form-input" placeholder="你的密碼" required=""
                             minlength="6">
                     </div>
-                    <button onclick="handleLogin()" type="submit" class="btn btn-primary btn-lg">開始學習</button>
+                    <button type="submit" class="btn btn-primary btn-lg">開始學習</button>
 
                     <div class="social-login">
                         <span>或</span>
@@ -1900,12 +1901,12 @@
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
 
-   
+
     <script>
         // 1. 初始化 Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-            authDomain: "uxshari-670fd.firebaseapp.com",
+            authDomain: "sharichung.firebaseapp.com",
             projectId: "uxshari-670fd",
             appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
         };
@@ -1913,7 +1914,9 @@
         const auth = firebase.auth();
 
         // 2. 自動註冊或登入
-        async function handleLogin() {
+        async function handleLogin(event) {
+            event.preventDefault(); // 阻止表單默認提交行為
+
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
             const errorEl = document.getElementById("error");
