@@ -820,33 +820,61 @@
       // Email/Password 登入或註冊
       async function handleLogin(event) {
         event.preventDefault();
-        const email = document.getElementById("email").value;
+        const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
         const errorEl = document.getElementById("error");
+        errorEl.innerText = "";
 
         try {
+          // 先嘗試用 Email/Password 登入
           await auth.signInWithEmailAndPassword(email, password);
           window.location.href = "/uxshari/dashboard.html";
         } catch (err) {
           if (err.code === "auth/user-not-found") {
-        // 僅在帳號不存在時自動註冊
-        try {
-          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-          await db.collection("users").doc(userCredential.user.uid).set({
-            email: email,
-            role: "free",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          window.location.href = "/uxshari/dashboard.html";
-        } catch (signupErr) {
-          errorEl.innerText = signupErr.message;
-        }
+            // 1. 帳號不存在，直接註冊
+            try {
+              const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+              await db.collection("users").doc(userCredential.user.uid).set({
+                email: email,
+                role: "free",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+              window.location.href = "/uxshari/dashboard.html";
+            } catch (signupErr) {
+              errorEl.innerText = signupErr.message;
+            }
           } else if (err.code === "auth/wrong-password") {
-        errorEl.innerText = "密碼錯誤，請重新輸入。";
+            // 2. 密碼錯誤
+            errorEl.innerText = "密碼錯誤，請重新輸入。";
           } else if (err.code === "auth/invalid-email") {
-        errorEl.innerText = "電子郵件格式錯誤。";
+            errorEl.innerText = "電子郵件格式錯誤。";
+          } else if (err.code === "auth/account-exists-with-different-credential" || err.code ===
+            "auth/email-already-in-use" || err.code === "auth/invalid-credential") {
+            // 3. Google 已註冊過這個 email，進行帳號連結
+            try {
+              // 先用 Google 登入
+              const provider = new firebase.auth.GoogleAuthProvider();
+              const googleResult = await auth.signInWithPopup(provider);
+
+              // 再用 Email/Password 連結到同一個帳號
+              const credential = firebase.auth.EmailAuthProvider.credential(email, password);
+              await googleResult.user.linkWithCredential(credential);
+
+              // Firestore 補寫入（如果沒有的話）
+              const userDoc = await db.collection("users").doc(googleResult.user.uid).get();
+              if (!userDoc.exists) {
+                await db.collection("users").doc(googleResult.user.uid).set({
+                  email: email,
+                  role: "free",
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+              }
+              window.location.href = "/uxshari/dashboard.html";
+            } catch (linkErr) {
+              errorEl.innerText = "帳號連結失敗：" + (linkErr.message || linkErr.code);
+            }
           } else {
-        errorEl.innerText = err.message;
+            errorEl.innerText = err.message;
           }
         }
       }
