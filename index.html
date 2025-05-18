@@ -802,88 +802,104 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // 初始化 Firebase
-      const firebaseConfig = {
-        apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-        authDomain: "uxshari-670fd.firebaseapp.com",
-        projectId: "uxshari-670fd",
-        appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
-      };
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const db = firebase.firestore();
+          // 初始化 Firebase
+          const firebaseConfig = {
+            apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+            authDomain: "uxshari-670fd.firebaseapp.com",
+            projectId: "uxshari-670fd",
+            appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
+          };
+          firebase.initializeApp(firebaseConfig);
+          const auth = firebase.auth();
+          const db = firebase.firestore();
 
-      // 綁定事件
-      document.getElementById("auth-form").addEventListener("submit", handleLogin);
-      document.getElementById("google-auth").addEventListener("click", handleGoogleLogin);
+          // 綁定事件
+          document.getElementById("auth-form").addEventListener("submit", handleLogin);
+          document.getElementById("google-auth").addEventListener("click", handleGoogleLogin);
 
-      // Email/Password 登入或註冊
-      async function handleLogin(event) {
-        event.preventDefault();
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-        const errorEl = document.getElementById("error");
-        errorEl.innerText = "";
+          // Email/Password 登入或註冊
+          async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const errorEl = document.getElementById("error");
+            errorEl.innerText = "";
 
-        try {
-          await auth.signInWithEmailAndPassword(email, password);
-          window.location.href = "/uxshari/dashboard.html";
-        } catch (err) {
-          if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
             try {
-              const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-              if (!userCredential.user) {
-                errorEl.innerText = "註冊失敗，請稍後再試。";
-                return;
-              }
-              await db.collection("users").doc(userCredential.user.uid).set({
-                email: email,
-                role: "free",
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-              });
+              await auth.signInWithEmailAndPassword(email, password);
               window.location.href = "/uxshari/dashboard.html";
-            } catch (signupErr) {
-              if (signupErr.code === "auth/email-already-in-use") {
-                errorEl.innerText = "這個 Email 已經被註冊，請用 Google 登入或重設密碼。";
-                // 自動彈出 Google 登入視窗
-                const provider = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithPopup(provider)
-                  .then(() => {
-                    window.location.href = "/uxshari/dashboard.html";
-                  })
-                  .catch(err => {
-                    errorEl.innerText = "Google 登入失敗：" + err.message;
+            } catch (err) {
+              if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
+                try {
+                  const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                  if (!userCredential.user) {
+                    errorEl.innerText = "註冊失敗，請稍後再試。";
+                    return;
+                  }
+                  await db.collection("users").doc(userCredential.user.uid).set({
+                    email: email,
+                    role: "free",
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
                   });
-              } else if (
-                signupErr.code === "auth/account-exists-with-different-credential"
-              ) {
-                // ...原本的 Google 帳號連結流程...
+                  window.location.href = "/uxshari/dashboard.html";
+                } catch (signupErr) {
+                  if (signupErr.code === "auth/email-already-in-use") {
+                    errorEl.innerText = "這個 Email 已經被註冊，請用 Google 登入或重設密碼。";
+                    // 自動彈出 Google 登入視窗
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    auth.signInWithPopup(provider)
+                      .then(() => {
+                        window.location.href = "/uxshari/dashboard.html";
+                      })
+                      .catch(err => {
+                        errorEl.innerText = "Google 登入失敗：" + err.message;
+                      });
+                  } else if (
+                    signupErr.code === "auth/account-exists-with-different-credential"
+                  ) {
+                    // ...原本的 Google 帳號連結流程...
+                  } else {
+                    errorEl.innerText = signupErr.message;
+                  }
+                }
+              } else if (err.code === "auth/wrong-password") {
+                errorEl.innerText = "密碼錯誤，請重新輸入。";
+              } else if (err.code === "auth/invalid-email") {
+                errorEl.innerText = "電子郵件格式錯誤。";
               } else {
-                errorEl.innerText = signupErr.message;
+                errorEl.innerText = err.message;
               }
             }
-          } else if (err.code === "auth/wrong-password") {
-            errorEl.innerText = "密碼錯誤，請重新輸入。";
-          } else if (err.code === "auth/invalid-email") {
-            errorEl.innerText = "電子郵件格式錯誤。";
-          } else {
-            errorEl.innerText = err.message;
           }
-        }
-      }
 
-      // Google 登入
-      function handleGoogleLogin() {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider)
-          .then(() => {
-            window.location.href = "/uxshari/dashboard.html";
-          })
-          .catch(err => {
-            document.getElementById("error").innerText = err.message;
-          });
-      }
-    });
+          // Google 登入
+          function handleGoogleLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+              .then(async (result) => {
+                // Google 登入成功後，檢查是否已連結 password provider
+                const user = result.user;
+                const providers = user.providerData.map(p => p.providerId);
+
+                if (!providers.includes('password')) {
+                  // 這裡彈出一個表單讓用戶輸入新密碼
+                  const password = prompt("請設定一組密碼，之後可以用 Email/密碼登入：");
+                  if (password && password.length >= 6) {
+                    const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+                    try {
+                      await user.linkWithCredential(credential);
+                      alert("密碼設定成功，之後可以用 Email/密碼或 Google 登入！");
+                    } catch (error) {
+                      alert("密碼連結失敗：" + error.message);
+                    }
+                  }
+                }
+                window.location.href = "/uxshari/dashboard.html";
+              })
+              .catch(err => {
+                document.getElementById("error").innerText = err.message;
+              });
+          }
   </script>
 
   <script>
