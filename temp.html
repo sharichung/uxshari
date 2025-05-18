@@ -1858,48 +1858,10 @@
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            (function () {
-                function c() {
-                    var a = document.createElement('iframe');
-                    var b = a.contentDocument || a.contentWindow.document;
-                    if (b) {
-                        var d = b.createElement('script');
-                        d.innerHTML = `
-                var a = document.createElement('script');
-                a.nonce = '';
-                a.src = '/cdn-cgi/challenge-platform/scripts/jsd/main.js';
-                document.getElementsByTagName('head')[0].appendChild(a);
-            `;
-                        b.getElementsByTagName('head')[0].appendChild(d);
-                    }
-                }
-                if (document.body) {
-                    if (window.addEventListener) {
-                        document.addEventListener('DOMContentLoaded', c);
-                    } else {
-                        var e = document.onreadystatechange || function () {};
-                        document.onreadystatechange = function (b) {
-                            e(b);
-                            if (document.readyState !== 'loading') {
-                                document.onreadystatechange = e;
-                                c();
-                            }
-                        };
-                    }
-                }
-            })();
-        });
-    </script>
-
-    <!-- Tailwind CDN (可按需替換你自家樣式) -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
