@@ -819,49 +819,58 @@
 
       // Email/Password 登入或註冊
       async function handleLogin(event) {
-  event.preventDefault();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const errorEl = document.getElementById("error");
-  errorEl.innerText = "";
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const errorEl = document.getElementById("error");
+        errorEl.innerText = "";
 
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-    window.location.href = "/uxshari/dashboard.html";
-  } catch (err) {
-    if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        if (!userCredential.user) {
-          errorEl.innerText = "註冊失敗，請稍後再試。";
-          return;
-        }
-        await db.collection("users").doc(userCredential.user.uid).set({
-          email: email,
-          role: "free",
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        window.location.href = "/uxshari/dashboard.html";
-      } catch (signupErr) {
-        if (signupErr.code === "auth/email-already-in-use") {
-          errorEl.innerText = "這個 Email 已經被註冊，請用 Google 登入或重設密碼。";
-        } else if (
-          signupErr.code === "auth/account-exists-with-different-credential"
-        ) {
-          // ...原本的 Google 帳號連結流程...
-        } else {
-          errorEl.innerText = signupErr.message;
+        try {
+          await auth.signInWithEmailAndPassword(email, password);
+          window.location.href = "/uxshari/dashboard.html";
+        } catch (err) {
+          if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
+            try {
+              const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+              if (!userCredential.user) {
+                errorEl.innerText = "註冊失敗，請稍後再試。";
+                return;
+              }
+              await db.collection("users").doc(userCredential.user.uid).set({
+                email: email,
+                role: "free",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+              window.location.href = "/uxshari/dashboard.html";
+            } catch (signupErr) {
+              if (signupErr.code === "auth/email-already-in-use") {
+                errorEl.innerText = "這個 Email 已經被註冊，請用 Google 登入或重設密碼。";
+                // 自動彈出 Google 登入視窗
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithPopup(provider)
+                  .then(() => {
+                    window.location.href = "/uxshari/dashboard.html";
+                  })
+                  .catch(err => {
+                    errorEl.innerText = "Google 登入失敗：" + err.message;
+                  });
+              } else if (
+                signupErr.code === "auth/account-exists-with-different-credential"
+              ) {
+                // ...原本的 Google 帳號連結流程...
+              } else {
+                errorEl.innerText = signupErr.message;
+              }
+            }
+          } else if (err.code === "auth/wrong-password") {
+            errorEl.innerText = "密碼錯誤，請重新輸入。";
+          } else if (err.code === "auth/invalid-email") {
+            errorEl.innerText = "電子郵件格式錯誤。";
+          } else {
+            errorEl.innerText = err.message;
+          }
         }
       }
-    } else if (err.code === "auth/wrong-password") {
-      errorEl.innerText = "密碼錯誤，請重新輸入。";
-    } else if (err.code === "auth/invalid-email") {
-      errorEl.innerText = "電子郵件格式錯誤。";
-    } else {
-      errorEl.innerText = err.message;
-    }
-  }
-}
 
       // Google 登入
       function handleGoogleLogin() {
