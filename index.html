@@ -829,17 +829,22 @@
           window.location.href = "/uxshari/dashboard.html";
         } catch (err) {
           if (err.code === "auth/user-not-found") {
+        // 僅在帳號不存在時自動註冊
         try {
           const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-          // 新註冊的使用者自動寫入 users 集合
           await db.collection("users").doc(userCredential.user.uid).set({
             email: email,
+            role: "free",
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
           window.location.href = "/uxshari/dashboard.html";
         } catch (signupErr) {
           errorEl.innerText = signupErr.message;
         }
+          } else if (err.code === "auth/wrong-password") {
+        errorEl.innerText = "密碼錯誤，請重新輸入。";
+          } else if (err.code === "auth/invalid-email") {
+        errorEl.innerText = "電子郵件格式錯誤。";
           } else {
         errorEl.innerText = err.message;
           }
