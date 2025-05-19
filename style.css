@@ -1472,6 +1472,7 @@ body {
   border-radius: 16px;
   padding: 2rem;
   width: 90%;
+  height: fit-content;
   max-width: 500px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 149, 0, 0.2);
