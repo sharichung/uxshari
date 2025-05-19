@@ -1,28 +1,35 @@
-<html lang="zh-HK">
+<html lang="zh-Hant">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="立即免費下載 Figma UX 教學、免費 UX 設計資源、港澳台 UX 線上課程入口。助你建立 UX Portfolio，成功轉職 UX 設計！">
-    <meta name="keywords" content="本挑戰適合來自 香港、台灣、澳門、新加波等 的 UX 初學者，課程為 正體中文 UX 線上教學，搭配 Figma 練習與 UX 實戰任務。">
+    <meta name="description" content="【台灣香港澳門UX設計課程】28天打造專業UX作品集，從零基礎到搶手人才！適合台灣、香港、澳門地區想轉職UX/UI設計師的學員">
+    <meta name="keywords" content="UX設計課程,台灣UX課程,香港UX課程,澳門UX課程,UX作品集,UX轉職,Figma教學,UI設計,使用者體驗設計,UX/UI設計師,正體中文UX教學">
     <meta name="author" content="UX Shari">
-    <meta property="og:title" content="UX Shari 超能級 UX/UI 訓練營">
-    <meta property="og:description" content="免費 UX/UI 挑戰包、Figma UX 教學、設計功課交件資源入口，一站式解鎖！">
+    <meta property="og:title" content="UX Shari 超能級 UX/UI 訓練營 | 台灣香港澳門專屬UX設計課程">
+    <meta property="og:description" content="【限時7折優惠】28天打造專業UX作品集，從零基礎到搶手人才！適合台灣、香港、澳門地區想轉職UX/UI設計師的學員">
     <meta property="og:image" content="https://yourdomain.com/og-image.jpg">
     <meta property="og:url" content="https://yourdomain.com/">
-    <title>UX Shari 超能級 UX/UI 訓練營｜Figma UX 教學＋作品集挑戰</title>
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:locale:alternate" content="zh_HK">
+    <meta property="og:locale:alternate" content="zh_MO">
+    <meta name="geo.region" content="TW, HK, MO">
+    <link rel="alternate" hreflang="zh-TW" href="https://yourdomain.com/tw/">
+    <link rel="alternate" hreflang="zh-HK" href="https://yourdomain.com/hk/">
+    <link rel="alternate" hreflang="zh-MO" href="https://yourdomain.com/mo/">
+    <link rel="canonical" href="https://yourdomain.com/">
+    <title>UX Shari 超能級 UX/UI 訓練營 | 台灣香港澳門專屬UX設計課程 | 28天打造專業作品集</title>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap"
         rel="stylesheet">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         :root {
-            --primary: #ff9500;
-            --primary-dark: #e67e00;
-            --primary-light: #ffb74d;
-            --secondary: #ff5722;
-            --accent: #ff3d00;
+            --primary: #ff6b00;
+            --primary-dark: #e65100;
+            --primary-light: #ff9e40;
+            --secondary: #ff3d00;
+            --accent: #d50000;
             --dark: #1a1a2e;
             --dark-blue: #16213e;
             --light: #f8f9fa;
@@ -31,8 +38,9 @@
             --error: #f44336;
             --gray: #a0a0c0;
             --gray-light: #e9ecef;
-            --glow: 0 0 10px rgba(255, 149, 0, 0.5), 0 0 20px rgba(255, 149, 0, 0.3);
-            --glow-orange: 0 0 10px rgba(255, 87, 34, 0.5), 0 0 20px rgba(255, 87, 34, 0.3);
+            --glow: 0 0 10px rgba(255, 107, 0, 0.5), 0 0 20px rgba(255, 107, 0, 0.3);
+            --glow-orange: 0 0 10px rgba(255, 61, 0, 0.5), 0 0 20px rgba(255, 61, 0, 0.3);
+            --glow-red: 0 0 10px rgba(213, 0, 0, 0.5), 0 0 20px rgba(213, 0, 0, 0.3);
         }
 
         * {
@@ -47,8 +55,8 @@
             color: var(--light);
             background-color: var(--dark);
             background-image:
-                radial-gradient(circle at 10% 20%, rgba(255, 149, 0, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(255, 87, 34, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 10% 20%, rgba(255, 107, 0, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(255, 61, 0, 0.15) 0%, transparent 30%),
                 linear-gradient(to bottom, var(--dark) 0%, var(--dark-blue) 100%);
             background-attachment: fixed;
             overflow-x: hidden;
@@ -70,16 +78,16 @@
 
         /* Header & Navigation */
         .navbar {
-            background-color: rgba(26, 26, 46, 0.8);
+            background-color: rgba(26, 26, 46, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
             padding: 1rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 107, 0, 0.3);
         }
 
         .navbar-container {
@@ -138,16 +146,31 @@
         }
 
         .nav-link.cta {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: var(--dark);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: white;
             padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-weight: 600;
-            box-shadow: var(--glow);
+            box-shadow: var(--glow-red);
             border: none;
             position: relative;
             overflow: hidden;
             z-index: 1;
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(213, 0, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(213, 0, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(213, 0, 0, 0);
+            }
         }
 
         .nav-link.cta::before {
@@ -157,7 +180,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: 0.5s;
             z-index: -1;
         }
@@ -182,9 +205,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9500' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
-                radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 20%, rgba(255, 87, 34, 0.1) 0%, transparent 50%);
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff6b00' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 30% 50%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(255, 61, 0, 0.15) 0%, transparent 50%);
             opacity: 0.8;
         }
 
@@ -194,8 +217,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(255, 149, 0, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 149, 0, 0.1) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(255, 107, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 0, 0.1) 1px, transparent 1px);
             background-size: 40px 40px;
             background-position: center center;
             perspective: 1000px;
@@ -219,47 +242,430 @@
             z-index: 1;
         }
 
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--glow-red);
+            position: relative;
+            overflow: hidden;
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .hero-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+
+            20% {
+                left: 100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 900;
             margin-bottom: 1rem;
             line-height: 1.2;
             background: linear-gradient(to right, var(--secondary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 149, 0, 0.5);
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
             font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
             letter-spacing: 1px;
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             margin-bottom: 1.5rem;
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 500;
+        }
+
+        .hero-highlight {
+            color: var(--primary);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            opacity: 0.5;
         }
 
         .deadline-alert {
-            background: rgba(255, 61, 0, 0.15);
-            border: 1px solid rgba(255, 61, 0, 0.3);
+            background: rgba(213, 0, 0, 0.15);
+            border: 1px solid rgba(213, 0, 0, 0.3);
             border-radius: 8px;
-            padding: 0.75rem;
+            padding: 1rem;
             margin: 1.5rem auto;
             max-width: 600px;
             font-weight: 700;
-            color: var(--accent);
-            box-shadow: 0 0 15px rgba(255, 61, 0, 0.3);
+            color: #ff5252;
+            box-shadow: 0 0 15px rgba(213, 0, 0, 0.3);
             animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .deadline-alert svg {
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: rotate(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: rotate(-5deg);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: rotate(5deg);
+            }
         }
 
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(255, 61, 0, 0.4);
+                box-shadow: 0 0 0 0 rgba(213, 0, 0, 0.4);
             }
 
             70% {
-                box-shadow: 0 0 0 10px rgba(255, 61, 0, 0);
+                box-shadow: 0 0 0 10px rgba(213, 0, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(213, 0, 0, 0);
+            }
+        }
+
+        .countdown {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 61, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            min-width: 80px;
+            border: 1px solid rgba(255, 107, 0, 0.2);
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            line-height: 1;
+            color: var(--primary);
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            color: var(--gray-light);
+            text-transform: uppercase;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-light);
+        }
+
+        /* 問題與解決方案區塊 */
+        .problems-section {
+            padding: 5rem 0;
+            position: relative;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.9) 100%);
+        }
+
+        .problems-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff6b00' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 30% 50%, rgba(255, 107, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(255, 61, 0, 0.1) 0%, transparent 50%);
+            opacity: 0.8;
+            z-index: 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .problems-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 107, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .problems-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .problems-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            color: var(--primary-light);
+        }
+
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .problem-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .problem-icon {
+            color: var(--success);
+            font-size: 2rem;
+            margin-top: 0.25rem;
+            flex-shrink: 0;
+        }
+
+        .problem-content {
+            flex: 1;
+        }
+
+        .problem-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--light);
+        }
+
+        .problem-description {
+            font-size: 1.1rem;
+            color: var(--gray-light);
+        }
+
+        .solution-container {
+            background: rgba(255, 107, 0, 0.1);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .solution-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 107, 0, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .solution-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-highlight {
+            color: var(--primary);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .solution-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        .cta-button {
+            display: block;
+            margin: 3rem auto 0;
+            padding: 1.25rem 3rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(255, 61, 0, 0.5);
+            transition: all 0.3s;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: pulse-cta 2s infinite;
+            z-index: 2;
+        }
+
+        @keyframes pulse-cta {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 61, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 61, 0, 0);
             }
 
             100% {
@@ -267,50 +673,78 @@
             }
         }
 
-        .countdown {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--secondary);
-            margin-bottom: 1.5rem;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.5s;
+            z-index: -1;
         }
 
-        /* Unified Auth Form */
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 61, 0, 0.4);
+        }
+
+        /* 註冊表單 */
         .auth-container {
-            max-width: 500px;
-            margin: 2rem auto;
+            max-width: 550px;
+            margin: 3rem auto;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 149, 0, 0.2);
+            border: 1px solid rgba(255, 107, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .auth-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
             color: var(--primary);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .auth-subtitle {
-            font-size: 0.9rem;
+            font-size: 1.1rem;
             color: var(--gray-light);
+            font-weight: 500;
         }
 
         .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .form-group {
@@ -321,27 +755,12 @@
 
         .form-label {
             font-weight: 500;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .forgot-password {
-            font-size: 0.8rem;
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .forgot-password:hover {
-            color: var(--primary-light);
-            text-decoration: underline;
+            font-size: 1rem;
         }
 
         .form-input {
-            padding: 0.75rem 1rem;
-            border: 2px solid rgba(255, 149, 0, 0.3);
+            padding: 1rem 1.25rem;
+            border: 2px solid rgba(255, 107, 0, 0.3);
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.05);
             color: white;
@@ -356,57 +775,15 @@
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.3);
             background: rgba(255, 255, 255, 0.1);
-        }
-
-        .social-login {
-            margin: 1.5rem 0;
-            position: relative;
-            text-align: center;
-        }
-
-        .social-login::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: rgba(255, 149, 0, 0.2);
-        }
-
-        .social-login span {
-            position: relative;
-            background: rgba(26, 26, 46, 0.8);
-            padding: 0 1rem;
-            color: var(--gray);
-        }
-
-        .google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .google-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             border: none;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
@@ -416,6 +793,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            font-size: 1.1rem;
         }
 
         .btn::before {
@@ -425,7 +803,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: 0.5s;
             z-index: -1;
         }
@@ -434,841 +812,84 @@
             left: 100%;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: var(--dark);
-            box-shadow: var(--glow);
+        .btn-accent {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: white;
+            box-shadow: var(--glow-red);
+            animation: pulse-btn 2s infinite;
         }
 
-        .btn-primary:hover {
+        @keyframes pulse-btn {
+            0% {
+                box-shadow: 0 0 0 0 rgba(213, 0, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(213, 0, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(213, 0, 0, 0);
+            }
+        }
+
+        .btn-accent:hover {
             transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(255, 149, 0, 0.4);
+            box-shadow: 0 7px 15px rgba(255, 61, 0, 0.4);
         }
 
         .btn-lg {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
+            padding: 1.25rem 2.5rem;
+            font-size: 1.25rem;
         }
 
         .form-note {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             opacity: 0.8;
-            margin-top: 0.5rem;
-            text-align: center;
-        }
-
-        .form-feedback {
             margin-top: 1rem;
-            font-weight: 500;
             text-align: center;
-            padding: 0.75rem;
-            border-radius: 8px;
-            display: none;
         }
 
-        .feedback-error {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid rgba(244, 67, 54, 0.3);
-            color: var(--error);
-        }
-
-        .feedback-success {
-            background: rgba(0, 200, 83, 0.1);
-            border: 1px solid rgba(0, 200, 83, 0.3);
-            color: var(--success);
-        }
-
-        /* Password Reset Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+        /* 地區選擇器 */
+        .region-selector {
             display: flex;
-            align-items: center;
             justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: var(--dark-blue);
-            border-radius: 16px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 149, 0, 0.2);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
-        }
-
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--gray);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            color: var(--light);
-        }
-
-        .modal-body {
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
             gap: 1rem;
-        }
-
-        /* Dashboard */
-        .dashboard {
-            display: none;
-            padding: 2rem 0;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
-        }
-
-        .user-welcome {
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .dashboard-tabs {
-            display: flex;
-            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
-            margin-bottom: 2rem;
-            overflow-x: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
-        }
-
-        .dashboard-tabs::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .dashboard-tabs::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-        }
-
-        .dashboard-tabs::-webkit-scrollbar-thumb {
-            background-color: var(--primary);
-            border-radius: 3px;
-        }
-
-        .dashboard-tab {
-            padding: 1rem 1.5rem;
-            font-weight: 600;
-            color: var(--gray);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .dashboard-tab.active {
-            color: var(--primary);
-        }
-
-        .dashboard-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary);
-            box-shadow: var(--glow);
-        }
-
-        .dashboard-content {
-            display: none;
-        }
-
-        .dashboard-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .progress-overview {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 149, 0, 0.2);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .progress-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .progress-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 4px;
-            width: 25%;
-            transition: width 0.5s ease;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.875rem;
-            color: var(--gray);
-        }
-
-        .achievement-badges {
-            display: flex;
+            margin: 2rem 0;
             flex-wrap: wrap;
-            gap: 1rem;
         }
 
-        .badge {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
+        .region-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .badge-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 149, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            border: 2px solid var(--primary);
+        .region-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-color: transparent;
             box-shadow: var(--glow);
         }
 
-        .badge-locked {
-            filter: grayscale(1);
-            opacity: 0.5;
-            border: 2px solid var(--gray);
-            box-shadow: none;
-        }
-
-        .badge-name {
-            font-size: 0.75rem;
-            text-align: center;
-            max-width: 80px;
-        }
-
-        .course-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .course-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 149, 0, 0.2);
-            transition: all 0.3s;
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .course-header {
-            padding: 1.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .course-title-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .course-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: rgba(255, 149, 0, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .course-title-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .course-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .course-summary {
-            font-size: 0.875rem;
-            color: var(--gray-light);
-            max-width: 500px;
-        }
-
-        .course-status {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 50px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .status-unlocked {
-            background: rgba(255, 149, 0, 0.2);
-            color: var(--primary);
-        }
-
-        .status-locked {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--gray);
-        }
-
-        .status-completed {
-            background: rgba(0, 200, 83, 0.2);
-            color: var(--success);
-        }
-
-        .status-pending {
-            background: rgba(255, 193, 7, 0.2);
-            color: var(--warning);
-        }
-
-        .course-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .course-toggle {
-            background: none;
-            border: none;
-            color: var(--gray);
-            font-size: 1.25rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-        }
-
-        .course-toggle:hover {
-            color: var(--primary);
-            background: rgba(255, 149, 0, 0.1);
-        }
-
-        .course-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            border-top: 1px solid rgba(255, 149, 0, 0.1);
-        }
-
-        .course-content.active {
-            max-height: 2000px;
-        }
-
-        .course-inner {
-            padding: 1.5rem;
-        }
-
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 149, 0, 0.2);
-        }
-
-        .video-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .play-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(255, 149, 0, 0.8);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .play-icon:hover {
-            transform: scale(1.1);
-            background: var(--primary);
-        }
-
-        .task-list {
-            margin-top: 1.5rem;
-        }
-
-        .task-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(255, 149, 0, 0.1);
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .task-title {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .task-description {
-            font-size: 0.9rem;
-            color: var(--gray-light);
-            margin-bottom: 1.25rem;
-        }
-
-        .submission-form {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .submission-input {
-            padding: 0.75rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 149, 0, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-        }
-
-        .submission-input:focus {
-            outline: none;
+        .region-btn:hover:not(.active) {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.3);
+            background: rgba(255, 107, 0, 0.1);
         }
 
-        .submission-actions {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .locked-lesson {
-            filter: grayscale(1);
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .locked-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            border-radius: 8px;
-        }
-
-        .lock-icon {
-            font-size: 2rem;
-            color: var(--gray);
-        }
-
-        /* Completed Courses Tab */
-        .completed-list {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        /* Submission History Tab */
-        .submission-history {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .submission-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 1.25rem;
-            border: 1px solid rgba(255, 149, 0, 0.2);
-        }
-
-        .submission-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(255, 149, 0, 0.1);
-        }
-
-        .submission-course {
-            font-weight: 700;
-        }
-
-        .submission-date {
-            font-size: 0.875rem;
-            color: var(--gray);
-        }
-
-        .submission-content {
-            margin-bottom: 1rem;
-        }
-
-        .submission-link {
-            display: block;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 0.75rem;
-            border-radius: 8px;
-            margin-bottom: 0.75rem;
-            word-break: break-all;
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .submission-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .submission-text {
-            font-size: 0.9rem;
-            color: var(--gray-light);
-        }
-
-        /* Coaching Upsell */
-        .coaching-upsell {
-            background: linear-gradient(135deg, rgba(255, 149, 0, 0.1) 0%, rgba(255, 87, 34, 0.1) 100%);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-top: 3rem;
-            border: 1px solid rgba(255, 149, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .coaching-upsell::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 149, 0, 0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .upsell-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .upsell-icon {
-            font-size: 2rem;
-            color: var(--primary);
-        }
-
-        .upsell-title {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--primary);
-        }
-
-        .upsell-content {
-            margin-bottom: 1.5rem;
-        }
-
-        .upsell-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .upsell-feature {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
-
-        .feature-icon {
-            color: var(--primary);
-            font-size: 1.25rem;
-            margin-top: 0.25rem;
-        }
-
-        .feature-text {
-            font-size: 0.9rem;
-        }
-
-        .upsell-cta {
-            text-align: center;
-        }
-
-        /* Notification Modals */
-        .notification-modal {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--dark-blue);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 149, 0, 0.2);
-            width: 350px;
-            max-width: 90%;
-            z-index: 1500;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-
-        .notification-modal.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .notification-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .notification-title {
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .notification-close {
-            background: none;
-            border: none;
-            color: var(--gray);
-            cursor: pointer;
-            font-size: 1.25rem;
-            transition: all 0.3s;
-        }
-
-        .notification-close:hover {
-            color: var(--light);
-        }
-
-        .notification-content {
-            margin-bottom: 1.25rem;
-        }
-
-        .notification-actions {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .notification-btn {
-            flex: 1;
-            padding: 0.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: rgba(255, 149, 0, 0.1);
-        }
-
-        /* Discord Promo */
-        .discord-promo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: linear-gradient(135deg, rgba(114, 137, 218, 0.1) 0%, rgba(114, 137, 218, 0.2) 100%);
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-top: 1.5rem;
-            border: 1px solid rgba(114, 137, 218, 0.3);
-        }
-
-        .discord-icon {
-            font-size: 2rem;
-            color: #7289da;
-        }
-
-        .discord-content {
-            flex: 1;
-        }
-
-        .discord-title {
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-            color: #7289da;
-        }
-
-        .discord-text {
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-        }
-
-        /* Achievement Unlocked Modal */
-        .achievement-modal {
-            text-align: center;
-        }
-
-        .achievement-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            animation: bounce 1s infinite alternate;
-        }
-
-        @keyframes bounce {
-            from {
-                transform: translateY(0);
-            }
-
-            to {
-                transform: translateY(-10px);
-            }
-        }
-
-        .achievement-title {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .achievement-description {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Responsive */
+        /* 響應式設計 */
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 2rem;
+                font-size: 2.25rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.25rem;
             }
 
             .navbar-container {
@@ -1281,27 +902,46 @@
                 justify-content: center;
             }
 
-            .progress-overview {
-                grid-template-columns: 1fr;
+            .section-title {
+                font-size: 2rem;
             }
 
-            .course-header {
+            .problems-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .problem-item {
                 flex-direction: column;
-                align-items: flex-start;
                 gap: 1rem;
+                padding: 1.25rem;
             }
 
-            .course-actions {
-                width: 100%;
-                justify-content: flex-end;
+            .problem-icon {
+                margin-bottom: 0.5rem;
             }
 
-            .course-status {
-                align-self: flex-start;
+            .solution-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .solution-text {
+                font-size: 1.25rem;
+            }
+
+            .countdown {
+                flex-wrap: wrap;
+            }
+
+            .countdown-item {
+                min-width: 70px;
+            }
+
+            .auth-container {
+                padding: 2rem 1.5rem;
             }
         }
 
-        /* Mobile Menu */
+        /* 移動端選單 */
         .mobile-menu-toggle {
             display: none;
             background: none;
@@ -1339,7 +979,108 @@
                 width: 100%;
             }
         }
+
+        /* 浮動 CTA */
+        .floating-cta {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(255, 61, 0, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+            transition: all 0.3s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .floating-cta:hover {
+            transform: scale(1.1);
+        }
+
+        .floating-cta-text {
+            display: none;
+            margin-right: 0.5rem;
+            font-weight: 700;
+        }
+
+        .floating-cta.expanded {
+            border-radius: 50px;
+            padding: 1rem 2rem;
+        }
+
+        .floating-cta.expanded .floating-cta-text {
+            display: block;
+        }
+
+        /* 地區特定內容 */
+        .region-content {
+            display: none;
+        }
+
+        .region-content.active {
+            display: block;
+        }
+
+        /* 地區標籤 */
+        .region-tag {
+            display: inline-block;
+            background: rgba(255, 107, 0, 0.2);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
     </style>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "UX Shari 超能級 UX/UI 訓練營",
+            "description": "28天打造專業UX作品集，從零基礎到搶手人才！適合台灣、香港、澳門地區想轉職UX/UI設計師的學員",
+            "provider": {
+                "@type": "Organization",
+                "name": "UX Shari",
+                "sameAs": "https://yourdomain.com/"
+            },
+            "offers": {
+                "@type": "Offer",
+                "price": "7000",
+                "priceCurrency": "TWD",
+                "availability": "https://schema.org/LimitedAvailability",
+                "validFrom": "2023-01-01",
+                "validThrough": "2023-12-31"
+            },
+            "audience": {
+                "@type": "Audience",
+                "audienceType": "UX/UI設計入門者、轉職者"
+            },
+            "inLanguage": "zh-Hant",
+            "areaServed": ["TW", "HK", "MO"]
+        }
+    </script>
 </head>
 
 <body data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
@@ -1348,31 +1089,31 @@
             <div class="logo-container">
                 <a href="#" class="logo">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#ff6b00" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
-                        <path d="M2 17L12 22L22 17" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                        <path d="M2 17L12 22L22 17" stroke="#ff6b00" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
-                        <path d="M2 12L12 17L22 12" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                        <path d="M2 12L12 17L22 12" stroke="#ff6b00" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
                     </svg>
                     UX Shari
                 </a>
-                <button class="mobile-menu-toggle">
+                <button class="mobile-menu-toggle" aria-label="開啟選單">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 12H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                        <path d="M3 12H21" stroke="#ff6b00" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
-                        <path d="M3 6H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                        <path d="M3 6H21" stroke="#ff6b00" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
-                        <path d="M3 18H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                        <path d="M3 18H21" stroke="#ff6b00" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
                     </svg>
                 </button>
             </div>
             <div class="nav-links">
                 <a href="#hero" class="nav-link">首頁</a>
-                <a href="#advanced-options" class="nav-link">進階學習</a>
-                <a href="#" class="nav-link login-btn">登入</a>
-                <a href="#" class="nav-link cta signup-btn">立即註冊</a>
+                <a href="#problems" class="nav-link">常見困擾</a>
+                <a href="#solution" class="nav-link">解決方案</a>
+                <a href="#signup" class="nav-link cta">立即搶購</a>
             </div>
         </div>
     </nav>
@@ -1380,582 +1121,303 @@
     <header id="hero" class="hero">
         <div class="hero-grid"></div>
         <div class="container hero-content">
-            <h1 class="hero-title tech-title">UX/UI 新手 28 天從零開始，<br>打造<span class="glow">超能級</span>作品集！</h1>
-            <p class="hero-subtitle">免費挑戰包 + Figma 教學 + 專業指導，幫你在 28 天內完成 UX/UI 初階作品集，為轉職打好基礎。</p>
+            <div class="region-selector">
+                <button class="region-btn active" data-region="tw">台灣</button>
+                <button class="region-btn" data-region="hk">香港</button>
+                <button class="region-btn" data-region="mo">澳門</button>
+            </div>
+
+            <div class="hero-badge">🔥 限時優惠：7折特價 + 獨家贈品</div>
+            <h1 class="hero-title tech-title">28天打造專業 UX/UI 作品集<br>從<span class="hero-highlight">零基礎</span>到<span
+                    class="hero-highlight">搶手人才</span>！</h1>
+            <p class="hero-subtitle">獨家系統化學習方法，讓你快速掌握 UX/UI 設計技能，打造令人印象深刻的作品集，成功轉職高薪設計師！</p>
 
             <div class="deadline-alert">
-                <p>本週截止！免費挑戰包下載只限至 5 月 20 日</p>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 8V12L15 15" stroke="#ff5252" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    <path
+                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        stroke="#ff5252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <p>倒數最後機會！7折優惠僅剩 <span id="countdown-days">3</span> 天，錯過將回到原價！</p>
             </div>
-            <p id="countdown" class="countdown"></p>
 
-            <!-- 統一登入/註冊表單 -->
-            <div class="auth-container" id="auth-container">
-                <div class="auth-header">
-                    <h2 class="auth-title">開始你的 UX/UI 學習之旅</h2>
-                    <p class="auth-subtitle">輸入電子郵件和密碼，立即開始學習</p>
+            <div id="countdown" class="countdown">
+                <div class="countdown-item">
+                    <span id="days" class="countdown-number">03</span>
+                    <span class="countdown-label">天</span>
                 </div>
-
-                <form id="auth-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="email" class="form-label">電子郵件</label>
-                        <input type="email" id="email" class="form-input" placeholder="你的電子郵件" required="">
-                    </div>
-                    <div class="form-group">
-                        <label for="password" class="form-label">
-                            <span>密碼</span>
-                            <a href="#" class="forgot-password" id="forgot-password" onclick="openPasswordResetModal()">忘記密碼？</a>
-                        </label>
-                        <input type="password" id="password" class="form-input" placeholder="你的密碼" required=""
-                            minlength="6">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-lg">開始學習</button>
-
-                    <div class="social-login">
-                        <span>或</span>
-                    </div>
-
-                    <button onclick="handleGoogleLogin()" type="button" class="google-btn" id="google-auth">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M21.8055 10.0415H21V10H12V14H17.6515C16.827 16.3285 14.6115 18 12 18C8.6865 18 6 15.3135 6 12C6 8.6865 8.6865 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C6.4775 2 2 6.4775 2 12C2 17.5225 6.4775 22 12 22C17.5225 22 22 17.5225 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z"
-                                fill="#FFC107"></path>
-                            <path
-                                d="M3.15295 7.3455L6.43845 9.755C7.32745 7.554 9.48045 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C8.15895 2 4.82795 4.1685 3.15295 7.3455Z"
-                                fill="#FF3D00"></path>
-                            <path
-                                d="M12 22C14.583 22 16.93 21.0115 18.7045 19.404L15.6095 16.785C14.5718 17.5742 13.3038 18.001 12 18C9.39903 18 7.19053 16.3415 6.35853 14.027L3.09753 16.5395C4.75253 19.778 8.11353 22 12 22Z"
-                                fill="#4CAF50"></path>
-                            <path
-                                d="M21.8055 10.0415H21V10H12V14H17.6515C17.2571 15.1082 16.5467 16.0766 15.608 16.7855L15.6095 16.7845L18.7045 19.4035C18.4855 19.6025 22 17 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z"
-                                fill="#1976D2"></path>
-                        </svg>
-                        使用 Google 帳號登入
-                    </button>
-
-                    <p class="form-note">點擊「開始學習」或「使用 Google 帳號登入」，即表示你同意我們的<a href="#">服務條款</a>和<a href="#">隱私政策</a>
-                    </p>
-                    <p id="error" class="text-red-500 text-sm text-center"></p>
-                </form>
-
-                <div id="auth-feedback" class="form-feedback"></div>
-            </div>
-
-            <!-- 忘記密碼彈窗 -->
-            <div class="modal-overlay" id="password-reset-modal">
-                <div class="modal">
-                    <div class="modal-header">
-                        <h3 class="modal-title">重設密碼</h3>
-                        <button class="modal-close" id="close-reset-modal">×</button>
-                    </div>
-                    <div class="modal-body">
-                        <p>請輸入你的電子郵件，我們將發送重設密碼連結給你。</p>
-                        <form id="reset-form" class="auth-form" style="margin-top: 1.5rem;">
-                            <div class="form-group">
-                                <label for="reset-email" class="form-label">電子郵件</label>
-                                <input type="email" id="reset-email" class="form-input" placeholder="你的電子郵件"
-                                    required="">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-outline" id="cancel-reset">取消</button>
-                        <button class="btn btn-primary" id="submit-reset">發送重設連結</button>
-                    </div>
+                <div class="countdown-item">
+                    <span id="hours" class="countdown-number">02</span>
+                    <span class="countdown-label">時</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes" class="countdown-number">23</span>
+                    <span class="countdown-label">分</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds" class="countdown-number">47</span>
+                    <span class="countdown-label">秒</span>
                 </div>
             </div>
 
-            <!-- 學生儀表板 (登入後顯示) -->
-            <div class="dashboard" id="dashboard">
-                <div class="dashboard-header">
-                    <div class="user-welcome">歡迎回來，<span id="user-name">學員</span>！</div>
-                    <button id="logout-btn" class="btn btn-primary">登出</button>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number">1,500+</span>
+                    <span class="stat-label">學員</span>
                 </div>
-
-                <!-- 儀表板標籤切換 -->
-                <div class="dashboard-tabs">
-                    <div class="dashboard-tab active" data-tab="progress">我的進度</div>
-                    <div class="dashboard-tab" data-tab="courses">所有課程</div>
-                    <div class="dashboard-tab" data-tab="completed">已完成</div>
-                    <div class="dashboard-tab" data-tab="submissions">功課提交紀錄</div>
+                <div class="stat-item">
+                    <span class="stat-number">92%</span>
+                    <span class="stat-label">完課率</span>
                 </div>
-
-                <!-- 我的進度 Tab -->
-                <div class="dashboard-content active" id="progress-tab">
-                    <div class="progress-overview">
-                        <div class="progress-stats">
-                            <h3 class="progress-title">學習進度</h3>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 25%;"></div>
-                            </div>
-                            <div class="progress-info">
-                                <span>已完成 25%</span>
-                                <span>1/4 課程</span>
-                            </div>
-                            <p>還有 3 個任務需要完成</p>
-                        </div>
-
-                        <div class="achievement-stats">
-                            <h3 class="progress-title">成就徽章</h3>
-                            <div class="achievement-badges">
-                                <div class="badge">
-                                    <div class="badge-icon">🚀</div>
-                                    <span class="badge-name">開始學習</span>
-                                </div>
-                                <div class="badge">
-                                    <div class="badge-icon">📝</div>
-                                    <span class="badge-name">首次提交</span>
-                                </div>
-                                <div class="badge">
-                                    <div class="badge-icon badge-locked">🔥</div>
-                                    <span class="badge-name">連續學習</span>
-                                </div>
-                                <div class="badge">
-                                    <div class="badge-icon badge-locked">🏆</div>
-                                    <span class="badge-name">完成課程</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="course-list">
-                        <!-- 第一堂課 (已解鎖) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="1">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">📚</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第一堂：UX/UI 設計基礎</h3>
-                                        <p class="course-summary">了解 UX/UI 設計的基本概念、流程和工具，為你的設計之旅打好基礎。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-unlocked">已解鎖</span>
-                                    <button class="course-toggle" aria-label="展開課程內容">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="course-content" id="course-1-content">
-                                <div class="course-inner">
-                                    <div class="video-container">
-                                        <div class="video-placeholder">
-                                            <div class="play-icon">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 3L19 12L5 21V3Z" fill="white"></path>
-                                                </svg>
-                                            </div>
-                                            <span>點擊播放教學影片</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="task-list">
-                                        <h4>本週任務</h4>
-
-                                        <div class="task-item">
-                                            <div class="task-header">
-                                                <h5 class="task-title">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M9 11L12 14L22 4" stroke="#ff9500" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round"></path>
-                                                        <path
-                                                            d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16"
-                                                            stroke="#ff9500" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"></path>
-                                                    </svg>
-                                                    任務 1：設計靈感收集
-                                                </h5>
-                                            </div>
-                                            <p class="task-description">收集 10 個你喜歡的 UI 設計作品，並分析它們的設計特點和優點。</p>
-
-                                            <form class="submission-form" id="task-1-form">
-                                                <input type="text" class="submission-input"
-                                                    placeholder="貼上你的作品連結 (Google Drive, Instagram, Behance 等)"
-                                                    required="">
-                                                <textarea class="submission-input" rows="3"
-                                                    placeholder="簡短描述你的設計靈感來源和分析 (選填)"></textarea>
-                                                <div class="submission-actions">
-                                                    <button type="submit" class="btn btn-primary">提交作業</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 第二堂課 (已解鎖但需要完成第一堂) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="2">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">🔍</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第二堂：使用者研究與分析</h3>
-                                        <p class="course-summary">學習如何進行使用者研究，收集和分析數據，以及創建使用者角色和旅程地圖。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-locked">需完成前置任務</span>
-                                    <button class="course-toggle" aria-label="展開課程內容">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="course-content" id="course-2-content">
-                                <div class="course-inner">
-                                    <div class="video-container">
-                                        <div class="locked-overlay">
-                                            <div class="lock-icon">🔒</div>
-                                            <span>完成第一堂課的任務後解鎖</span>
-                                        </div>
-                                        <div class="video-placeholder">
-                                            <div class="play-icon">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 3L19 12L5 21V3Z" fill="white"></path>
-                                                </svg>
-                                            </div>
-                                            <span>教學影片</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 第三堂課 (鎖定) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="3">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">🎨</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第三堂：UI 設計原則與實踐</h3>
-                                        <p class="course-summary">掌握 UI 設計的核心原則，包括色彩理論、排版、視覺層次和設計系統。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-locked">需完成前置任務</span>
-                                    <button class="course-toggle" aria-label="展開課程內容">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="course-content" id="course-3-content">
-                                <div class="course-inner">
-                                    <div class="video-container">
-                                        <div class="locked-overlay">
-                                            <div class="lock-icon">🔒</div>
-                                            <span>完成前面課程的任務後解鎖</span>
-                                        </div>
-                                        <div class="video-placeholder">
-                                            <div class="play-icon">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 3L19 12L5 21V3Z" fill="white"></path>
-                                                </svg>
-                                            </div>
-                                            <span>教學影片</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 第四堂課 (鎖定) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="4">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">📱</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第四堂：原型製作與使用者測試</h3>
-                                        <p class="course-summary">學習如何使用 Figma 創建互動原型，並進行有效的使用者測試以優化設計。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-locked">需完成前置任務</span>
-                                    <button class="course-toggle" aria-label="展開課程內容">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M19 9L12 16L5 9" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="course-content" id="course-4-content">
-                                <div class="course-inner">
-                                    <div class="video-container">
-                                        <div class="locked-overlay">
-                                            <div class="lock-icon">🔒</div>
-                                            <span>完成前面課程的任務後解鎖</span>
-                                        </div>
-                                        <div class="video-placeholder">
-                                            <div class="play-icon">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M5 3L19 12L5 21V3Z" fill="white"></path>
-                                                </svg>
-                                            </div>
-                                            <span>教學影片</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 一對一 Coaching Upsell -->
-                    <div class="coaching-upsell">
-                        <div class="upsell-header">
-                            <div class="upsell-icon">👨‍🏫</div>
-                            <h3 class="upsell-title">加速你的 UX 設計之旅</h3>
-                        </div>
-                        <div class="upsell-content">
-                            <p>想要更快掌握 UX/UI 設計技能？我們的一對一 Coaching 服務可以幫助你：</p>
-                        </div>
-                        <div class="upsell-features">
-                            <div class="upsell-feature">
-                                <div class="feature-icon">✓</div>
-                                <div class="feature-text">獲得專業設計師的個人指導</div>
-                            </div>
-                            <div class="upsell-feature">
-                                <div class="feature-icon">✓</div>
-                                <div class="feature-text">針對你的作品集提供專業建議</div>
-                            </div>
-                            <div class="upsell-feature">
-                                <div class="feature-icon">✓</div>
-                                <div class="feature-text">模擬面試練習與反饋</div>
-                            </div>
-                            <div class="upsell-feature">
-                                <div class="feature-icon">✓</div>
-                                <div class="feature-text">獲取業界內部資訊與求職指導</div>
-                            </div>
-                        </div>
-                        <div class="upsell-cta">
-                            <button class="btn btn-primary">了解更多 Coaching 詳情</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 所有課程 Tab -->
-                <div class="dashboard-content" id="courses-tab">
-                    <div class="course-list">
-                        <!-- 第一堂課 (已解鎖) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="1-all">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">📚</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第一堂：UX/UI 設計基礎</h3>
-                                        <p class="course-summary">了解 UX/UI 設計的基本概念、流程和工具，為你的設計之旅打好基礎。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-unlocked">已解鎖</span>
-                                    <button class="btn btn-primary">前往學習</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 第二堂課 (鎖定) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="2-all">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">🔍</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第二堂：使用者研究與分析</h3>
-                                        <p class="course-summary">學習如何進行使用者研究，收集和分析數據，以及創建使用者角色和旅程地圖。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-locked">需完成前置任務</span>
-                                    <button class="btn btn-primary" disabled="">前往學習</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 第三堂課 (鎖定) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="3-all">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">🎨</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第三堂：UI 設計原則與實踐</h3>
-                                        <p class="course-summary">掌握 UI 設計的核心原則，包括色彩理論、排版、視覺層次和設計系統。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-locked">需完成前置任務</span>
-                                    <button class="btn btn-primary" disabled="">前往學習</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 第四堂課 (鎖定) -->
-                        <div class="course-card">
-                            <div class="course-header" data-course="4-all">
-                                <div class="course-title-wrapper">
-                                    <div class="course-icon">📱</div>
-                                    <div class="course-title-info">
-                                        <h3 class="course-title">第四堂：原型製作與使用者測試</h3>
-                                        <p class="course-summary">學習如何使用 Figma 創建互動原型，並進行有效的使用者測試以優化設計。</p>
-                                    </div>
-                                </div>
-                                <div class="course-actions">
-                                    <span class="course-status status-locked">需完成前置任務</span>
-                                    <button class="btn btn-primary" disabled="">前往學習</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 已完成 Tab -->
-                <div class="dashboard-content" id="completed-tab">
-                    <div class="completed-list">
-                        <p>你還沒有完成任何課程。完成課程後，它們將顯示在這裡。</p>
-                    </div>
-                </div>
-
-                <!-- 功課提交紀錄 Tab -->
-                <div class="dashboard-content" id="submissions-tab">
-                    <div class="submission-history">
-                        <p>你還沒有提交任何功課。提交功課後，紀錄將顯示在這裡。</p>
-                    </div>
+                <div class="stat-item">
+                    <span class="stat-number">85%</span>
+                    <span class="stat-label">成功轉職</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- 功課提交成功通知 -->
-    <div class="notification-modal" id="submission-success">
-        <div class="notification-header">
-            <h3 class="notification-title">
-                <span>🎉</span> 功課提交成功！
-            </h3>
-            <button class="notification-close" id="close-submission-success">×</button>
-        </div>
-        <div class="notification-content">
-            <p>恭喜你完成了第一堂課的任務！你已成功解鎖下一堂課程。</p>
-            <div class="discord-promo">
-                <div class="discord-icon">
-                    <svg width="32" height="32" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M60.1045 4.8978C55.5792 2.8214 50.7265 1.2916 45.6527 0">
-                        </path>
-                    </svg></div>
+    <!-- 問題與解決方案區塊 -->
+    <section id="problems" class="problems-section">
+        <div class="container">
+            <h2 class="section-title">你是否也有這些困擾？</h2>
+
+            <div class="problems-container">
+                <div class="problem-item">
+                    <div class="problem-icon">✅</div>
+                    <div class="problem-content">
+                        <h3 class="problem-text">自學 UX 資訊太多太雜，不知從哪開始？</h3>
+                        <p class="problem-description">浪費大量時間卻毫無進展？在網路上找到的資源五花八門，不知道哪些才是真正有用的，學習效率低下。</p>
+                    </div>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">✅</div>
+                    <div class="problem-content">
+                        <h3 class="problem-text">想轉職設計師卻不知道作品集怎麼做？</h3>
+                        <p class="problem-description">面試時總是被問倒？沒有實際專案經驗，不知道如何展示自己的能力，缺乏專業指導和反饋。</p>
+                    </div>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">✅</div>
+                    <div class="problem-content">
+                        <h3 class="problem-text">覺得設計工具教學都講得太複雜，總是聽不懂？</h3>
+                        <p class="problem-description">學了就忘？找不到適合華語地區的教學資源，英文教學看不懂，缺乏系統化的學習方法。</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
+
+    <!-- 解決方案區塊 -->
+    <section id="solution" class="section">
+        <div class="container">
+            <div class="solution-container">
+                <div class="solution-icon">🌈</div>
+                <h3 class="solution-title">現在你只需要這個課程：</h3>
+                <p class="solution-text">一套<span class="solution-highlight">講人話的教學</span>、一個<span
+                        class="solution-highlight">能交功課的地方</span>，<br>一步步把 UX 能力學起來、作品集做起來！<br><span
+                        class="solution-highlight">28天內</span>，從零基礎到專業設計師！</p>
+
+                <a href="#signup" class="cta-button">立即搶購 7 折優惠 →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 註冊表單 -->
+    <section id="signup" class="section">
+        <div class="container">
+            <h2 class="section-title">立即開始你的 UX 設計之旅</h2>
+
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h3 class="auth-title">立即搶購 7 折優惠課程</h3>
+                    <p class="auth-subtitle">填寫資料，獲得專屬優惠碼和免費學習資源</p>
+                </div>
+
+                <form id="auth-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="name" class="form-label">姓名</label>
+                        <input type="text" id="name" class="form-input" placeholder="請輸入你的姓名" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">電子郵件</label>
+                        <input type="email" id="email" class="form-input" placeholder="請輸入你的電子郵件" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">手機號碼</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="請輸入你的手機號碼" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="region" class="form-label">地區</label>
+                        <select id="region" class="form-input" required="">
+                            <option value="tw">台灣</option>
+                            <option value="hk">香港</option>
+                            <option value="mo">澳門</option>
+                            <option value="other">其他地區</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-accent btn-lg">立即搶購 7 折優惠 →</button>
+
+                    <p class="form-note">我們承諾：絕不濫發廣告信，你隨時可以取消訂閱</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 浮動 CTA -->
+    <div class="floating-cta" id="floating-cta">
+        <span class="floating-cta-text">立即搶購</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M19 12L12 19L5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+        </svg>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // 初始化 Firebase
-            const firebaseConfig = {
-                apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-                authDomain: "uxshari-670fd.firebaseapp.com",
-                projectId: "uxshari-670fd",
-                appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
-            };
-            firebase.initializeApp(firebaseConfig);
-            const auth = firebase.auth();
-        
-            // 綁定事件
-            document.getElementById("auth-form").addEventListener("submit", handleLogin);
-            document.getElementById("google-auth").addEventListener("click", handleGoogleLogin);
-        
-            // Email/Password 登入或註冊
-            async function handleLogin(event) {
-                event.preventDefault();
-                const email = document.getElementById("email").value;
-                const password = document.getElementById("password").value;
-                const errorEl = document.getElementById("error");
-        
-                try {
-                    await auth.signInWithEmailAndPassword(email, password);
-                    window.location.href = "/uxshari/dashboard.html";
-                } catch (err) {
-                    if (err.code === "auth/user-not-found") {
-                        try {
-                            await auth.createUserWithEmailAndPassword(email, password);
-                            window.location.href = "/uxshari/dashboard.html";
-                        } catch (signupErr) {
-                            errorEl.innerText = signupErr.message;
-                        }
-                    } else {
-                        errorEl.innerText = err.message;
+        // 倒數計時器
+        function updateCountdown() {
+            const now = new Date();
+            const targetDate = new Date();
+            targetDate.setDate(now.getDate() + 3);
+            targetDate.setHours(23, 59, 59, 0);
+
+            const timeLeft = targetDate - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            document.getElementById('countdown-days').textContent = days;
+        }
+
+        // 初始化倒數計時
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // 移動端選單
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        // 平滑滾動
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // 如果在移動端，點擊後關閉選單
+                    if (navLinks.classList.contains('show')) {
+                        navLinks.classList.remove('show');
                     }
                 }
-            }
-        
-            // Google 登入
-            function handleGoogleLogin() {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithPopup(provider)
-                    .then(() => {
-                        window.location.href = "/uxshari/dashboard.html";
-                    })
-                    .catch(err => {
-                        document.getElementById("error").innerText = err.message;
-                    });
+            });
+        });
+
+        // 浮動 CTA
+        const floatingCta = document.getElementById('floating-cta');
+
+        floatingCta.addEventListener('click', () => {
+            window.scrollTo({
+                top: document.getElementById('signup').offsetTop - 80,
+                behavior: 'smooth'
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                floatingCta.classList.add('expanded');
+            } else {
+                floatingCta.classList.remove('expanded');
             }
         });
-        </script>
-        
-<script>
-    //Forgot Password
-    function openPasswordResetModal() {
-    const modal = document.getElementById("password-reset-modal");
-    modal.classList.add("active");
-}
 
-// Close the modal when the close button or cancel button is clicked
-document.getElementById("close-reset-modal").addEventListener("click", () => {
-    document.getElementById("password-reset-modal").classList.remove("active");
-});
+        // 表單提交
+        const authForm = document.getElementById('auth-form');
 
-document.getElementById("cancel-reset").addEventListener("click", () => {
-    document.getElementById("password-reset-modal").classList.remove("active");
-});
-</script>
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-<script>
+            // 這裡可以添加表單提交邏輯
+            alert('感謝您的註冊！我們將盡快與您聯繫。');
+            authForm.reset();
+        });
 
-    // 密碼重設功能
-document.getElementById("submit-reset").addEventListener("click", async () => {
-    const email = document.getElementById("reset-email").value;
-    const errorEl = document.getElementById("error"); // 可選：顯示錯誤訊息的元素
+        // 地區選擇器
+        const regionBtns = document.querySelectorAll('.region-btn');
 
-    if (!email) {
-        alert("請輸入電子郵件地址！");
-        return;
-    }
+        regionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有按鈕的 active 類
+                regionBtns.forEach(b => b.classList.remove('active'));
 
-    try {
-        await firebase.auth().sendPasswordResetEmail(email);
-        alert("密碼重設連結已發送到您的電子郵件！");
-        document.getElementById("password-reset-modal").classList.remove("active"); // 關閉彈窗
-    } catch (error) {
-        console.error("密碼重設失敗：", error);
-        alert("發送密碼重設連結時出現錯誤：" + error.message);
-    }
-});
-</script>
+                // 為當前按鈕添加 active 類
+                btn.classList.add('active');
+
+                // 更新地區下拉選單
+                const region = btn.dataset.region;
+                document.getElementById('region').value = region;
+
+                // 這裡可以添加更新地區特定內容的邏輯
+            });
+        });
+
+        // 結構化數據 (JSON-LD) 用於 SEO
+        const jsonLd = {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "UX Shari 超能級 UX/UI 訓練營",
+            "description": "28天打造專業UX作品集，從零基礎到搶手人才！適合台灣、香港、澳門地區想轉職UX/UI設計師的學員",
+            "provider": {
+                "@type": "Organization",
+                "name": "UX Shari",
+                "sameAs": "https://yourdomain.com/"
+            },
+            "offers": {
+                "@type": "Offer",
+                "price": "7000",
+                "priceCurrency": "TWD",
+                "availability": "https://schema.org/LimitedAvailability",
+                "validFrom": "2023-01-01",
+                "validThrough": "2023-12-31"
+            },
+            "audience": {
+                "@type": "Audience",
+                "audienceType": "UX/UI設計入門者、轉職者"
+            },
+            "inLanguage": "zh-Hant",
+            "areaServed": ["TW", "HK", "MO"]
+        };
+
+        // 添加結構化數據到頁面
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(jsonLd);
+        document.head.appendChild(script);
+    </script>
+    
+
 
 </body>
 

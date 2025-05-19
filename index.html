@@ -52,44 +52,63 @@
     </div>
   </nav>
 
-  <header id="hero" class="hero">
+  <header id="hero" class="hero hero-content">
     <div class="hero-grid"></div>
+    <div class="hero-badge">🔥 限時優惠：7折特價 + 獨家贈品</div>
     <div class="container hero-content">
-      <h1 class="hero-title tech-title hero-title-white">UX/UI 新手 28 天從零開始，<br>打造<span
+      <h1 class="hero-title tech-title hero-title-white">UX/UI 新手 28 天從零基礎開始<br>打造<span
           class="hero-title-orange">職場級作品集</span>！</h1>
       <p class="hero-subtitle">沒經驗、沒學過 UX？加入我們的免費訓練，28 天完成職涯第一份作品集，練習真實產品設計流程，建立 UX 實戰經驗！</p>
       <div class="deadline-alert">
-        <p class="mb-0">本週截止！免費挑戰包下載只限至 5 月 20 日</p>
-      </div>
-      <p id="countdown" class="countdown">倒數已結束！</p>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 8V12L15 15" stroke="#ff5252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ff5252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <p class="mb-0">倒數最後機會！7折優惠僅剩 <span id="countdown-days">3</span> 天，錯過將回到原價！</p>
+            </div>
+      <div id="countdown" class="countdown">
+                <div class="countdown-item">
+                    <span id="days" class="countdown-number">00</span>
+                    <span class="countdown-label">天</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours" class="countdown-number">00</span>
+                    <span class="countdown-label">時</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes" class="countdown-number">00</span>
+                    <span class="countdown-label">分</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds" class="countdown-number">00</span>
+                    <span class="countdown-label">秒</span>
+                </div>
+            </div>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number">1,500+</span>
+                    <span class="stat-label">學員</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">92%</span>
+                    <span class="stat-label">完課率</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">85%</span>
+                    <span class="stat-label">成功轉職</span>
+                </div>
+            </div>
       <p class="hero-subtitle">適合 UX 零基礎、設計系學生、PM、行銷人，或任何想轉職 UX 的你！</p>
 
       <!-- 統一登入/註冊表單 -->
-      <div class="auth-container" id="auth-container">
+      <div class="auth-container p-4" id="auth-container">
         <div class="auth-header">
           <h2 class="auth-title">開始你的 UX/UI 學習之旅</h2>
           <p class="auth-subtitle">輸入電子郵件和密碼，立即開始學習</p>
         </div>
 
         <form id="auth-form" class="auth-form">
-          <div class="form-group">
-            <label for="email" class="form-label">電子郵件</label>
-            <input type="email" id="email" class="form-input" placeholder="你的電子郵件" required="">
-          </div>
-          <div class="form-group">
-            <label for="password" class="form-label">
-              <span>密碼</span>
-              <a href="javascript:void(0)" class="forgot-password" id="forgot-password"
-                onclick="openPasswordResetModal()">忘記密碼？</a>
-            </label>
-            <input type="password" id="password" class="form-input" placeholder="你的密碼" required="" minlength="6">
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg">開始學習</button>
-
-          <div class="social-login">
-            <span>或</span>
-          </div>
-
+          
           <button onclick="handleGoogleLogin()" type="button" class="google-btn" id="google-auth">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -107,8 +126,27 @@
             </svg>
             使用 Google 帳號登入
           </button>
+          
+          <div class="social-login my-4">
+            <span>或</span>
+          </div>
 
-          <p class="form-note">點擊「開始學習」或「使用 Google 帳號登入」，即表示你同意我們的<a href="#">服務條款</a>和<a href="#">隱私政策</a>
+          <div class="form-group">
+            <label for="email" class="form-label">電子郵件</label>
+            <input type="email" id="email" class="form-input" placeholder="你的電子郵件" required="">
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">
+              <span>密碼</span>
+              <a href="javascript:void(0)" class="forgot-password" id="forgot-password"
+                onclick="openPasswordResetModal()">忘記密碼？</a>
+            </label>
+            <input type="password" id="password" class="form-input" placeholder="你的密碼" required="" minlength="6">
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg">開始學習</button>
+
+
+          <p class="form-note">點擊「使用 Google 帳號登入」或「開始學習」，即表示你同意我們的<a href="#">服務條款</a>和<a href="#">隱私政策</a>
           </p>
           <p id="error" class="text-red-500 text-sm text-center"></p>
         </form>
@@ -180,7 +218,7 @@
 
   <main>
 
-    <section id="instructor" class="instructor-section">
+    <section id="instructor" class="instructor-section section">
       <div class="container">
         <h2 class="section-title tech-title">認識你的<span class="glow">導師</span></h2>
         <div class="instructor-content">
@@ -235,7 +273,54 @@
         style="top: 25.1684%; left: 3.97652%; width: 4.47902px; height: 4.47902px; opacity: 0.300592; animation-duration: 17.3987s; animation-delay: 1.12764s;">
       </div>
     </section>
-    <section id="testimonials" class="testimonials">
+     <!-- 問題與解決方案區塊 -->
+    <section id="problems" class="problems-section section">
+        <div class="container">
+            <h2 class="section-title">你是否也有這些困擾？</h2>
+
+            <div class="problems-container">
+                <div class="problem-item">
+                    <div class="problem-icon">✅</div>
+                    <div class="problem-content">
+                        <h3 class="problem-text">自學 UX 資訊太多太雜，不知從哪開始？</h3>
+                        <p class="problem-description">浪費大量時間卻毫無進展？在網路上找到的資源五花八門，不知道哪些才是真正有用的，學習效率低下。</p>
+                    </div>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">✅</div>
+                    <div class="problem-content">
+                        <h3 class="problem-text">想轉職設計師卻不知道作品集怎麼做？</h3>
+                        <p class="problem-description">面試時總是被問倒？沒有實際專案經驗，不知道如何展示自己的能力，缺乏專業指導和反饋。</p>
+                    </div>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">✅</div>
+                    <div class="problem-content">
+                        <h3 class="problem-text">覺得設計工具教學都講得太複雜，總是聽不懂？</h3>
+                        <p class="problem-description">學了就忘？找不到適合華語地區的教學資源，英文教學看不懂，缺乏系統化的學習方法。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 解決方案區塊 -->
+    <section id="solution" class="section">
+        <div class="container">
+            <div class="solution-container">
+                <div class="solution-icon">🌈</div>
+                <h3 class="solution-title">現在你只需要這個課程：</h3>
+                <p class="solution-text">一套<span class="solution-highlight">講人話的教學</span>、一個<span
+                        class="solution-highlight">能交功課的地方</span>，<br>一步步把 UX 能力學起來、作品集做起來！<br><span
+                        class="solution-highlight">28天內</span>，從零基礎到專業設計師！</p>
+
+                <a href="#signup" class="cta-button">立即搶購 7 折優惠 →</a>
+            </div>
+        </div>
+    </section>
+    <section id="testimonials" class="testimonials-section section">
       <div class="container">
         <h2 class="section-title tech-title">💬 他們從迷惘出發，現在是<span class="glow hero-title-blue">團隊主力</span>設計師！</h2>
         <p class="section-subtitle">有些學員一開始完全沒接觸過 UX，有些則在工作中卡關、急需轉型。透過系統性的訓練與實戰指導，他們一步步累積實力，成功打造屬於自己的設計職涯。</p>
@@ -335,8 +420,8 @@
                 </div>
               </div>
               <div class="testimonial-content">
-                <p class="testimonial-text">已是設計師，也能靠語言與簡報力突破！為了挑戰英國遠端職位，報名 1 對 1 輔導，強化英文口說、面試技巧與作品集簡報。</p>
-                <div class="testimonial-quote">💬「成功入職英國設計公司，實現遠距工作夢！」</div>
+                <p class="testimonial-text">成功入職英國設計公司，實現遠距工作夢！已是設計師，也能靠語言與簡報力突破！為了挑戰英國遠端職位，報名 1 對 1 輔導，強化英文口說、面試技巧與作品集簡報。</p>
+                <div class="testimonial-quote">💬「Shari根據我的情況為我提供專屬教學體驗，課堂氣氛很好而且充滿鼓勵性！」</div>
               </div>
               <div class="testimonial-footer">
                 <a href="#hero" class="btn btn-primary btn-sm">我也想試試 →</a>
@@ -385,7 +470,7 @@
 
 
 
-    <section id="features" class="features">
+    <section id="features" class="features-section section">
       <div class="container">
         <h2 class="section-title tech-title">🚀 28 天 UX/UI 挑戰，<span class="glow">超能力</span>養成計劃</h2>
         <p class="section-subtitle">專為港澳台地區設計的中文 UX/UI 課程，從基礎開始，循序漸進，讓你輕鬆上手</p>
@@ -465,7 +550,7 @@
       </div>
     </section>
 
-    <section id="advanced-options" class="advanced-options">
+    <section id="advanced-options" class="advanced-options-section section">
       <div class="container">
         <h2 class="section-title tech-title">進階學習模式</h2>
         <p class="section-subtitle">根據你的需求，選擇最適合的進階學習方式，快速達成目標！</p>
@@ -529,7 +614,7 @@
       </div>
     </section>
 
-    <section id="faq" class="faq">
+    <section id="faq" class="faq-section section">
       <div class="container">
         <h2 class="section-title tech-title">常見問題</h2>
         <p class="section-subtitle">有任何疑問？我們在這裡為你解答</p>
@@ -604,7 +689,7 @@
       </div>
     </section>
 
-    <section class="cta-section">
+    <section class="cta-section section">
       <div class="cta-particles">
         <div class="particle" style="top: 20%; left: 10%; animation-duration: 15s;"></div>
         <div class="particle" style="top: 30%; left: 20%; animation-duration: 25s;"></div>
@@ -696,251 +781,22 @@
     </div>
   </footer>
 
-  <script>
-    // Countdown Timer
-    function updateCountdown() {
-      const deadline = new Date("May 20, 2025 23:59:59").getTime();
-      const now = new Date().getTime();
-      const timeLeft = deadline - now;
+   <!-- 浮動 CTA -->
+    <div class="floating-cta" id="floating-cta">
+        <span class="floating-cta-text">立即搶購</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M19 12L12 19L5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+        </svg>
+    </div>
 
-      if (timeLeft <= 0) {
-        document.getElementById("countdown").innerHTML = "倒數已結束！";
-        return;
-      }
+    <script src="script.js"></script>
 
-      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      document.getElementById("countdown").innerHTML = `⏰ 倒數：${days} 天 ${hours} 小時 ${minutes} 分鐘 ${seconds} 秒`;
-    }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
-
-    // FAQ Accordion
-    const faqQuestions = document.querySelectorAll(".faq-question");
-
-    faqQuestions.forEach(question => {
-      question.addEventListener("click", () => {
-        const answer = question.nextElementSibling;
-        const isActive = question.classList.contains("active");
-
-        // Close all other answers
-        document.querySelectorAll(".faq-answer").forEach(item => {
-          item.classList.remove("show");
-        });
-
-        document.querySelectorAll(".faq-question").forEach(item => {
-          item.classList.remove("active");
-        });
-
-        // Toggle current answer
-        if (!isActive) {
-          answer.classList.add("show");
-          question.classList.add("active");
-        }
-      });
-    });
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 70,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-
-    // Mobile Menu Toggle
-    document.querySelector('.mobile-menu-toggle').addEventListener('click', function () {
-      document.querySelector('.nav-links').classList.toggle('show');
-    });
-
-    // Create floating particles
-    function createParticles() {
-      const heroSection = document.querySelector('.hero');
-      const featuresSection = document.querySelector('.features');
-
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.width = `${Math.random() * 3 + 2}px`;
-        particle.style.height = particle.style.width;
-        particle.style.opacity = Math.random() * 0.5 + 0.3;
-        particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-
-        if (i < 10) {
-          heroSection.appendChild(particle);
-        } else {
-          featuresSection.appendChild(particle);
-        }
-      }
-    }
-
-    // Set current year in footer
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-  </script>
-
-  <!-- Firebase SDK -->
+    <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-          // 初始化 Firebase
-          const firebaseConfig = {
-            apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-            authDomain: "uxshari-670fd.firebaseapp.com",
-            projectId: "uxshari-670fd",
-            appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
-          };
-          firebase.initializeApp(firebaseConfig);
-          const auth = firebase.auth();
-          const db = firebase.firestore();
-
-          // 綁定事件
-          document.getElementById("auth-form").addEventListener("submit", handleLogin);
-          document.getElementById("google-auth").addEventListener("click", handleGoogleLogin);
-
-          // Email/Password 登入或註冊
-          async function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
-            const errorEl = document.getElementById("error");
-            errorEl.innerText = "";
-
-            try {
-              await auth.signInWithEmailAndPassword(email, password);
-              window.location.href = "/uxshari/dashboard.html";
-            } catch (err) {
-              if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
-                try {
-                  const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                  if (!userCredential.user) {
-                    errorEl.innerText = "註冊失敗，請稍後再試。";
-                    return;
-                  }
-                  await db.collection("users").doc(userCredential.user.uid).set({
-                    email: email,
-                    role: "free",
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                  });
-                  window.location.href = "/uxshari/dashboard.html";
-                } catch (signupErr) {
-                  if (signupErr.code === "auth/email-already-in-use") {
-                    errorEl.innerText = "這個 Email 已經被註冊，請用 Google 登入或重設密碼。";
-                    // 自動彈出 Google 登入視窗
-                    const provider = new firebase.auth.GoogleAuthProvider();
-                    auth.signInWithPopup(provider)
-                      .then(() => {
-                        window.location.href = "/uxshari/dashboard.html";
-                      })
-                      .catch(err => {
-                        errorEl.innerText = "Google 登入失敗：" + err.message;
-                      });
-                  } else if (
-                    signupErr.code === "auth/account-exists-with-different-credential"
-                  ) {
-                    // ...原本的 Google 帳號連結流程...
-                  } else {
-                    errorEl.innerText = signupErr.message;
-                  }
-                }
-              } else if (err.code === "auth/wrong-password") {
-                errorEl.innerText = "密碼錯誤，請重新輸入。";
-              } else if (err.code === "auth/invalid-email") {
-                errorEl.innerText = "電子郵件格式錯誤。";
-              } else {
-                errorEl.innerText = err.message;
-              }
-            }
-          }
-
-          // Google 登入
-          function handleGoogleLogin() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-              .then(async (result) => {
-                // Google 登入成功後，檢查是否已連結 password provider
-                const user = result.user;
-                const providers = user.providerData.map(p => p.providerId);
-
-                if (!providers.includes('password')) {
-                  // 這裡彈出一個表單讓用戶輸入新密碼
-                  const password = prompt("請設定一組密碼，之後可以用 Email/密碼登入：");
-                  if (password && password.length >= 6) {
-                    const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
-                    try {
-                      await user.linkWithCredential(credential);
-                      alert("密碼設定成功，之後可以用 Email/密碼或 Google 登入！");
-                    } catch (error) {
-                      alert("密碼連結失敗：" + error.message);
-                    }
-                  }
-                }
-                window.location.href = "/uxshari/dashboard.html";
-              })
-              .catch(err => {
-                document.getElementById("error").innerText = err.message;
-              });
-          }
-    });
-  </script>
-
-  <script>
-    //Forgot Password
-    function openPasswordResetModal() {
-      const modal = document.getElementById("password-reset-modal");
-      modal.classList.add("active");
-    }
-
-    // Close the modal when the close button or cancel button is clicked
-    document.getElementById("close-reset-modal").addEventListener("click", () => {
-      document.getElementById("password-reset-modal").classList.remove("active");
-    });
-
-    document.getElementById("cancel-reset").addEventListener("click", () => {
-      document.getElementById("password-reset-modal").classList.remove("active");
-    });
-  </script>
-
-  <script>
-    // 密碼重設功能
-    document.getElementById("submit-reset").addEventListener("click", async () => {
-      const email = document.getElementById("reset-email").value;
-      const errorEl = document.getElementById("error"); // 可選：顯示錯誤訊息的元素
-
-      if (!email) {
-        alert("請輸入電子郵件地址！");
-        return;
-      }
-
-      try {
-        await firebase.auth().sendPasswordResetEmail(email);
-        alert("密碼重設連結已發送到您的電子郵件！");
-        document.getElementById("password-reset-modal").classList.remove("active"); // 關閉彈窗
-      } catch (error) {
-        console.error("密碼重設失敗：", error);
-        alert("發送密碼重設連結時出現錯誤：" + error.message);
-      }
-    });
-  </script>
 
 </body>
 
