@@ -3,7 +3,7 @@ const floatingCta = document.getElementById('floating-cta');
 
 floatingCta.addEventListener('click', () => {
     window.scrollTo({
-        top: document.getElementById('signup').offsetTop - 80,
+        top: document.getElementById('hero').offsetTop - 80,
         behavior: 'smooth'
     });
 });
