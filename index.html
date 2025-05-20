@@ -53,12 +53,12 @@
   </nav>
 
   <header id="hero" class="hero hero-content">
-    <div class="container hero-content d-flex flex-column flex-md-row align-items-center justify-content-between py-5"
+    <div class="container hero-content d-flex flex-column flex-md-row align-items-center justify-content-between py-2 py-md-5"
       style="min-height: 60vh;">
 
 
-      <div class="col-12 col-md-6 flex-md-fill">
-        <div class="hero-badge">🔥 限時優惠：7折特價 + 獨家贈品</div>
+      <div class="col-12 col-md-6 flex-md-fill p-0">
+        <div class="hero-badge mb-2">UX/UI遙距職位求職救星</div>
         <h1 class="hero-title tech-title hero-title-white">
           UX/UI 新手 28 天從零基礎開始<br>
           打造<span class="hero-title-orange">職場級作品集</span>！
@@ -75,7 +75,7 @@
               stroke="#ff5252" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
           <p class="mb-0 ml-2">
-            倒數最後機會！7折優惠僅剩 <span id="countdown-days">3</span> 天，錯過將回到原價！
+            倒數最後機會限時免費！
           </p>
         </div>
         <div id="countdown" class="countdown d-flex mb-3">
@@ -97,17 +97,17 @@
           </div>
         </div>
         <div class="stats-container d-flex mb-3">
-          <div class="stat-item text-center mr-4">
-            <span class="stat-number">1,500+</span>
+          <div class="stat-item text-center">
+            <span class="stat-number">250+</span>
             <span class="stat-label d-block">學員</span>
           </div>
-          <div class="stat-item text-center mr-4">
-            <span class="stat-number">92%</span>
-            <span class="stat-label d-block">完課率</span>
+          <div class="stat-item text-center">
+            <span class="stat-number">99%+</span>
+            <span class="stat-label d-block">5星好評</span>
           </div>
           <div class="stat-item text-center">
-            <span class="stat-number">85%</span>
-            <span class="stat-label d-block">成功轉職</span>
+            <span class="stat-number">1550+</span>
+            <span class="stat-label d-block">完成課堂</span>
           </div>
         </div>
         <p class="hero-subtitle">
@@ -118,8 +118,8 @@
         <!-- 統一登入/註冊表單 -->
         <div class="auth-container p-4" id="auth-container">
           <div class="auth-header">
-            <h2 class="auth-title">開始你的 UX/UI 學習之旅</h2>
-            <p class="auth-subtitle">輸入電子郵件和密碼，立即開始學習</p>
+            <h2 class="auth-title">立即免費登記或登入</h2>
+            <p class="auth-subtitle">立即開始學習！</p>
           </div>
 
           <form id="auth-form" class="auth-form">
@@ -142,7 +142,7 @@
               使用 Google 帳號登入
             </button>
 
-            <div class="social-login my-4">
+            <div class="social-login my-2">
               <span>或</span>
             </div>
 
@@ -158,14 +158,13 @@
               </label>
               <input type="password" id="password" class="form-input" placeholder="你的密碼" required="" minlength="6">
             </div>
-            <button type="submit" class="btn btn-primary btn-lg">開始學習</button>
+            <button type="submit" class="btn btn-primary btn-lg">免費登記學習</button>
 
             <div id="error" class="alert alert-danger mt-3 d-none text-center" role="alert"></div>
           </form>
 
           <div id="auth-feedback" class="form-feedback"></div>
           <div id="form-feedback-hero" class="form-feedback"></div>
-          <p class="form-note">下載後可獲得：Figma 指南、功課表、線上課連結（價值 HK$499）</p>
           <p class="form-note">放心，我們只會寄你挑戰包與學習連結，不會打擾你。</p>
           <div class="power-meter">
             <div class="power-level"></div>
@@ -316,6 +315,11 @@
           </div>
         </div>
       </div>
+      <div class="container" style="text-align:center; margin-top: 2rem;">
+          <p>🎯 你也能成為下一個成功案例！</p>
+          <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
+          <a href="#hero" class="cta-button">立即開始UX/UI之旅 →</a>
+        </div>
     </section>
 
     <!-- 問題與解決方案區塊 -->
@@ -348,7 +352,7 @@
             </div>
           </div>
         </div>
-        <div class="final-cta">
+        <div class="container">
           <h3 class="solution-title">現在你只需要：</h3>
           <p class="solution-text">一套<span class="solution-highlight">講人話的教學</span>、一個<span
               class="solution-highlight">能交功課的地方</span>，<br>一步步把 UX 能力學起來、作品集做起來！<br><span
@@ -470,7 +474,7 @@
           </div>
         </div>
 
-        <div class="final-cta" style="text-align:center; margin-top: 2rem;">
+        <div class="container" style="text-align:center; margin-top: 2rem;">
           <p>🎯 你也能成為下一個成功案例！</p>
           <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
           <a href="#hero" class="cta-button">立即開始UX/UI之旅 →</a>
@@ -552,7 +556,7 @@
             <p class="feature-text">免費獲取入門資源包，先體驗再決定是否深入學習，無任何隱藏費用。</p>
           </div>
         </div>
-        <div class="final-cta" style="text-align:center; margin-top: 2rem;">
+        <div class="container" style="text-align:center; margin-top: 2rem;">
           <p>🎯 你也能成為下一個成功案例！</p>
           <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
           <a href="#hero" class="cta-button">立即開始UX/UI之旅 →</a>
@@ -615,7 +619,7 @@
           </div>
         </div>
 
-        <div class="final-cta">
+        <div class="container">
           <p>🎯 你也能成為下一個成功案例！</p>
           <p>現在不需要完美的設計背景、不用懂技術，只要有意願學習和實作，就能打造職場最強 UX/UI 能力。</p>
           <a href="#hero" class="cta-button">立即開始UX/UI之旅 →</a>

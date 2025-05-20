@@ -273,7 +273,6 @@ body {
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-weight: 700;
-  margin-bottom: 1.5rem;
   box-shadow: var(--glow-red);
   position: relative;
   overflow: hidden;
@@ -345,7 +344,6 @@ body {
 
 .hero-subtitle {
   font-size: 1.25rem;
-  margin-bottom: 1.5rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
@@ -356,7 +354,7 @@ body {
   border: 1px solid rgba(255, 87, 34, 0.3);
   border-radius: 8px;
   padding: 1rem;
-  margin: 1.5rem auto;
+  margin: 0 auto;
   max-width: 600px;
   font-weight: 700;
   color: #ff5252;
@@ -386,13 +384,12 @@ body {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--secondary);
-  margin-bottom: 1.5rem;
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 1px;
   text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: .5rem;
 }
 
 .countdown-item {
@@ -421,8 +418,6 @@ body {
 .stats-container {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin: 2rem 0;
   flex-wrap: wrap;
 }
 
@@ -430,7 +425,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .stat-number {
@@ -457,7 +451,7 @@ body {
 
 .form-input {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   border: 2px solid rgba(255, 149, 0, 0.3);
   border-radius: 50px;
   background: rgba(255, 255, 255, 0.05);
@@ -540,7 +534,6 @@ body {
 .form-note {
   font-size: 0.875rem;
   opacity: 0.8;
-  margin-top: 0.5rem;
 }
 
 .form-feedback {
@@ -1251,7 +1244,6 @@ body {
 .final-cta {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  padding: 2.5rem;
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
@@ -1423,7 +1415,7 @@ body {
 
 .cta-button {
   display: block;
-  margin: 3rem auto 0;
+  margin: 0 auto;
   padding: 1.25rem 3rem;
   background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
   color: white;
@@ -1777,7 +1769,7 @@ body {
 /* Unified Auth Form */
 .auth-container {
   max-width: 500px;
-  margin: 2rem auto;
+  margin: 0 auto;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -1812,7 +1804,6 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 .form-label {
@@ -1845,14 +1836,23 @@ body {
   position: absolute;
   top: 50%;
   left: 0;
-  width: 100%;
+  width: 45%;
+  height: 1px;
+  background: rgba(255, 149, 0, 0.2);
+}
+
+.social-login::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 45%;
   height: 1px;
   background: rgba(255, 149, 0, 0.2);
 }
 
 .social-login span {
   position: relative;
-  background: rgba(26, 26, 46, 0.8);
   padding: 0 1rem;
   color: var(--gray);
 }
