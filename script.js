@@ -1,129 +1,3 @@
-// Dynamically load navbar.html into the placeholder
-fetch('navbar.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('navbar-placeholder').innerHTML = data;
-    });
-
-
-// Dynamically load footer.html into the placeholder
-fetch('footer.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('footer-placeholder').innerHTML = data;
-        // 載入 footer 後再設定年份
-        const yearEl = document.getElementById('current-year');
-        if (yearEl) {
-            yearEl.textContent = new Date().getFullYear();
-        }
-    });
-
-
-// Responsive canvas sizing
-function resizeAestheticCanvas() {
-    const canvas = document.getElementById('aestheticCanvas');
-    if (!canvas) return;
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-}
-
-// Star/particle animation
-function startAestheticParticles() {
-    const canvas = document.getElementById('aestheticCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    function setCanvasSize() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-    }
-    setCanvasSize();
-
-    let stars = [];
-    const starCount = 80;
-
-    function randomColor() {
-        // Soft purple/blue/white
-        const colors = [
-            'rgba(187,134,252,ALPHA)', // purple
-            'rgba(255,255,255,ALPHA)', // white
-            'rgba(120,200,255,ALPHA)', // blue
-            'rgba(255,200,255,ALPHA)' // pinkish
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function createStars() {
-        stars = [];
-        for (let i = 0; i < starCount; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.8 + 0.7,
-                alpha: Math.random() * 0.7 + 0.3,
-                delta: (Math.random() * 0.02 + 0.005) * (Math.random() < 0.5 ? -1 : 1),
-                speedY: Math.random() * 0.15 + 0.03,
-                speedX: (Math.random() - 0.5) * 0.08,
-                color: randomColor()
-            });
-        }
-    }
-
-    createStars();
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (let star of stars) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-            ctx.fillStyle = star.color.replace('ALPHA', star.alpha.toFixed(2));
-            ctx.shadowBlur = 12;
-            ctx.shadowColor = '#bb86fc';
-            ctx.globalAlpha = star.alpha;
-            ctx.fill();
-            ctx.restore();
-
-            // Twinkle
-            star.alpha += star.delta;
-            if (star.alpha <= 0.2 || star.alpha >= 1) star.delta *= -1;
-
-            // Float upward and drift
-            star.y -= star.speedY;
-            star.x += star.speedX;
-
-            // Respawn at bottom/top/side if out of bounds
-            if (star.y + star.radius < 0) {
-                star.y = canvas.height + star.radius;
-                star.x = Math.random() * canvas.width;
-            }
-            if (star.x < -star.radius) {
-                star.x = canvas.width + star.radius;
-            }
-            if (star.x > canvas.width + star.radius) {
-                star.x = -star.radius;
-            }
-        }
-
-        requestAnimationFrame(draw);
-    }
-
-    draw();
-
-    window.addEventListener('resize', () => {
-        setCanvasSize();
-        createStars();
-    });
-}
-
-// Wait for DOM and then start
-window.addEventListener('DOMContentLoaded', function () {
-    resizeAestheticCanvas();
-    startAestheticParticles();
-});
-
-
 addEventListener("DOMContentLoaded", function () {
 
     // ==================== Firebase 驗證與登入 ====================
@@ -182,6 +56,16 @@ addEventListener("DOMContentLoaded", function () {
                     } else if (
                         signupErr.code === "auth/account-exists-with-different-credential"
                     ) {
+                        errorEl.innerText = "這個 Email 已經有其他登入方式，請用 Google 登入。";
+                        // 自動彈出 Google 登入視窗
+                        const provider = new firebase.auth.GoogleAuthProvider();
+                        auth.signInWithPopup(provider)
+                            .then(() => {
+                                window.location.href = "/uxshari/dashboard.html";
+                            })
+                            .catch(err => {
+                                errorEl.innerText = "Google 登入失敗：" + err.message;
+                            });
                         errorEl.innerText = "這個 Email 已經有其他登入方式，請用 Google 登入。";
                         // 自動彈出 Google 登入視窗
                         const provider = new firebase.auth.GoogleAuthProvider();
@@ -395,7 +279,56 @@ addEventListener("DOMContentLoaded", function () {
 
 
 
+// ==================== 錨點平滑滾動 ====================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 70,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
 
+// ==================== 手機選單切換 ====================
+document.querySelector('.mobile-menu-toggle').addEventListener('click', function () {
+    document.querySelector('.nav-links').classList.toggle('show');
+});
+
+
+
+
+// ==================== 浮動粒子效果 ====================
+f// Create floating particles
+    function createParticles() {
+      const heroSection = document.querySelector('.hero');
+      const featuresSection = document.querySelector('.features');
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.width = `${Math.random() * 3 + 2}px`;
+        particle.style.height = particle.style.width;
+        particle.style.opacity = Math.random() * 0.5 + 0.3;
+        particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        if (i < 10) {
+          heroSection.appendChild(particle);
+        } else {
+          featuresSection.appendChild(particle);
+        }
+      }
+    }
+    
+    // Call the function when the page loads
+    window.addEventListener('load', createParticles);
 
     // ==================== 頁尾年份 ====================
     document.getElementById('current-year').textContent = new Date().getFullYear();
