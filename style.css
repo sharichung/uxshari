@@ -349,6 +349,19 @@ body {
   margin-right: auto;
 }
 
+.hero-video {
+    margin: 40px auto;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: rgba(255, 149, 0, 0.2);
+    position: relative;
+    aspect-ratio: 16 / 9;
+}
+
 .deadline-alert {
   background: rgba(255, 87, 34, 0.15);
   border: 1px solid rgba(255, 87, 34, 0.3);
@@ -1770,6 +1783,14 @@ body {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 149, 0, 0.2);
+}
+
+@media (min-width: 769px) {
+  .auth-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
 }
 
 .auth-header {
