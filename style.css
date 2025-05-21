@@ -823,23 +823,8 @@ body {
 }
 
 /* Problems Section */
-.problems-container {
+.problems-section {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 107, 0, 0.2);
-  margin-bottom: 3rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.problems-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
 .problems-title {
@@ -1732,6 +1717,15 @@ body {
   margin-right: 0.3rem;
 }
 
+.badge-pill{
+      background: rgba(255, 255, 255, 0.05);
+    border-radius: 2rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 149, 0, 0.2);
+    padding: .5rem 1rem;
+}
 
 /* Power Meter */
 .power-meter {

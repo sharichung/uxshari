@@ -1,9 +1,24 @@
+// Dynamically load navbar.html into the placeholder
+  fetch('navbar.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar-placeholder').innerHTML = data;
+    });
+    
+
+// Dynamically load footer.html into the placeholder
+  fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-placeholder').innerHTML = data;
+    });
+
 // ==================== 浮動 CTA ====================
 const floatingCta = document.getElementById('floating-cta');
 
 floatingCta.addEventListener('click', () => {
     window.scrollTo({
-        top: document.getElementById('hero').offsetTop - 80,
+        top: document.getElementById('auth-wrapper').offsetTop - 80,
         behavior: 'smooth'
     });
 });
@@ -18,7 +33,7 @@ window.addEventListener('scroll', () => {
 
 // ==================== 倒數計時器 ====================
 function updateCountdown() {
-    const deadline = new Date("May 20, 2025 23:59:59").getTime();
+    const deadline = new Date("May 27, 2025 23:59:59").getTime();
     const now = new Date().getTime();
     const timeLeft = deadline - now;
 
