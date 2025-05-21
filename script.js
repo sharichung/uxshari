@@ -318,6 +318,19 @@ addEventListener("DOMContentLoaded", function () {
             });
         });
 
+        document.getElementById('navbar-placeholder').addEventListener('click', function(e) {
+    if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 70,
+                behavior: 'smooth'
+            });
+        }
+    }
+});
     // ==================== 手機選單切換 ====================
     fetch('navbar.html')
         .then(response => response.text())

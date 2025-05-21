@@ -350,7 +350,7 @@ body {
 }
 
 .hero-video {
-    margin: 40px auto;
+    margin: 0 auto;
     width: 100%;
     max-width: 800px;
     border-radius: 16px;
@@ -879,11 +879,29 @@ body {
   color: var(--primary-light);
 }
 
-.problems-list {
+.problems-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(1, 1fr);
   gap: 1.5rem;
   margin-bottom: 2.5rem;
+}
+
+@media (min-width: 600px) {
+  .problems-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .problems-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .problems-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .problem-item {
