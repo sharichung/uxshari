@@ -23,24 +23,47 @@ fetch('footer.html')
 function resizeAestheticCanvas() {
     const canvas = document.getElementById('aestheticCanvas');
     if (!canvas) return;
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    // Make canvas fill its parent (usually body or a container)
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    // Ensure canvas is styled as background
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.zIndex = '0'; // Lowest z-index to stay behind other UI
+    canvas.style.pointerEvents = 'none'; // Allow clicks through canvas
 }
 
-// Star/particle animation
+// Star/particle animation as animated background with parallax/scroll effect and spiral rotation
 function startAestheticParticles() {
     const canvas = document.getElementById('aestheticCanvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
 
     function setCanvasSize() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        // Ensure canvas stays as background on resize
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100vw';
+        canvas.style.height = '100vh';
+        canvas.style.zIndex = '0';
+        canvas.style.pointerEvents = 'none';
     }
     setCanvasSize();
 
     let stars = [];
-    const starCount = 80;
+    // Increase star count for larger screens, fewer for small screens
+    const baseStarCount = 80;
+    function getStarCount() {
+        const area = window.innerWidth * window.innerHeight;
+        // 1 star per ~9000px^2, min 60, max 180
+        return Math.max(60, Math.min(180, Math.floor(area / 9000)));
+    }
 
     function randomColor() {
         // Soft purple/blue/white
@@ -55,26 +78,73 @@ function startAestheticParticles() {
 
     function createStars() {
         stars = [];
+        const starCount = getStarCount();
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        // For more stars at the outer circle, less at the center,
+        // use a distribution that favors larger radius (e.g., sqrt or linear)
         for (let i = 0; i < starCount; i++) {
+            const z = Math.random();
+            const angle = Math.random() * Math.PI * 2;
+            // Use sqrt distribution to bias toward outer edge
+            const maxRadius = Math.sqrt(centerX * centerX + centerY * centerY) * (0.95 + Math.random() * 0.15);
+            // Bias: r = maxRadius * sqrt(random) (more stars at outer)
+            const bias = Math.sqrt(Math.random());
+            const radiusFromCenter = maxRadius * (0.5 + 0.5 * bias) * (0.7 + 0.3 * z);
             stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.8 + 0.7,
+                angle: angle,
+                radiusFromCenter: radiusFromCenter,
+                baseX: centerX + Math.cos(angle) * radiusFromCenter,
+                baseY: centerY + Math.sin(angle) * radiusFromCenter,
+                x: 0,
+                y: 0,
+                radius: (Math.random() * 1.8 + 0.7) * (0.5 + z),
                 alpha: Math.random() * 0.7 + 0.3,
                 delta: (Math.random() * 0.02 + 0.005) * (Math.random() < 0.5 ? -1 : 1),
-                speedY: Math.random() * 0.15 + 0.03,
-                speedX: (Math.random() - 0.5) * 0.08,
-                color: randomColor()
+                speedY: (Math.random() * 0.15 + 0.03) * (0.5 + z),
+                speedX: (Math.random() - 0.5) * 0.08 * (0.5 + z),
+                color: randomColor(),
+                z: z
             });
         }
     }
 
     createStars();
 
+    // Track scroll position for parallax and spiral
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', () => {
+        lastScrollY = window.scrollY;
+    });
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Parallax offset based on scroll position
+        const parallaxStrength = 0.25;
+        const scrollOffset = lastScrollY * parallaxStrength;
+
+        // Spiral rotation based on scroll
+        const spiralStrength = 0.0015;
+        const spiralAngle = lastScrollY * spiralStrength;
+
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
         for (let star of stars) {
+            // Calculate spiral position
+            const angle = star.angle + spiralAngle * (1 - star.z);
+            const r = star.radiusFromCenter;
+            const spiralX = centerX + Math.cos(angle) * r;
+            const spiralY = centerY + Math.sin(angle) * r;
+
+            // Parallax: move stars vertically based on their depth and scroll
+            const parallaxY = spiralY + scrollOffset * (1 - star.z);
+
+            star.x = spiralX;
+            star.y = parallaxY;
+
             ctx.save();
             ctx.beginPath();
             ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
@@ -89,20 +159,25 @@ function startAestheticParticles() {
             star.alpha += star.delta;
             if (star.alpha <= 0.2 || star.alpha >= 1) star.delta *= -1;
 
-            // Float upward and drift
-            star.y -= star.speedY;
-            star.x += star.speedX;
+            // Float upward and drift (with depth affecting speed)
+            star.radiusFromCenter -= star.speedY * 0.1;
+            star.angle += star.speedX * 0.01;
 
-            // Respawn at bottom/top/side if out of bounds
-            if (star.y + star.radius < 0) {
-                star.y = canvas.height + star.radius;
-                star.x = Math.random() * canvas.width;
-            }
-            if (star.x < -star.radius) {
-                star.x = canvas.width + star.radius;
-            }
-            if (star.x > canvas.width + star.radius) {
-                star.x = -star.radius;
+            // Respawn at edge if out of bounds
+            if (
+                star.radiusFromCenter < 10 ||
+                spiralX < -star.radius ||
+                spiralX > canvas.width + star.radius ||
+                spiralY < -star.radius ||
+                spiralY > canvas.height + star.radius
+            ) {
+                // Reset to random position at edge, bias toward outer circle
+                const newAngle = Math.random() * Math.PI * 2;
+                const maxRadius = Math.sqrt(centerX * centerX + centerY * centerY) * (0.95 + Math.random() * 0.15);
+                const bias = Math.sqrt(Math.random());
+                const newRadius = maxRadius * (0.5 + 0.5 * bias) * (0.7 + 0.3 * star.z);
+                star.angle = newAngle;
+                star.radiusFromCenter = newRadius;
             }
         }
 

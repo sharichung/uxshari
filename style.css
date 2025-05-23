@@ -605,7 +605,8 @@ body {
 }
 
 .section {
-  padding: 6rem 0;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
 }
 
 .section-title {
@@ -657,14 +658,16 @@ body {
 .instructor-content {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: .5rem;
   margin-top: 3rem;
   position: relative;
   z-index: 2;
 }
 
 .instructor-photo {
-  flex: 0 0 300px;
+  flex: 1 1 200px;
+  min-width: 0;
+  max-width: 350px;
   position: relative;
 }
 
