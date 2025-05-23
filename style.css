@@ -658,7 +658,7 @@ body {
 .instructor-content {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 3rem;
   margin-top: 3rem;
   position: relative;
   z-index: 2;
@@ -667,7 +667,7 @@ body {
 .instructor-photo {
   flex: 1 1 200px;
   min-width: 0;
-  max-width: 350px;
+  max-width: 300px;
   position: relative;
 }
 
@@ -746,6 +746,7 @@ body {
   .instructor-content {
     flex-direction: column;
     text-align: center;
+    gap: .5rem;
   }
 
   .instructor-photo {
