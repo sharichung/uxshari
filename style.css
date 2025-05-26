@@ -735,6 +735,7 @@ body {
   font-size: 1.1rem;
   line-height: 1.8;
   color: var(--gray-light);
+  text-align: left;
 }
 
 .instructor-bio:last-of-type {
@@ -775,7 +776,6 @@ body {
 .process-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  padding: 2rem;
   border: 1px solid rgba(255, 107, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -784,6 +784,10 @@ body {
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 2.5rem;
 }
 
 .process-card:hover {
@@ -1218,10 +1222,9 @@ body {
 
 .options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .option-card {
@@ -1287,7 +1290,7 @@ body {
 }
 
 .option-text {
-  color: var(--gray-light);
+  color: var(--gray);
   font-size: 1rem;
   line-height: 1.7;
 }
