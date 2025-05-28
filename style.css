@@ -43,6 +43,23 @@ body {
   z-index: 1;
 }
 
+::marker {
+  unicode-bidi: normal;
+  font-variant-numeric: normal;
+  text-transform: inherit;
+  text-indent: initial !important;
+  text-align: left !important;
+  text-align-last: initial !important;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 50%;
+}
+
+.text-muted {
+    color: var(--gray) !important;
+}
+
 .tech-title {
   font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
   letter-spacing: 1px;
@@ -147,6 +164,8 @@ body {
   transition: all 0.3s;
   position: relative;
   padding: 0.5rem 0;
+  background-color: transparent;
+  border: 0;
 }
 
 .nav-link::after {
@@ -350,16 +369,16 @@ body {
 }
 
 .hero-video {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 800px;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    background: rgba(255, 149, 0, 0.2);
-    position: relative;
-    aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(255, 149, 0, 0.2);
+  position: relative;
+  aspect-ratio: 16 / 9;
 }
 
 .alert-red {
@@ -575,6 +594,22 @@ body {
   font-size: 0.875rem;
 }
 
+.nav-item .nav-link.active{
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+    color: white;
+    border-radius: .5rem;
+    font-weight: 600;
+    box-shadow: var(--glow-red);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.nav-link:hover{
+  cursor: pointer;
+}
+
 .form-note {
   font-size: 0.875rem;
   opacity: 0.8;
@@ -605,8 +640,8 @@ body {
 }
 
 .section {
-      padding-top: 3rem;
-      padding-bottom: 3rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .section-title {
@@ -631,8 +666,6 @@ body {
 
 .section-subtitle {
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 3rem;
   color: var(--gray);
 }
 
@@ -813,8 +846,8 @@ body {
 }
 
 .process-number {
-  width: 70px;
-  height: 70px;
+  width: 3.7rem;
+  height: 3.7rem;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   border-radius: 50%;
   display: flex;
@@ -1194,6 +1227,24 @@ body {
   line-height: 1.7;
 }
 
+/* Curriculum Section */
+.curriculum-section {
+  background-color: var(--dark-blue);
+  position: relative;
+  overflow: hidden;
+}
+
+.curriculum-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(110, 0, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 2.5rem;
+  transition: all 0.3s;
+}
+
 /* Advanced Options Section */
 .advanced-options-sections {
   background-color: var(--dark-blue);
@@ -1211,13 +1262,6 @@ body {
   background: radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 70% 20%, rgba(255, 87, 34, 0.05) 0%, transparent 50%);
   opacity: 0.8;
-}
-
-.section-subtitle {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 3rem;
-  color: var(--gray);
 }
 
 .options-grid {
@@ -1766,14 +1810,14 @@ body {
   margin-right: 0.3rem;
 }
 
-.badge-pill{
-      background: rgba(255, 255, 255, 0.05);
-    border-radius: 2rem;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 149, 0, 0.2);
-    padding: .5rem 1rem;
+.badge-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 149, 0, 0.2);
+  padding: .5rem 1rem;
 }
 
 /* Power Meter */

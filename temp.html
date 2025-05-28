@@ -1,661 +1,1128 @@
-<html lang="zh-Hant"><head>
+<html lang="zh-Hant">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UX轉職5日挑戰｜免費 UX/UI 入門體驗課程</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet">
+    <title>UX轉職5日挑戰 | 課程內容</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&amp;display=swap"
+        rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Noto Sans TC', sans-serif;
+        :root {
+            --primary: #6366f1;
+            --secondary: #ec4899;
+            --accent: #8b5cf6;
+            --dark: #1e293b;
+            --light: #f8fafc;
         }
 
         body {
-            background-color: #f8f9ff;
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #ffffff;
+            color: var(--dark);
             overflow-x: hidden;
+            font-size: 16px;
         }
 
-        .gradient-bg {
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+        }
+
+        .bg-gradient-primary {
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
         }
 
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            z-index: 0;
-            opacity: 0.4;
-        }
-
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: #8b5cf6;
-            top: -200px;
-            right: -100px;
-        }
-
-        .blob-2 {
-            width: 300px;
-            height: 300px;
-            background: #6366f1;
-            bottom: -100px;
-            left: -100px;
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .card {
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            border: none;
+            transition: all 0.4s ease;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.08);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        @media (min-width: 768px) {
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 30px rgba(99, 102, 241, 0.15);
+            }
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        .card-day {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-radius: 50%;
+            margin-right: 1rem;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
             color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 10px 15px rgba(99, 102, 241, 0.2);
+            flex-shrink: 0;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.6);
+        @media (min-width: 768px) {
+            .card-day {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
         }
 
-        .btn-secondary {
-            background: white;
-            color: #6366f1;
-            border: 2px solid #6366f1;
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .card-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
         }
 
-        .btn-secondary:hover {
-            background: rgba(99, 102, 241, 0.1);
+        @media (min-width: 768px) {
+            .card-title {
+                font-size: 1.25rem;
+            }
         }
 
-        .tab-active {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            color: white;
+        .card-text {
+            color: #64748b;
+            font-size: 0.875rem;
         }
 
-        .floating {
-            animation: float 3s ease-in-out infinite;
+        @media (min-width: 768px) {
+            .card-text {
+                font-size: 1rem;
+            }
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .section-title {
+                margin-bottom: 3rem;
+            }
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            border-radius: 2px;
+        }
+
+        @media (min-width: 768px) {
+            .section-title::after {
+                width: 80px;
+            }
+        }
+
+        .noise-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        .bg-light-purple {
+            background-color: rgba(139, 92, 246, 0.05);
+        }
+
+        /* Animation classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
+            0% {
+                transform: translateY(0px);
+            }
 
-        .pulse {
-            animation: pulse 2s infinite;
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
-        .progress-bar {
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
         }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
-            border-radius: 4px;
-            width: 20%;
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
-        .testimonial-card {
+        .animate-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        .decoration-circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .decoration-square {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+            border-radius: 20%;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 15px rgba(99, 102, 241, 0.2);
             transition: all 0.3s ease;
         }
 
-        .testimonial-card:hover {
-            transform: scale(1.03);
+        .btn-gradient:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 20px rgba(99, 102, 241, 0.3);
+            color: white;
         }
 
-        .feature-icon {
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-bottom: none;
+            padding: 1rem;
+        }
+
+
+        @media (min-width: 768px) {
+            .card-header {
+                padding: 1.25rem;
+            }
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .card-footer {
+            background: transparent;
+            border-top: none;
+            padding: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .card-footer {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Mobile optimizations */
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+        }
+
+        .py-section {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .py-section {
+                padding-top: 5rem;
+                padding-bottom: 5rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        .btn:focus,
+        .btn:active {
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.5);
+            outline: none;
+        }
+
+        /* Lazy loading effect */
+        .lazy-video {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .lazy-video.loaded {
+            opacity: 1;
+        }
+
+        /* Video thumbnail overlay */
+        .thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .thumbnail-overlay:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .play-button {
             width: 60px;
             height: 60px;
-            background: rgba(99, 102, 241, 0.1);
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
-        }
-
-        .day-tab {
-            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
         }
 
-        .day-tab:hover:not(.tab-active) {
-            background: rgba(99, 102, 241, 0.1);
+        @media (min-width: 768px) {
+            .play-button {
+                width: 80px;
+                height: 80px;
+            }
         }
 
-        .animated-svg {
-            animation: morph 8s ease-in-out infinite;
+        .thumbnail-overlay:hover .play-button {
+            transform: scale(1.1);
         }
 
-        @keyframes morph {
-            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 12px 0 12px 20px;
+            border-color: transparent transparent transparent #ffffff;
+            margin-left: 5px;
+        }
+
+        @media (min-width: 768px) {
+            .play-icon {
+                border-width: 15px 0 15px 25px;
+            }
+        }
+
+        /* Improved heading sizes for mobile */
+        h2.display-5 {
+            font-size: 2rem;
+            line-height: 1.2;
+        }
+
+        @media (min-width: 768px) {
+            h2.display-5 {
+                font-size: 3rem;
+            }
+        }
+
+        .lead {
+            font-size: 1.1rem;
+        }
+
+        @media (min-width: 768px) {
+            .lead {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Touch-friendly elements */
+        @media (max-width: 767px) {
+            .btn-gradient {
+                padding: 0.875rem 2rem;
+                width: 100%;
+            }
+
+            .card-header {
+                padding-top: 0.875rem;
+                padding-bottom: 0.875rem;
+            }
+        }
+
+        /* Tab navigation styles */
+        .nav-tabs {
+            border-bottom: none;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            .nav-tabs {
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link:hover {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Content sections */
+        .tab-content {
+            position: relative;
+        }
+
+        @media (min-width: 992px) {
+            .tab-pane {
+                animation: fadeInUp 0.5s ease-out forwards;
+            }
+        }
+
+        /* Course content list */
+        .course-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .course-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .course-list li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            border-radius: 50%;
+        }
+
+        .course-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Task box */
+        .task-box {
+            background-color: rgba(139, 92, 246, 0.05);
+            border-left: 4px solid #8b5cf6;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .task-box h5 {
+            color: #8b5cf6;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .task-box h5 i {
+            margin-right: 0.5rem;
+        }
+
+        /* Mobile accordion */
+        .mobile-accordion {
+            display: block;
+        }
+
+        @media (min-width: 992px) {
+            .mobile-accordion {
+                display: none;
+            }
+        }
+
+        .accordion-button {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+            font-weight: 600;
+            box-shadow: none !important;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            color: var(--primary);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Desktop content */
+        .desktop-content {
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            .desktop-content {
+                display: block;
+            }
+        }
+
+        /* Day indicator for mobile */
+        .day-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            margin-right: 0.75rem;
         }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.z-10{z-index:10}.order-1{order:1}.order-2{order:2}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-2{margin-left:0.5rem}.mr-2{margin-right:0.5rem}.mr-3{margin-right:0.75rem}.mr-4{margin-right:1rem}.mt-0\.5{margin-top:0.125rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-20{height:5rem}.h-3{height:0.75rem}.h-3\/4{height:75%}.h-4\/5{height:80%}.h-48{height:12rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-64{height:16rem}.h-80{height:20rem}.h-full{height:100%}.h-px{height:1px}.w-10{width:2.5rem}.w-12{width:3rem}.w-2\/3{width:66.666667%}.w-20{width:5rem}.w-3{width:0.75rem}.w-3\/4{width:75%}.w-3\/5{width:60%}.w-4\/5{width:80%}.w-48{width:12rem}.w-5{width:1.25rem}.w-5\/6{width:83.333333%}.w-6{width:1.5rem}.w-64{width:16rem}.w-full{width:100%}.max-w-7xl{max-width:80rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.cursor-pointer{cursor:pointer}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-12{gap:3rem}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.space-x-6 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1.5rem * var(--tw-space-x-reverse));margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity, 1))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.bg-gray-300{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-indigo-100{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.bg-indigo-200{--tw-bg-opacity:1;background-color:rgb(199 210 254 / var(--tw-bg-opacity, 1))}.bg-purple-100{--tw-bg-opacity:1;background-color:rgb(243 232 255 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-yellow-500{--tw-bg-opacity:1;background-color:rgb(234 179 8 / var(--tw-bg-opacity, 1))}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.text-center{text-align:center}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-indigo-800{--tw-text-opacity:1;color:rgb(55 48 163 / var(--tw-text-opacity, 1))}.text-purple-800{--tw-text-opacity:1;color:rgb(107 33 168 / var(--tw-text-opacity, 1))}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-gray-50:hover{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.hover\:text-indigo-600:hover{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.hover\:text-indigo-800:hover{--tw-text-opacity:1;color:rgb(55 48 163 / var(--tw-text-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}@media (min-width: 768px){.md\:order-1{order:1}.md\:order-2{order:2}.md\:flex{display:flex}.md\:h-96{height:24rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:p-12{padding:3rem}.md\:py-24{padding-top:6rem;padding-bottom:6rem}.md\:text-left{text-align:left}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-5xl{font-size:3rem;line-height:1}}@media (min-width: 1024px){.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}</style></head>
-<body>
-    <!-- Background Blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+</head>
 
-    <!-- Navigation -->
-    <nav class="relative z-10 px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold text-indigo-600">UX挑戰</div>
-        <div class="hidden md:flex space-x-6">
-            <a href="#about" class="text-gray-700 hover:text-indigo-600 transition">關於課程</a>
-            <a href="#curriculum" class="text-gray-700 hover:text-indigo-600 transition">課程大綱</a>
-            <a href="#testimonials" class="text-gray-700 hover:text-indigo-600 transition">學員評價</a>
-            <a href="#instructor" class="text-gray-700 hover:text-indigo-600 transition">導師介紹</a>
-        </div>
-        <button class="btn-primary">立即免費登記</button>
-    </nav>
+<body data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
+    <!-- Decorative elements -->
+    <div class="decoration-circle animate-float d-none d-lg-block"
+        style="width: 300px; height: 300px; background-color: #6366f1; top: -150px; right: -150px;"></div>
+    <div class="decoration-square animate-pulse d-none d-lg-block"
+        style="width: 200px; height: 200px; background-color: #ec4899; bottom: -100px; left: -100px;"></div>
 
-    <!-- Hero Section -->
-    <section class="relative z-10 px-6 py-12 md:py-24 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-800">UX轉職5日挑戰</h1>
-                <h2 class="text-xl md:text-2xl text-gray-600 mb-8">5天掌握UX思維，設計零基礎也能完成第一個UX/UI作品！</h2>
-                <div class="flex flex-wrap gap-4 mb-8">
-                    <div class="flex items-center bg-white rounded-full px-4 py-2 shadow-sm">
-                        <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span>費用全免</span>
+    <section class="py-section position-relative noise-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center mb-4 mb-md-5">
+                        <h2 class="display-5 fw-bold animate-fade-in-up">
+                            免費 5 天 <span class="text-gradient">UX 課程內容</span>搶先看！
+                        </h2>
+                        <p class="lead text-muted mt-3 animate-fade-in-up delay-100">
+                            從零基礎到完成你的第一個 UX/UI 作品，每天只需 30 分鐘
+                        </p>
                     </div>
-                    <div class="flex items-center bg-white rounded-full px-4 py-2 shadow-sm">
-                        <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span>線上學習</span>
-                    </div>
-                    <div class="flex items-center bg-white rounded-full px-4 py-2 shadow-sm">
-                        <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span>自定學習進度</span>
-                    </div>
-                    <div class="flex items-center bg-white rounded-full px-4 py-2 shadow-sm">
-                        <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span>1週完成</span>
-                    </div>
-                </div>
-                <button class="btn-primary text-lg flex items-center">
-                    立即免費登記
-                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
-            </div>
-            <div class="relative">
-                <!-- Animated Illustration -->
-                <div class="w-full h-80 md:h-96 relative floating">
-                    <svg class="animated-svg absolute inset-0 w-full h-full" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1"></stop>
-                                <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1"></stop>
-                            </linearGradient>
-                        </defs>
-                        <path fill="url(#grad)" d="M40,-65.5C53.2,-59.9,66.1,-51.9,73.4,-40.1C80.7,-28.2,82.3,-12.4,79.9,2.4C77.5,17.1,71.1,30.9,62.2,42.8C53.3,54.7,41.9,64.8,28.7,70.1C15.5,75.5,0.5,76.1,-14.4,74.1C-29.3,72.1,-44.1,67.5,-55.7,58.2C-67.3,48.9,-75.7,34.9,-79.3,19.8C-82.9,4.7,-81.7,-11.5,-76.1,-25.8C-70.5,-40.1,-60.5,-52.5,-47.7,-58.2C-34.9,-63.9,-19.4,-62.9,-4.3,-56.8C10.8,-50.7,26.8,-71.1,40,-65.5Z" transform="translate(100 100)"></path>
-                    </svg>
-                    
-                    <!-- Course Preview Image -->
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-white rounded-xl shadow-lg p-4 w-3/4 h-3/4 flex flex-col">
-                            <div class="flex items-center mb-4">
-                                <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            </div>
-                            <div class="flex-1 bg-gray-100 rounded-lg flex items-center justify-center">
-                                <div class="text-center">
-                                    <svg class="w-12 h-12 mx-auto text-indigo-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                                    <p class="text-sm text-gray-600">課程預覽</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Registration Box -->
-    <section class="relative z-10 px-6 py-12 max-w-md mx-auto">
-        <div class="card p-8">
-            <h3 class="text-2xl font-bold text-center mb-6">立即免費登記</h3>
-            <button class="w-full bg-white border border-gray-300 rounded-lg py-3 px-4 flex items-center justify-center mb-4 hover:bg-gray-50 transition">
-                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" fill="#4285F4"></path>
-                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" fill="#34A853" transform="translate(7.5, 0)"></path>
-                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" fill="#FBBC05" transform="translate(3.75, 0)"></path>
-                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" fill="#EA4335" transform="translate(11.25, 0)"></path>
-                </svg>
-                Google 登入
-            </button>
-            <div class="flex items-center mb-4">
-                <div class="flex-1 h-px bg-gray-300"></div>
-                <div class="px-4 text-gray-500 text-sm">或</div>
-                <div class="flex-1 h-px bg-gray-300"></div>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-medium mb-2" for="email">電子郵件</label>
-                <input class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" type="email" id="email" placeholder="your@email.com">
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-medium mb-2" for="password">密碼</label>
-                <input class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" type="password" id="password" placeholder="••••••••">
-            </div>
-            <button class="btn-primary w-full mb-4">立即免費登記</button>
-            <p class="text-xs text-gray-500 text-center">放心，我們只會寄你挑戰包與學習連結，不會打擾你。</p>
-        </div>
-    </section>
+                    <!-- Desktop Tabs Navigation -->
+                    <ul class="nav nav-tabs animate-fade-in-up delay-200" id="courseTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="day1-tab" data-bs-toggle="tab" data-bs-target="#day1"
+                                type="button" role="tab" aria-controls="day1" aria-selected="false" tabindex="-1">Day
+                                1</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="day2-tab" data-bs-toggle="tab" data-bs-target="#day2"
+                                type="button" role="tab" aria-controls="day2" aria-selected="false" tabindex="-1">Day
+                                2</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="day3-tab" data-bs-toggle="tab" data-bs-target="#day3"
+                                type="button" role="tab" aria-controls="day3" aria-selected="false" tabindex="-1">Day
+                                3</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="day4-tab" data-bs-toggle="tab" data-bs-target="#day4"
+                                type="button" role="tab" aria-controls="day4" aria-selected="false" tabindex="-1">Day
+                                4</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="day5-tab" data-bs-toggle="tab" data-bs-target="#day5"
+                                type="button" role="tab" aria-controls="day5" aria-selected="true">Day 5</button>
+                        </li>
+                    </ul>
 
-    <!-- Pain Points -->
-    <section id="about" class="relative z-10 px-6 py-12 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12">你是否也有這些困擾？</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="card p-6 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
-                    <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">想轉職但不了解 UX/UI？</h3>
-                <p class="text-gray-600">不知道從何開始，也不清楚這行業是否適合自己</p>
-            </div>
-            <div class="card p-6 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
-                    <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">學習沒系統、做不出作品？</h3>
-                <p class="text-gray-600">看了很多教學，但無法整合成完整的設計流程</p>
-            </div>
-            <div class="card p-6 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
-                    <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">沒美術背景，怕學不會？</h3>
-                <p class="text-gray-600">擔心自己沒有設計天分，無法做出好看的介面</p>
-            </div>
-            <div class="card p-6 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
-                    <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">看過課但內容太難？</h3>
-                <p class="text-gray-600">專業術語太多，實際操作步驟不清晰</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Course Introduction -->
-    <section class="relative z-10 px-6 py-12 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="order-2 md:order-1">
-                <h2 class="text-3xl font-bold mb-6">這堂5天UX入門挑戰課，為你量身打造</h2>
-                <p class="text-gray-600 mb-6">我們精心設計了這個5天挑戰，讓你能夠快速了解UX設計的核心概念，並實際動手完成一個簡單但完整的UX設計專案。</p>
-                <div class="space-y-4 mb-8">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <div>
-                            <h3 class="font-semibold">無需設計背景</h3>
-                            <p class="text-gray-600">我們從零基礎開始教學，不假設你有任何設計知識</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <div>
-                            <h3 class="font-semibold">簡單易懂</h3>
-                            <p class="text-gray-600">用淺顯易懂的語言解釋複雜概念，避免專業術語障礙</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <div>
-                            <h3 class="font-semibold">第一個UX作品完成</h3>
-                            <p class="text-gray-600">課程結束時，你將擁有一個可以展示的UX設計作品</p>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-primary">立即免費登記</button>
-            </div>
-            <div class="order-1 md:order-2 floating">
-                <!-- Animated Course Illustration -->
-                <div class="relative w-full h-80 md:h-96">
-                    <svg class="animated-svg absolute inset-0 w-full h-full" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="#8b5cf6" d="M40,-65.5C53.2,-59.9,66.1,-51.9,73.4,-40.1C80.7,-28.2,82.3,-12.4,79.9,2.4C77.5,17.1,71.1,30.9,62.2,42.8C53.3,54.7,41.9,64.8,28.7,70.1C15.5,75.5,0.5,76.1,-14.4,74.1C-29.3,72.1,-44.1,67.5,-55.7,58.2C-67.3,48.9,-75.7,34.9,-79.3,19.8C-82.9,4.7,-81.7,-11.5,-76.1,-25.8C-70.5,-40.1,-60.5,-52.5,-47.7,-58.2C-34.9,-63.9,-19.4,-62.9,-4.3,-56.8C10.8,-50.7,26.8,-71.1,40,-65.5Z" transform="translate(100 100)"></path>
-                    </svg>
-                    
-                    <!-- Course Content Illustration -->
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-white rounded-xl shadow-lg p-6 w-4/5 h-4/5">
-                            <div class="h-full flex flex-col">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                        <span class="text-indigo-600 font-bold">1</span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="h-3 bg-indigo-200 rounded-full w-3/4"></div>
+                    <!-- Desktop Tab Content -->
+                    <div class="tab-content desktop-content" id="courseTabContent">
+                        <!-- Day 1 Content -->
+                        <div class="tab-pane fade" id="day1" role="tabpanel" aria-labelledby="day1-tab">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center">
+                                    <div class="card-day animate-pulse">1️⃣</div>
+                                    <div>
+                                        <h3 class="card-title">【Day 1 簡介影片】什麼是 UX 設計？</h3>
+                                        <p class="card-text mb-0">認識UX與UI的差異，了解設計師日常與職涯發展</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                        <span class="text-indigo-600 font-bold">2</span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="h-3 bg-indigo-200 rounded-full w-4/5"></div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                        <span class="text-indigo-600 font-bold">3</span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="h-3 bg-indigo-200 rounded-full w-2/3"></div>
+                                <div class="card-body p-0">
+                                    <div class="video-container">
+                                        <iframe class="lazy-video loaded"
+                                            data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                            title="Day 1: 什麼是 UX 設計？" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen=""
+                                            src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"></iframe>
                                     </div>
                                 </div>
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                        <span class="text-indigo-600 font-bold">4</span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="h-3 bg-indigo-200 rounded-full w-5/6"></div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
-                                        <span class="text-indigo-600 font-bold">5</span>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="h-3 bg-indigo-200 rounded-full w-3/5"></div>
+                                <div class="card-body">
+                                    <h4 class="mb-3">課程內容</h4>
+                                    <ul class="course-list">
+                                        <li>UX 是什麼？為什麼每個產品都需要UX？</li>
+                                        <li>UX與UI的區別</li>
+                                        <li>實際案例分享：好UX如何帶來好生意</li>
+                                    </ul>
+
+                                    <div class="task-box">
+                                        <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                        <p class="mb-0">觀察日常生活中「體驗很差」的產品或服務，記錄下來為什麼你覺得它們的使用體驗不佳。</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Day 2 Content -->
+                        <div class="tab-pane fade" id="day2" role="tabpanel" aria-labelledby="day2-tab">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center">
+                                    <div class="card-day animate-pulse">2️⃣</div>
+                                    <div>
+                                        <h3 class="card-title">【Day 2 簡介影片】用戶研究與共情 Empathy</h3>
+                                        <p class="card-text mb-0">學會以使用者角度思考問題，做出有意義的設計</p>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="video-container">
+                                        <iframe class="lazy-video loaded"
+                                            data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                            title="Day 2: 用戶研究與共情 Empathy" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen=""
+                                            src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"></iframe>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="mb-3">課程內容</h4>
+                                    <ul class="course-list">
+                                        <li>什麼是用戶研究？為什麼「不是你覺得好用就好用」？</li>
+                                        <li>Persona 與 Empathy Map 簡介</li>
+                                        <li>初步教導如何訪談用戶或蒐集用戶需求</li>
+                                    </ul>
+
+                                    <div class="task-box">
+                                        <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                        <p class="mb-0">畫出你身邊一個人的 Persona（例如朋友或家人），寫出他的痛點。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 3 Content -->
+                        <div class="tab-pane fade" id="day3" role="tabpanel" aria-labelledby="day3-tab">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center">
+                                    <div class="card-day animate-pulse">3️⃣</div>
+                                    <div>
+                                        <h3 class="card-title">【Day 3 簡介影片】用戶旅程與問題發掘</h3>
+                                        <p class="card-text mb-0">建立用戶角色與路徑，幫助你設計更貼近需求的產品</p>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="video-container">
+                                        <iframe class="lazy-video loaded"
+                                            data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                            title="Day 3: 用戶旅程與問題發掘" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen=""
+                                            src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"></iframe>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="mb-3">課程內容</h4>
+                                    <ul class="course-list">
+                                        <li>什麼是 User Journey Map？</li>
+                                        <li>如何識別用戶在流程中的「痛點」與機會點</li>
+                                        <li>案例分析：用戶旅程如何揭露設計盲點</li>
+                                    </ul>
+
+                                    <div class="task-box">
+                                        <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                        <p class="mb-0">針對前一天的Persona，簡單畫出他使用某服務（如訂餐、購票）的旅程地圖。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 4 Content -->
+                        <div class="tab-pane fade" id="day4" role="tabpanel" aria-labelledby="day4-tab">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center">
+                                    <div class="card-day animate-pulse">4️⃣</div>
+                                    <div>
+                                        <h3 class="card-title">【Day 4 簡介影片】構思與初步設計（Wireframe）</h3>
+                                        <p class="card-text mb-0">親手繪出Wireframe，開始你第一個UX草圖</p>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="video-container">
+                                        <iframe class="lazy-video loaded"
+                                            data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                            title="Day 4: 構思與初步設計（Wireframe）" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen=""
+                                            src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"></iframe>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="mb-3">課程內容</h4>
+                                    <ul class="course-list">
+                                        <li>什麼是 Wireframe？為什麼設計要從簡單線框開始？</li>
+                                        <li>工具推薦：紙筆也能做UX設計！（或免費工具如 Figma、Miro）</li>
+                                        <li>快速原型設計的技巧</li>
+                                    </ul>
+
+                                    <div class="task-box">
+                                        <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                        <p class="mb-0">針對旅程中的某個痛點，畫出一個解決方案的wireframe草圖。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 5 Content -->
+                        <div class="tab-pane fade active show" id="day5" role="tabpanel" aria-labelledby="day5-tab">
+                            <div class="card shadow-sm">
+                                <div class="card-header d-flex align-items-center">
+                                    <div class="card-day animate-pulse">5️⃣</div>
+                                    <div>
+                                        <h3 class="card-title">【Day 5 簡介影片】測試與改進 - 做出用戶想用的東西</h3>
+                                        <p class="card-text mb-0">完成你的UX小作品，認識未來可發展的學習與職涯路線！</p>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="video-container">
+                                        <iframe class="lazy-video loaded"
+                                            data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                            title="Day 5: 測試與改進 - 做出用戶想用的東西" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen=""
+                                            src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"></iframe>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="mb-3">課程內容</h4>
+                                    <ul class="course-list">
+                                        <li>為什麼測試這麼重要？（做出來 ≠ 做對了）</li>
+                                        <li>簡單的可用性測試方法</li>
+                                        <li>從反饋中學習：UX不是一次做完，而是不斷優化</li>
+                                    </ul>
+
+                                    <div class="task-box">
+                                        <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                        <p class="mb-0">邀請朋友測試你昨天畫的草圖，觀察他是否理解操作。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Accordion -->
+                    <div class="mobile-accordion animate-fade-in-up delay-200">
+                        <div class="accordion" id="courseAccordion">
+                            <!-- Day 1 Accordion -->
+                            <div class="accordion-item border-0 mb-3">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button rounded-3" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <span class="day-indicator">1</span> 什麼是 UX 設計？
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
+                                    <div class="accordion-body p-0">
+                                        <div class="card border-0 shadow-none">
+                                            <div class="card-body p-0">
+                                                <div class="video-container">
+                                                    <iframe class="lazy-video"
+                                                        data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                                        title="Day 1: 什麼是 UX 設計？" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen=""></iframe>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="mb-3">課程內容</h4>
+                                                <ul class="course-list">
+                                                    <li>UX 是什麼？為什麼每個產品都需要UX？</li>
+                                                    <li>UX與UI的區別</li>
+                                                    <li>實際案例分享：好UX如何帶來好生意</li>
+                                                </ul>
+
+                                                <div class="task-box">
+                                                    <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                                    <p class="mb-0">觀察日常生活中「體驗很差」的產品或服務，記錄下來為什麼你覺得它們的使用體驗不佳。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Day 2 Accordion -->
+                            <div class="accordion-item border-0 mb-3">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed rounded-3" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                                        aria-controls="collapseTwo">
+                                        <span class="day-indicator">2</span> 用戶研究與共情 Empathy
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                                    data-bs-parent="#courseAccordion">
+                                    <div class="accordion-body p-0">
+                                        <div class="card border-0 shadow-none">
+                                            <div class="card-body p-0">
+                                                <div class="video-container">
+                                                    <iframe class="lazy-video"
+                                                        data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                                        title="Day 2: 用戶研究與共情 Empathy" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen=""></iframe>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="mb-3">課程內容</h4>
+                                                <ul class="course-list">
+                                                    <li>什麼是用戶研究？為什麼「不是你覺得好用就好用」？</li>
+                                                    <li>Persona 與 Empathy Map 簡介</li>
+                                                    <li>初步教導如何訪談用戶或蒐集用戶需求</li>
+                                                </ul>
+
+                                                <div class="task-box">
+                                                    <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                                    <p class="mb-0">畫出你身邊一個人的 Persona（例如朋友或家人），寫出他的痛點。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Day 3 Accordion -->
+                            <div class="accordion-item border-0 mb-3">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed rounded-3" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
+                                        <span class="day-indicator">3</span> 用戶旅程與問題發掘
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#courseAccordion">
+                                    <div class="accordion-body p-0">
+                                        <div class="card border-0 shadow-none">
+                                            <div class="card-body p-0">
+                                                <div class="video-container">
+                                                    <iframe class="lazy-video"
+                                                        data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                                        title="Day 3: 用戶旅程與問題發掘" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen=""></iframe>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="mb-3">課程內容</h4>
+                                                <ul class="course-list">
+                                                    <li>什麼是 User Journey Map？</li>
+                                                    <li>如何識別用戶在流程中的「痛點」與機會點</li>
+                                                    <li>案例分析：用戶旅程如何揭露設計盲點</li>
+                                                </ul>
+
+                                                <div class="task-box">
+                                                    <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                                    <p class="mb-0">針對前一天的Persona，簡單畫出他使用某服務（如訂餐、購票）的旅程地圖。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Day 4 Accordion -->
+                            <div class="accordion-item border-0 mb-3">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed rounded-3" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour">
+                                        <span class="day-indicator">4</span> 構思與初步設計（Wireframe）
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                                    data-bs-parent="#courseAccordion">
+                                    <div class="accordion-body p-0">
+                                        <div class="card border-0 shadow-none">
+                                            <div class="card-body p-0">
+                                                <div class="video-container">
+                                                    <iframe class="lazy-video"
+                                                        data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                                        title="Day 4: 構思與初步設計（Wireframe）" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen=""></iframe>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="mb-3">課程內容</h4>
+                                                <ul class="course-list">
+                                                    <li>什麼是 Wireframe？為什麼設計要從簡單線框開始？</li>
+                                                    <li>工具推薦：紙筆也能做UX設計！（或免費工具如 Figma、Miro）</li>
+                                                    <li>快速原型設計的技巧</li>
+                                                </ul>
+
+                                                <div class="task-box">
+                                                    <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                                    <p class="mb-0">針對旅程中的某個痛點，畫出一個解決方案的wireframe草圖。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Day 5 Accordion -->
+                            <div class="accordion-item border-0 mb-3">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed rounded-3" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false"
+                                        aria-controls="collapseFive">
+                                        <span class="day-indicator">5</span> 測試與改進 - 做出用戶想用的東西
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                                    data-bs-parent="#courseAccordion">
+                                    <div class="accordion-body p-0">
+                                        <div class="card border-0 shadow-none">
+                                            <div class="card-body p-0">
+                                                <div class="video-container">
+                                                    <iframe class="lazy-video"
+                                                        data-src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C"
+                                                        title="Day 5: 測試與改進 - 做出用戶想用的東西" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                        allowfullscreen=""></iframe>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <h4 class="mb-3">課程內容</h4>
+                                                <ul class="course-list">
+                                                    <li>為什麼測試這麼重要？（做出來 ≠ 做對了）</li>
+                                                    <li>簡單的可用性測試方法</li>
+                                                    <li>從反饋中學習：UX不是一次做完，而是不斷優化</li>
+                                                </ul>
+
+                                                <div class="task-box">
+                                                    <h5><i class="bi bi-pencil-square"></i> 今日小任務</h5>
+                                                    <p class="mb-0">邀請朋友測試你昨天畫的草圖，觀察他是否理解操作。</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4 mt-md-5 animate-fade-in-up delay-500">
+                        <div class="bg-light-purple p-3 p-md-4 rounded-4 mb-4 mb-md-5">
+                            <p class="mb-0">完成 5 天挑戰後，你將擁有自己的第一個 UX/UI 作品，並了解如何持續精進設計技能！</p>
+                        </div>
+                        <a href="#" class="btn btn-gradient btn-lg">立即免費登記學習 →</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Instructor -->
-    <section id="instructor" class="relative z-10 px-6 py-12 max-w-7xl mx-auto">
-        <div class="card p-8 md:p-12">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="text-center md:text-left">
-                    <h2 class="text-3xl font-bold mb-6">導師介紹：Shari Chung</h2>
-                    <p class="text-gray-600 mb-6">擁有12年UX設計經驗，CUA認證UX設計師，曾輔導數百名學員成功轉職設計領域。</p>
-                    <div class="mb-6">
-                        <h3 class="font-semibold mb-2">產業經驗</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">金融科技</span>
-                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">電子商務</span>
-                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">教育科技</span>
-                            <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">健康醫療</span>
-                        </div>
-                    </div>
-                    <div class="mb-6">
-                        <h3 class="font-semibold mb-2">專長領域</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">用戶研究</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">介面設計</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">互動原型</span>
-                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">設計系統</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-center">
-                    <div class="relative w-64 h-64">
-                        <svg class="animated-svg absolute inset-0 w-full h-full" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <path fill="#6366f1" d="M40,-65.5C53.2,-59.9,66.1,-51.9,73.4,-40.1C80.7,-28.2,82.3,-12.4,79.9,2.4C77.5,17.1,71.1,30.9,62.2,42.8C53.3,54.7,41.9,64.8,28.7,70.1C15.5,75.5,0.5,76.1,-14.4,74.1C-29.3,72.1,-44.1,67.5,-55.7,58.2C-67.3,48.9,-75.7,34.9,-79.3,19.8C-82.9,4.7,-81.7,-11.5,-76.1,-25.8C-70.5,-40.1,-60.5,-52.5,-47.7,-58.2C-34.9,-63.9,-19.4,-62.9,-4.3,-56.8C10.8,-50.7,26.8,-71.1,40,-65.5Z" transform="translate(100 100)"></path>
-                        </svg>
-                        
-                        <!-- Instructor Avatar -->
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <svg class="w-48 h-48" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="100" cy="100" r="80" fill="#f3f4f6"></circle>
-                                <circle cx="100" cy="85" r="40" fill="#d1d5db"></circle>
-                                <path d="M50,140 Q100,180 150,140" fill="#d1d5db"></path>
-                                <circle cx="85" cy="75" r="8" fill="#4b5563"></circle>
-                                <circle cx="115" cy="75" r="8" fill="#4b5563"></circle>
-                                <path d="M85,100 Q100,110 115,100" stroke="#4b5563" stroke-width="3" fill="none"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Lazy loading for videos
+        document.addEventListener('DOMContentLoaded', function () {
+            const lazyVideos = document.querySelectorAll('.lazy-video');
 
-    <!-- Testimonials -->
-    <section id="testimonials" class="relative z-10 px-6 py-12 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12">學員好評如潮</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="testimonial-card card p-6">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">陳小明</h3>
-                        <p class="text-sm text-gray-500">香港 | 前行銷專員</p>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="flex text-yellow-400">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                </div>
-                <p class="text-gray-600 mb-6">「這個課程讓我從零開始了解UX設計，內容淺顯易懂又實用。完成5天挑戰後，我對UX設計有了清晰的認識，也確定了這是我想發展的方向。」</p>
-                <div class="text-indigo-600 font-medium cursor-pointer hover:text-indigo-800 transition">我也想試試！</div>
-            </div>
-            <div class="testimonial-card card p-6">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">林小華</h3>
-                        <p class="text-sm text-gray-500">台灣 | 平面設計師</p>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="flex text-yellow-400">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                </div>
-                <p class="text-gray-600 mb-6">「作為平面設計師，我一直想轉向UX/UI但不知如何入手。這個5天挑戰幫我打下了堅實的基礎，讓我明白如何將平面設計技能應用到UX設計中。」</p>
-                <div class="text-indigo-600 font-medium cursor-pointer hover:text-indigo-800 transition">我也想試試！</div>
-            </div>
-            <div class="testimonial-card card p-6">
-                <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold">張小強</h3>
-                        <p class="text-sm text-gray-500">澳門 | 程式開發者</p>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <div class="flex text-yellow-400">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                    </div>
-                </div>
-                <p class="text-gray-600 mb-6">「身為開發者，我想了解設計流程以便更好地與設計師合作。這個課程不僅教會了我UX基礎，還讓我明白了設計師的思考方式，大大提升了團隊協作效率。」</p>
-                <div class="text-indigo-600 font-medium cursor-pointer hover:text-indigo-800 transition">我也想試試！</div>
-            </div>
-        </div>
-    </section>
+            // Load visible videos immediately
+            if ('IntersectionObserver' in window) {
+                const videoObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const video = entry.target;
+                            video.src = video.dataset.src;
+                            video.classList.add('loaded');
+                            videoObserver.unobserve(video);
+                        }
+                    });
+                }, {
+                    rootMargin: '0px 0px 200px 0px'
+                });
 
-    <!-- Curriculum -->
-    <section id="curriculum" class="relative z-10 px-6 py-12 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-12">免費課程大綱搶先看</h2>
-        
-        <div class="card p-8">
-            <div class="flex flex-wrap mb-6">
-                <div class="day-tab tab-active px-6 py-3 rounded-full mr-2 mb-2 cursor-pointer" data-day="1">Day 1</div>
-                <div class="day-tab px-6 py-3 rounded-full mr-2 mb-2 cursor-pointer" data-day="2">Day 2</div>
-                <div class="day-tab px-6 py-3 rounded-full mr-2 mb-2 cursor-pointer" data-day="3">Day 3</div>
-                <div class="day-tab px-6 py-3 rounded-full mr-2 mb-2 cursor-pointer" data-day="4">Day 4</div>
-                <div class="day-tab px-6 py-3 rounded-full mr-2 mb-2 cursor-pointer" data-day="5">Day 5</div>
-            </div>
-            
-            <div class="day-content" id="day-1">
-                <h3 class="text-2xl font-bold mb-4">Day 1: UX是什麼？</h3>
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">UX與UI的區別</h4>
-                            <p class="text-gray-600">了解用戶體驗與用戶界面的不同，以及它們如何協同工作</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">UX設計流程概述</h4>
-                            <p class="text-gray-600">從研究到測試，了解完整的UX設計流程</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">實作練習：選擇專案主題</h4>
-                            <p class="text-gray-600">確定你的5天挑戰專案主題，為後續學習做準備</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="day-content hidden" id="day-2">
-                <h3 class="text-2xl font-bold mb-4">Day 2: Persona 與用戶研究</h3>
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">用戶研究方法介紹</h4>
-                            <p class="text-gray-600">了解訪談、問卷調查等基本研究方法</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">如何創建有效的用戶角色(Persona)</h4>
-                            <p class="text-gray-600">學習定義目標用戶的特徵、需求和痛點</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">實作練習：為你的專案創建Persona</h4>
-                            <p class="text-gray-600">根據指導完成你的第一個用戶角色設計</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="day-content hidden" id="day-3">
-                <h3 class="text-2xl font-bold mb-4">Day 3: User Journey Map</h3>
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">用戶旅程圖的重要性</h4>
-                            <p class="text-gray-600">了解為什麼用戶旅程對UX設計至關重要</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">如何繪製用戶旅程圖</h4>
-                            <p class="text-gray-600">學習用戶旅程圖的各個組成部分和創建方法</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">實作練習：為你的專案創建用戶旅程圖</h4>
-                            <p class="text-gray-600">根據Day 2創建的Persona，繪製完整的用戶旅程</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="day-content hidden" id="day-4">
-                <h3 class="text-2xl font-bold mb-4">Day 4: Wireframe 草圖</h3>
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">Wireframe的基本概念</h4>
-                            <p class="text-gray-600">了解線框圖的作用和重要性</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">如何繪製有效的Wireframe</h4>
-                            <p class="text-gray-600">學習線框圖設計的基本原則和技巧</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">實作練習：為你的專案創建Wireframe</h4>
-                            <p class="text-gray-600">根據前三天的成果，設計你的第一個線框圖</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="day-content hidden" id="day-5">
-                <h3 class="text-2xl font-bold mb-4">Day 5: 測試與職涯探索</h3>
-                <div class="space-y-4 mb-6">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">用戶測試基礎</h4>
-                            <p class="text-gray-600">了解如何進行簡單的用戶測試和收集反饋</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="font-semibold">UX/UI設計師職涯路徑</h4>
-                            <p class="text-gray-600">探索<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9435521350163858',t:'MTc0Nzg0MzU4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></p></div></div></div></div></div></section><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe></body></html>
+                // Start observing videos
+                lazyVideos.forEach(video => {
+                    videoObserver.observe(video);
+                });
+            } else {
+                // Fallback for browsers without intersection observer
+                lazyVideos.forEach(video => {
+                    video.src = video.dataset.src;
+                    video.classList.add('loaded');
+                });
+            }
+        });
+
+        // Add touch support detection
+        document.addEventListener('DOMContentLoaded', function () {
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                document.body.classList.add('touch-device');
+            }
+        });
+
+        // Load video when tab is clicked (for desktop)
+        document.querySelectorAll('#courseTabs .nav-link').forEach(tab => {
+            tab.addEventListener('click', function () {
+                const tabId = this.getAttribute('data-bs-target');
+                const video = document.querySelector(`${tabId} iframe.lazy-video`);
+                if (video && !video.src) {
+                    video.src = video.dataset.src;
+                    video.classList.add('loaded');
+                }
+            });
+        });
+
+        // Load video when accordion is expanded (for mobile)
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                if (!expanded) {
+                    const collapseId = this.getAttribute('data-bs-target');
+                    const video = document.querySelector(`${collapseId} iframe.lazy-video`);
+                    if (video && !video.src) {
+                        video.src = video.dataset.src;
+                        video.classList.add('loaded');
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        (function () {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML =
+                        "window.__CF$cv$params={r:'945c82544550fc2b',t:'MTc0ODI1NDUwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function () {};
+                    document.onreadystatechange = function (b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                    }
+                }
+            }
+        })();
+    </script><iframe height="1" width="1"
+        style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>

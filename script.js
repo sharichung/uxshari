@@ -482,7 +482,69 @@ addEventListener("DOMContentLoaded", function () {
     updateCountdown();
 
 
-
+// Lazy loading for videos
+    document.addEventListener('DOMContentLoaded', function() {
+      const lazyVideos = document.querySelectorAll('.lazy-video');
+      
+      // Load visible videos immediately
+      if ('IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const video = entry.target;
+              video.src = video.dataset.src;
+              video.classList.add('loaded');
+              videoObserver.unobserve(video);
+            }
+          });
+        }, { rootMargin: '0px 0px 200px 0px' });
+        
+        // Start observing videos
+        lazyVideos.forEach(video => {
+          videoObserver.observe(video);
+        });
+      } else {
+        // Fallback for browsers without intersection observer
+        lazyVideos.forEach(video => {
+          video.src = video.dataset.src;
+          video.classList.add('loaded');
+        });
+      }
+    });
+    
+    // Add touch support detection
+    document.addEventListener('DOMContentLoaded', function() {
+      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        document.body.classList.add('touch-device');
+      }
+    });
+    
+    // Load video when tab is clicked (for desktop)
+    document.querySelectorAll('#courseTabs .nav-link').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const tabId = this.getAttribute('data-bs-target');
+        const video = document.querySelector(`${tabId} iframe.lazy-video`);
+        if (video && !video.src) {
+          video.src = video.dataset.src;
+          video.classList.add('loaded');
+        }
+      });
+    });
+    
+    // Load video when accordion is expanded (for mobile)
+    document.querySelectorAll('.accordion-button').forEach(button => {
+      button.addEventListener('click', function() {
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        if (!expanded) {
+          const collapseId = this.getAttribute('data-bs-target');
+          const video = document.querySelector(`${collapseId} iframe.lazy-video`);
+          if (video && !video.src) {
+            video.src = video.dataset.src;
+            video.classList.add('loaded');
+          }
+        }
+      });
+    });
 
 
     // ==================== 頁尾年份 ====================
