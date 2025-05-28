@@ -158,7 +158,6 @@ body {
 }
 
 .nav-link {
-  color: var(--light);
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s;
@@ -166,6 +165,14 @@ body {
   padding: 0.5rem 0;
   background-color: transparent;
   border: 0;
+}
+
+.nav-link,
+.nav-link:focus,
+.nav-link:active,
+.nav-link:visited {
+  color: var(--light);
+  transition: color 0.3s ease;
 }
 
 .nav-link::after {
@@ -1566,6 +1573,7 @@ body {
   font-size: 1.5rem;
   animation: float 3s ease-in-out infinite;
   transition: all 0.3s;
+  text-decoration: none;
 }
 
 @keyframes float {
@@ -1590,8 +1598,8 @@ body {
 
 .floating-cta-text {
   display: none;
-
   font-weight: 700;
+  text-decoration: none;
 }
 
 .floating-cta.expanded {
