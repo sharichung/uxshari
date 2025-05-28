@@ -227,7 +227,7 @@ addEventListener("DOMContentLoaded", function () {
 
         try {
             await auth.signInWithEmailAndPassword(email, password);
-            window.location.href = "/uxshari/dashboard.html";
+            window.location.href = "/dashboard.html";
         } catch (err) {
             if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
                 try {
@@ -241,7 +241,7 @@ addEventListener("DOMContentLoaded", function () {
                         role: "free",
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    window.location.href = "/uxshari/dashboard.html";
+                    window.location.href = "/dashboard.html";
                 } catch (signupErr) {
                     if (signupErr.code === "auth/email-already-in-use") {
                         errorEl.innerText = "這個 Email 已經被註冊，請用 Google 登入或重設密碼。";
@@ -249,7 +249,7 @@ addEventListener("DOMContentLoaded", function () {
                         const provider = new firebase.auth.GoogleAuthProvider();
                         auth.signInWithPopup(provider)
                             .then(() => {
-                                window.location.href = "/uxshari/dashboard.html";
+                                window.location.href = "/dashboard.html";
                             })
                             .catch(err => {
                                 errorEl.innerText = "Google 登入失敗：" + err.message;
@@ -262,7 +262,7 @@ addEventListener("DOMContentLoaded", function () {
                         const provider = new firebase.auth.GoogleAuthProvider();
                         auth.signInWithPopup(provider)
                             .then(() => {
-                                window.location.href = "/uxshari/dashboard.html";
+                                window.location.href = "/dashboard.html";
                             })
                             .catch(err => {
                                 errorEl.innerText = "Google 登入失敗：" + err.message;
@@ -303,7 +303,7 @@ addEventListener("DOMContentLoaded", function () {
                         }
                     }
                 }
-                window.location.href = "/uxshari/dashboard.html";
+                window.location.href = "/dashboard.html";
             })
             .catch(err => {
                 document.getElementById("error").innerText = err.message;
