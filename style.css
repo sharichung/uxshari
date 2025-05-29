@@ -1225,6 +1225,30 @@ body {
   transition: all 0.3s;
 }
 
+.carousel-item{
+  min-height: 444px;
+}
+
+.scroll-wrapper {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    gap: 12px;
+    padding-bottom: 10px;
+}
+
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #dee2e6;
+  transition: background-color 0.2s;
+}
+.dot.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+
 /* Advanced Options Section */
 .advanced-options-sections {
   background-color: var(--dark-blue);

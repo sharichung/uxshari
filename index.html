@@ -569,35 +569,69 @@
               </div>
 
 
-              <!-- Mobile-only Carousel (顯示於手機) -->
-<div id="uxDaysCarousel" class="carousel slide d-lg-none mb-4" data-bs-ride="carousel">
-  <div class="carousel-indicators mb-0">
-    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Day 1"></button>
-    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="1" aria-label="Day 2"></button>
-    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="2" aria-label="Day 3"></button>
-    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="3" aria-label="Day 4"></button>
-    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="4" aria-label="Day 5"></button>
-    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="5" aria-label="Next"></button>
-  </div>
-
-  <div class="carousel-inner text-start px-3">
-    <div class="carousel-item active">
+<!-- Mobile-only Carousel (手動切換) -->
+<div class="d-lg-none px-3 mb-4">
+  <div class="scroll-wrapper overflow-auto d-flex gap-3 pb-2" style="scroll-snap-type: x mandatory;">
+    <div class="flex-shrink-0" style="scroll-snap-align: start; width: 85%; max-width: 320px;">
       <h6 class="text-muted">Day 1：什麼是UX設計？</h6>
       <div class="ratio ratio-16x9 mb-3">
-        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" title="Day 1 Video" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" allowfullscreen></iframe>
       </div>
-      <p>我們的免費課程將從UX基礎開始，帶你認識什麼是使用者體驗（UX）...。</p>
+      <p>我們的免費課程將從UX基礎開始，帶你認識什麼是使用者體驗...</p>
     </div>
-    <div class="carousel-item">
+    <div class="flex-shrink-0" style="scroll-snap-align: start; width: 85%; max-width: 320px;">
       <h6 class="text-muted">Day 2：用戶研究與共情</h6>
       <div class="ratio ratio-16x9 mb-3">
-        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" title="Day 2 Video" allowfullscreen></iframe>
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" allowfullscreen></iframe>
       </div>
       <p>這一天將介紹用戶研究的基礎概念，包括 Persona 和 Empathy Map...</p>
     </div>
-    <!-- Day 3~Next... 同樣格式 -->
+    <div class="flex-shrink-0" style="scroll-snap-align: start; width: 85%; max-width: 320px;">
+      <h6 class="text-muted">Day 3：用戶研究與共情</h6>
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" allowfullscreen></iframe>
+      </div>
+      <p>這一天將介紹用戶研究的基礎概念，包括 Persona 和 Empathy Map...</p>
+    </div>
+    <div class="flex-shrink-0" style="scroll-snap-align: start; width: 85%; max-width: 320px;">
+      <h6 class="text-muted">Day 4：用戶研究與共情</h6>
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" allowfullscreen></iframe>
+      </div>
+      <p>這一天將介紹用戶研究的基礎概念，包括 Persona 和 Empathy Map...</p>
+    </div>
+    <div class="flex-shrink-0" style="scroll-snap-align: start; width: 85%; max-width: 320px;">
+      <h6 class="text-muted">Day 5：用戶研究與共情</h6>
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" allowfullscreen></iframe>
+      </div>
+      <p>這一天將介紹用戶研究的基礎概念，包括 Persona 和 Empathy Map...</p>
+    </div>
+    <div class="flex-shrink-0" style="scroll-snap-align: start; width: 85%; max-width: 320px;">
+      <h6 class="text-muted">Day 6：用戶研究與共情</h6>
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" allowfullscreen></iframe>
+      </div>
+      <p>這一天將介紹用戶研究的基礎概念，包括 Persona 和 Empathy Map...</p>
+    </div>
+    <!-- 加更多卡片 -->
   </div>
+  <!-- Optional: Pagination dots -->
+  <div class="d-flex justify-content-center mt-2 gap-1">
+  <span class="dot bg-secondary rounded-circle" data-index="0"></span>
+  <span class="dot rounded-circle" data-index="1"></span>
+  <span class="dot rounded-circle" data-index="2"></span>
+  <span class="dot rounded-circle" data-index="3"></span>
+  <span class="dot rounded-circle" data-index="4"></span>
+  <span class="dot rounded-circle" data-index="5"></span>
+  <!-- 根據卡片數量加 -->
 </div>
+
+</div>
+
+
+
+
 
 
             </div>

@@ -59,6 +59,7 @@ function startAestheticParticles() {
     let stars = [];
     // Increase star count for larger screens, fewer for small screens
     const baseStarCount = 80;
+
     function getStarCount() {
         const area = window.innerWidth * window.innerHeight;
         // 1 star per ~9000px^2, min 60, max 180
@@ -348,6 +349,34 @@ addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // ====================  Pagination Dots ====================
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const scrollWrapper = document.querySelector(".scroll-wrapper");
+    const cards = scrollWrapper ? scrollWrapper.querySelectorAll(".flex-shrink-0") : [];
+    const dots = document.querySelectorAll(".dot");
+
+    if (!scrollWrapper || cards.length === 0 || dots.length === 0) {
+        console.error("Error: Missing required elements.");
+        return;
+    }
+
+    scrollWrapper.addEventListener("scroll", () => {
+        const scrollLeft = scrollWrapper.scrollLeft;
+        const totalWidth = scrollWrapper.scrollWidth - scrollWrapper.clientWidth;
+        const index = Math.round((scrollLeft / totalWidth) * (dots.length - 1));
+
+        console.log(`Scroll Left: ${scrollLeft}, Index: ${index}, Total Width: ${totalWidth}`);
+
+        dots.forEach(dot => dot.classList.remove("bg-secondary"));
+        if (dots[index]) {
+            dots[index].classList.add("bg-secondary");
+        }
+    });
+});
+
+
+
 
     // ==================== FAQ 手風琴 ====================
     const faqQuestions = document.querySelectorAll(".faq-question");
@@ -393,19 +422,19 @@ addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        document.getElementById('navbar-placeholder').addEventListener('click', function(e) {
-    if (e.target.matches('a[href^="#"]')) {
-        e.preventDefault();
-        const targetId = e.target.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            window.scrollTo({
-                top: targetElement.offsetTop - 70,
-                behavior: 'smooth'
-            });
+    document.getElementById('navbar-placeholder').addEventListener('click', function (e) {
+        if (e.target.matches('a[href^="#"]')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+            }
         }
-    }
-});
+    });
     // ==================== 手機選單切換 ====================
     fetch('navbar.html')
         .then(response => response.text())
@@ -482,68 +511,70 @@ addEventListener("DOMContentLoaded", function () {
     updateCountdown();
 
 
-// Lazy loading for videos
-    document.addEventListener('DOMContentLoaded', function() {
-      const lazyVideos = document.querySelectorAll('.lazy-video');
-      
-      // Load visible videos immediately
-      if ('IntersectionObserver' in window) {
-        const videoObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const video = entry.target;
-              video.src = video.dataset.src;
-              video.classList.add('loaded');
-              videoObserver.unobserve(video);
-            }
-          });
-        }, { rootMargin: '0px 0px 200px 0px' });
-        
-        // Start observing videos
-        lazyVideos.forEach(video => {
-          videoObserver.observe(video);
-        });
-      } else {
-        // Fallback for browsers without intersection observer
-        lazyVideos.forEach(video => {
-          video.src = video.dataset.src;
-          video.classList.add('loaded');
-        });
-      }
+    // Lazy loading for videos
+    document.addEventListener('DOMContentLoaded', function () {
+        const lazyVideos = document.querySelectorAll('.lazy-video');
+
+        // Load visible videos immediately
+        if ('IntersectionObserver' in window) {
+            const videoObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const video = entry.target;
+                        video.src = video.dataset.src;
+                        video.classList.add('loaded');
+                        videoObserver.unobserve(video);
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px 200px 0px'
+            });
+
+            // Start observing videos
+            lazyVideos.forEach(video => {
+                videoObserver.observe(video);
+            });
+        } else {
+            // Fallback for browsers without intersection observer
+            lazyVideos.forEach(video => {
+                video.src = video.dataset.src;
+                video.classList.add('loaded');
+            });
+        }
     });
-    
+
     // Add touch support detection
-    document.addEventListener('DOMContentLoaded', function() {
-      if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        document.body.classList.add('touch-device');
-      }
+    document.addEventListener('DOMContentLoaded', function () {
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            document.body.classList.add('touch-device');
+        }
     });
-    
+
     // Load video when tab is clicked (for desktop)
     document.querySelectorAll('#courseTabs .nav-link').forEach(tab => {
-      tab.addEventListener('click', function() {
-        const tabId = this.getAttribute('data-bs-target');
-        const video = document.querySelector(`${tabId} iframe.lazy-video`);
-        if (video && !video.src) {
-          video.src = video.dataset.src;
-          video.classList.add('loaded');
-        }
-      });
+        tab.addEventListener('click', function () {
+            const tabId = this.getAttribute('data-bs-target');
+            const video = document.querySelector(`${tabId} iframe.lazy-video`);
+            if (video && !video.src) {
+                video.src = video.dataset.src;
+                video.classList.add('loaded');
+            }
+        });
     });
-    
+
     // Load video when accordion is expanded (for mobile)
     document.querySelectorAll('.accordion-button').forEach(button => {
-      button.addEventListener('click', function() {
-        const expanded = this.getAttribute('aria-expanded') === 'true';
-        if (!expanded) {
-          const collapseId = this.getAttribute('data-bs-target');
-          const video = document.querySelector(`${collapseId} iframe.lazy-video`);
-          if (video && !video.src) {
-            video.src = video.dataset.src;
-            video.classList.add('loaded');
-          }
-        }
-      });
+        button.addEventListener('click', function () {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            if (!expanded) {
+                const collapseId = this.getAttribute('data-bs-target');
+                const video = document.querySelector(`${collapseId} iframe.lazy-video`);
+                if (video && !video.src) {
+                    video.src = video.dataset.src;
+                    video.classList.add('loaded');
+                }
+            }
+        });
     });
 
 
