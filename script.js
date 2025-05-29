@@ -319,6 +319,7 @@ addEventListener("DOMContentLoaded", function () {
         if (modal) {
             modal.classList.add("active");
             modal.style.display = "block";
+            modal.style.visibility = "visible";
         }
     }
     window.openPasswordResetModal = openPasswordResetModal; // 確保全域可用
