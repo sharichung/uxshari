@@ -57,7 +57,7 @@ body {
 }
 
 .text-muted {
-    color: var(--gray) !important;
+  color: var(--gray) !important;
 }
 
 .grid-template {
@@ -68,19 +68,25 @@ body {
 
 @media (min-width: 768px) {
   .grid-template-3 {
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row on tablets */
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 items per row on tablets */
   }
+
   .grid-template-4 {
-    grid-template-columns: repeat(3, 1fr); /* Defaults to 3 on tablets */
+    grid-template-columns: repeat(3, 1fr);
+    /* Defaults to 3 on tablets */
   }
 }
 
 @media (min-width: 992px) {
   .grid-template-3 {
-    grid-template-columns: repeat(3, 1fr); /* Ensures 3 items on desktop */
+    grid-template-columns: repeat(3, 1fr);
+    /* Ensures 3 items on desktop */
   }
+
   .grid-template-4 {
-    grid-template-columns: repeat(4, 1fr); /* Ensures 4 items on desktop */
+    grid-template-columns: repeat(4, 1fr);
+    /* Ensures 4 items on desktop */
   }
 }
 
@@ -620,19 +626,19 @@ body {
   font-size: 0.875rem;
 }
 
-.nav-item .nav-link.active{
-    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
-    color: white;
-    border-radius: .5rem;
-    font-weight: 600;
-    box-shadow: var(--glow-red);
-    border: none;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+.nav-item .nav-link.active {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+  color: white;
+  border-radius: .5rem;
+  font-weight: 600;
+  box-shadow: var(--glow-red);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.nav-link:hover{
+.nav-link:hover {
   cursor: pointer;
 }
 
@@ -1215,38 +1221,37 @@ body {
 }
 
 .curriculum-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(110, 0, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  padding: 2.5rem;
-  transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(110, 0, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
 }
 
-.carousel-item{
+.carousel-item {
   min-height: 444px;
 }
 
 .scroll-wrapper {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    display: flex;
-    gap: 12px;
-    padding-bottom: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  gap: 12px;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;
+  /* IE 和 Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
+.scroll-wrapper::-webkit-scrollbar {
+  display: none;
+  /* Chrome、Safari、Opera */
+}
 
-.dot {
-  width: 8px;
-  height: 8px;
-  background-color: #dee2e6;
-  transition: background-color 0.2s;
-}
-.dot.bg-secondary {
-  background-color: #6c757d !important;
-}
 
 
 /* Advanced Options Section */

@@ -349,35 +349,6 @@ addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // ====================  Pagination Dots ====================
-
-    document.addEventListener("DOMContentLoaded", function () {
-    const scrollWrapper = document.querySelector(".scroll-wrapper");
-    const cards = scrollWrapper ? scrollWrapper.querySelectorAll(".flex-shrink-0") : [];
-    const dots = document.querySelectorAll(".dot");
-
-    if (!scrollWrapper || cards.length === 0 || dots.length === 0) {
-        console.error("Error: Missing required elements.");
-        return;
-    }
-
-    scrollWrapper.addEventListener("scroll", () => {
-        const scrollLeft = scrollWrapper.scrollLeft;
-        const totalWidth = scrollWrapper.scrollWidth - scrollWrapper.clientWidth;
-        const index = Math.round((scrollLeft / totalWidth) * (dots.length - 1));
-
-        console.log(`Scroll Left: ${scrollLeft}, Index: ${index}, Total Width: ${totalWidth}`);
-
-        dots.forEach(dot => dot.classList.remove("bg-secondary"));
-        if (dots[index]) {
-            dots[index].classList.add("bg-secondary");
-        }
-    });
-});
-
-
-
-
     // ==================== FAQ 手風琴 ====================
     const faqQuestions = document.querySelectorAll(".faq-question");
     faqQuestions.forEach(question => {
