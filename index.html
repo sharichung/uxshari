@@ -48,7 +48,7 @@
 
   <header id="hero" class="hero hero-content">
     <div
-      class="container hero-content d-flex flex-column flex-md-row align-items-center justify-content-between pt-2 pb-5 py-md-5"
+      class="container hero-content d-flex flex-column flex-md-row align-items-center justify-content-between pt-4 pb-5 py-md-5"
       style="min-height: 60vh;">
 
 
@@ -453,7 +453,7 @@
 
             <div class="container">
 
-              <div class="row g-4">
+              <div class="d-none d-lg-flex row g-4">
                 <!-- Tab 控制按鈕 -->
                 <div class="col-lg-4">
                   <div class="nav flex-lg-column flex-row justify-content-between text-center text-lg-start"
@@ -567,6 +567,39 @@
                   </div>
                 </div>
               </div>
+
+
+              <!-- Mobile-only Carousel (顯示於手機) -->
+<div id="uxDaysCarousel" class="carousel slide d-lg-none mb-4" data-bs-ride="carousel">
+  <div class="carousel-indicators mb-0">
+    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Day 1"></button>
+    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="1" aria-label="Day 2"></button>
+    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="2" aria-label="Day 3"></button>
+    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="3" aria-label="Day 4"></button>
+    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="4" aria-label="Day 5"></button>
+    <button type="button" data-bs-target="#uxDaysCarousel" data-bs-slide-to="5" aria-label="Next"></button>
+  </div>
+
+  <div class="carousel-inner text-start px-3">
+    <div class="carousel-item active">
+      <h6 class="text-muted">Day 1：什麼是UX設計？</h6>
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" title="Day 1 Video" allowfullscreen></iframe>
+      </div>
+      <p>我們的免費課程將從UX基礎開始，帶你認識什麼是使用者體驗（UX）...。</p>
+    </div>
+    <div class="carousel-item">
+      <h6 class="text-muted">Day 2：用戶研究與共情</h6>
+      <div class="ratio ratio-16x9 mb-3">
+        <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU" title="Day 2 Video" allowfullscreen></iframe>
+      </div>
+      <p>這一天將介紹用戶研究的基礎概念，包括 Persona 和 Empathy Map...</p>
+    </div>
+    <!-- Day 3~Next... 同樣格式 -->
+  </div>
+</div>
+
+
             </div>
 
 
@@ -742,7 +775,7 @@
     <span style="display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px;">
       <i class="fa-regular fa-hand-pointer"></i>
     </span>
-    <span class="floating-cta-text">免費登記</span>
+    <span class="floating-cta-text ms-2">免費登記</span>
   </a>
 
   <!-- Bootstrap 5 JS（含 Popper） -->
