@@ -550,6 +550,20 @@ addEventListener("DOMContentLoaded", function () {
     });
 
 
+    // ==================== Tawk.to Script ====================
+    var Tawk_API = Tawk_API || {},
+        Tawk_LoadStart = new Date();
+    (function () {
+        var s1 = document.createElement("script"),
+            s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/6838f55b70b16107011a0b15/1isf7srr8';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+
+
     // ==================== 頁尾年份 ====================
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
