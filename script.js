@@ -319,9 +319,12 @@ function openPasswordResetModal() {
     if (modal) {
         modal.classList.add("active");
         modal.style.display = "block";
-        document.body.style.overflow = "hidden"; // 🚫 禁止背景滾動
+        modal.style.opacity = "1"; // 確保顯示
+        modal.style.visibility = "visible"; // 確保可見
+        document.body.style.overflow = "hidden"; // 禁止背景滾動
     }
 }
+
 window.openPasswordResetModal = openPasswordResetModal;
 
 // 關閉密碼重設彈窗
@@ -329,10 +332,15 @@ function closePasswordResetModal() {
     const modal = document.getElementById("password-reset-modal");
     if (modal) {
         modal.classList.remove("active");
-        modal.style.display = "none";
-        document.body.style.overflow = ""; // ✅ 恢復背景滾動
+        modal.style.opacity = "0";
+        modal.style.visibility = "hidden";
+        setTimeout(() => {
+            modal.style.display = "none"; // 延遲隱藏，避免 transition 問題
+        }, 300); // 配合 CSS 的 transition 時間
+        document.body.style.overflow = ""; // 恢復背景滾動
     }
 }
+
 document.getElementById("close-reset-modal").addEventListener("click", closePasswordResetModal);
 document.getElementById("cancel-reset").addEventListener("click", closePasswordResetModal);
 

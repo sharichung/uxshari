@@ -40,7 +40,6 @@ body {
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
-  z-index: 1;
 }
 
 ::marker {
@@ -321,7 +320,6 @@ body {
 .hero-content {
   text-align: center;
   position: relative;
-  z-index: 1;
 }
 
 .hero-badge {
@@ -463,9 +461,11 @@ body {
   0% {
     box-shadow: 0 0 0 0 rgba(255, 45, 85, 0.4);
   }
+
   70% {
     box-shadow: 0 0 0 10px rgba(255, 45, 85, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(255, 45, 85, 0);
   }
@@ -475,9 +475,11 @@ body {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 200, 163, 0.4);
   }
+
   70% {
     box-shadow: 0 0 0 10px rgba(0, 200, 163, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(0, 200, 163, 0);
   }
@@ -487,9 +489,11 @@ body {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4);
   }
+
   70% {
     box-shadow: 0 0 0 10px rgba(0, 229, 255, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
   }
@@ -642,7 +646,7 @@ body {
   box-shadow: 0 7px 15px rgba(0, 229, 255, 0.4);
 }
 
-.btn-outline{
+.btn-outline {
   background: transparent;
   color: var(--light);
   box-shadow: none;
@@ -866,6 +870,7 @@ body {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  z-index: 1;
 }
 
 .process-card:hover {
@@ -1020,6 +1025,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 1;
 }
 
 .testimonial-card::before {
@@ -1168,6 +1174,7 @@ body {
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .feature-card::before {
@@ -1228,14 +1235,15 @@ body {
 }
 
 .curriculum-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(110, 0, 255, 0.1);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    position: relative;
-    overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(110, 0, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .carousel-item {
@@ -1303,6 +1311,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  z-index: 1;
 }
 
 .option-card::before {
@@ -1783,7 +1792,6 @@ body {
   border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
-  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
@@ -1992,10 +2000,10 @@ body {
 .modal-overlay {
   position: fixed;
   top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1050;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999 !important;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -2005,6 +2013,7 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s;
+  pointer-events: auto !important;
 }
 
 .modal-overlay.active {
@@ -2025,11 +2034,11 @@ body {
   opacity: 0;
   transition: all 0.3s;
   display: none;
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1055;
+  position: fixed !important;
+  z-index: 10000 !important;
 }
 
 .modal-overlay.active .modal {
