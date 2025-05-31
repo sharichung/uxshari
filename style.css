@@ -1521,16 +1521,16 @@ body {
 .cta-button {
   display: block;
   margin: 0 auto;
-  padding: 1.25rem 3rem;
+  padding: 1rem 2rem; /* Reduced padding for mobile */
   background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
   color: white;
   border-radius: 50px;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.25rem; /* Slightly smaller for mobile */
   text-decoration: none;
-  box-shadow: 0 0 20px rgba(255, 87, 34, 0.5);
+  box-shadow: 0 0 15px rgba(255, 87, 34, 0.5); /* Slightly reduced shadow */
   transition: all 0.3s;
-  max-width: 400px;
+  max-width: 350px; /* Adjusted max width for better mobile fit */
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1573,6 +1573,23 @@ body {
   box-shadow: 0 10px 25px rgba(255, 87, 34, 0.4);
   color: var(--light);
   text-decoration: none;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 576px) {
+  .cta-button {
+    padding: 0.75rem 1.5rem; /* Further reduce padding */
+    font-size: 1rem; /* Smaller font for better scaling */
+    max-width: 90%; /* Allows button to adapt to screen */
+  }
+}
+
+/* Adjust hover effects for mobile */
+@media (hover: hover) {
+  .cta-button:hover {
+    transform: translateY(-3px); /* Slightly less aggressive */
+    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.4);
+  }
 }
 
 /* 浮動 CTA */
@@ -1781,6 +1798,20 @@ body {
 
   to {
     text-shadow: 0 0 10px rgba(255, 149, 0, 0.7), 0 0 20px rgba(255, 149, 0, 0.5), 0 0 30px rgba(255, 149, 0, 0.3);
+  }
+}
+
+/* Cyan Glow */
+.glow-cyan {
+  animation: glow-cyan 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-cyan {
+  0% {
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.5), 0 0 10px rgba(0, 229, 255, 0.3);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.7), 0 0 20px rgba(0, 229, 255, 0.5), 0 0 30px rgba(0, 229, 255, 0.3);
   }
 }
 
