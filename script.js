@@ -313,24 +313,29 @@ addEventListener("DOMContentLoaded", function () {
 
 
     // ==================== 密碼重設 ====================
-    // 開啟密碼重設彈窗
-    function openPasswordResetModal() {
-        var modal = document.getElementById("password-reset-modal");
-        if (modal) {
-            modal.classList.add("active");
-            modal.style.display = "block";
-            modal.style.visibility = "visible";
-        }
+    /// 開啟密碼重設彈窗
+function openPasswordResetModal() {
+    var modal = document.getElementById("password-reset-modal");
+    if (modal) {
+        modal.classList.add("active");
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden"; // 🚫 禁止背景滾動
     }
-    window.openPasswordResetModal = openPasswordResetModal; // 確保全域可用
+}
+window.openPasswordResetModal = openPasswordResetModal;
 
-    // 關閉密碼重設彈窗
-    document.getElementById("close-reset-modal").addEventListener("click", () => {
-        document.getElementById("password-reset-modal").classList.remove("active");
-    });
-    document.getElementById("cancel-reset").addEventListener("click", () => {
-        document.getElementById("password-reset-modal").classList.remove("active");
-    });
+// 關閉密碼重設彈窗
+function closePasswordResetModal() {
+    const modal = document.getElementById("password-reset-modal");
+    if (modal) {
+        modal.classList.remove("active");
+        modal.style.display = "none";
+        document.body.style.overflow = ""; // ✅ 恢復背景滾動
+    }
+}
+document.getElementById("close-reset-modal").addEventListener("click", closePasswordResetModal);
+document.getElementById("cancel-reset").addEventListener("click", closePasswordResetModal);
+
 
     // 密碼重設功能
     document.getElementById("submit-reset").addEventListener("click", async () => {
