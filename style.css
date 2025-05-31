@@ -1019,7 +1019,6 @@ body {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  padding: 2rem;
   transition: all 0.3s;
   height: 100%;
   display: flex;
@@ -2024,7 +2023,6 @@ body {
 .modal {
   background: var(--dark-blue);
   border-radius: 16px;
-  padding: 2rem;
   width: 90%;
   height: fit-content;
   max-width: 500px;
