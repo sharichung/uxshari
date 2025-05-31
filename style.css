@@ -1921,7 +1921,6 @@ body {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 149, 0, 0.2);
-  z-index: 1;
 }
 
 @media (min-width: 769px) {
@@ -1931,6 +1930,14 @@ body {
     flex: 1;
   }
 }
+
+#auth-wrapper {
+  max-width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
 
 .auth-header {
   text-align: center;
