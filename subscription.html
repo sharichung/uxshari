@@ -1,0 +1,1502 @@
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UX Hero | 從零開始的 UX 設計學習系統</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #ec4899;
+      --accent: #8b5cf6;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #ffffff;
+      color: var(--dark);
+      overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 15px;
+      }
+    }
+
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    }
+
+    .card {
+      border: none;
+      transition: all 0.4s ease;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    @media (min-width: 768px) {
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
+      }
+    }
+
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      border-radius: 2px;
+    }
+
+    .noise-bg {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    }
+
+    /* Animation classes */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .animate-pulse {
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    .delay-100 {
+      animation-delay: 0.1s;
+    }
+
+    .delay-200 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-300 {
+      animation-delay: 0.3s;
+    }
+
+    .delay-400 {
+      animation-delay: 0.4s;
+    }
+
+    .delay-500 {
+      animation-delay: 0.5s;
+    }
+
+    .decoration-circle {
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0.1;
+    }
+
+    .decoration-square {
+      position: absolute;
+      z-index: -1;
+      opacity: 0.1;
+      border-radius: 20%;
+    }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      box-shadow: 0 10px 15px rgba(99, 102, 241, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 20px rgba(99, 102, 241, 0.3);
+      color: white;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #6366f1;
+      color: #6366f1;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.1);
+      color: #6366f1;
+    }
+
+    /* Mobile optimizations */
+    .container {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+
+    .py-section {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .py-section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+      }
+    }
+
+    /* Accessibility improvements */
+    .btn:focus,
+    .btn:active {
+      box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.5);
+      outline: none;
+    }
+
+    /* Improved heading sizes for mobile */
+    h1.display-4 {
+      font-size: 2.5rem;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    @media (min-width: 768px) {
+      h1.display-4 {
+        font-size: 3.5rem;
+      }
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+
+    @media (min-width: 768px) {
+      h2 {
+        font-size: 2.25rem;
+      }
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+
+    @media (min-width: 768px) {
+      .lead {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Feature cards */
+    .feature-card {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      height: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+      font-size: 1.75rem;
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Path cards */
+    .path-card {
+      border-radius: 1rem;
+      padding: 1.5rem;
+      height: 100%;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .path-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
+    }
+
+    .path-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .path-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Testimonial cards */
+    .testimonial-card {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      height: 100%;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .testimonial-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .testimonial-text::before {
+      content: '"';
+      font-size: 3rem;
+      position: absolute;
+      top: -1.5rem;
+      left: -0.5rem;
+      color: rgba(99, 102, 241, 0.1);
+      font-family: serif;
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+    }
+
+    /* FAQ section */
+    .faq-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .faq-question i {
+      color: var(--primary);
+      margin-right: 0.75rem;
+      font-size: 1.25rem;
+      margin-top: 0.25rem;
+    }
+
+    .faq-answer {
+      padding-left: 2rem;
+      color: #64748b;
+    }
+
+    /* Hero section */
+    .hero-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-shape {
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero-shape-1 {
+      top: -10%;
+      right: -5%;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+
+    .hero-shape-2 {
+      bottom: -10%;
+      left: -5%;
+      width: 250px;
+      height: 250px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+
+    /* CTA section */
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-shape {
+      position: absolute;
+      z-index: -1;
+    }
+
+    .cta-shape-1 {
+      top: -20%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      filter: blur(40px);
+    }
+
+    .cta-shape-2 {
+      bottom: -20%;
+      left: -10%;
+      width: 250px;
+      height: 250px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+      filter: blur(40px);
+    }
+
+    /* Option cards */
+    .option-card {
+      border-radius: 1rem;
+      padding: 1.5rem;
+      height: 100%;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option-card:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.1);
+    }
+
+    .option-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, #6366f1, #ec4899);
+    }
+
+    .option-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary);
+    }
+
+    .option-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-text {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+
+    .option-link {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .option-link i {
+      margin-left: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .option-link:hover i {
+      transform: translateX(3px);
+    }
+
+    /* Benefits list */
+    .benefits-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .benefits-list li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .benefits-list li::before {
+      content: '✅';
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* Example cards */
+    .example-card {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+    }
+
+    .example-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .example-content {
+      padding: 1.5rem;
+    }
+
+    .example-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .example-text {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    /* Touch-friendly elements */
+    @media (max-width: 767px) {
+
+      .btn-gradient,
+      .btn-outline {
+        padding: 0.875rem 1.75rem;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card,
+      .path-card,
+      .testimonial-card,
+      .option-card {
+        padding: 1.25rem;
+      }
+    }
+
+    /* Emoji styles */
+    .emoji {
+      font-size: 1.5em;
+      margin-right: 0.5rem;
+      display: inline-block;
+    }
+
+    /* Highlight box */
+    .highlight-box {
+      background: rgba(99, 102, 241, 0.05);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Radio button styles */
+    .custom-radio {
+      display: block;
+      position: relative;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      border-radius: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .custom-radio:hover {
+      border-color: rgba(99, 102, 241, 0.3);
+      background: rgba(99, 102, 241, 0.02);
+    }
+
+    .custom-radio input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .custom-radio .radio-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      padding-left: 2rem;
+    }
+
+    .custom-radio .radio-text {
+      color: #64748b;
+      font-size: 0.9rem;
+      padding-left: 2rem;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.25rem;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border: 2px solid rgba(99, 102, 241, 0.3);
+      border-radius: 50%;
+    }
+
+    .custom-radio:hover input~.checkmark {
+      background-color: rgba(99, 102, 241, 0.05);
+    }
+
+    .custom-radio input:checked~.checkmark {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .checkmark:after {
+      content: "";
+      position: absolute;
+      display: none;
+    }
+
+    .custom-radio input:checked~.checkmark:after {
+      display: block;
+    }
+
+    .custom-radio .checkmark:after {
+      top: 5px;
+      left: 5px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .custom-radio .radio-link {
+      display: block;
+      margin-top: 0.75rem;
+      padding-left: 2rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .custom-radio .radio-link i {
+      margin-left: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .custom-radio .radio-link:hover i {
+      transform: translateX(3px);
+    }
+
+    /* Video container */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 1rem;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      margin: 2rem 0;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Course tabs */
+    .course-tabs {
+      display: flex;
+      overflow-x: auto;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .course-tabs::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .course-tabs::-webkit-scrollbar-track {
+      background: rgba(99, 102, 241, 0.05);
+      border-radius: 2px;
+    }
+
+    .course-tabs::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 2px;
+    }
+
+    .course-tab {
+      flex: 0 0 auto;
+      padding: 0.75rem 1.5rem;
+      margin-right: 0.75rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #64748b;
+      background: transparent;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .course-tab:hover {
+      background: rgba(99, 102, 241, 0.05);
+      color: var(--primary);
+    }
+
+    .course-tab.active {
+      background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Course content */
+    .course-content {
+      display: none;
+    }
+
+    .course-content.active {
+      display: block;
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+  </style>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1238.0" data-gr-ext-installed="">
+  <!-- Hero Section -->
+  <section class="hero-section py-section hero-gradient">
+    <div class="hero-shape hero-shape-1 d-none d-lg-block"></div>
+    <div class="hero-shape hero-shape-2 d-none d-lg-block"></div>
+
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7 mb-5 mb-lg-0">
+          <h1 class="display-4 mb-4 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            UX 是什麼？<br><span class="text-gradient">我可以做得到嗎？</span>
+          </h1>
+
+          <p class="lead mb-4 animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            UX（使用者體驗設計）不是畫圖、也不是寫程式，而是設計一個產品怎麼讓人「好用」、「順手」、「開心地完成任務」。
+          </p>
+
+          <div class="d-flex flex-column flex-md-row gap-3 mb-5 animate-fade-in-up delay-200"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <a href="#start" class="btn btn-gradient">免費試玩第一週任務</a>
+            <a href="#challenge" class="btn btn-outline">加入 5 日免費挑戰</a>
+          </div>
+
+          <div class="d-flex align-items-center animate-fade-in-up delay-300"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <div class="d-flex me-3">
+              <div class="rounded-circle overflow-hidden"
+                style="width: 40px; height: 40px; margin-left: -10px; border: 2px solid white;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                  <rect width="100" height="100" fill="#6366f1"></rect>
+                  <text x="50" y="50" font-family="Arial" font-size="40" fill="white" text-anchor="middle"
+                    dominant-baseline="central">A</text>
+                </svg>
+              </div>
+              <div class="rounded-circle overflow-hidden"
+                style="width: 40px; height: 40px; margin-left: -10px; border: 2px solid white;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                  <rect width="100" height="100" fill="#8b5cf6"></rect>
+                  <text x="50" y="50" font-family="Arial" font-size="40" fill="white" text-anchor="middle"
+                    dominant-baseline="central">B</text>
+                </svg>
+              </div>
+              <div class="rounded-circle overflow-hidden"
+                style="width: 40px; height: 40px; margin-left: -10px; border: 2px solid white;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                  <rect width="100" height="100" fill="#ec4899"></rect>
+                  <text x="50" y="50" font-family="Arial" font-size="40" fill="white" text-anchor="middle"
+                    dominant-baseline="central">C</text>
+                </svg>
+              </div>
+            </div>
+            <span class="text-muted">已有 <strong>500+</strong> 人加入學習</span>
+          </div>
+        </div>
+
+        <div class="col-lg-5 animate-fade-in-up delay-400"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="card shadow-sm animate-float">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-4">
+                <div
+                  style="width: 50px; height: 50px; background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; margin-right: 1rem;">
+                  🧠
+                </div>
+                <div>
+                  <h3 class="mb-0" style="font-size: 1.25rem; font-weight: 700;">你可能會想：</h3>
+                </div>
+              </div>
+
+              <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-start mb-3">
+                  <div class="me-3 text-primary">❓</div>
+                  <div>UX 是畫圖的嗎？</div>
+                </li>
+                <li class="d-flex align-items-start mb-3">
+                  <div class="me-3 text-primary">❓</div>
+                  <div>要會寫程式嗎？</div>
+                </li>
+                <li class="d-flex align-items-start mb-3">
+                  <div class="me-3 text-primary">❓</div>
+                  <div>我沒有設計背景，可以做嗎？</div>
+                </li>
+              </ul>
+
+              <div class="mt-4 p-3 rounded-3" style="background: rgba(99, 102, 241, 0.05);">
+                <p class="mb-0 fw-bold">👉 重點不是會不會畫圖，而是你懂不懂人。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples Section -->
+  <section class="py-section">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            什麼是好的 UX 設計？</h2>
+          <p class="lead text-muted animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            UX 設計師，就是那個負責讓產品更「人性化」的人。
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-4 animate-fade-in-up delay-200"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="card h-100">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <div class="me-3 text-success" style="font-size: 2rem;">✅</div>
+                <h3 class="mb-0" style="font-size: 1.25rem;">好的 UX 設計</h3>
+              </div>
+              <p class="mb-3">找房網站一秒就知道怎麼篩選</p>
+              <div class="rounded-3 overflow-hidden">
+                <svg width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img"
+                  preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <rect width="100%" height="100%" fill="#10b981" fill-opacity="0.1"></rect>
+                  <g transform="translate(20, 20)">
+                    <rect x="0" y="0" width="60" height="30" rx="5" fill="#10b981" fill-opacity="0.2"></rect>
+                    <text x="30" y="20" font-family="Arial" font-size="12" fill="#10b981" text-anchor="middle">價格</text>
+                    <rect x="70" y="0" width="60" height="30" rx="5" fill="#10b981" fill-opacity="0.2"></rect>
+                    <text x="100" y="20" font-family="Arial" font-size="12" fill="#10b981"
+                      text-anchor="middle">坪數</text>
+                    <rect x="140" y="0" width="60" height="30" rx="5" fill="#10b981" fill-opacity="0.2"></rect>
+                    <text x="170" y="20" font-family="Arial" font-size="12" fill="#10b981"
+                      text-anchor="middle">位置</text>
+                    <rect x="0" y="40" width="200" height="100" rx="5" fill="#10b981" fill-opacity="0.1"></rect>
+                    <rect x="10" y="50" width="80" height="80" rx="5" fill="#10b981" fill-opacity="0.2"></rect>
+                    <rect x="100" y="50" width="90" height="20" rx="3" fill="#10b981" fill-opacity="0.2"></rect>
+                    <rect x="100" y="80" width="60" height="15" rx="3" fill="#10b981" fill-opacity="0.2"></rect>
+                    <rect x="100" y="105" width="40" height="15" rx="3" fill="#10b981" fill-opacity="0.2"></rect>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-4 animate-fade-in-up delay-300"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="card h-100">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-3">
+                <div class="me-3 text-danger" style="font-size: 2rem;">❌</div>
+                <h3 class="mb-0" style="font-size: 1.25rem;">不好的 UX 設計</h3>
+              </div>
+              <p class="mb-3">一個 App 老是找不到按鈕</p>
+              <div class="rounded-3 overflow-hidden">
+                <svg width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img"
+                  preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <rect width="100%" height="100%" fill="#ef4444" fill-opacity="0.1"></rect>
+                  <g transform="translate(20, 20)">
+                    <rect x="0" y="0" width="200" height="140" rx="5" fill="#ef4444" fill-opacity="0.1"></rect>
+                    <rect x="10" y="10" width="180" height="30" rx="3" fill="#ef4444" fill-opacity="0.2"></rect>
+                    <rect x="10" y="50" width="180" height="30" rx="3" fill="#ef4444" fill-opacity="0.2"></rect>
+                    <rect x="10" y="90" width="180" height="30" rx="3" fill="#ef4444" fill-opacity="0.2"></rect>
+                    <rect x="160" y="130" width="30" height="10" rx="2" fill="#ef4444" fill-opacity="0.2"></rect>
+                    <text x="175" y="138" font-family="Arial" font-size="6" fill="#ef4444"
+                      text-anchor="middle">送出</text>
+                    <circle cx="150" cy="70" r="20" fill="#ef4444" fill-opacity="0.1" stroke="#ef4444"
+                      stroke-opacity="0.3" stroke-width="1" stroke-dasharray="3 2"></circle>
+                    <text x="150" y="70" font-family="Arial" font-size="10" fill="#ef4444" text-anchor="middle">?</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who Can Learn Section -->
+  <section class="py-section bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h2 class="section-title animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">👀</span> 誰可以學 UX？需要設計背景嗎？
+          </h2>
+          <p class="mb-4 animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            這是你該知道的事：<strong>很多成功的 UX 設計師，根本不是設計系出身。</strong>
+          </p>
+
+          <div class="mb-4 animate-fade-in-up delay-200"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <div class="d-flex align-items-start mb-3">
+              <div class="me-3 text-primary" style="font-size: 1.5rem;">👩‍🏫</div>
+              <div>有人從老師轉職 UX</div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <div class="me-3 text-primary" style="font-size: 1.5rem;">📊</div>
+              <div>有人從行銷 / 商業分析跳進來</div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <div class="me-3 text-primary" style="font-size: 1.5rem;">👨‍🎓</div>
+              <div>有人是學生，想為未來多一條路</div>
+            </div>
+          </div>
+
+          <p class="mb-0 animate-fade-in-up delay-300"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            UX 是一套你可以「從生活中練習」，然後逐步變強的技能。只要你對「怎麼讓產品變更好用」感興趣，就可以開始。
+          </p>
+        </div>
+
+        <div class="col-lg-6 animate-fade-in-up delay-400"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <div class="video-container mb-0">
+                <iframe src="https://www.youtube.com/embed/4LxVA3XbLMU?si=OOc0azGvXZUA7v4C" title="UX Hero 介紹"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen=""></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UX Hero System Section -->
+  <section class="py-section">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">🦸</span> UX Hero 系統是什麼？
+          </h2>
+          <p class="lead text-muted animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            UX Hero 是一套任務式學習系統，讓你從 0 開始，每週完成一個 UX 挑戰，就像在打怪升級一樣，一步一步累積你的 UX 能力與成就。
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0 animate-fade-in-up delay-200"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="path-card">
+            <div class="path-icon">🌱</div>
+            <h3 class="path-title">想轉 UX 找工作？</h3>
+            <p class="text-muted">從零開始，一步步建立作品集，為面試做好準備。</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 mb-md-0 animate-fade-in-up delay-300"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="path-card">
+            <div class="path-icon">🛠</div>
+            <h3 class="path-title">想練實力做作品？</h3>
+            <p class="text-muted">透過實際案例練習，累積真實的 UX 設計經驗。</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 animate-fade-in-up delay-400"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="path-card">
+            <div class="path-icon">🚀</div>
+            <h3 class="path-title">想副業接案做設計？</h3>
+            <p class="text-muted">學習如何與客戶溝通，提供有價值的 UX 服務。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4 animate-fade-in-up delay-500"
+        style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+        <p class="text-muted">每條路線都有對應的任務地圖、範例模板與支持社群。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="py-section bg-light">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h2 class="section-title animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">📦</span> 你會得到什麼？
+          </h2>
+
+          <ul class="benefits-list animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <li>每週一個 UX 任務卡</li>
+            <li>每週 5–10 分鐘短影片教學</li>
+            <li>任務模板（Figma / Miro）</li>
+            <li>RPG 升級系統（從新手 → Hero）</li>
+            <li>可選加入 Slack 討論社群、導師 Q&amp;A</li>
+          </ul>
+        </div>
+
+        <div class="col-lg-6 animate-fade-in-up delay-200"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="row">
+            <div class="col-6 mb-4">
+              <div class="card h-100 animate-float">
+                <div class="card-body p-3">
+                  <div class="text-center mb-3">
+                    <div style="font-size: 2rem;">🎯</div>
+                  </div>
+                  <h4 class="text-center mb-0" style="font-size: 1rem;">任務卡</h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 mb-4">
+              <div class="card h-100 animate-float delay-100">
+                <div class="card-body p-3">
+                  <div class="text-center mb-3">
+                    <div style="font-size: 2rem;">🎬</div>
+                  </div>
+                  <h4 class="text-center mb-0" style="font-size: 1rem;">短影片教學</h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 mb-4">
+              <div class="card h-100 animate-float delay-200">
+                <div class="card-body p-3">
+                  <div class="text-center mb-3">
+                    <div style="font-size: 2rem;">📝</div>
+                  </div>
+                  <h4 class="text-center mb-0" style="font-size: 1rem;">設計模板</h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6 mb-4">
+              <div class="card h-100 animate-float delay-300">
+                <div class="card-body p-3">
+                  <div class="text-center mb-3">
+                    <div style="font-size: 2rem;">🏆</div>
+                  </div>
+                  <h4 class="text-center mb-0" style="font-size: 1rem;">升級系統</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Start Section -->
+  <section class="py-section" id="start">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">👣</span> 我可以怎麼開始？
+          </h2>
+          <p class="lead text-muted animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            選擇最適合你的方式，開始你的 UX 學習之旅
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4 animate-fade-in-up delay-200"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="option-card h-100">
+            <div class="option-icon">🔰</div>
+            <h3 class="option-title">試玩第一週 UX 任務卡</h3>
+            <p class="option-text">免費、不用下載、馬上開始</p>
+            <a href="#" class="option-link">立即試玩 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 animate-fade-in-up delay-300" id="challenge"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="option-card h-100">
+            <div class="option-icon">🧪</div>
+            <h3 class="option-title">加入 5 日免費 UX 入門挑戰</h3>
+            <p class="option-text">循序漸進，每天一小步</p>
+            <a href="#" class="option-link">免費加入 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 animate-fade-in-up delay-400"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="option-card h-100">
+            <div class="option-icon">🚀</div>
+            <h3 class="option-title">加入 UX Hero 系統</h3>
+            <p class="option-text">每週成長一級</p>
+            <a href="#" class="option-link">立即加入 <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hero Type Section -->
+  <section class="py-section bg-light">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">✅</span> 你是哪一型 UX Hero？
+          </h2>
+          <p class="lead text-muted animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            請選擇你的起點
+          </p>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8 animate-fade-in-up delay-200"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <label class="custom-radio" style="border-color: rgb(99, 102, 241); background: rgba(99, 102, 241, 0.05);">
+            <input type="radio" name="hero-type" value="beginner">
+            <span class="checkmark"></span>
+            <div class="radio-title">我是第一次接觸 UX（想了解是什麼）</div>
+            <div class="radio-text">看看 UX Hero 是怎麼運作的</div>
+            <a href="#" class="radio-link">了解更多 <i class="bi bi-arrow-right"></i></a>
+          </label>
+
+          <label class="custom-radio" style="border-color: rgba(99, 102, 241, 0.1); background: transparent;">
+            <input type="radio" name="hero-type" value="explorer">
+            <span class="checkmark"></span>
+            <div class="radio-title">我想試玩一個 UX 任務看看</div>
+            <div class="radio-text">解鎖任務卡 + 模板</div>
+            <a href="#" class="radio-link">立即試玩 <i class="bi bi-arrow-right"></i></a>
+          </label>
+
+          <label class="custom-radio" style="border-color: rgba(99, 102, 241, 0.1); background: transparent;">
+            <input type="radio" name="hero-type" value="practitioner">
+            <span class="checkmark"></span>
+            <div class="radio-title">我做過一些 UX 練習，想持續進步</div>
+            <div class="radio-text">升級進入 Hero 系統</div>
+            <a href="#" class="radio-link">立即升級 <i class="bi bi-arrow-right"></i></a>
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-section">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">✨</span> 學員怎麼說？
+          </h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4 animate-fade-in-up delay-100"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="testimonial-card h-100">
+            <div class="testimonial-text">
+              「我原本是老師，沒設計底，靠每週一任務慢慢做出完整作品！」
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle overflow-hidden me-3" style="width: 40px; height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                  <rect width="100" height="100" fill="#6366f1"></rect>
+                  <text x="50" y="50" font-family="Arial" font-size="40" fill="white" text-anchor="middle"
+                    dominant-baseline="central">L</text>
+                </svg>
+              </div>
+              <div class="testimonial-author">林老師</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 animate-fade-in-up delay-200"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="testimonial-card h-100">
+            <div class="testimonial-text">
+              「這是我唯一能持續練習 UX 的系統，不再只是看影片。」
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle overflow-hidden me-3" style="width: 40px; height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                  <rect width="100" height="100" fill="#8b5cf6"></rect>
+                  <text x="50" y="50" font-family="Arial" font-size="40" fill="white" text-anchor="middle"
+                    dominant-baseline="central">W</text>
+                </svg>
+              </div>
+              <div class="testimonial-author">王小明</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4 animate-fade-in-up delay-300"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="testimonial-card h-100">
+            <div class="testimonial-text">
+              「從不知道 UX 是什麼，到現在拿到設計實習的面試邀請！」
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle overflow-hidden me-3" style="width: 40px; height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                  <rect width="100" height="100" fill="#ec4899"></rect>
+                  <text x="50" y="50" font-family="Arial" font-size="40" fill="white" text-anchor="middle"
+                    dominant-baseline="central">C</text>
+                </svg>
+              </div>
+              <div class="testimonial-author">陳同學</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-section bg-light">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <span class="emoji">🔓</span> 常見問題
+          </h2>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8 animate-fade-in-up delay-100"
+          style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+          <div class="faq-item">
+            <div class="faq-question">
+              <i class="bi bi-question-circle-fill"></i>
+              <div>我完全沒學過設計，可以開始嗎？</div>
+            </div>
+            <div class="faq-answer">
+              當然可以。UX Hero 就是為「不是設計師的人」設計的！
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <i class="bi bi-question-circle-fill"></i>
+              <div>會很花時間嗎？</div>
+            </div>
+            <div class="faq-answer">
+              每週任務大約 1–3 小時，彈性安排，也可以回看。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <i class="bi bi-question-circle-fill"></i>
+              <div>我先試玩會綁約嗎？</div>
+            </div>
+            <div class="faq-answer">
+              不會，免費試玩不需付款、不會自動續訂。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section py-section">
+    <div class="cta-shape cta-shape-1 d-none d-lg-block"></div>
+    <div class="cta-shape cta-shape-2 d-none d-lg-block"></div>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-4 animate-fade-in-up"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            你不需要設計背景，也不需要天份，<br>只需要願意開始的第一步。</h2>
+
+          <div class="d-flex flex-column flex-md-row justify-content-center gap-3 animate-fade-in-up delay-100"
+            style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s ease-out, transform 0.6s ease-out;">
+            <a href="#" class="btn btn-gradient">立即免費試玩 UX Hero 第一週任務</a>
+            <a href="#" class="btn btn-outline">加入 UX 轉職 5 日挑戰 → 循序漸進</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <h3 class="h5 mb-3">UX Hero</h3>
+          <p class="mb-0 text-white-50">從零開始的 UX 設計學習系統</p>
+        </div>
+
+        <div class="col-md-6 text-md-end">
+          <p class="mb-0 text-white-50">© 2023 UX Hero. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Radio button functionality
+    document.addEventListener('DOMContentLoaded', function () {
+      const radioButtons = document.querySelectorAll('.custom-radio input');
+
+      radioButtons.forEach(radio => {
+        radio.addEventListener('change', function () {
+          if (this.checked) {
+            radioButtons.forEach(btn => {
+              const parent = btn.closest('.custom-radio');
+              if (btn === this) {
+                parent.style.borderColor = '#6366f1';
+                parent.style.background = 'rgba(99, 102, 241, 0.05)';
+              } else {
+                parent.style.borderColor = 'rgba(99, 102, 241, 0.1)';
+                parent.style.background = 'transparent';
+              }
+            });
+          }
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // Animation on scroll
+      const animateElements = document.querySelectorAll('.animate-fade-in-up');
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1
+        });
+
+        animateElements.forEach(el => {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+          observer.observe(el);
+        });
+      } else {
+        // Fallback for browsers without intersection observer
+        animateElements.forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+      }
+    });
+  </script>
+  <script>
+    (function () {
+      function c() {
+        var b = a.contentDocument || a.contentWindow.document;
+        if (b) {
+          var d = b.createElement('script');
+          d.innerHTML =
+            "window.__CF$cv$params={r:'94c37b6024e5252b',t:'MTc0OTMzNDI1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+          b.getElementsByTagName('head')[0].appendChild(d)
+        }
+      }
+      if (document.body) {
+        var a = document.createElement('iframe');
+        a.height = 1;
+        a.width = 1;
+        a.style.position = 'absolute';
+        a.style.top = 0;
+        a.style.left = 0;
+        a.style.border = 'none';
+        a.style.visibility = 'hidden';
+        document.body.appendChild(a);
+        if ('loading' !== document.readyState) c();
+        else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+        else {
+          var e = document.onreadystatechange || function () {};
+          document.onreadystatechange = function (b) {
+            e(b);
+            'loading' !== document.readyState && (document.onreadystatechange = e, c())
+          }
+        }
+      }
+    })();
+  </script><iframe height="1" width="1"
+    style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>

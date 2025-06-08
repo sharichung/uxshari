@@ -1,0 +1,1495 @@
+<html lang="zh-HK">
+<html lang="zh-HK">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="立即免費下載 Figma UX 教學、免費 UX 設計資源、港澳台 UX 線上課程入口。助你建立 UX Portfolio，成功轉職 UX 設計！">
+    <meta name="keywords" content="本挑戰適合來自 香港、台灣、澳門、新加波等 的 UX 初學者，課程為 正體中文 UX 線上教學，搭配 Figma 練習與 UX 實戰任務。">
+    <meta name="author" content="UX Shari">
+    <meta property="og:title" content="UX Shari 超能級 UX/UI 訓練營">
+    <meta property="og:description" content="免費 UX/UI 挑戰包、Figma UX 教學、設計功課交件資源入口，一站式解鎖！">
+    <meta property="og:image" content="https://yourdomain.com/og-image.jpg">
+    <meta property="og:url" content="https://yourdomain.com/">
+    <title>UX Shari 超能級 UX/UI 訓練營｜Figma UX 教學＋作品集挑戰</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Orbitron:wght@400;500;700;900&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff9500;
+            --primary-dark: #e67e00;
+            --primary-light: #ffb74d;
+            --secondary: #ff5722;
+            --accent: #ff3d00;
+            --dark: #1a1a2e;
+            --dark-blue: #16213e;
+            --light: #f8f9fa;
+            --success: #00c853;
+            --gray: #a0a0c0;
+            --gray-light: #e9ecef;
+            --glow: 0 0 10px rgba(255, 149, 0, 0.5), 0 0 20px rgba(255, 149, 0, 0.3);
+            --glow-orange: 0 0 10px rgba(255, 87, 34, 0.5), 0 0 20px rgba(255, 87, 34, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background-color: var(--dark);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 149, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 87, 34, 0.1) 0%, transparent 20%),
+                linear-gradient(to bottom, var(--dark) 0%, var(--dark-blue) 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tech-title {
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            background-color: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+        }
+
+        .logo svg {
+            margin-right: 0.5rem;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+            box-shadow: var(--glow-orange);
+        }
+
+        .nav-link:hover {
+            color: var(--secondary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--dark);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: var(--glow);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .nav-link.cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .nav-link.cta:hover::before {
+            left: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9) 0%, rgba(22, 33, 62, 0.9) 100%);
+            color: white;
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff9500' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E"),
+                radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(255, 87, 34, 0.1) 0%, transparent 50%);
+            opacity: 0.8;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(255, 149, 0, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 149, 0, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: grid-animation 20s linear infinite;
+        }
+
+        @keyframes grid-animation {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 40px 40px;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            background: linear-gradient(to right, var(--secondary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 149, 0, 0.5);
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .deadline-alert {
+            background: rgba(255, 61, 0, 0.15);
+            border: 1px solid rgba(255, 61, 0, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            font-weight: 700;
+            color: var(--accent);
+            box-shadow: 0 0 15px rgba(255, 61, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 61, 0, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 61, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 61, 0, 0);
+            }
+        }
+
+        .countdown {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        /* Form */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 149, 0, 0.2);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: var(--glow);
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255, 149, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-login {
+            margin: 1.5rem 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .social-login::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 149, 0, 0.2);
+        }
+
+        .social-login span {
+            position: relative;
+            background: rgba(26, 26, 46, 0.8);
+            padding: 0 1rem;
+            color: var(--gray);
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .google-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--dark);
+            box-shadow: var(--glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(255, 149, 0, 0.4);
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .form-note {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        .form-feedback {
+            margin-top: 1rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 149, 0, 0.2);
+        }
+
+        .user-welcome {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 149, 0, 0.2);
+        }
+
+        .progress-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .lesson-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .lesson-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .lesson-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 149, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lesson-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lesson-status {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .status-unlocked {
+            background: rgba(255, 149, 0, 0.2);
+            color: var(--primary);
+        }
+
+        .status-locked {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        .status-completed {
+            background: rgba(0, 200, 83, 0.2);
+            color: var(--success);
+        }
+
+        .lesson-content {
+            padding: 1.5rem;
+        }
+
+        .lesson-description {
+            margin-bottom: 1.5rem;
+            color: var(--gray-light);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 149, 0, 0.2);
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .play-icon {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 149, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-icon:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+        }
+
+        .task-list {
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255, 149, 0, 0.1);
+            padding-top: 1.5rem;
+        }
+
+        .task-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 149, 0, 0.1);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .task-description {
+            font-size: 0.9rem;
+            color: var(--gray-light);
+            margin-bottom: 1rem;
+        }
+
+        .submission-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .submission-input {
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .submission-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.3);
+        }
+
+        .submission-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .locked-lesson {
+            filter: grayscale(1);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            border-radius: 8px;
+        }
+
+        .lock-icon {
+            font-size: 2rem;
+            color: var(--gray);
+        }
+
+        /* Advanced Options Section */
+        .advanced-options {
+            padding: 6rem 0;
+            background-color: var(--dark-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advanced-options::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 149, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(255, 87, 34, 0.05) 0%, transparent 50%);
+            opacity: 0.8;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--light);
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            color: var(--gray);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 149, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 149, 0, 0.3);
+        }
+
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .option-icon::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 149, 0, 0.1);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .option-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: var(--light);
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+        }
+
+        .option-text {
+            color: var(--gray-light);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            animation: float 15s infinite linear;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px rgba(255, 149, 0, 0.5), 0 0 10px rgba(255, 149, 0, 0.3);
+            }
+
+            to {
+                text-shadow: 0 0 10px rgba(255, 149, 0, 0.7), 0 0 20px rgba(255, 149, 0, 0.5), 0 0 30px rgba(255, 149, 0, 0.3);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .navbar-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .option-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem 0;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .navbar-container {
+                flex-wrap: wrap;
+            }
+
+            .logo-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1235.0" data-gr-ext-installed="">
+    <div id="navbar-placeholder"></div>
+
+    <header id="hero" class="hero">
+        <div class="hero-grid"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title tech-title">UX/UI 新手 28 天從零開始，<br>打造<span class="glow">超能級</span>作品集！</h1>
+            <p class="hero-subtitle">免費挑戰包 + Figma 教學 + 專業指導，幫你在 28 天內完成 UX/UI 初階作品集，為轉職打好基礎。</p>
+
+            <div class="deadline-alert">
+                <p>本週截止！免費挑戰包下載只限至 5 月 20 日</p>
+            </div>
+            <p id="countdown" class="countdown">挑戰包下載已截止！</p>
+
+            <!-- 會員登入/註冊表單 -->
+            <div class="auth-container" id="auth-container" style="display: none;">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" data-tab="login">登入</div>
+                    <div class="auth-tab" data-tab="signup">註冊</div>
+                </div>
+
+                <!-- 登入表單 -->
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">電子郵件</label>
+                        <input type="email" id="login-email" class="form-input" placeholder="你的電子郵件" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">密碼</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="你的密碼" required="">
+                    </div>
+                    <button type="submit" class="btn btn-primary">登入</button>
+
+                    <div class="social-login">
+                        <span>或</span>
+                    </div>
+
+                    <button type="button" class="google-btn" id="google-login">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M21.8055 10.0415H21V10H12V14H17.6515C16.827 16.3285 14.6115 18 12 18C8.6865 18 6 15.3135 6 12C6 8.6865 8.6865 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C6.4775 2 2 6.4775 2 12C2 17.5225 6.4775 22 12 22C17.5225 22 22 17.5225 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z"
+                                fill="#FFC107"></path>
+                            <path
+                                d="M3.15295 7.3455L6.43845 9.755C7.32745 7.554 9.48045 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C8.15895 2 4.82795 4.1685 3.15295 7.3455Z"
+                                fill="#FF3D00"></path>
+                            <path
+                                d="M12 22C14.583 22 16.93 21.0115 18.7045 19.404L15.6095 16.785C14.5718 17.5742 13.3038 18.001 12 18C9.39903 18 7.19053 16.3415 6.35853 14.027L3.09753 16.5395C4.75253 19.778 8.11353 22 12 22Z"
+                                fill="#4CAF50"></path>
+                            <path
+                                d="M21.8055 10.0415H21V10H12V14H17.6515C17.2571 15.1082 16.5467 16.0766 15.608 16.7855L15.6095 16.7845L18.7045 19.4035C18.4855 19.6025 22 17 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z"
+                                fill="#1976D2"></path>
+                        </svg>
+                        使用 Google 帳號登入
+                    </button>
+
+                    <p class="form-note">還沒有帳號？<a href="#" class="switch-auth" data-target="signup">立即註冊</a></p>
+                </form>
+
+                <!-- 註冊表單 -->
+                <form id="signup-form" class="auth-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="signup-name" class="form-label">姓名</label>
+                        <input type="text" id="signup-name" class="form-input" placeholder="你的姓名" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email" class="form-label">電子郵件</label>
+                        <input type="email" id="signup-email" class="form-input" placeholder="你的電子郵件" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password" class="form-label">密碼</label>
+                        <input type="password" id="signup-password" class="form-input" placeholder="設定密碼 (至少 8 個字元)"
+                            required="" minlength="8">
+                    </div>
+                    <button type="submit" class="btn btn-primary">註冊</button>
+
+                    <div class="social-login">
+                        <span>或</span>
+                    </div>
+
+                    <button type="button" class="google-btn" id="google-signup">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M21.8055 10.0415H21V10H12V14H17.6515C16.827 16.3285 14.6115 18 12 18C8.6865 18 6 15.3135 6 12C6 8.6865 8.6865 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C6.4775 2 2 6.4775 2 12C2 17.5225 6.4775 22 12 22C17.5225 22 22 17.5225 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z"
+                                fill="#FFC107"></path>
+                            <path
+                                d="M3.15295 7.3455L6.43845 9.755C7.32745 7.554 9.48045 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C8.15895 2 4.82795 4.1685 3.15295 7.3455Z"
+                                fill="#FF3D00"></path>
+                            <path
+                                d="M12 22C14.583 22 16.93 21.0115 18.7045 19.404L15.6095 16.785C14.5718 17.5742 13.3038 18.001 12 18C9.39903 18 7.19053 16.3415 6.35853 14.027L3.09753 16.5395C4.75253 19.778 8.11353 22 12 22Z"
+                                fill="#4CAF50"></path>
+                            <path
+                                d="M21.8055 10.0415H21V10H12V14H17.6515C17.2571 15.1082 16.5467 16.0766 15.608 16.7855L15.6095 16.7845L18.7045 19.4035C18.4855 19.6025 22 17 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z"
+                                fill="#1976D2"></path>
+                        </svg>
+                        使用 Google 帳號註冊
+                    </button>
+
+                    <p class="form-note">已有帳號？<a href="#" class="switch-auth" data-target="login">登入</a></p>
+                </form>
+
+                <div id="auth-feedback" class="form-feedback"><span style="color: var(--success);">✅ Google
+                        登入成功！正在載入你的課程...</span></div>
+            </div>
+
+            <!-- 學生儀表板 (登入後顯示) -->
+            <div class="dashboard" id="dashboard" style="display: block;">
+                <div class="dashboard-header">
+                    <div class="user-welcome">歡迎回來，<span id="user-name">Google 使用者</span>！</div>
+                    <button id="logout-btn" class="btn btn-primary">登出</button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-title">
+                        <span>課程進度</span>
+                        <span>1/4 完成</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>已完成 25%</span>
+                        <span>還有 3 個任務</span>
+                    </div>
+                </div>
+
+                <div class="lesson-container">
+                    <!-- 第一堂課 (已解鎖) -->
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <h3 class="lesson-title">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#ff9500" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M2 17L12 22L22 17" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <path d="M2 12L12 17L22 12" stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                                第一堂：UX/UI 設計基礎
+                            </h3>
+                            <span class="lesson-status status-unlocked">已解鎖</span>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-description">了解 UX/UI 設計的基本概念、流程和工具，為你的設計之旅打好基礎。</p>
+
+                            <div class="video-container">
+                                <div class="video-placeholder">
+                                    <div class="play-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 3L19 12L5 21V3Z" fill="white"></path>
+                                        </svg>
+                                    </div>
+                                    <span>點擊播放教學影片</span>
+                                </div>
+                            </div>
+
+                            <div class="task-list">
+                                <h4>本週任務</h4>
+
+                                <div class="task-item">
+                                    <div class="task-header">
+                                        <h5 class="task-title">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9 11L12 14L22 4" stroke="#ff9500" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M21 12V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16"
+                                                    stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </svg>
+                                            任務 1：設計靈感收集
+                                        </h5>
+                                    </div>
+                                    <p class="task-description">收集 10 個你喜歡的 UI 設計作品，並分析它們的設計特點和優點。</p>
+
+                                    <form class="submission-form">
+                                        <input type="text" class="submission-input"
+                                            placeholder="貼上你的作品連結 (Google Drive, Instagram, Behance 等)" required="">
+                                        <textarea class="submission-input" rows="3"
+                                            placeholder="簡短描述你的設計靈感來源和分析 (選填)"></textarea>
+                                        <div class="submission-actions">
+                                            <button type="submit" class="btn btn-primary">提交作業</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 第二堂課 (已解鎖但需要完成第一堂) -->
+                    <div class="lesson-card">
+                        <div class="lesson-header">
+                            <h3 class="lesson-title">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2 3H8C9.06087 3 10.0783 3.42143 10.8284 4.17157C11.5786 4.92172 12 5.93913 12 7V21C12 20.2044 11.6839 19.4413 11.1213 18.8787C10.5587 18.3161 9.79565 18 9 18H2V3Z"
+                                        stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <path
+                                        d="M22 3H16C14.9391 3 13.9217 3.42143 13.1716 4.17157C12.4214 4.92172 12 5.93913 12 7V21C12 20.2044 12.3161 19.4413 12.8787 18.8787C13.4413 18.3161 14.2044 18 15 18H22V3Z"
+                                        stroke="#ff9500" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                                第二堂：使用者研究與分析
+                            </h3>
+                            <span class="lesson-status status-locked">需完成前置任務</span>
+                        </div>
+                        <div class="lesson-content">
+                            <p class="lesson-description">學習如何進行使用者研究，收集和分析數據，以及創建使用者角色和旅程地圖。</p>
+
+                            <div class="video-container">
+                                <div class="locked-overlay">
+                                    <div class="lock-icon">🔒</div>
+                                    <span>完成第一堂課的任務後解鎖</span>
+                                </div>
+                                <div class="video-placeholder">
+                                    <div class="play-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 3L19 12L5 21V3Z" fill="white"></path>
+                                        </svg>
+                                    </div>
+                                    <span>教學影片</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="advanced-options" class="advanced-options">
+            <div class="container">
+                <h2 class="section-title tech-title">進階學習模式</h2>
+                <p class="section-subtitle">根據你的需求，選擇最適合的進階學習方式，快速達成目標！</p>
+
+                <div class="options-grid">
+                    <div class="option-card">
+                        <div class="option-icon">📦</div>
+                        <h3 class="option-title">預錄課 + 任務包</h3>
+                        <p class="option-text">隨時進行的課程，包含證書與資源下載，適合想靈活安排時間的學員。</p>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-icon">👩‍💻</div>
+                        <h3 class="option-title">每週小班 Live 指導課</h3>
+                        <p class="option-text">50 分鐘 Zoom 互動實戰，與導師和同學即時交流，解決學習中的疑問。</p>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-icon">🧑‍🏫</div>
+                        <h3 class="option-title">1 對 1 UX或面試輔導</h3>
+                        <p class="option-text">由專業設計師個別訓練，針對你的需求進行面試技巧與作品集簡報指導。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="particle"
+                style="top: 52.3423%; left: 65.1031%; width: 2.38327px; height: 2.38327px; opacity: 0.521617; animation-duration: 24.0279s; animation-delay: 1.29177s;">
+            </div>
+            <div class="particle"
+                style="top: 49.2368%; left: 17.685%; width: 3.99797px; height: 3.99797px; opacity: 0.799861; animation-duration: 24.7719s; animation-delay: 3.15556s;">
+            </div>
+            <div class="particle"
+                style="top: 11.2068%; left: 16.3855%; width: 4.83835px; height: 4.83835px; opacity: 0.596596; animation-duration: 13.7594s; animation-delay: 4.70607s;">
+            </div>
+            <div class="particle"
+                style="top: 78.1309%; left: 72.7469%; width: 4.13423px; height: 4.13423px; opacity: 0.366066; animation-duration: 20.853s; animation-delay: 4.80806s;">
+            </div>
+            <div class="particle"
+                style="top: 93.305%; left: 41.0611%; width: 3.49156px; height: 3.49156px; opacity: 0.781306; animation-duration: 17.7168s; animation-delay: 4.17252s;">
+            </div>
+            <div class="particle"
+                style="top: 22.0005%; left: 92.1417%; width: 2.21895px; height: 2.21895px; opacity: 0.304808; animation-duration: 15.6224s; animation-delay: 0.410074s;">
+            </div>
+            <div class="particle"
+                style="top: 39.2053%; left: 33.0768%; width: 2.72814px; height: 2.72814px; opacity: 0.390493; animation-duration: 17.1893s; animation-delay: 4.23946s;">
+            </div>
+            <div class="particle"
+                style="top: 59.289%; left: 71.8465%; width: 2.55817px; height: 2.55817px; opacity: 0.469964; animation-duration: 24.4678s; animation-delay: 4.83689s;">
+            </div>
+            <div class="particle"
+                style="top: 70.6221%; left: 69.7125%; width: 4.39489px; height: 4.39489px; opacity: 0.498568; animation-duration: 21.4642s; animation-delay: 4.48498s;">
+            </div>
+            <div class="particle"
+                style="top: 25.1684%; left: 3.97652%; width: 4.47902px; height: 4.47902px; opacity: 0.300592; animation-duration: 17.3987s; animation-delay: 1.12764s;">
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 倒數計時功能
+        function updateCountdown() {
+            const deadline = new Date("2023-05-20T23:59:59").getTime();
+            const now = new Date().getTime();
+            const timeLeft = deadline - now;
+
+            if (timeLeft <= 0) {
+                document.getElementById("countdown").innerHTML = "挑戰包下載已截止！";
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `剩餘時間：${days}天 ${hours}小時 ${minutes}分鐘 ${seconds}秒`;
+        }
+
+        // 初始化倒數計時
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // 切換登入/註冊表單
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                // 移除所有標籤的 active 類別
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                // 為當前標籤添加 active 類別
+                this.classList.add('active');
+
+                // 隱藏所有表單
+                document.querySelectorAll('.auth-form').forEach(form => form.style.display = 'none');
+
+                // 顯示對應的表單
+                const tabName = this.getAttribute('data-tab');
+                document.getElementById(`${tabName}-form`).style.display = 'flex';
+            });
+        });
+
+        // 切換登入/註冊連結
+        document.querySelectorAll('.switch-auth').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-target');
+
+                // 切換標籤
+                document.querySelectorAll('.auth-tab').forEach(tab => {
+                    if (tab.getAttribute('data-tab') === target) {
+                        tab.click();
+                    }
+                });
+            });
+        });
+
+        // 登入表單提交
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // 模擬登入驗證 (實際應用中應連接到後端)
+            if (email && password) {
+                // 顯示登入成功訊息
+                document.getElementById('auth-feedback').innerHTML =
+                    '<span style="color: var(--success);">✅ 登入成功！正在載入你的課程...</span>';
+
+                // 模擬載入時間
+                setTimeout(() => {
+                    // 隱藏登入表單，顯示儀表板
+                    document.getElementById('auth-container').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+
+                    // 設定使用者名稱 (從電子郵件中提取)
+                    const userName = email.split('@')[0];
+                    document.getElementById('user-name').textContent = userName;
+                }, 1500);
+            } else {
+                document.getElementById('auth-feedback').innerHTML =
+                    '<span style="color: var(--accent);">❌ 請填寫所有必填欄位</span>';
+            }
+        });
+
+        // 註冊表單提交
+        document.getElementById('signup-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            // 模擬註冊驗證 (實際應用中應連接到後端)
+            if (name && email && password) {
+                // 顯示註冊成功訊息
+                document.getElementById('auth-feedback').innerHTML =
+                    '<span style="color: var(--success);">✅ 註冊成功！正在載入你的課程...</span>';
+
+                // 模擬載入時間
+                setTimeout(() => {
+                    // 隱藏註冊表單，顯示儀表板
+                    document.getElementById('auth-container').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+
+                    // 設定使用者名稱
+                    document.getElementById('user-name').textContent = name;
+                }, 1500);
+            } else {
+                document.getElementById('auth-feedback').innerHTML =
+                    '<span style="color: var(--accent);">❌ 請填寫所有必填欄位</span>';
+            }
+        });
+
+        // Google 登入
+        document.getElementById('google-login').addEventListener('click', function () {
+            // 模擬 Google 登入 (實際應用中應使用 Google OAuth)
+            document.getElementById('auth-feedback').innerHTML =
+                '<span style="color: var(--success);">✅ Google 登入成功！正在載入你的課程...</span>';
+
+            // 模擬載入時間
+            setTimeout(() => {
+                // 隱藏登入表單，顯示儀表板
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+
+                // 設定使用者名稱
+                document.getElementById('user-name').textContent = 'Google 使用者';
+            }, 1500);
+        });
+
+        // Google 註冊
+        document.getElementById('google-signup').addEventListener('click', function () {
+            // 模擬 Google 註冊 (實際應用中應使用 Google OAuth)
+            document.getElementById('auth-feedback').innerHTML =
+                '<span style="color: var(--success);">✅ Google 註冊成功！正在載入你的課程...</span>';
+
+            // 模擬載入時間
+            setTimeout(() => {
+                // 隱藏註冊表單，顯示儀表板
+                document.getElementById('auth-container').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+
+                // 設定使用者名稱
+                document.getElementById('user-name').textContent = 'Google 使用者';
+            }, 1500);
+        });
+
+        // 登出功能
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            // 隱藏儀表板，顯示登入表單
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('auth-container').style.display = 'block';
+
+            // 重置表單
+            document.getElementById('login-form').reset();
+            document.getElementById('signup-form').reset();
+            document.getElementById('auth-feedback').innerHTML = '';
+
+            // 切換到登入標籤
+            document.querySelectorAll('.auth-tab')[0].click();
+        });
+
+        // 任務提交
+        document.querySelector('.submission-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const link = this.querySelector('input').value;
+
+            if (link) {
+                // 顯示提交成功訊息
+                const submitBtn = this.querySelector('button');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = '已提交 ✓';
+                submitBtn.disabled = true;
+
+                // 更新進度條
+                document.querySelector('.progress-fill').style.width = '50%';
+                document.querySelector('.progress-title span:last-child').textContent = '2/4 完成';
+                document.querySelector('.progress-stats span:first-child').textContent = '已完成 50%';
+                document.querySelector('.progress-stats span:last-child').textContent = '還有 2 個任務';
+
+                // 解鎖第二堂課
+                setTimeout(() => {
+                    const secondLesson = document.querySelectorAll('.lesson-card')[1];
+                    secondLesson.querySelector('.lesson-status').className =
+                        'lesson-status status-unlocked';
+                    secondLesson.querySelector('.lesson-status').textContent = '已解鎖';
+                    secondLesson.querySelector('.locked-overlay').style.display = 'none';
+
+                    // 顯示通知
+                    alert('恭喜！你已完成第一個任務，第二堂課程已解鎖！');
+                }, 1000);
+            }
+        });
+
+        // 播放影片
+        document.querySelector('.play-icon').addEventListener('click', function () {
+            const videoContainer = this.closest('.video-container');
+            const placeholder = this.closest('.video-placeholder');
+
+            // 在實際應用中，這裡會創建一個 video 元素並播放影片
+            placeholder.innerHTML =
+                '<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;"><p>影片播放中...</p><p style="font-size: 0.8rem; margin-top: 0.5rem;">(示範用，實際應用會播放真實影片)</p></div>';
+        });
+
+        // 行動版選單切換
+        document.querySelector(".mobile-menu-toggle").addEventListener("click", function () {
+            document.querySelector(".nav-links").classList.toggle("show");
+        });
+
+        // 導航欄登入/註冊按鈕
+        document.querySelector('.login-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelectorAll('.auth-tab')[0].click();
+            window.scrollTo({
+                top: document.getElementById('auth-container').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        });
+
+        document.querySelector('.signup-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelectorAll('.auth-tab')[1].click();
+            window.scrollTo({
+                top: document.getElementById('auth-container').offsetTop - 100,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+    <script>
+        (function () {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML =
+                        "window.__CF$cv$params={r:'9415284212fb256d',t:'MTc0NzUwNjMyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState) c();
+                else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function () {};
+                    document.onreadystatechange = function (b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                    }
+                }
+            }
+        })();
+    </script><iframe height="1" width="1"
+        style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;"></iframe>
+
+
+</body>
+
+</html>
