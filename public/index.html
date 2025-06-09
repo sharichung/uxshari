@@ -11,8 +11,8 @@
   <meta name="author" content="UX Shari">
   <meta property="og:title" content="UX轉職5日挑戰｜免費UX/UI設計課，5天完成第一個作品">
   <meta property="og:description" content="免費 UX/UI 挑戰包、Figma UX 教學、設計功課交件資源入口，一站式解鎖！">
-  <meta property="og:image" content="https://sharichung.github.io/uxshari/og-image.png">
-  <meta property="og:url" content="https://sharichung.github.io/uxshari/">
+  <meta property="og:image" content="https://uxshari.com/public/images/og-image.png">
+  <meta property="og:url" content="https://uxshari.com/">
   <title>UX轉職5日挑戰｜免費UX/UI入門課，轉職 UIUX 從這裡開始</title>
   <script type="application/ld+json">
     {
@@ -23,18 +23,21 @@
       "provider": {
         "@type": "Person",
         "name": "Shari Chung",
-        "url": "https://sharichung.github.io/uxshari/"
+        "url": "https://uxshari.com/"
       }
     }
   </script>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="UX轉職5日挑戰｜免費UX/UI設計課，5天完成第一個作品">
   <meta name="twitter:description" content="免費 UX/UI 課程，5天挑戰完成你的第一個設計作品，適合初學者。立即加入！">
-  <meta name="twitter:image" content="https://sharichung.github.io/uxshari/og-image.png">
-  <link rel="canonical" href="https://sharichung.github.io/uxshari/" />
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta name="twitter:image" content="https://uxshari.com/public/images/og-image.png">
+  <link rel="canonical" href="https://uxshari.com/" />
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- style.css -->
+<link rel="stylesheet" href="assets/css/style.css">
+
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Tektur:wght@400;500;600;700&amp;display=swap"
     rel="stylesheet">
@@ -44,7 +47,52 @@
 </head>
 
 <body>
-  <div id="navbar-placeholder"></div>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container navbar-container">
+
+      <!-- Logo + Toggler -->
+      <div class="logo-container d-flex align-items-center justify-content-between">
+        <a href="#" class="logo futuristic-hover navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
+            alt="UXShari 免費 UX 設計課程 Logo">
+            <path
+              d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z"
+              style="fill:#ff9500" />
+          </svg>
+          UX Shari
+        </a>
+
+        <!-- Bootstrap 5 toggler button -->
+        <button class="navbar-toggler mobile-menu-toggle" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 6H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 18H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Links -->
+      <div class="collapse navbar-collapse nav-links" id="navbarNav">
+        <ul class="navbar-nav ms-md-auto d-flex gap-3">
+          <li class="nav-item">
+            <a href="#learning-process" class="nav-link">課程特色</a>
+          </li>
+          <li class="nav-item">
+            <a href="#testimonials" class="nav-link">學員心得</a>
+          </li>
+          <li class="nav-item">
+            <a href="#faq" class="nav-link">常見問題</a>
+          </li>
+          <li class="nav-item">
+            <a href="#auth-wrapper" class="nav-link cta px-3">立即登記/登入</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
 
   <header id="hero" class="hero hero-content">
     <div
@@ -153,32 +201,32 @@
           </div>
         </div>
 
-       
+
 
       </div>
 
-       <!-- 忘記密碼彈窗 -->
-        <div class="modal-overlay" id="password-reset-modal">
-          <div class="modal p-3">
-            <div class="modal-header">
-              <h3 class="modal-title">重設密碼</h3>
-              <button class="modal-close" id="close-reset-modal">×</button>
-            </div>
-            <div class="modal-body">
-              <p>請輸入你的電子郵件，我們將發送重設密碼連結給你。</p>
-              <form id="reset-form" class="auth-form" style="margin-top: 1.5rem;">
-                <div class="form-group">
-                  <label for="reset-email" class="form-label">電子郵件</label>
-                  <input type="email" id="reset-email" class="form-input" placeholder="你的電子郵件" required="">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-outline" id="cancel-reset">取消</button>
-              <button class="btn btn-primary" id="submit-reset">發送重設連結</button>
-            </div>
+      <!-- 忘記密碼彈窗 -->
+      <div class="modal-overlay" id="password-reset-modal">
+        <div class="modal p-3">
+          <div class="modal-header">
+            <h3 class="modal-title">重設密碼</h3>
+            <button class="modal-close" id="close-reset-modal">×</button>
+          </div>
+          <div class="modal-body">
+            <p>請輸入你的電子郵件，我們將發送重設密碼連結給你。</p>
+            <form id="reset-form" class="auth-form" style="margin-top: 1.5rem;">
+              <div class="form-group">
+                <label for="reset-email" class="form-label">電子郵件</label>
+                <input type="email" id="reset-email" class="form-input" placeholder="你的電子郵件" required="">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline" id="cancel-reset">取消</button>
+            <button class="btn btn-primary" id="submit-reset">發送重設連結</button>
           </div>
         </div>
+      </div>
 
   </header>
 
@@ -238,14 +286,15 @@
         <h2 class="section-title tech-title"><span class="glow">5星好評</span> UX/UI 導師</h2>
         <div class="instructor-content">
           <div class="instructor-photo">
-            <img src="Shari Profile Pic.png" alt="Shari UX 教學講師個人照" style="width: 100%; border-radius: 16px;">
+            <img src="/images/Shari Profile Pic.png" alt="Shari UX 教學講師個人照" style="width: 100%; border-radius: 16px;">
           </div>
           <div class="instructor-details">
             <h3 class="instructor-name">Shari Chung</h3>
             </p>
             <div class="selling-points d-flex flex-wrap mb-3">
               <span class="badge badge-pill d-flex align-items-center me-2 mb-2" style="font-size:1rem;">
-                <i class="fas fa-certificate" style="font-size:1.2em; margin-right:0.4em;"></i>Certified Usability Analyst
+                <i class="fas fa-certificate" style="font-size:1.2em; margin-right:0.4em;"></i>Certified Usability
+                Analyst
                 (CUA™)
               </span>
               <span class="badge badge-pill d-flex align-items-center me-2 mb-2" style="font-size:1rem;">
@@ -259,7 +308,8 @@
               </span>
             </div>
             <p class="instructor-bio">
-              👋 Hello，我是 Shari Chung，擁有超過 10 年 UX/UI 設計與產品實戰經驗，專注人才培訓與 UX 轉職輔導！ 我持有 CUA™ 國際可用性認證，長年活躍於 香港 & 英國科技產業，精通電商、金融科技、醫療健康、教育平台等多領域設計。
+              👋 Hello，我是 Shari Chung，擁有超過 10 年 UX/UI 設計與產品實戰經驗，專注人才培訓與 UX 轉職輔導！ 我持有 CUA™ 國際可用性認證，長年活躍於 香港 &
+              英國科技產業，精通電商、金融科技、醫療健康、教育平台等多領域設計。
               全球學員成功轉職 UX/UI！ 不論背景、不論地區，透過 系統化課程，你也能快速掌握 UX/UI 設計核心！
 
             </p>
@@ -273,7 +323,8 @@
 
     <section id="testimonials" class="testimonials-section section">
       <div class="container">
-        <h2 class="section-title tech-title">多地學員<span class="glow">一致好評</span>！<br>UX <span class="glow">轉職成功</span>案例</h2>
+        <h2 class="section-title tech-title">多地學員<span class="glow">一致好評</span>！<br>UX <span class="glow">轉職成功</span>案例
+        </h2>
         <p class="section-subtitle">無論是完全零基礎，還是在工作中卡關急需轉型，許多學員透過 Shari 的系統化訓練 + 實戰指導，成功開拓屬於自己的 UX/UI 設計職涯！</p>
 
         <div class="testimonial-category">
@@ -395,8 +446,8 @@
     <section id="learning-process" class="section">
       <div class="container">
         <div class="d-flex justify-content-center">
-  <div class="hero-badge mb-3">Mini Loop™ 學習法</div>
-</div>
+          <div class="hero-badge mb-3">Mini Loop™ 學習法</div>
+        </div>
 
         <h2 class="section-title"> 3 步掌握 UX/UI<br>零基礎也能快速上手</h2>
         <p class="section-subtitle">這是 Shari 獨創的「Mini Loop™ 學習法」—— 用最少時間獲得最大進步，每一步都有可見成果！</p>
@@ -804,7 +855,78 @@
 
   </main>
 
-  <div id="footer-placeholder"></div>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>UX Shari</h3>
+          <p>幫助港澳台地區的 UX/UI 初學者建立專業技能，打造出色作品集，成功轉職或升級職場技能。</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/uxshari/" class="social-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></rect>
+                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@uxshari" class="social-link">
+              <svg width="18" height="18" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="26" height="20" rx="4" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 9v6l6-3-6-3z" fill="currentColor" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/in/sharichung/" class="social-link">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M2 9h4v12H2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+                <circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-column">
+          <h3>快速連結</h3>
+          <ul class="footer-links ps-0">
+            <li class="footer-link"><a href="#auth-wrapper">首頁</a></li>
+            <li class="footer-link"><a href="#features">課程特色</a></li>
+            <li class="footer-link"><a href="#testimonials">學員心得</a></li>
+            <li class="footer-link"><a href="#faq">常見問題</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>我的學習</h3>
+          <ul class="footer-links ps-0">
+            <li class="footer-link"><a href="#">我的課程</a></li>
+            <li class="footer-link"><a href="#">我的帳戶</a></li>
+            <li class="footer-link"><a href="#">我的證書</a></li>
+            <li class="footer-link"><a href="#">我的日程表</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>聯絡我們</h3>
+          <ul class="footer-links ps-0">
+            <li class="footer-link"><a href="mailto:info@uxshari.com">info@uxshari.com</a></li>
+            <li class="footer-link"><a href="#">加入 Discord 社群</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © <span id="current-year"></span> UX Shari. All rights reserved.
+      </div>
+    </div>
+  </footer>
 
   <!-- 浮動 CTA
   <a href="#auth-wrapper" class="floating-cta" id="floating-cta">
@@ -826,8 +948,6 @@
   <!-- Bootstrap 5 JS（含 Popper） -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script src="script.js"></script>
-  
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {},
@@ -843,6 +963,12 @@
     })();
   </script>
   <!--End of Tawk.to Script-->
+
+  <script src="assets/js/visual/aesthetic-canvas.js"></script>
+  <script src="assets/js/global-init.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/ui.js"></script>
+
 </body>
 
 </html>

@@ -1,10 +1,18 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# UX Shari
 
-# This template has been deprecated
+A lightweight UX education funnel using HTML + CSS + JS + Firebase.
 
-Please use (and bookmark) this template instead: [CI Full Template](https://github.com/Code-Institute-Org/ci-full-template)
+## Features
+- Firebase Auth + Firestore
+- GA4 / Mixpanel tracking
+- Multi-page UX challenge flow
+- Upgrade CTA + pricing page
 
-Any projects built using the old template will continue to work. For all new projects, please use the **CI Full Template**, which will be updated more frequently.
+## Folder Structure
+- `views/`: All HTML pages
+- `js/`: All JS logic (auth, db, tracking)
+- `css/`: Base styles
 
----
-Happy coding!
+## Deploy
+```bash
+firebase deploy

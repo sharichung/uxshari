@@ -1,0 +1,20 @@
+{
+  "name": "uxshari",
+  "version": "1.0.0",
+  "description": "A lightweight UX education funnel using HTML + CSS + JS + Firebase.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharichung/uxshari.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sharichung/uxshari/issues"
+  },
+  "homepage": "https://github.com/sharichung/uxshari#readme"
+}

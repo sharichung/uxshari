@@ -117,7 +117,7 @@ body {
 }
 
 .navbar-brand:focus, .navbar-brand:hover{
-  color: var(--light);
+  color: var(--light) !important;
 }
 
 .logo {
