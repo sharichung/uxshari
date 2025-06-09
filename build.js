@@ -30,20 +30,20 @@ viewFiles.forEach(file => {
     html = html.replace(/(src|href)="\.?\/?(js\/[^"]+)"/g, '$1="assets/$2"');
 
 
-    // 輸出至 public/
-    fs.writeFileSync(path.join("public", file), html);
+    // 輸出至 docs/
+    fs.writeFileSync(path.join("docs", file), html);
     console.log(`✅ 已處理 ${file}`);
 });
 
 // 複製 CSS
-ensureDir("public/assets/css");
-fs.copyFileSync("src/css/style.css", "public/assets/css/style.css");
+ensureDir("docs/assets/css");
+fs.copyFileSync("src/css/style.css", "docs/assets/css/style.css");
 
 // 複製 JS 資料夾
 const jsDirs = ["auth", "layout", "visual"];
 jsDirs.forEach(subdir => {
     const from = path.join("src/js", subdir);
-    const to = path.join("public/assets/js", subdir);
+    const to = path.join("docs/assets/js", subdir);
     ensureDir(to);
     if (fs.existsSync(from)) {
         const files = fs.readdirSync(from);
@@ -54,21 +54,21 @@ jsDirs.forEach(subdir => {
 });
 
 // 複製根層 JS 檔案（排除資料夾）
-ensureDir("public/assets/js");
+ensureDir("docs/assets/js");
 const allJs = fs.readdirSync("src/js");
 allJs.forEach(file => {
     const fullPath = path.join("src/js", file);
     if (fs.statSync(fullPath).isFile() && file.endsWith(".js")) {
-        fs.copyFileSync(fullPath, path.join("public/assets/js", file));
+        fs.copyFileSync(fullPath, path.join("docs/assets/js", file));
     }
 });
 
 // 複製圖片
 if (fs.existsSync("src/assets/images")) {
-    ensureDir("public/assets/images");
+    ensureDir("docs/assets/images");
     const images = fs.readdirSync("src/assets/images");
     images.forEach(img => {
-        fs.copyFileSync(`src/assets/images/${img}`, `public/assets/images/${img}`);
+        fs.copyFileSync(`src/assets/images/${img}`, `docs/assets/images/${img}`);
     });
 }
 
