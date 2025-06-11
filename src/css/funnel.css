@@ -2,6 +2,7 @@
   --primary: #ff9500;
   --primary-dark: #e67e00;
   --primary-light: #ffb74d;
+  --primary-pale: #F9EAD5;
   --secondary: #6e00ff;
   --secondary-light: #9d4eff;
   --accent: #ff3d00;
@@ -9,6 +10,7 @@
   --dark-blue: #16213e;
   --light: #f8f9fa;
   --success: #00c853;
+  --success-pale: #CCF4DD;
   --gray: #a0a0c0;
   --gray-light: #e9ecef;
   --cyan: #00e5ff;
