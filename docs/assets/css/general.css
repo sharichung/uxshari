@@ -1,0 +1,47 @@
+:root {
+  --primary: #ff9500;
+  --primary-dark: #e67e00;
+  --primary-light: #ffb74d;
+  --primary-pale: #F9EAD5;
+  --secondary: #6e00ff;
+  --secondary-light: #9d4eff;
+  --accent: #ff3d00;
+  --dark: #1a1a2e;
+  --dark-blue: #16213e;
+  --light: #f8f9fa;
+  --success: #00c853;
+  --success-pale: #CCF4DD;
+  --gray: #a0a0c0;
+  --gray-light: #e9ecef;
+  --cyan: #00e5ff;
+  --glow: 0 0 10px rgba(255, 87, 34, 0.5), 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+
+.navbar-general {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    height: 46px;
+    border-bottom: 1px solid var(--gray-light);
+    background: var(--light);
+    color: var(--dark);
+    font-family: Tektur;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark);
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--gray);
+}

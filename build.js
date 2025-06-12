@@ -10,8 +10,9 @@ function ensureDir(dirPath) {
 const pageConfig = {
     "index.html": "funnel",
     "login.html": "funnel",
-    "dashboard.html": "dashboard",
-    "lesson.html": "dashboard"
+    "dashboard.html": "general",
+    "account.html": "general",
+    "lesson.html": "general",
 };
 
 // 處理 HTML views（支援多頁）
