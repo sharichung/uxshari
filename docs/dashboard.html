@@ -2,14 +2,6 @@
 <html lang="zh-Hant">
 
 <head>
-  <script>
-    firebase.auth().onAuthStateChanged(function(user) {
-  if (!user) {
-    window.location.href = "index.html";
-  }
-});
-
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
@@ -274,6 +266,60 @@
 
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/ui.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  // ✅ 你的 Firebase 設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+    authDomain: "uxshari-670fd.firebaseapp.com",
+    projectId: "uxshari-670fd",
+    storageBucket: "uxshari-670fd.firebasestorage.app",
+    messagingSenderId: "907540538791",
+    appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
+    measurementId: "G-2GTKFRV4FZ"
+  };
+
+  // ✅ 初始化 Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // ✅ 使用者登入狀態監聽
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      console.log("⚠️ 尚未登入，跳回首頁");
+      window.location.href = "index.html"; // 可改為你的登入頁面
+    } else {
+      console.log("👤 使用者登入中：", user.email);
+
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        // ✨ 新用戶，寫入初始化資料
+        await setDoc(userRef, {
+          email: user.email,
+          name: user.displayName || "",
+          enrolledCourses: ["ux_course_01"],
+          progress: {
+            ux_course_01: {
+              currentLesson: 1,
+              completedLessons: []
+            }
+          }
+        });
+        console.log("🔥 初始資料寫入成功！");
+      } else {
+        console.log("✅ 使用者資料已存在");
+      }
+    }
+  });
+</script>
 
 </body>
 
