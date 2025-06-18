@@ -3,6 +3,7 @@
   --primary-dark: #e67e00;
   --primary-light: #ffb74d;
   --primary-pale: #F9EAD5;
+  --primary-pale-rgb: 249, 234, 213;
   --secondary: #6e00ff;
   --secondary-light: #9d4eff;
   --accent: #ff3d00;
@@ -15,33 +16,182 @@
   --gray-light: #e9ecef;
   --cyan: #00e5ff;
   --glow: 0 0 10px rgba(255, 87, 34, 0.5), 0 0 20px rgba(255, 87, 34, 0.3);
+  --bg-white-overlay: rgba(255, 255, 255, 0.8);
 }
 
+/* ===== 顏色工具 ===== */
+.bg-success { background-color: var(--success) !important; }
+.text-primary-shari { color: var(--primary); }
+.bg-pale-primary { background-color: var(--primary-pale); }
 
+/* ===== 動畫效果 ===== */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.5s forwards;
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-down {
+  animation: fadeInDown 0.6s ease-in-out;
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 導覽條設計 ===== */
 .navbar-general {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-    height: 46px;
-    border-bottom: 1px solid var(--gray-light);
-    background: var(--light);
-    color: var(--dark);
-    font-family: Tektur;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  height: 46px;
+  border-bottom: 1px solid var(--gray-light);
+  background: var(--light);
+  color: var(--dark);
+  font-family: Tektur;
+  font-size: 24px;
+  font-weight: 600;
 }
 
+/* ===== 滾動後 navbar 樣式變化 ===== */
+.navbar-scrolled {
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(6px);
+}
+
+/* ===== CTA 進場 hover ===== */
+.shari-cta-wrapper {
+  transition: background-color 0.3s ease;
+}
+.shari-cta-card:hover ~ .shari-cta-wrapper,
+.shari-cta-wrapper:has(.shari-cta-card:hover) {
+  background-color: rgba(var(--primary-pale-rgb), 0.8);
+}
+
+/* ===== 通用按鈕樣式 ===== */
+.btn {
+  transition: all 0.2s ease-in-out;
+}
+.btn:hover,
+.btn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+}
+.shari-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  padding: 0.625rem 1.25rem;
+  text-decoration: none;
+}
+
+/* Primary 樣式 */
+.btn-primary-shari {
+  background-color: var(--primary);
+  color: var(--light);
+}
+.btn-primary-shari:hover,
+.btn-primary-shari:focus {
+  background-color: var(--primary-dark);
+  box-shadow: var(--glow);
+  color: var(--light);
+}
+
+/* Secondary 樣式 */
+.btn-secondary-shari {
+  background-color: var(--secondary);
+  color: var(--light);
+}
+.btn-secondary-shari:hover,
+.btn-secondary-shari:focus {
+  background-color: var(--secondary-light);
+  color: var(--light);
+  box-shadow: 0 0 0.75rem rgba(109, 0, 255, 0.4);
+  transform: scale(1.03);
+}
+
+/* 尚未置頂狀態 */
+.btn-pin {
+  background-color: var(--gray);
+  color: var(--light);
+  font-size: 0.875rem;
+  padding: 0.4rem 0.9rem;
+}
+.btn-pin:hover {
+  background-color: var(--gray-light);
+  color: var(--dark);
+}
+
+/* 已置頂狀態 */
+.btn-pin-active {
+  background-color: var(--dark);
+  color: var(--light);
+  font-size: 0.875rem;
+  padding: 0.4rem 0.9rem;
+}
+.btn-pin-active:hover {
+  background-color: var(--dark-blue);
+}
+
+/* === Course Card hover 效果 === */
+.course-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+/* CTA hover 連動 */
+.shari-cta-card:hover .btn-primary-shari {
+  background-color: var(--primary-dark);
+  box-shadow: var(--glow);
+  transform: translateY(-1px);
+}
+
+/* === social link icon === */
 .social-link {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--dark);
-    text-decoration: none;
-    transition: all 0.3s;
-    border: 1px solid var(--gray);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark);
+  text-decoration: none;
+  border: 1px solid var(--gray);
+  transition: all 0.3s;
+}
+
+/* === 淡霧背景區塊 === */
+.bg-overlay {
+  background-color: var(--bg-white-overlay);
+  backdrop-filter: blur(4px);
+}
+
+/* === 響應式樣式 === */
+@media (max-width: 768px) {
+  .shari-btn {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .shari-btn {
+    font-size: 0.9rem;
+    padding: 0.65rem 1.1rem;
+    min-height: 44px;
+    min-width: 44px;
+  }
 }

@@ -1,7 +1,7 @@
-<nav class="navbar-general navbar navbar-expand-lg px-3 py-2">
+<nav id="mainNavbar" class="fade-in-down navbar-general navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm transition" style="z-index: 1030;">
   <div class="container">
     <!-- Logo -->
-     <a href="dashboard.html" class="logo futuristic-hover navbar-brand d-flex align-items-center">
+     <a href="dashboard.html" class="enter-fadein logo futuristic-hover navbar-brand d-flex align-items-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
             alt="UXShari 免費 UX 設計課程 Logo">
             <path
@@ -17,3 +17,14 @@
           </a>
   </div>
 </nav>
+
+<script>
+  window.addEventListener('scroll', function () {
+    const navbar = document.getElementById('mainNavbar');
+    if (window.scrollY > 10) {
+      navbar.classList.add('navbar-scrolled');
+    } else {
+      navbar.classList.remove('navbar-scrolled');
+    }
+  });
+</script>

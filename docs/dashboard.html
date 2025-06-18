@@ -2,6 +2,14 @@
 <html lang="zh-Hant">
 
 <head>
+  <script>
+    firebase.auth().onAuthStateChanged(function(user) {
+  if (!user) {
+    window.location.href = "index.html";
+  }
+});
+
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
@@ -47,10 +55,10 @@
 </head>
 
 <body class="min-vh-100 d-flex flex-column">
-  <nav class="navbar-general navbar navbar-expand-lg px-3 py-2">
+  <nav id="mainNavbar" class="fade-in-down navbar-general navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm transition" style="z-index: 1030;">
   <div class="container">
     <!-- Logo -->
-     <a href="dashboard.html" class="logo futuristic-hover navbar-brand d-flex align-items-center">
+     <a href="dashboard.html" class="enter-fadein logo futuristic-hover navbar-brand d-flex align-items-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
             alt="UXShari 免費 UX 設計課程 Logo">
             <path
@@ -67,22 +75,130 @@
   </div>
 </nav>
 
-  <main class="flex-grow-1 d-flex flex-column">
-    <header id="hero" class="hero hero-content flex-grow-1 d-flex align-items-center bg-light">
-      <div class="section container-fluid d-flex flex-column justify-content-center">
-        <div class="container text-center">
-          <h1 class="mb-4 fw-bold">網站建置中 🛠️</h1>
-          <p class="lead mb-4">
-            想學更多 UX/UI 設計技巧？<br>
-            現在就預約 Shari 的 1 對 1 課程！
-          </p>
-          <a href="https://amazingtalker.com/teachers-and-tutors/shari-chung?from_tutors_page&amp;language=multimedia_design"
-            class="btn btn-primary btn-lg" target="_blank">
-            前往預約課程 →
+<script>
+  window.addEventListener('scroll', function () {
+    const navbar = document.getElementById('mainNavbar');
+    if (window.scrollY > 10) {
+      navbar.classList.add('navbar-scrolled');
+    } else {
+      navbar.classList.remove('navbar-scrolled');
+    }
+  });
+</script>
+
+  <main class="flex-grow-1 d-flex flex-column" style="padding-top:56px;">
+
+    <section class="container py-4">
+      <!-- 頂部導覽 -->
+      <div class="row align-items-center mb-4 fade-in-down">
+        <div class="col-6 col-md-6">
+          <h1 class="h1 fw-bold text-dark mb-0 ">我的課程</h1>
+        </div>
+        <div class="col-6 col-md-6 text-end">
+          <a href="courses.html" class="btn shari-btn btn-secondary-shari btn-lg d-inline-flex align-items-center">
+            <i class="fas fa-th-list me-2"></i> 瀏覽課程 →
           </a>
         </div>
       </div>
-    </header>
+
+      <!-- 課程卡片列表 -->
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="course-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
+            <!-- 課程封面 -->
+            <div class="position-relative rounded-top-4 overflow-hidden">
+              <div class="ratio ratio-4x3">
+                <img src="/images/Shari Profile Pic.png" alt="UX/UI 轉職 5 日挑戰"
+                  class="img-fluid object-fit-cover w-100 h-100" loading="lazy">
+              </div>
+            </div>
+            <!-- 課程內容 -->
+            <div class="p-3 d-flex flex-column">
+              <h5 class="fw-bold fs-5 mb-2">UX/UI 轉職 5 日挑戰</h5>
+              <p class="text-muted mb-3">
+                5天掌握UX核心思維，零基礎也能上手！打造你的第一個UX/UI作品，踏出轉職關鍵一步。
+              </p>
+              <!-- 在進度條上方加勳章效果 -->
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-medal fa-shake text-warning me-2"></i>
+                <span class="small fw-semibold text-dark">你已解鎖 UX 初階學習勳章！</span>
+              </div>
+
+              <!-- 課程完成度 -->
+              <div class="progress mb-2" style="height: 6px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 40%;" aria-valuenow="40"
+                  aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <small class="text-muted">已完成 40%</small>
+              <div class="d-flex justify-content-end">
+                <a href="lesson.html" class="btn shari-btn btn-primary-shari btn-lg d-inline-flex align-items-center">
+                  <i class="fas fa-play-circle me-2"></i> 查看課程
+                </a>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <!-- 可新增更多 .col 卡片 -->
+        <div class="col-12">
+          <div class="bg-light rounded-4 p-4 text-center border border-dashed">
+            <img src="/images/ux-guide-illustration.svg" alt="推薦 UX 課程" class="mb-3" width="80">
+            <h6 class="mb-2">還沒找到下一堂課？</h6>
+            <p class="text-muted small mt-1">根據你完成的進度，我猜你會對「UX 互動邏輯」很感興趣 👀</p>
+            <a href="courses.html#ux-advanced" class="btn shari-btn btn-secondary-shari btn-outline-primary">
+              推薦課程一覽 →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Upsell CTA 區塊 -->
+    <section class="bg-light py-5 px-3 mt-4">
+      <div class="container">
+        <div class="row align-items-center justify-content-between text-center text-md-start">
+          <div class="col-12 col-md-8 mb-4 mb-md-0">
+            <h5 class="fw-bold mb-2">想學更多 UX/UI 設計技巧？</h5>
+            <p class="mb-0 text-muted">預約 Shari 的 1 對 1 課程，為你的轉職之路加速！</p>
+          </div>
+          <div class="col-12 col-md-auto">
+            <a href="https://amazingtalker.com/teachers-and-tutors/shari-chung" target="_blank" rel="noopener"
+              class="btn shari-btn btn-primary-shari btn-lg d-inline-flex align-items-center">
+              <i class="fas fa-magic me-2"></i> 前往預約課程 →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sticky 進度條 CTA -->
+    <div class="shari-cta-wrapper position-sticky bottom-0 start-0 end-0 bg-overlay border-top z-3 fade-in-up"
+      style="z-index:1030;">
+      <a href="lesson.html"
+        class="shari-cta-card container d-flex flex-column flex-md-row align-items-center px-3 py-3 text-decoration-none">
+        <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0 w-100">
+          <div class="rounded-2 overflow-hidden me-3" style="width: 96px;">
+            <div class="ratio ratio-4x3">
+              <img src="/images/Shari Profile Pic.png" alt="UX/UI 轉職 5 日挑戰"
+                class="img-fluid object-fit-cover w-100 h-100" loading="lazy">
+            </div>
+          </div>
+          <div>
+            <p class="text-secondary small mb-1">你目前正在學習：</p>
+            <h6 class="text-dark fw-semibold mb-0">Day 1：開始你的 UX 之旅 – UX 的魔法時刻</h6>
+          </div>
+          <div class="btn shari-btn btn-primary-shari mt-2 mt-md-0 d-inline-flex align-items-center">
+            <i class="fas fa-arrow-circle-right fa-bounce me-2"></i> 繼續學習
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+
   </main>
 
 
@@ -135,10 +251,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-  <!-- Canvas for animated particles as background -->
-  <canvas id="aestheticCanvas"
-    style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;"></canvas>
-
 
   <!-- Bootstrap 5 JS（含 Popper） -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
