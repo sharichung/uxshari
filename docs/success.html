@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="UXShari 學習平台｜從零基礎到專業 UX/UI 設計師。">
+    <meta name="keywords" content="UX設計, UX/UI課程, UX挑戰包, UX學習平台, UX轉職, UI設計">
+    <meta name="author" content="UX Shari">
+
+    <title>UXShari 學習平台｜付款成功</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/general.css">
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .success-card {
+            max-width: 720px;
+        }
+        .success-emoji {
+            font-size: 2.4rem;
+            line-height: 1;
+        }
+        .btn-primary-shari, .btn-secondary-shari {
+            border-radius: 12px;
+            padding-left: 1.2rem;
+            padding-right: 1.2rem;
+        }
+        .shari-focus-ring:focus {
+            outline: 3px solid rgba(255,149,0,0.16);
+            outline-offset: 3px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+    <nav id="mainNavbar" class="navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm" style="z-index: 1030;">
+        <div class="container">
+            <a href="dashboard.html" class="logo navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2" alt="UXShari UX 學習平台 Logo">
+                    <path d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z" style="fill:#ff9500" />
+                </svg>
+                UX Shari
+            </a>
+            <a class="d-flex align-items-center text-dark text-decoration-none" href="account.html" role="button" aria-label="會員帳號">
+                <i class="fas fa-user-circle fa-2x text-dark" role="img" aria-label="會員帳號"></i>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('mainNavbar');
+            navbar.classList.toggle('navbar-scrolled', window.scrollY > 10);
+        });
+    </script>
+
+    <main class="flex-grow-1 d-flex flex-column" style="padding-top:56px;">
+        <section class="bg-white py-5 px-3 mt-4">
+            <div class="container">
+                <div class="card success-card mx-auto shadow-sm border-0 rounded-4 p-4 text-center" role="status" aria-live="polite">
+                    <div class="card-body">
+                        <div class="mb-3"></div>
+                            <div class="success-emoji" aria-hidden="true">🎉</div>
+                        </div>
+                        <h2 id="payment-success-heading" class="h3 fw-bold mb-2" tabindex="-1">付款成功</h2>
+                        <p class="text-muted mb-4">恭喜！你已解鎖 UXShari 專屬預約入口。</p>
+                        <a href="https://calendly.com/sharichungdesign/30min" target="_blank" rel="noopener noreferrer" class="btn btn-secondary-shari btn-lg d-inline-flex align-items-center shari-focus-ring">
+                            <i class="fas fa-calendar-check me-2" aria-hidden="true"></i>
+                            <span>預約課程時間 →</span>
+                        </a>
+                        <div class="mt-3">
+                            <a href="dashboard.html" class="text-muted small">返回會員專區</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-light border-top mt-auto py-4">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
+            <div class="d-flex gap-3 my-3 my-md-0">
+                <a href="https://www.instagram.com/uxshari/" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@uxshari" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/in/sharichung/" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://join.slack.com/t/uxshari/shared_invite/zt-3ioqyosn8-p2VUz1ST9wceu8Io~2ovFQ" class="social-link" aria-label="Slack 社群"><i class="fab fa-slack"></i></a>
+            </div>
+            <div class="my-3 my-md-0">
+                <a href="privacy.html" class="text-decoration-none text-muted me-3">隱私權政策</a>
+                <a href="terms.html" class="text-decoration-none text-muted me-3">使用者條款</a>
+                <a href="contact.html" class="text-decoration-none text-muted">聯絡我們</a>
+            </div>
+            <div class="mb-2 mb-md-0">
+                <small class="text-muted">© <span id="current-year"></span> UXShari 學習平台. All rights reserved.</small>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/ui.js"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        window.addEventListener('load', function () {
+            const heading = document.getElementById('payment-success-heading');
+            if (heading) heading.focus();
+        });
+    </script>
+</body>
+
+</html>
