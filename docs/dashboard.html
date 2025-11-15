@@ -99,7 +99,26 @@
   <!-- 頂部導覽 -->
   <div class="row align-items-center mb-4 fade-in-down">
     <div class="col-6 col-md-6">
-      <h1 class="h1 fw-bold text-dark mb-0">Dashboard</h1>
+      <div>
+        <h1 id="greeting" class="h1 fw-bold text-dark mb-0">嗨，歡迎回來</h1>
+        <p id="greeting-sub" class="text-muted small mb-0"></p>
+      </div>
+
+      <script>
+        (function waitForFirebase() {
+          if (window.firebase && firebase.auth) {
+            firebase.auth().onAuthStateChanged(function (user) {
+              if (user) {
+                const name = user.displayName || (user.email ? user.email.split('@')[0] : '會員');
+                document.getElementById('greeting').textContent = `嗨，${name}！`;
+                document.getElementById('greeting-sub').textContent = user.email || '';
+              }
+            });
+          } else {
+            setTimeout(waitForFirebase, 200);
+          }
+        })();
+      </script>
     </div>
     <div class="col-6 col-md-6 text-end">
       <a href="courses.html" class="btn shari-btn btn-secondary-shari btn-lg d-inline-flex align-items-center">
