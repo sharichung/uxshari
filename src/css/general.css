@@ -121,6 +121,19 @@
   transform: scale(1.03);
 }
 
+/* Danger 樣式 */
+.btn-danger-shari {
+  background-color: var(--accent);
+  color: var(--light);
+}
+.btn-danger-shari:hover,
+.btn-danger-shari:focus {
+  background-color: var(--accent);
+  color: var(--light);
+  box-shadow: 0 0 0.75rem rgba(255, 61, 0, 0.4);
+  transform: scale(1.03);
+}
+
 /* 尚未置頂狀態 */
 .btn-pin {
   background-color: var(--gray);
