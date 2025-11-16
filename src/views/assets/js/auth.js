@@ -138,32 +138,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 控制頁面訪問權限
-function checkAccess() {
-    const publicPages = ["/index.html", "/login.html", "/members-only.html", "/payment.html", "/pricing.html"]; // 公開頁面
-    const freePages = ["/dashboard.html", "/account.html", "/lesson.html"]; // 免費頁面
-    const paidPages = ["/success.html"]; // 付費頁面
-    const user = firebase.auth().currentUser;
-
+firebase.auth().onAuthStateChanged((user) => {
+    const publicPages = ["/index.html", "/login.html", "/members-only.html", "/payment.html", "/pricing.html"];
+    const freePages = ["/dashboard.html", "/account.html", "/lesson.html"];
+    const paidPages = ["/success.html"];
     const currentPage = window.location.pathname;
 
-    if (publicPages.includes(currentPage)) {
-        return; // 公開頁面，無需檢查
-    }
+    if (publicPages.includes(currentPage)) return;
 
     if (freePages.includes(currentPage) && !user) {
-        window.location.href = "/login.html"; // 導向登入頁面
+        window.location.href = "/login.html";
         return;
     }
 
     if (paidPages.includes(currentPage) && (!user || user.role !== "paid")) {
-        window.location.href = "/payment.html"; // 導向付費頁面
+        window.location.href = "/payment.html";
         return;
     }
 
     if (!user) {
-        window.location.href = "/login.html"; // 導向登入頁面
+        window.location.href = "/login.html";
     }
-}
+});
+
 
 // 在 DOMContentLoaded 事件中檢查訪問權限
 document.addEventListener("DOMContentLoaded", checkAccess);
