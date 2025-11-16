@@ -11,6 +11,39 @@
   <link rel="stylesheet" href="assets/css/general.css">
 </head>
 <body class="bg-light">
+  <div id="navbar"><nav id="mainNavbar"
+    class="fade-in-down navbar-general navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm transition"
+    style="z-index: 1030;">
+    <div class="container">
+      <!-- Logo -->
+      <a href="dashboard.html" class="enter-fadein logo futuristic-hover navbar-brand d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
+          alt="UXShari UX 學習平台 Logo">
+          <path
+            d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z"
+            style="fill:#ff9500" />
+        </svg>
+        UX Shari
+      </a>
+
+
+      <a class="d-flex align-items-center text-dark text-decoration-none" href="account.html" role="button">
+        <i class="fas fa-user-circle text-dark" role="img" aria-label="會員帳號"></i>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    window.addEventListener('scroll', function () {
+      const navbar = document.getElementById('mainNavbar');
+      if (window.scrollY > 10) {
+        navbar.classList.add('navbar-scrolled');
+      } else {
+        navbar.classList.remove('navbar-scrolled');
+      }
+    });
+  </script>
+</div>
 
   <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -80,7 +113,6 @@
     const signupForm = document.getElementById("signupForm");
     const loginForm = document.getElementById("loginForm");
     const logoutBtn = document.getElementById("logoutBtn");
-    const memberContent = document.getElementById("memberContent");
 
     signupForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -130,5 +162,6 @@
       }
     });
   </script>
+  
 </body>
 </html>
