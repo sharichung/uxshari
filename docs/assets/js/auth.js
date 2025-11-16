@@ -147,7 +147,7 @@ firebase.auth().onAuthStateChanged((user) => {
     if (publicPages.includes(currentPage)) return;
 
     if (freePages.includes(currentPage) && !user) {
-        window.location.href = "/login.html";
+        window.location.href = "/index.html";
         return;
     }
 
@@ -157,7 +157,7 @@ firebase.auth().onAuthStateChanged((user) => {
     }
 
     if (!user) {
-        window.location.href = "/login.html";
+        window.location.href = "/index.html";
     }
 });
 

@@ -53,6 +53,34 @@
     </nav>
 
     <script>
+  // 倒數計時器
+  let countdown = 3;
+  const countdownEl = document.getElementById('countdown');
+  
+  const timer = setInterval(() => {
+    countdown--;
+    if (countdownEl) {
+      countdownEl.textContent = countdown;
+    }
+    
+    if (countdown <= 0) {
+      clearInterval(timer);
+      window.location.href = "https://calendly.com/sharichungdesign/30min";
+    }
+  }, 1000);
+</script>
+
+<!-- 在頁面中顯示倒數 -->
+<div class="text-center mt-4">
+  <p class="text-muted">
+    <span id="countdown">3</span> 秒後自動跳轉到預約頁面...
+  </p>
+  <a href="https://calendly.com/sharichungdesign/30min" class="btn btn-primary-shari">
+    立即前往預約 →
+  </a>
+</div>
+
+    <script>
         window.addEventListener('scroll', function () {
             const navbar = document.getElementById('mainNavbar');
             navbar.classList.toggle('navbar-scrolled', window.scrollY > 10);

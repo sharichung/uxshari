@@ -134,6 +134,33 @@
   transform: scale(1.03);
 }
 
+.btn-outline-shari {
+  border: 2px solid var(--primary-shari);
+  color: var(--primary-shari);
+  background: transparent;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-shari:hover {
+  background: var(--primary-shari);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-success-shari {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-success-shari:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
 /* 尚未置頂狀態 */
 .btn-pin {
   background-color: var(--gray);
@@ -207,4 +234,152 @@
     min-height: 44px;
     min-width: 44px;
   }
+}
+
+/* 學習地圖樣式 */
+.learning-path {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.progress-line {
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  bottom: 40px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--primary-shari) 60%, #dee2e6 60%);
+}
+
+.path-step {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.step-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  background: var(--primary-shari);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.path-step.locked .step-badge {
+  background: #dee2e6;
+  color: #6c757d;
+}
+
+.step-content {
+  flex: 1;
+  padding: 0.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .learning-path {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .progress-line {
+    left: 40px;
+    right: 40px;
+    top: 20px;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(to right, var(--primary-shari) 60%, #dee2e6 60%);
+  }
+  
+  .path-step {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .step-content {
+    padding: 1rem 0 0;
+  }
+}
+
+/* 進度圈 */
+.progress-circle {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary-shari);
+}
+
+.progress-ring {
+  transition: stroke-dashoffset 1s ease;
+}
+
+/* 課程卡片優化 */
+.course-card {
+  transition: all 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15) !important;
+}
+
+.icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 87, 34, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 卡片 Hover 覆蓋層 */
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.95) 0%, rgba(216, 67, 21, 0.95) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.course-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.overlay-content {
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.course-card:hover .overlay-content {
+  transform: translateY(0);
 }
