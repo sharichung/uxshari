@@ -1,0 +1,44 @@
+{
+  "functions": [{
+    "source": "functions",
+    "codebase": "default",
+    "disallowLegacyRuntimeConfig": true,
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log",
+      "*.local"
+    ]
+  }],
+
+  "hosting": {
+    "public": "docs",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [{
+        "source": "/api/stripe-webhook",
+        "function": "stripeWebhook"
+      },
+      {
+        "source": "/api/calendly-webhook",
+        "function": "calendlyWebhook"
+      }
+    ]
+  },
+
+  "booking": {
+    "allowed": true,
+    "limit": 1,
+    "period": "month",
+    "cooldownUntil": "2025-12-01T00:00:00Z",
+    "scheduledCountThisPeriod": 0
+  },
+  "entitlements": {
+    "challengePack": true,
+    "mentorship": true,
+    "workshop": false,
+    "proTools": false
+  }
+
+
+}

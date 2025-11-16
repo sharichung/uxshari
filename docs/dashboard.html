@@ -1,84 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="index, follow">
-  <meta name="description" content="UXShari 學習平台｜從零基礎到專業 UX/UI 設計師。提供挑戰包、進階課程、一對一輔導與小組工作坊，幫助你打造作品集、提升職場技能，成功轉職 UX/UI。">
-  <meta name="keywords" content="UX設計, UX/UI課程, UX挑戰包, UX學習平台, UX轉職, UI設計, UX教學, UX作品集, UX職涯, UX工作坊">
-  <meta name="author" content="UX Shari">
-
-  <meta property="og:title" content="UXShari 學習平台｜UX/UI 全方位學習路徑">
-  <meta property="og:description" content="挑戰包快速入門，進階課程打造作品集，一對一與工作坊提供專屬輔導。">
-  <meta property="og:image" content="https://uxshari.com/public/images/og-image.png">
-  <meta property="og:url" content="https://uxshari.com/">
-
-  <title>UXShari 學習平台｜UX/UI 課程、挑戰包、會員專區</title>
-
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
-      "name": "UXShari 學習平台",
-      "url": "https://uxshari.com/",
-      "description": "提供 UX/UI 挑戰包、進階課程、一對一輔導與小組工作坊，幫助學員成功轉職。",
-      "course": [{
-          "@type": "Course",
-          "name": "UX挑戰包",
-          "description": "零基礎快速入門 UX/UI，完成第一個作品。",
-          "provider": {
-            "@type": "Organization",
-            "name": "UXShari"
-          }
-        },
-        {
-          "@type": "Course",
-          "name": "進階 UX/UI 課程",
-          "description": "打造完整作品集，學習 Figma、用戶測試與設計系統。",
-          "provider": {
-            "@type": "Organization",
-            "name": "UXShari"
-          }
-        }
-      ]
-    }
-  </script>
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="UXShari 學習平台｜UX/UI 全方位學習路徑">
-  <meta name="twitter:description" content="挑戰包、進階課程、一對一輔導、小組工作坊，幫助你快速入門並成功轉職 UX/UI。">
-  <meta name="twitter:image" content="https://uxshari.com/public/images/og-image.png">
-
-  <link rel="canonical" href="https://uxshari.com/" />
-
-  <!-- Bootstrap CSS -->
+  <title>UXShari 學習平台｜會員專區</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- style.css -->
   <link rel="stylesheet" href="assets/css/general.css">
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Tektur:wght@400;500;600;700&amp;display=swap"
-    rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <script type="text/javascript">
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () {
-        (c[a].q = c[a].q || []).push(arguments)
-      };
-      t = l.createElement(r);
-      t.async = 1;
-      t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "u6yhpaipuv");
-  </script>
 </head>
-
 <body class="min-vh-100 d-flex flex-column">
 <div id="navbar"><nav id="mainNavbar"
     class="fade-in-down navbar-general navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm transition"
@@ -113,461 +40,45 @@
     });
   </script>
 </div>
-  <main class="flex-grow-1 d-flex flex-column" style="padding-top:56px;">
-<!-- 升級提示條 -->
-  <div id="upgrade-banner" class="alert alert-info alert-dismissible fade show m-3 border-0 shadow-sm" role="alert">
-    <div class="d-flex align-items-center">
-      <i class="fas fa-rocket fa-2x text-primary-shari me-3"></i>
-      <div class="flex-grow-1">
-        <strong>你目前使用的是免費版</strong>
-        <p class="mb-0 small">升級後可解鎖互動工具、進度追蹤與專屬輔導 🎯</p>
-      </div>
-      <a href="/payment.html" class="btn btn-primary-shari btn-sm ms-3">
-        立即升級 →
-      </a>
-    </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="關閉"></button>
-  </div>
-    <section class="container py-4">
-      <!-- 頂部導覽 -->
-      <div class="row align-items-center mb-4 fade-in-down">
-        <div class="col-6 col-md-6">
-          <div>
-            <h1 id="greeting" class="h1 fw-bold text-dark mb-0">嗨，歡迎回來</h1>
-            <p id="greeting-sub" class="text-muted small mb-0"></p>
-          </div>
-
-          <script>
-            (function waitForFirebase() {
-              if (window.firebase && firebase.auth) {
-                firebase.auth().onAuthStateChanged(function (user) {
-                  if (user) {
-                    const name = user.displayName || (user.email ? user.email.split('@')[0] : '會員');
-                    document.getElementById('greeting').textContent = `嗨，${name}！`;
-                    document.getElementById('greeting-sub').textContent = user.email || '';
-                  }
-                });
-              } else {
-                setTimeout(waitForFirebase, 200);
-              }
-            })();
-          </script>
-        </div>
-
-        <section class="container py-4">
-  <!-- 頂部導覽 -->
-  <div class="row align-items-center mb-4 fade-in-down">
-    <!-- ...existing greeting code... -->
+  <!-- 升級提示條 -->
+  <div id="upgrade-banner" class="alert alert-info m-3 d-none" role="alert">
+    <strong>你目前使用的是免費版</strong>
+    <p class="mb-0 small">升級後可解鎖預約與進階課程 🎯</p>
+    <a href="/payment.html" class="btn btn-primary btn-sm">立即升級 →</a>
   </div>
 
-  <!-- UX 學習地圖 -->
-  <div class="card shadow-sm border-0 mb-4">
-    <div class="card-body">
-      <h2 class="h5 mb-3">
-        <i class="fas fa-map-marked-alt me-2 text-primary-shari"></i>
-        你的 UX 學習旅程
-      </h2>
-      
-      <div class="learning-path position-relative">
-        <!-- 進度線 -->
-        <div class="progress-line"></div>
-        
-        <!-- 階段 1：挑戰包 -->
-        <div class="path-step active">
-          <div class="step-badge">
-            <i class="fas fa-rocket"></i>
-          </div>
-          <div class="step-content">
-            <h3 class="h6 mb-1">UX 挑戰包</h3>
-            <p class="small text-muted mb-0">入門階段 · 進行中</p>
-            <div class="progress mt-2" style="height: 6px;">
-              <div class="progress-bar bg-primary-shari" role="progressbar" style="width: 60%"></div>
-            </div>
-          </div>
-        </div>
+  <main class="container py-4 flex-grow-1">
+    <!-- 使用者問候 -->
+    <h1 id="greeting" class="h3 fw-bold">嗨，歡迎回來</h1>
+    <p id="greeting-sub" class="text-muted small"></p>
 
-        <!-- 階段 2：輔導 -->
-        <div class="path-step locked">
-          <div class="step-badge">
-            <i class="fas fa-user-tie"></i>
-          </div>
-          <div class="step-content">
-            <h3 class="h6 mb-1">一對一輔導</h3>
-            <p class="small text-muted mb-0">進階階段 · 未解鎖</p>
-          </div>
-        </div>
+    <!-- Credits 顯示 -->
+    <p>剩餘點數：<span id="credits-count">0</span></p>
 
-        <!-- 階段 3：工作坊 -->
-        <div class="path-step locked">
-          <div class="step-badge">
-            <i class="fas fa-users"></i>
-          </div>
-          <div class="step-content">
-            <h3 class="h6 mb-1">小組工作坊</h3>
-            <p class="small text-muted mb-0">實戰階段 · 未解鎖</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-      </div>
-    </section>
-
-    <!-- 課程與產品（優化版：語義化、響應式、可及性） -->
-    <section id="courses" role="region" aria-labelledby="courses-title" class="mb-4 container py-4">
-      <h2 id="courses-title" class="section-title visually-hidden">課程與產品</h2>
-
-      <div class="row g-3">
-      <article class="col-12 col-sm-6 col-lg-4" aria-labelledby="ux-challenge-title">
-        <div class="card h-100 shadow-sm course-card position-relative overflow-hidden">
-          <!-- 標籤 -->
-          <span class="badge bg-success position-absolute top-0 start-0 m-2 z-1">
-            <i class="fas fa-gift me-1"></i> 免費
-          </span>
-          <span class="badge bg-primary position-absolute top-0 end-0 m-2 z-1">入門</span>
-          
-          <!-- Hover 顯示的評語 -->
-          <div class="card-overlay">
-            <div class="overlay-content">
-              <p class="text-white small mb-2">
-                <i class="fas fa-quote-left me-2"></i>
-                「這個挑戰包讓我在 5 天內完成第一個作品！」
-              </p>
-              <p class="text-white-50 small mb-0">— 學員 Alex</p>
-            </div>
-          </div>
-
-          <div class="card-body d-flex flex-column">
-            <div class="mb-2 d-flex align-items-center gap-2">
-              <div class="icon-wrapper">
-                <i class="fas fa-rocket fa-lg text-primary-shari" aria-hidden="true"></i>
-              </div>
-              <span class="badge bg-success-subtle text-success">熱銷</span>
-            </div>
-            <h3 id="ux-challenge-title" class="h5 card-title">UX 挑戰包</h3>
-            <p class="card-text text-muted small">採用 Mini Loop™ 學習法，零基礎快速入門，完成你的第一個作品。</p>
-            
-            <!-- 快速資訊 -->
-            <div class="d-flex gap-3 text-muted small mb-3">
-              <span><i class="fas fa-clock me-1"></i> 5 天</span>
-              <span><i class="fas fa-users me-1"></i> 1,234 人</span>
-            </div>
-
-            <div class="mt-auto">
-              <button type="button" class="btn btn-primary-shari w-100">
-                查看課程 <span class="ms-2">→</span>
-              </button>
-            </div>
+    <!-- 課程卡片 -->
+    <section class="row g-3">
+      <article class="col-12 col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="h5">UX 挑戰包</h3>
+            <p class="small text-muted">零基礎快速入門 UX/UI。</p>
+            <button class="btn btn-outline-primary w-100">查看課程 →</button>
           </div>
         </div>
       </article>
 
-      <article class="col-12 col-sm-6 col-lg-4" aria-labelledby="mentorship-title">
-        <div class="card h-100 shadow-sm course-card position-relative overflow-hidden">
-          <!-- 標籤 -->
-          <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2 z-1">
-            <i class="fas fa-crown me-1"></i> 付費升級
-          </span>
-          <span class="badge bg-info position-absolute top-0 end-0 m-2 z-1">進階</span>
-          
-          <!-- Hover 顯示的評語 -->
-          <div class="card-overlay">
-            <div class="overlay-content">
-              <p class="text-white small mb-2">
-                <i class="fas fa-quote-left me-2"></i>
-                「Shari 的輔導幫我成功轉職 UX 設計師！」
-              </p>
-              <p class="text-white-50 small mb-0">— 學員 Jamie</p>
-            </div>
-          </div>
-
-          <div class="card-body d-flex flex-column">
-            <div class="mb-2 d-flex align-items-center gap-2">
-              <div class="icon-wrapper">
-                <i class="fas fa-user-tie fa-lg text-primary-shari" aria-hidden="true"></i>
-              </div>
-              <span class="badge bg-warning-subtle text-warning">專屬</span>
-            </div>
-            <h3 id="mentorship-title" class="h5 card-title">一對一輔導</h3>
-            <p class="card-text text-muted small">導師量身規劃，作品集精修、面試準備、職涯輔導。</p>
-            
-            <!-- 快速資訊 -->
-            <div class="d-flex gap-3 text-muted small mb-3">
-              <span><i class="fas fa-calendar-check me-1"></i> 彈性預約</span>
-              <span><i class="fas fa-star me-1"></i> 4.9/5</span>
-            </div>
-
-            <div class="mt-auto">
-              <button type="button" class="btn btn-primary-shari w-100">
-                立即解鎖專屬輔導 <span class="ms-2">→</span>
-              </button>
-            </div>
+      <article class="col-12 col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="h5">一對一輔導</h3>
+            <p class="small text-muted">專屬導師輔導。</p>
+            <a id="mentorship-cta" href="/payment.html#mentorship" class="btn btn-primary w-100">
+              立即解鎖專屬輔導 →
+            </a>
           </div>
         </div>
       </article>
-      </div>
     </section>
-
-    <!-- 會員專區（語義化 Aside） -->
-    <aside id="members" role="region" aria-labelledby="members-title" class="mb-4 container py-4">
-  <h2 id="members-title" class="h4 mb-2">會員專區</h2>
-  
-  <div class="card shadow-sm border-0">
-    <div class="card-body">
-      <div class="d-flex align-items-start gap-3">
-        <!-- 進度圈 -->
-        <div class="progress-circle" data-progress="80">
-          <svg width="80" height="80">
-            <circle cx="40" cy="40" r="35" fill="none" stroke="#e0e0e0" stroke-width="6"/>
-            <circle cx="40" cy="40" r="35" fill="none" stroke="var(--primary-shari)" 
-                    stroke-width="6" stroke-dasharray="220" stroke-dashoffset="44"
-                    transform="rotate(-90 40 40)" class="progress-ring"/>
-          </svg>
-          <div class="progress-text">80%</div>
-        </div>
-
-        <div class="flex-grow-1">
-          <h3 class="h6 mb-1">
-            <i class="fas fa-trophy text-warning me-2"></i>
-            成就徽章申請
-          </h3>
-          <p class="small text-muted mb-2">
-            你已完成 <strong class="text-primary-shari">80%</strong>，
-            再完成 <strong class="text-danger">1 個挑戰</strong>即可申請徽章！
-          </p>
-          
-          <!-- 進度條 -->
-          <div class="progress mb-3" style="height: 8px;">
-            <div class="progress-bar bg-primary-shari" role="progressbar" 
-                 style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
-            </div>
-          </div>
-
-          <button type="button" class="btn btn-success-shari btn-sm" onclick="handleBadgeClick()">
-            <i class="fas fa-check-circle me-2"></i>
-            領取你的 UX 成就徽章 →
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</aside>
-
-    <!-- 學習資源（格狀、易掃描） -->
-    <section id="resources" role="region" aria-labelledby="resources-title" class="mb-4 container py-4">
-      <h2 id="resources-title" class="h4 mb-3">學習資源</h2>
-      <div class="row g-3">
-      <!-- Tools Row -->
-      <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm course-card">
-        <div class="card-body d-flex flex-column">
-          <i class="fas fa-pen-ruler fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
-          <h3 class="h6 mb-1">Figma</h3>
-          <p class="small text-muted mb-3">協作設計與原型工具。</p>
-          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleResourceClick('Figma')" aria-label="查看 Figma 資源">
-          查看工具 <span class="ms-2">→</span>
-          </button>
-        </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm course-card">
-        <div class="card-body d-flex flex-column">
-          <i class="fas fa-th fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
-          <h3 class="h6 mb-1">Miro</h3>
-          <p class="small text-muted mb-3">線上白板，適合腦力激盪與旅程地圖。</p>
-          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleResourceClick('Miro')" aria-label="查看 Miro 資源">
-          查看工具 <span class="ms-2">→</span>
-          </button>
-        </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm course-card">
-        <div class="card-body d-flex flex-column">
-          <i class="fas fa-vial fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
-          <h3 class="h6 mb-1">UX Tweak</h3>
-          <p class="small text-muted mb-3">用戶測試平台，提升研究效率。</p>
-          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleResourceClick('UX Tweak')" aria-label="查看 UX Tweak 資源">
-          查看工具 <span class="ms-2">→</span>
-          </button>
-        </div>
-        </div>
-      </div>
-
-      <!-- Templates Row -->
-      <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm course-card">
-        <div class="card-body d-flex flex-column">
-          <i class="fas fa-user fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
-          <h3 class="h6 mb-1">Persona 模板</h3>
-          <p class="small text-muted mb-3">快速建立使用者角色模板。</p>
-          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleTemplateClick('Persona 模板')" aria-label="下載 Persona 模板">
-          下載模板 <span class="ms-2">→</span>
-          </button>
-        </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm course-card">
-        <div class="card-body d-flex flex-column">
-          <i class="fas fa-map fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
-          <h3 class="h6 mb-1">用戶旅程模板</h3>
-          <p class="small text-muted mb-3">視覺化流程，找出痛點並優化。</p>
-          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleTemplateClick('用戶旅程模板')" aria-label="下載 用戶旅程 模板">
-          下載模板 <span class="ms-2">→</span>
-          </button>
-        </div>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm course-card">
-        <div class="card-body d-flex flex-column">
-          <i class="fas fa-border-all fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
-          <h3 class="h6 mb-1">Wireframe 模板</h3>
-          <p class="small text-muted mb-3">快速建立頁面架構與功能流程。</p>
-          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleTemplateClick('Wireframe 模板')" aria-label="下載 Wireframe 模板">
-          下載模板 <span class="ms-2">→</span>
-          </button>
-        </div>
-        </div>
-      </div>
-      </div>
-    </section>
-
-    <!-- 學員成功案例 -->
-<section class="container py-5">
-  <h2 class="h4 text-center mb-4">學員成功轉職案例</h2>
-  
-  <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <!-- 案例 1 -->
-      <div class="carousel-item active">
-        <div class="card border-0 shadow-sm mx-auto" style="max-width: 600px;">
-          <div class="card-body p-4">
-            <div class="d-flex align-items-center mb-3">
-              <img src="assets/images/avatar-1.jpg" alt="Alex" class="rounded-circle me-3" width="60" height="60">
-              <div>
-                <h3 class="h6 mb-0">Alex Chen</h3>
-                <p class="small text-muted mb-0">從工程師轉職 UX Designer</p>
-              </div>
-            </div>
-            <p class="mb-0">
-              <i class="fas fa-quote-left text-primary-shari me-2"></i>
-              「Shari 的輔導讓我在 3 個月內拿到 UX 職位！她不只教技能，更教我如何包裝作品集與面試技巧。」
-              <i class="fas fa-quote-right text-primary-shari ms-2"></i>
-            </p>
-            <div class="mt-3">
-              <span class="badge bg-success-subtle text-success">已轉職</span>
-              <span class="badge bg-primary-subtle text-primary">3 個月</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 案例 2 -->
-      <div class="carousel-item">
-        <div class="card border-0 shadow-sm mx-auto" style="max-width: 600px;">
-          <div class="card-body p-4">
-            <div class="d-flex align-items-center mb-3">
-              <img src="assets/images/avatar-2.jpg" alt="Emma" class="rounded-circle me-3" width="60" height="60">
-              <div>
-                <h3 class="h6 mb-0">Emma Wu</h3>
-                <p class="small text-muted mb-0">從行銷轉職 Product Designer</p>
-              </div>
-            </div>
-            <p class="mb-0">
-              <i class="fas fa-quote-left text-primary-shari me-2"></i>
-              「挑戰包幫我建立信心，一對一輔導讓我的作品集提升到另一個層次。現在我在新創公司做產品設計！」
-              <i class="fas fa-quote-right text-primary-shari ms-2"></i>
-            </p>
-            <div class="mt-3">
-              <span class="badge bg-success-subtle text-success">已轉職</span>
-              <span class="badge bg-primary-subtle text-primary">4 個月</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 控制按鈕 -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">上一則</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">下一則</span>
-    </button>
-
-    <!-- 指示器 -->
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active"></button>
-      <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"></button>
-    </div>
-  </div>
-</section>
-
-<!-- Shari 簡介 -->
-<section class="bg-light py-5">
-  <div class="container">
-    <div class="row align-items-center g-4">
-      <div class="col-md-4 text-center">
-        <img src="assets/images/shari-profile.jpg" alt="Shari Chung" class="rounded-circle shadow-lg" width="200" height="200">
-      </div>
-      <div class="col-md-8">
-        <h2 class="h4 mb-3">
-          <i class="fas fa-heart text-danger me-2"></i>
-          Shari 的教學風格
-        </h2>
-        <p class="mb-3">
-          我相信 UX 不只是技能，更是一種思維方式。我的教學著重於：
-        </p>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <i class="fas fa-check-circle text-success me-2"></i>
-            <strong>實戰導向</strong>：每個課程都有真實專案練習
-          </li>
-          <li class="mb-2">
-            <i class="fas fa-check-circle text-success me-2"></i>
-            <strong>個人化輔導</strong>：根據你的背景與目標量身規劃
-          </li>
-          <li class="mb-2">
-            <i class="fas fa-check-circle text-success me-2"></i>
-            <strong>職涯支持</strong>：不只教設計，更教你如何進入 UX 產業
-          </li>
-        </ul>
-        <a href="/payment.html" class="btn btn-primary-shari mt-3">
-          預約 Shari 的 1 對 1 輔導 →
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-    <!-- CTA Section -->
-    <section class="bg-light py-5 px-3 mt-4">
-      <div class="container">
-      <div class="row align-items-center justify-content-between g-4">
-        <div class="col-12 col-md-8">
-        <h2 class="h5 fw-bold mb-2">升級你的 UX/UI 技能</h2>
-        <p class="mb-0 text-muted">
-          預約 Shari 的 1 對 1 專屬輔導，獲得作品集精修、職涯建議與學習路線規劃，讓你的轉職之路更快、更穩！
-        </p>
-        </div>
-        <div class="col-12 col-md-auto">
-        <a href="/payment.html#mentorship" class="btn btn-primary-shari btn-lg">
-          <i class="fas fa-credit-card me-2"></i> 前往付款 →
-        </a>
-        </div>
-      </div>
-      </div>
-    </section>
-
-
-
   <footer class="bg-light border-top mt-auto py-4">
     <div
       class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
@@ -603,93 +114,59 @@
     </div>
   </footer>
 </main>
-
-
-  
-
+    
 
   <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-
-  <!-- Bootstrap 5 JS（含 Popper） -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!--Start of Tawk.to Script-->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {},
-      Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/6838fcda70b16107011a0baa/1isf9ndi1';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  </script>
-  <!--End of Tawk.to Script-->
-
-
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/ui.js"></script>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // ✅ 你的 Firebase 設定
-  const firebaseConfig = {
-    apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-    authDomain: "uxshari-670fd.firebaseapp.com",
-    projectId: "uxshari-670fd",
-    storageBucket: "uxshari-670fd.firebasestorage.app",
-    messagingSenderId: "907540538791",
-    appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
-    measurementId: "G-2GTKFRV4FZ"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+      authDomain: "uxshari-670fd.firebaseapp.com",
+      projectId: "uxshari-670fd",
+    };
 
-  // ✅ 初始化 Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    if (!getApps().length) initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
 
-  // ✅ 使用者登入狀態監聽
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      console.log("⚠️ 尚未登入，跳回首頁");
-      window.location.href = "index.html"; // 可改為你的登入頁面
-    } else {
-      console.log("👤 使用者登入中：", user.email);
+    const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
 
-      if (!userSnap.exists()) {
-        // ✨ 新用戶，寫入初始化資料
-        await setDoc(userRef, {
-          email: user.email,
-          name: user.displayName || "",
-          enrolledCourses: ["ux_course_01"],
-          progress: {
-            ux_course_01: {
-              currentLesson: 1,
-              completedLessons: []
-            }
-          }
-        });
-        console.log("🔥 初始資料寫入成功！");
-      } else {
-        console.log("✅ 使用者資料已存在");
+      document.getElementById("greeting").textContent = `嗨，${user.email.split('@')[0]}！`;
+      document.getElementById("greeting-sub").textContent = user.email;
+
+      let snap = await getDoc(doc(db, "users", user.uid));
+      if (!snap.exists() && user.email) {
+        snap = await getDoc(doc(db, "users_by_email", encEmail(user.email)));
       }
-    }
-  });
-</script>
 
+      if (snap.exists()) {
+        const d = snap.data();
+
+        // 更新 credits
+        document.getElementById("credits-count").textContent = d.credits ?? 0;
+
+        // 升級提示條
+        const upgradeBanner = document.getElementById("upgrade-banner");
+        if (d.payment?.status === "paid") {
+          upgradeBanner.classList.add("d-none");
+        } else {
+          upgradeBanner.classList.remove("d-none");
+        }
+
+        // Mentorship CTA
+        const mentorshipCta = document.getElementById("mentorship-cta");
+        if (d.entitlements?.mentorship) {
+          mentorshipCta.textContent = "前往預約 →";
+          mentorshipCta.href = "/booking.html#mentorship";
+        }
+      }
+    });
+  </script>
 </body>
-
 </html>

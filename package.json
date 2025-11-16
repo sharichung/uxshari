@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/sharichung/uxshari/issues"
   },
-  "homepage": "https://github.com/sharichung/uxshari#readme"
+  "homepage": "https://github.com/sharichung/uxshari#readme",
+  "dependencies": {
+    "firebase-admin": "^13.6.0",
+    "stripe": "^19.3.1"
+  }
 }
