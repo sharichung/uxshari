@@ -214,116 +214,96 @@
     <section id="resources" role="region" aria-labelledby="resources-title" class="mb-4 container py-4">
       <h2 id="resources-title" class="h4 mb-3">學習資源</h2>
       <div class="row g-3">
+      <!-- Tools Row -->
       <div class="col-12 col-sm-6 col-md-4">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm course-card">
         <div class="card-body d-flex flex-column">
+          <i class="fas fa-pen-ruler fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
           <h3 class="h6 mb-1">Figma</h3>
-          <p class="small text-muted mb-2">協作設計與原型工具。</p>
-          <div class="mt-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="handleResourceClick('Figma')"
-            aria-label="查看 Figma 資源">
-            查看工具 <span class="ms-2">→</span>
-          </button>
-          </div>
-        </div>
-        </div>
-      </div>
-      </div>
-
-      <div class="col-12 col-sm-6 col-md-4">
-      <div class="card h-100 shadow-sm">
-        <div class="card-body d-flex flex-column">
-        <h3 class="h6 mb-1">Miro</h3>
-        <p class="small text-muted mb-2">線上白板，適合腦力激盪與旅程地圖。</p>
-        <div class="mt-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="handleResourceClick('Miro')"
-          aria-label="查看 Miro 資源">
+          <p class="small text-muted mb-3">協作設計與原型工具。</p>
+          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleResourceClick('Figma')" aria-label="查看 Figma 資源">
           查看工具 <span class="ms-2">→</span>
           </button>
         </div>
         </div>
       </div>
-      </div>
-      </div>
-
       <div class="col-12 col-sm-6 col-md-4">
-      <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm course-card">
         <div class="card-body d-flex flex-column">
-        <h3 class="h6 mb-1">UX Tweak</h3>
-        <p class="small text-muted mb-2">用戶測試平台，提升研究效率。</p>
-        <div class="mt-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="handleResourceClick('UX Tweak')"
-          aria-label="查看 UX Tweak 資源">
+          <i class="fas fa-th fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
+          <h3 class="h6 mb-1">Miro</h3>
+          <p class="small text-muted mb-3">線上白板，適合腦力激盪與旅程地圖。</p>
+          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleResourceClick('Miro')" aria-label="查看 Miro 資源">
           查看工具 <span class="ms-2">→</span>
           </button>
         </div>
         </div>
       </div>
-      </div>
+      <div class="col-12 col-sm-6 col-md-4">
+        <div class="card h-100 shadow-sm course-card">
+        <div class="card-body d-flex flex-column">
+          <i class="fas fa-vial fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
+          <h3 class="h6 mb-1">UX Tweak</h3>
+          <p class="small text-muted mb-3">用戶測試平台，提升研究效率。</p>
+          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleResourceClick('UX Tweak')" aria-label="查看 UX Tweak 資源">
+          查看工具 <span class="ms-2">→</span>
+          </button>
+        </div>
+        </div>
       </div>
 
+      <!-- Templates Row -->
       <div class="col-12 col-sm-6 col-md-4">
-      <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm course-card">
         <div class="card-body d-flex flex-column">
-        <h3 class="h6 mb-1">Persona 模板</h3>
-        <p class="small text-muted mb-2">快速建立使用者角色模板。</p>
-        <div class="mt-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="handleTemplateClick('Persona 模板')"
-          aria-label="下載 Persona 模板">
+          <i class="fas fa-user fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
+          <h3 class="h6 mb-1">Persona 模板</h3>
+          <p class="small text-muted mb-3">快速建立使用者角色模板。</p>
+          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleTemplateClick('Persona 模板')" aria-label="下載 Persona 模板">
           下載模板 <span class="ms-2">→</span>
           </button>
         </div>
         </div>
       </div>
-      </div>
-      </div>
-
       <div class="col-12 col-sm-6 col-md-4">
-      <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm course-card">
         <div class="card-body d-flex flex-column">
-        <h3 class="h6 mb-1">用戶旅程模板</h3>
-        <p class="small text-muted mb-2">視覺化流程，找出痛點並優化。</p>
-        <div class="mt-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="handleTemplateClick('用戶旅程模板')"
-          aria-label="下載 用戶旅程 模板">
+          <i class="fas fa-map fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
+          <h3 class="h6 mb-1">用戶旅程模板</h3>
+          <p class="small text-muted mb-3">視覺化流程，找出痛點並優化。</p>
+          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleTemplateClick('用戶旅程模板')" aria-label="下載 用戶旅程 模板">
           下載模板 <span class="ms-2">→</span>
           </button>
         </div>
         </div>
       </div>
-      </div>
-      </div>
-
       <div class="col-12 col-sm-6 col-md-4">
-      <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm course-card">
         <div class="card-body d-flex flex-column">
-        <h3 class="h6 mb-1">Wireframe 模板</h3>
-        <p class="small text-muted mb-2">快速建立頁面架構與功能流程。</p>
-        <div class="mt-auto">
-          <button type="button" class="btn btn-outline-secondary btn-sm" onclick="handleTemplateClick('Wireframe 模板')"
-          aria-label="下載 Wireframe 模板">
+          <i class="fas fa-border-all fa-lg text-primary-shari mb-2" aria-hidden="true"></i>
+          <h3 class="h6 mb-1">Wireframe 模板</h3>
+          <p class="small text-muted mb-3">快速建立頁面架構與功能流程。</p>
+          <button type="button" class="btn btn-outline-primary-shari btn-sm mt-auto" onclick="handleTemplateClick('Wireframe 模板')" aria-label="下載 Wireframe 模板">
           下載模板 <span class="ms-2">→</span>
           </button>
         </div>
         </div>
-      </div>
-      </div>
       </div>
       </div>
     </section>
+
+    <!-- CTA Section -->
     <section class="bg-light py-5 px-3 mt-4">
       <div class="container">
-      <div class="row align-items-center justify-content-between text-center text-md-start">
-        <div class="col-12 col-md-8 mb-4 mb-md-0">
-        <h5 class="fw-bold mb-2">升級你的 UX/UI 技能</h5>
+      <div class="row align-items-center justify-content-between g-4">
+        <div class="col-12 col-md-8">
+        <h2 class="h5 fw-bold mb-2">升級你的 UX/UI 技能</h2>
         <p class="mb-0 text-muted">
           預約 Shari 的 1 對 1 專屬輔導，獲得作品集精修、職涯建議與學習路線規劃，讓你的轉職之路更快、更穩！
         </p>
         </div>
         <div class="col-12 col-md-auto">
-        <!-- Step 1: 付款 -->
-        <a href="/payment.html#mentorship"
-          class="btn shari-btn btn-primary-shari btn-lg d-inline-flex align-items-center">
+        <a href="/payment.html#mentorship" class="btn btn-primary-shari btn-lg">
           <i class="fas fa-credit-card me-2"></i> 前往付款 →
         </a>
         </div>
