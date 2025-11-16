@@ -58,8 +58,10 @@ if (file === "index.html") {
     console.log(`✓ HTML 是否改變: ${beforeReplace !== html}`);
 }
 
-// 在 </main> 或 </body> 前注入 footer
-html = html.replace(/<\/main>/, `${footer}\n  </main>`);
+//// ✅ 移除舊 footer，再注入新的（避免重複）
+// 移除所有可能的 footer 格式
+html = html.replace(/<footer[^>]*>[\s\S]*?<\/footer>/g, '');  // 移除所有 footer
+html = html.replace(/<\/main>/, `${footer}\n</main>`);
     
     // 插入對應 CSS
     const cssLink = `<link rel="stylesheet" href="assets/css/${pageType}.css">`;
