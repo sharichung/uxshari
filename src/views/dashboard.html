@@ -69,36 +69,26 @@
     const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 
     onAuthStateChanged(auth, async (user) => {
+      const creditsEl = document.getElementById("credits-count");
+      const banner = document.getElementById("upgrade-banner");
       if (!user) return;
 
-      document.getElementById("greeting").textContent = `嗨，${user.email.split('@')[0]}！`;
-      document.getElementById("greeting-sub").textContent = user.email;
-
-      let snap = await getDoc(doc(db, "users", user.uid));
-      if (!snap.exists() && user.email) {
+      // 讀 users_by_email/{base64url(email)}
+      let snap = null;
+      if (user.email) {
         snap = await getDoc(doc(db, "users_by_email", encEmail(user.email)));
       }
 
-      if (snap.exists()) {
+      if (snap && snap.exists()) {
         const d = snap.data();
-
-        // 更新 credits
-        document.getElementById("credits-count").textContent = d.credits ?? 0;
-
-        // 升級提示條
-        const upgradeBanner = document.getElementById("upgrade-banner");
-        if (d.payment?.status === "paid") {
-          upgradeBanner.classList.add("d-none");
-        } else {
-          upgradeBanner.classList.remove("d-none");
+        if (creditsEl) creditsEl.textContent = d.credits ?? 0;
+        if (banner) {
+          if (d.isPaid) banner.classList.add("d-none");
+          else banner.classList.remove("d-none");
         }
-
-        // Mentorship CTA
-        const mentorshipCta = document.getElementById("mentorship-cta");
-        if (d.entitlements?.mentorship) {
-          mentorshipCta.textContent = "前往預約 →";
-          mentorshipCta.href = "/booking.html#mentorship";
-        }
+      } else {
+        if (creditsEl) creditsEl.textContent = 0;
+        if (banner) banner.classList.remove("d-none");
       }
     });
   </script>

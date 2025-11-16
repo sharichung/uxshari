@@ -13,6 +13,7 @@ export default {
       // 2) 解析事件
       const event = JSON.parse(raw);
       if (event.type !== "checkout.session.completed") {
+        console.log("Stripe event received:", event.type);
         return json({ received: true });
       }
 
@@ -31,6 +32,7 @@ export default {
 
       // 4) 以 email 建立/更新 Firestore：users_by_email/{emailDocId}
       const email = session.customer_details?.email;
+      console.log("checkout.session.completed email:", email, "session:", session.id);
       if (!email) return json({ error: "No customer email" }, 400);
 
       const emailDocId = toBase64Url(email); // 用 base64url 當 docId，避免 @/. 等字元
@@ -81,7 +83,8 @@ export default {
 
       try {
         const token = await getGcpAccessToken(env);
-        await firestoreCommit(projectId, token, writes);
+        const resp = await firestoreCommit(projectId, token, writes);
+        console.log("Firestore commit ok:", JSON.stringify(resp).slice(0,200));
         return json({ ok: true });
       } catch (e) {
         console.error("Firestore commit error:", e);
@@ -92,12 +95,14 @@ export default {
     if (url.pathname === "/api/calendly-webhook" && request.method === "POST") {
       const raw = await request.text();
 
-      // 可選：驗證 Calendly 簽名（X-Cal-Signature: t=...,v1=...）
+      // 暫時停用簽名驗證（Calendly API 不提供 signing key）
+      /*
       const calSig = request.headers.get("x-cal-signature") || "";
       if (env.CALENDLY_SIGNING_KEY) {
         const ok = await verifyCalendlySignature(env.CALENDLY_SIGNING_KEY, calSig, raw);
         if (!ok) return json({ error: "Invalid Calendly signature" }, 401);
       }
+      */
 
       const body = JSON.parse(raw || "{}");
       if (body.event !== "invitee.created") return json({ received: true });
