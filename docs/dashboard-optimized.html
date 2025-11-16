@@ -67,39 +67,62 @@
   </div>
 
   <!-- Navbar -->
-  <div id="navbar"><nav id="mainNavbar"
-    class="fade-in-down navbar-general navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm transition"
-    style="z-index: 1030;">
-    <div class="container">
-      <!-- Logo -->
-      <a href="dashboard.html" class="enter-fadein logo futuristic-hover navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
-          alt="UXShari UX 學習平台 Logo">
-          <path
-            d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z"
-            style="fill:#ff9500" />
-        </svg>
-        UX Shari
-      </a>
+  <div id="navbar"><nav class="navbar navbar-expand-lg">
+    <div class="container navbar-container">
 
+      <!-- Logo + Toggler -->
+      <div class="logo-container d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo futuristic-hover navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
+            alt="UXShari UX 學習平台 Logo">
+            <path
+              d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z"
+              style="fill:#ff9500" />
+          </svg>
+          UX Shari
+        </a>
 
-      <a class="d-flex align-items-center text-dark text-decoration-none" href="account.html" role="button">
-        <i class="fas fa-user-circle text-dark" role="img" aria-label="會員帳號"></i>
-      </a>
-    </div>
-  </nav>
+        <!-- Bootstrap 5 toggler button -->
+        <button class="navbar-toggler mobile-menu-toggle" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 6H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 18H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
 
-  <script>
-    window.addEventListener('scroll', function () {
-      const navbar = document.getElementById('mainNavbar');
-      if (window.scrollY > 10) {
-        navbar.classList.add('navbar-scrolled');
-      } else {
-        navbar.classList.remove('navbar-scrolled');
-      }
-    });
-  </script>
+      <!-- Links -->
+<div class="collapse navbar-collapse nav-links" id="navbarNav">
+  <ul class="navbar-nav ms-md-auto d-flex gap-3">
+    <li class="nav-item">
+      <a href="#courses" class="nav-link">課程與產品</a>
+    </li>
+    <li class="nav-item">
+      <a href="#members" class="nav-link">會員專區</a>
+    </li>
+    <li class="nav-item">
+      <a href="#instructor" class="nav-link">導師介紹</a>
+    </li>
+    <li class="nav-item">
+      <a href="#resources" class="nav-link">學習資源</a>
+    </li>
+    <li class="nav-item">
+      <a href="#testimonials" class="nav-link">學員心得</a>
+    </li>
+    <li class="nav-item">
+      <a href="#faq" class="nav-link">常見問題</a>
+    </li>
+    <li class="nav-item">
+      <a href="#auth-wrapper" class="nav-link cta px-3">登入 / 註冊</a>
+    </li>
+  </ul>
 </div>
+
+
+    </div>
+  </nav></div>
 
   <!-- Main Content -->
   <main class="flex-grow-1 d-flex flex-column" style="padding-top:80px;">
@@ -220,37 +243,48 @@
       </div>
     </section>
 
-  <footer class="bg-light border-top mt-auto py-4">
-    <div
-      class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
 
-      <!-- 社群連結 -->
-      <div class="d-flex gap-3 my-3 my-md-0">
-        <a href="https://www.instagram.com/uxshari/" class="social-link" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://www.youtube.com/@uxshari" class="social-link" aria-label="YouTube">
-          <i class="fab fa-youtube"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/sharichung/" class="social-link" aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="https://join.slack.com/t/uxshari/shared_invite/zt-3ioqyosn8-p2VUz1ST9wceu8Io~2ovFQ" class="social-link"
-          aria-label="Slack 社群">
-          <i class="fab fa-slack"></i>
-        </a>
+        <!-- 品牌簡介 -->
+        <div class="footer-column">
+          <h3>UXShari 學習平台</h3>
+          <p>
+            幫助全球 UX/UI 初學者與進階設計師，建立專業技能、打造作品集，並成功轉職或升級職場能力。
+          </p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/uxshari/" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/@uxshari" class="social-link" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/sharichung/" class="social-link" aria-label="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://join.slack.com/t/uxshari/shared_invite/zt-3ioqyosn8-p2VUz1ST9wceu8Io~2ovFQ"
+              class="social-link" aria-label="Slack 社群">
+              <i class="fab fa-slack"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 快速連結 -->
+        <div class="footer-column">
+          <h3>快速連結</h3>
+          <ul class="footer-links ps-0">
+            <li class="footer-link"><a href="#auth-wrapper">會員登入</a></li>
+            <li class="footer-link"><a href="#features">學習方法</a></li>
+            <li class="footer-link"><a href="#courses">課程與產品</a></li>
+            <li class="footer-link"><a href="#testimonials">學員心得</a></li>
+            <li class="footer-link"><a href="#faq">常見問題</a></li>
+          </ul>
+        </div>
       </div>
 
-      <!-- 快速連結 -->
-      <div class="my-3 my-md-0">
-        <a href="privacy.html" class="text-decoration-none text-muted me-3">隱私權政策</a>
-        <a href="terms.html" class="text-decoration-none text-muted me-3">使用者條款</a>
-        <a href="contact.html" class="text-decoration-none text-muted">聯絡我們</a>
-      </div>
-
-      <!-- 版權 -->
-      <div class="mb-2 mb-md-0">
-        <small class="text-muted">© <span id="current-year"></span> UXShari 學習平台. All rights reserved.</small>
+      <div class="copyright">
+        © <span id="current-year"></span> UXShari 學習平台. All rights reserved.
       </div>
     </div>
   </footer>
