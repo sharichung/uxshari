@@ -21,19 +21,51 @@ const viewFiles = fs.readdirSync("src/views").filter(file => file.endsWith(".htm
 viewFiles.forEach(file => {
     const pageType = pageConfig[file] || "funnel"; // 預設為 funnel
 
-    const navbar = fs.readFileSync(`src/components/${pageType}-navbar.html`, "utf-8");
-    const footer = fs.readFileSync(`src/components/${pageType}-footer.html`, "utf-8");
+    // ✅ 讀取 navbar 和 footer
+    const navbarPath = `src/views/components/${pageType}-navbar.html`;
+    const footerPath = `src/views/components/${pageType}-footer.html`;
+    
+    let navbar = "";
+    let footer = "";
+    
+    if (fs.existsSync(navbarPath)) {
+        navbar = fs.readFileSync(navbarPath, "utf-8");
+    }
+    if (fs.existsSync(footerPath)) {
+        footer = fs.readFileSync(footerPath, "utf-8");
+    }
 
     let html = fs.readFileSync(path.join("src/views", file), "utf-8");
 
-    // 插入對應 style, navbar, footer
-    const cssLink = `<link rel="stylesheet" href="assets/css/${pageType}.css">`;
-    html = html
-        .replace("<!-- INCLUDE:style -->", cssLink)
-        .replace("<!-- INCLUDE:navbar -->", navbar)
-        .replace("<!-- INCLUDE:footer -->", footer);
+// 🔍 除錯訊息
+if (file === "index.html") {
+    console.log(`📝 處理 ${file}`);
+    console.log(`✓ Navbar 路徑: ${navbarPath}`);
+    console.log(`✓ Navbar 內容長度: ${navbar.length} 字元`);
+    console.log(`✓ 原始 HTML 中的 navbar div: ${html.includes('<div id="navbar"></div>')}`);
+}
 
-    // 修正資源路徑：避免 ./ 或 / 開頭錯誤
+// ✅ 直接注入 navbar（不管後面有沒有 script）
+const beforeReplace = html;
+html = html.replace(
+    /<div id="navbar"><\/div>/g,  // ← 加入 /g 全局匹配
+    `<div id="navbar">${navbar}</div>`
+);
+
+if (file === "index.html") {
+    console.log(`✓ 注入前是否找到 div id="navbar": ${beforeReplace.includes('<div id="navbar"></div>')}`);
+    console.log(`✓ 注入後包含 navbar 內容: ${html.includes('fab fa-slack')}`);
+    console.log(`✓ HTML 是否改變: ${beforeReplace !== html}`);
+}
+
+// 在 </main> 或 </body> 前注入 footer
+html = html.replace(/<\/main>/, `${footer}\n  </main>`);
+    
+    // 插入對應 CSS
+    const cssLink = `<link rel="stylesheet" href="assets/css/${pageType}.css">`;
+    html = html.replace("<!-- INCLUDE:style -->", cssLink);
+
+    // 修正資源路徑
     html = html.replace(/(src|href)="\.?\/?(assets\/[^"]+)"/g, '$1="$2"');
     html = html.replace(/(src|href)="\.?\/?(css\/[^"]+)"/g, '$1="assets/$2"');
     html = html.replace(/(src|href)="\.?\/?(js\/[^"]+)"/g, '$1="assets/$2"');
@@ -44,17 +76,19 @@ viewFiles.forEach(file => {
     console.log(`✅ 已處理 ${file}（樣式類型：${pageType}）`);
 });
 
-// 複製 CSS（複製所有樣式）
+// 複製 CSS
 ensureDir("docs/assets/css");
-const cssFiles = fs.readdirSync("src/css").filter(f => f.endsWith(".css"));
-cssFiles.forEach(file => {
-    fs.copyFileSync(`src/css/${file}`, `docs/assets/css/${file}`);
-});
+if (fs.existsSync("src/views/assets/css")) {
+    const cssFiles = fs.readdirSync("src/views/assets/css").filter(f => f.endsWith(".css"));
+    cssFiles.forEach(file => {
+        fs.copyFileSync(`src/views/assets/css/${file}`, `docs/assets/css/${file}`);
+    });
+}
 
 // 複製 JS 資料夾
 const jsDirs = ["auth", "layout", "visual"];
 jsDirs.forEach(subdir => {
-    const from = path.join("src/js", subdir);
+    const from = path.join("src/views/assets/js", subdir);
     const to = path.join("docs/assets/js", subdir);
     ensureDir(to);
     if (fs.existsSync(from)) {
@@ -65,15 +99,18 @@ jsDirs.forEach(subdir => {
     }
 });
 
-// 複製根層 JS 檔案（排除資料夾）
+// 複製根層 JS 檔案
 ensureDir("docs/assets/js");
-const allJs = fs.readdirSync("src/js");
-allJs.forEach(file => {
-    const fullPath = path.join("src/js", file);
-    if (fs.statSync(fullPath).isFile() && file.endsWith(".js")) {
-        fs.copyFileSync(fullPath, path.join("docs/assets/js", file));
-    }
-});
+const jsDir = "src/views/assets/js";
+if (fs.existsSync(jsDir)) {
+    const allJs = fs.readdirSync(jsDir);
+    allJs.forEach(file => {
+        const fullPath = path.join(jsDir, file);
+        if (fs.statSync(fullPath).isFile() && file.endsWith(".js")) {
+            fs.copyFileSync(fullPath, path.join("docs/assets/js", file));
+        }
+    });
+}
 
 // 複製圖片
 if (fs.existsSync("src/assets/images")) {

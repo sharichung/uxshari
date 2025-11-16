@@ -71,16 +71,7 @@
 </head>
 
 <body>
-
-
-  <div id="navbar"></div>
-  <script>
-    fetch('../../src/components/funnel-navbar.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('navbar').innerHTML = html);
-  </script>
-
-
+<div id="navbar"></div>
   <header id="hero" class="hero hero-content">
     <div
       class="container hero-content d-flex flex-column flex-md-row align-items-center justify-content-between pt-4 pb-5 py-md-5">
@@ -667,52 +658,7 @@
 
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-
-        <!-- 品牌簡介 -->
-        <div class="footer-column">
-          <h3>UXShari 學習平台</h3>
-          <p>
-            幫助全球 UX/UI 初學者與進階設計師，建立專業技能、打造作品集，並成功轉職或升級職場能力。
-          </p>
-          <div class="social-links">
-            <a href="https://www.instagram.com/uxshari/" class="social-link" aria-label="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.youtube.com/@uxshari" class="social-link" aria-label="YouTube">
-              <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/sharichung/" class="social-link" aria-label="LinkedIn">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://join.slack.com/t/uxshari/shared_invite/zt-3ioqyosn8-p2VUz1ST9wceu8Io~2ovFQ"
-              class="social-link" aria-label="Slack 社群">
-              <i class="fab fa-slack"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- 快速連結 -->
-        <div class="footer-column">
-          <h3>快速連結</h3>
-          <ul class="footer-links ps-0">
-            <li class="footer-link"><a href="#auth-wrapper">會員登入</a></li>
-            <li class="footer-link"><a href="#features">學習方法</a></li>
-            <li class="footer-link"><a href="#courses">課程與產品</a></li>
-            <li class="footer-link"><a href="#testimonials">學員心得</a></li>
-            <li class="footer-link"><a href="#faq">常見問題</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="copyright">
-        © <span id="current-year"></span> UXShari 學習平台. All rights reserved.
-      </div>
-    </div>
-  </footer>
-
+  <footer class="footer"></footer>
 
   <!-- 浮動 CTA
   <a href="#auth-wrapper" class="floating-cta" id="floating-cta">
