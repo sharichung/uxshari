@@ -64,16 +64,22 @@
   <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script type="text/javascript">
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () {
+        (c[a].q = c[a].q || []).push(arguments)
+      };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "u6yhpaipuv");
+  </script>
 </head>
 
 <body class="min-vh-100 d-flex flex-column">
-
-  <div id="data"></div>
-  <script>
-    fetch('../../src/components/data.html')
-      .then(res => res.text())
-      .then(html => document.getElementById('data').innerHTML = html);
-  </script>
   
   <div id="navbar"></div>
   <script>
