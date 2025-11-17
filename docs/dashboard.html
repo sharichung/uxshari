@@ -154,7 +154,7 @@
 
             <!-- 右側：動作按鈕 -->
             <div class="col-md-6 text-md-end">
-              <button id="book-session-btn" class="btn btn-lg btn-primary-shari w-100 w-md-auto" disabled>
+              <button id="book-session-btn" class="btn btn-lg btn-primary-shari w-100 w-md-auto" onclick="handleBookClick()" disabled>
                 <i class="fas fa-spinner fa-spin me-2"></i> 載入中...
               </button>
             </div>
@@ -262,6 +262,60 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Global function for book button (must be outside module scope) -->
+  <script>
+    console.log('🔵 Global script loaded - v20251117-1545');
+    window.handleBookClick = async function() {
+      console.log('=== BUTTON CLICKED (GLOBAL FUNCTION) ===');
+      
+      const bookBtn = document.getElementById('book-session-btn');
+      const hasCreditsAlert = document.getElementById('has-credits-alert');
+      
+      console.log('bookBtn:', bookBtn);
+      console.log('hasCreditsAlert:', hasCreditsAlert);
+      
+      try {
+        bookBtn.disabled = true;
+        bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 準備預約連結...';
+        
+        console.log('Showing yellow warning...');
+        hasCreditsAlert.classList.remove('alert-success', 'd-none');
+        hasCreditsAlert.classList.add('alert-warning');
+        hasCreditsAlert.innerHTML = `
+          <i class="fas fa-hourglass-half me-2"></i>
+          <strong>已預留 1 個輔導名額</strong>
+          <p class="mb-0 small">請在 <strong>10 分鐘內</strong>完成 Calendly 預約表單。若未完成，點數將自動退回。</p>
+        `;
+        console.log('Yellow warning displayed! Classes:', hasCreditsAlert.className);
+        
+        // Get auth from Firebase module (will be set by module script)
+        console.log('Getting user email from Firebase auth...');
+        const auth = window.firebaseAuth;
+        if (!auth || !auth.currentUser) {
+          throw new Error('用戶未登入');
+        }
+        
+        console.log('Fetching scheduling link for:', auth.currentUser.email);
+        const workerBase = 'https://uxshari-workers.uxshari.workers.dev';
+        const res = await fetch(`${workerBase}/api/create-scheduling-link?email=${encodeURIComponent(auth.currentUser.email)}`);
+        const data = await res.json();
+        
+        console.log('API response:', data);
+        
+        if (!data.ok) throw new Error(data.error || '建立預約連結失敗');
+        
+        console.log('Opening Calendly link:', data.url);
+        window.open(data.url, '_blank');
+      } catch (e) {
+        console.error('Error:', e);
+        alert(e.message || '無法建立預約連結，請稍後再試');
+      } finally {
+        bookBtn.disabled = false;
+        bookBtn.innerHTML = '<i class="fas fa-calendar-check me-2"></i> 立即預約 50 分鐘輔導';
+      }
+    };
+  </script>
+
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -279,6 +333,9 @@
     if (!getApps().length) initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
+    
+    // Expose auth to global scope for handleBookClick function
+    window.firebaseAuth = auth;
 
     // 工具函數
     const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
@@ -313,12 +370,84 @@
       }
     });
 
+    // Track if user has clicked book button (to show warning message)
+    let hasClickedBook = false;
+    let warningMessageTimer = null;
+
+    // Book button click handler - attached once on page load
+    elements.bookBtn.addEventListener('click', async () => {
+      console.log('=== BUTTON CLICKED ===');
+      console.log('Button disabled state:', elements.bookBtn.disabled);
+      
+      // Check if button is disabled (no credits)
+      if (elements.bookBtn.disabled) {
+        console.log('Button is disabled, ignoring click');
+        return;
+      }
+      
+      try {
+        console.log('Starting book flow...');
+        elements.bookBtn.disabled = true;
+        elements.bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 準備預約連結...';
+        console.log('Button text updated');
+        
+        console.log('Book button clicked, setting hasClickedBook to true');
+        // Show warning message IMMEDIATELY when button is clicked
+        hasClickedBook = true;
+        console.log('hasClickedBook set to:', hasClickedBook);
+        console.log('About to modify hasCreditsAlert...');
+        console.log('hasCreditsAlert element:', elements.hasCreditsAlert);
+        console.log('Current className:', elements.hasCreditsAlert.className);
+        
+        elements.hasCreditsAlert.classList.remove('alert-success', 'd-none');
+        elements.hasCreditsAlert.classList.add('alert-warning');
+        console.log('Classes modified, new className:', elements.hasCreditsAlert.className);
+        
+        elements.hasCreditsAlert.innerHTML = `
+          <i class="fas fa-hourglass-half me-2"></i>
+          <strong>已預留 1 個輔導名額</strong>
+          <p class="mb-0 small">請在 <strong>10 分鐘內</strong>完成 Calendly 預約表單。若未完成，點數將自動退回。</p>
+        `;
+        console.log('Warning message set, alert classes:', elements.hasCreditsAlert.className);
+        console.log('innerHTML updated');
+        
+        console.log('Fetching scheduling link...');
+        
+        const workerBase = 'https://uxshari-workers.uxshari.workers.dev';
+        const res = await fetch(`${workerBase}/api/create-scheduling-link?email=${encodeURIComponent(auth.currentUser.email)}`);
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || '建立預約連結失敗');
+        
+        console.log('Scheduling link created, opening in new tab');
+        // Open link in new tab
+        window.open(data.url, '_blank');
+      } catch (e) {
+        console.error('Error creating scheduling link:', e);
+        alert(e.message || '無法建立預約連結，請稍後再試');
+        hasClickedBook = false; // Reset flag on error
+        
+        // Reset to success message on error
+        elements.hasCreditsAlert.classList.remove('alert-warning');
+        elements.hasCreditsAlert.classList.add('alert-success');
+        elements.hasCreditsAlert.innerHTML = `
+          <i class="fas fa-check-circle me-2"></i>
+          <strong>您已擁有預約額度！</strong>
+          <p class="mb-0 small">點擊上方按鈕即可預約 Shari 的一對一輔導時段</p>
+        `;
+      } finally {
+        // Only re-enable if there are still credits
+        // Let updateUI handle the button state
+      }
+    });
+
     // 更新 UI
     function updateUI(userData) {
       const credits = userData?.credits ?? 0;
       const isPaid = userData?.isPaid ?? false;
       const payments = userData?.payments ?? [];
       const bookings = userData?.bookings ?? [];
+      
+      console.log('updateUI called, credits:', credits, 'hasClickedBook:', hasClickedBook);
 
       // 更新額度顯示（帶動畫）
       elements.creditsCount.textContent = credits;
@@ -346,24 +475,37 @@
       if (credits > 0) {
         elements.bookBtn.disabled = false;
         elements.bookBtn.innerHTML = '<i class="fas fa-calendar-check me-2"></i> 立即預約 50 分鐘輔導';
-        elements.bookBtn.onclick = async () => {
-          try {
-            elements.bookBtn.disabled = true;
-            elements.bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 準備預約連結...';
-            const workerBase = 'https://uxshari-workers.uxshari.workers.dev';
-            const res = await fetch(`${workerBase}/api/create-scheduling-link?email=${encodeURIComponent(auth.currentUser.email)}`);
-            const data = await res.json();
-            if (!data.ok) throw new Error(data.error || '建立預約連結失敗');
-            window.open(data.url, '_blank');
-          } catch (e) {
-            alert(e.message || '無法建立預約連結，請稍後再試');
-          } finally {
-            elements.bookBtn.disabled = false;
-            elements.bookBtn.innerHTML = '<i class="fas fa-calendar-check me-2"></i> 立即預約 50 分鐘輔導';
-          }
-        };
         elements.noCreditsAlert.classList.add('d-none');
-        elements.hasCreditsAlert.classList.remove('d-none');
+        
+        // Show appropriate message based on whether user has clicked book
+        if (hasClickedBook) {
+          console.log('Showing warning message because hasClickedBook is true');
+          // Keep showing warning message
+          elements.hasCreditsAlert.classList.remove('alert-success', 'd-none');
+          elements.hasCreditsAlert.classList.add('alert-warning');
+          elements.hasCreditsAlert.innerHTML = `
+            <i class="fas fa-hourglass-half me-2"></i>
+            <strong>已預留 1 個輔導名額</strong>
+            <p class="mb-0 small">請在 <strong>10 分鐘內</strong>完成 Calendly 預約表單。若未完成，點數將自動退回。</p>
+          `;
+          
+          // Auto-reset flag after 10 minutes
+          if (warningMessageTimer) clearTimeout(warningMessageTimer);
+          warningMessageTimer = setTimeout(() => {
+            console.log('10 minutes passed, resetting hasClickedBook flag');
+            hasClickedBook = false;
+          }, 10 * 60 * 1000);
+        } else {
+          console.log('Showing success message because hasClickedBook is false');
+          // Show default success message
+          elements.hasCreditsAlert.classList.remove('alert-warning', 'd-none');
+          elements.hasCreditsAlert.classList.add('alert-success');
+          elements.hasCreditsAlert.innerHTML = `
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>您已擁有預約額度！</strong>
+            <p class="mb-0 small">點擊上方按鈕即可預約 Shari 的一對一輔導時段</p>
+          `;
+        }
       } else {
         elements.bookBtn.disabled = true;
         elements.bookBtn.innerHTML = '<i class="fas fa-lock me-2"></i> 需先購買預約額度';
