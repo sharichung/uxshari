@@ -298,6 +298,7 @@
 
   <!-- Firebase SDK -->
   <script type="module">
+    console.log("🟢 [DASHBOARD-OPT] Script loaded - v20251117-2200");
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getFirestore, doc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -415,10 +416,13 @@
 
     // 更新 UI
     function updateUI(userData) {
+      console.log("📊 [DASHBOARD-OPT] updateUI 被呼叫，完整資料：", userData);
       const credits = userData?.credits ?? 0;
       const isPaid = userData?.isPaid ?? false;
       const payments = userData?.payments ?? [];
       const bookings = userData?.bookings ?? [];
+      console.log("📅 [DASHBOARD-OPT] 解析結果 - credits:", credits, "payments:", payments.length, "bookings:", bookings.length);
+      console.log("📋 [DASHBOARD-OPT] bookings 內容：", bookings);
 
       // 更新額度顯示（帶動畫）
       elements.creditsCount.textContent = credits;
@@ -530,17 +534,22 @@
       // 讀取 Firestore 資料（即時監聽）
       if (user.email) {
         const docRef = doc(db, "users_by_email", encEmail(user.email));
+        console.log("🔍 [DASHBOARD-OPT] 開始監聽 Firestore：", `users_by_email/${encEmail(user.email)}`);
         
         // 使用 onSnapshot 實現即時更新
         onSnapshot(docRef, (snapshot) => {
           hideLoading();
+          console.log("📩 [DASHBOARD-OPT] Firestore snapshot 收到，exists:", snapshot.exists());
           if (snapshot.exists()) {
-            updateUI(snapshot.data());
+            const data = snapshot.data();
+            console.log("✅ [DASHBOARD-OPT] Firestore 完整資料：", data);
+            updateUI(data);
           } else {
+            console.warn("⚠️ [DASHBOARD-OPT] Firestore 文檔不存在");
             updateUI({});
           }
         }, (error) => {
-          console.error('Firestore 監聽錯誤:', error);
+          console.error('❌ [DASHBOARD-OPT] Firestore 監聽錯誤:', error);
           hideLoading();
           alert('無法載入資料，請重新整理頁面');
         });
