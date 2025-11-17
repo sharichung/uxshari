@@ -277,7 +277,56 @@ export default {
     }
 
     // ============================================================
-    // 🟢 Calendly Webhook
+    // � Create Checkout and Redirect
+    // GET /api/checkout-redirect?email=...&origin=...
+    // 在 Worker 端建立 Stripe Checkout Session，並 302 導向 Stripe
+    // 不需在前端暴露 Payment Link 或 Price ID，可用 inline price_data
+    // ============================================================
+    if (url.pathname === "/api/checkout-redirect" && request.method === "GET") {
+      try {
+        const email = url.searchParams.get("email");
+        const origin = url.searchParams.get("origin") || "https://uxshari.com";
+        if (!email) return json({ ok: false, error: "Missing email" }, 400);
+
+        if (!env.STRIPE_SECRET_KEY) return json({ ok: false, error: "Missing STRIPE_SECRET_KEY" }, 500);
+
+        const body = new URLSearchParams();
+        body.set("mode", "payment");
+        body.set("success_url", `${origin}/success.html`);
+        body.set("cancel_url", `${origin}/dashboard.html`);
+        body.set("customer_email", email);
+        // 使用 inline price_data 免設定 price id
+        body.set("line_items[0][quantity]", "1");
+        body.set("line_items[0][price_data][currency]", "usd");
+        body.set("line_items[0][price_data][unit_amount]", "3300");
+        body.set("line_items[0][price_data][product_data][name]", "1 Coaching Credit (50min)");
+        // 可選：加上 metadata 方便追蹤
+        body.set("metadata[email]", email);
+
+        const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body
+        });
+
+        const data = await r.json();
+        if (!r.ok || !data?.url) {
+          console.error("❌ Failed to create checkout session:", data);
+          return json({ ok: false, error: data?.error?.message || "Create session failed" }, 500);
+        }
+
+        return new Response(null, { status: 302, headers: { Location: data.url } });
+      } catch (e) {
+        console.error("❌ Checkout redirect error:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500);
+      }
+    }
+
+    // ============================================================
+    // �🟢 Calendly Webhook
     // invitee.created  → 預約成功：扣 1 點（僅在首次處理該預約時扣點，具冪等）
     // invitee.canceled → 取消預約：退回 1 點（僅在已存在的預約記錄上退點，避免重複）
     // ============================================================

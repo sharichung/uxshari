@@ -439,11 +439,9 @@
 
       // 更新購買連結（預填 email）
       if (user.email) {
-        const testMode = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
-        const baseUrl = testMode 
-          ? 'https://buy.stripe.com/test_00wcN5czwbXRb4Xfjh3ks00'
-          : 'https://buy.stripe.com/00wcN5czwbXRb4Xfjh';
-        elements.buyLink.href = `${baseUrl}?prefilled_email=${encodeURIComponent(user.email)}`;
+        const workerBase = 'https://uxshari-workers.uxshari.workers.dev';
+        elements.buyLink.href = `${workerBase}/api/checkout-redirect?email=${encodeURIComponent(user.email)}&origin=${encodeURIComponent(location.origin)}`;
+        elements.buyLink.target = '_self';
       }
 
       // 讀取 Firestore 資料（即時監聽）
