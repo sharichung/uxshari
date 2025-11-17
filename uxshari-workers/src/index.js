@@ -7,9 +7,69 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // ============================================================
+    // 🔒 Admin authentication helper
+    // ============================================================
+    const requireAdminKey = () => {
+      const providedKey = url.searchParams.get('admin_key');
+      const validKey = env.ADMIN_KEY; // Set via: wrangler secret put ADMIN_KEY
+      
+      if (!validKey) {
+        console.warn('⚠️ ADMIN_KEY not configured - admin endpoints are UNPROTECTED');
+        return true; // Allow if not configured (for initial setup)
+      }
+      
+      if (!providedKey || providedKey !== validKey) {
+        return false;
+      }
+      
+      return true;
+    };
+
     // CORS preflight
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders(request) });
+    }
+
+    // ============================================================
+    // 🔄 Admin: Create Calendly webhook subscription (requires PAT)
+    // GET /api/calendly-webhook-subscribe?admin_key=...
+    // Subscribes to invitee.created and invitee.canceled
+    // ============================================================
+    if (url.pathname === "/api/calendly-webhook-subscribe" && request.method === "GET") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      try {
+        if (!env.CALENDLY_PAT) return json({ ok: false, error: "Missing CALENDLY_PAT" }, 400, request);
+        const callbackUrl = new URL("/api/calendly-webhook", request.url).toString();
+        // Discover org/user
+        const meRes = await fetch("https://api.calendly.com/users/me", { headers: { Authorization: `Bearer ${env.CALENDLY_PAT}` } });
+        const me = await meRes.json();
+        if (!meRes.ok) return json({ ok: false, error: me?.title || "Calendly /users/me error" }, 500, request);
+        const resource = me?.resource || me?.data || me;
+        const orgUri = resource?.current_organization || resource?.organization || null;
+        const userUri = resource?.uri || null;
+        if (!orgUri && !userUri) return json({ ok: false, error: "Unable to detect Calendly organization/user uri" }, 500, request);
+        const body = {
+          url: callbackUrl,
+          events: ["invitee.created", "invitee.canceled"],
+          scope: orgUri ? "organization" : "user",
+          ...(orgUri ? { organization: orgUri } : { user: userUri }),
+          signing_key: env.CALENDLY_SIGNING_KEY || env.STRIPE_WEBHOOK_SECRET || "dev_signing_key"
+        };
+        const subRes = await fetch("https://api.calendly.com/webhook_subscriptions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${env.CALENDLY_PAT}` },
+          body: JSON.stringify(body)
+        });
+        const text = await subRes.text();
+        if (!subRes.ok) return json({ ok: false, error: `Subscribe failed: ${text}` }, 500, request);
+        let payload; try { payload = JSON.parse(text); } catch { payload = { raw: text }; }
+        return json({ ok: true, message: "Calendly webhook subscribed", callbackUrl, payload }, 200, request);
+      } catch (e) {
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
     }
 
     // ============================================================
@@ -76,6 +136,10 @@ export default {
     // 🧪 Add credits for testing: /api/add-test-credits?email=...&amount=2
     // ============================================================
     if (url.pathname === "/api/add-test-credits") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      
       try {
         const email = url.searchParams.get("email");
         const amount = parseInt(url.searchParams.get("amount") || "1", 10);
@@ -115,6 +179,10 @@ export default {
     // 🧹 Reset credits for UAT: /api/reset-credits?email=...&amount=0
     // ============================================================
     if (url.pathname === "/api/reset-credits") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      
       try {
         const email = url.searchParams.get("email");
         const amount = parseInt(url.searchParams.get("amount") || "0", 10);
@@ -616,9 +684,81 @@ export default {
 
     // ============================================================
     // � Manually confirm booking for testing
+    // ============================================================
+    // 🗑️ Cleanup test payment records (no valid amount)
+    // GET /api/cleanup-test-payments?email=xxx
+    // ============================================================
+    if (url.pathname === "/api/cleanup-test-payments" && request.method === "GET") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      
+      try {
+        const email = url.searchParams.get("email");
+        if (!email) return json({ ok: false, error: "Missing email" }, 400, request);
+        const projectId = env.GCP_PROJECT_ID;
+        const emailDocId = toBase64Url(email);
+        const token = await getGcpAccessToken(env);
+        const userDoc = await firestoreGetDocument(projectId, token, `users_by_email/${emailDocId}`);
+        if (!userDoc) return json({ ok: false, error: "User not found" }, 404, request);
+        const paymentsArray = userDoc.fields?.payments?.arrayValue?.values || [];
+        const originalCount = paymentsArray.length;
+        const hasValidAmount = (pv) => {
+          const f = pv?.mapValue?.fields || {};
+          return !!(f.amount?.integerValue || f.amount?.doubleValue || f.amount_total?.integerValue || f.amount_total?.doubleValue || f.amount_usd?.integerValue || f.unit_amount?.integerValue || f.amount_cents?.integerValue || f.price?.integerValue);
+        };
+        const validPayments = paymentsArray.filter(hasValidAmount);
+        const removedCount = originalCount - validPayments.length;
+        if (removedCount === 0) return json({ ok: true, message: "No test payments to remove", originalCount, removedCount: 0 }, 200, request);
+        const docPath = `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`;
+        const updateUrl = `https://firestore.googleapis.com/v1/${docPath}?updateMask.fieldPaths=payments`;
+        const updateRes = await fetch(updateUrl, { method: "PATCH", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify({ fields: { payments: { arrayValue: { values: validPayments } } } }) });
+        if (!updateRes.ok) throw new Error(`Update failed: ${updateRes.status}`);
+        console.log(`✅ Cleaned up ${removedCount} test payment(s) for ${email}`);
+        return json({ ok: true, message: `Removed ${removedCount} test payment(s)`, originalCount, removedCount, remaining: validPayments.length }, 200, request);
+      } catch (e) { console.error("❌ Cleanup failed:", e.message); return json({ ok: false, error: String(e.message) }, 500, request); }
+    }
+
+
     // GET /api/confirm-booking?booking_id=xxx
     // ============================================================
+    // ============================================================
+    // 🗑️ Cleanup test payment records (no valid amount)
+    // GET /api/cleanup-test-payments?email=xxx
+    // ============================================================
+    if (url.pathname === "/api/cleanup-test-payments" && request.method === "GET") {
+      try {
+        const email = url.searchParams.get("email");
+        if (!email) return json({ ok: false, error: "Missing email" }, 400, request);
+        const projectId = env.GCP_PROJECT_ID;
+        const emailDocId = toBase64Url(email);
+        const token = await getGcpAccessToken(env);
+        const userDoc = await firestoreGetDocument(projectId, token, `users_by_email/${emailDocId}`);
+        if (!userDoc) return json({ ok: false, error: "User not found" }, 404, request);
+        const paymentsArray = userDoc.fields?.payments?.arrayValue?.values || [];
+        const originalCount = paymentsArray.length;
+        const hasValidAmount = (pv) => {
+          const f = pv?.mapValue?.fields || {};
+          return !!(f.amount?.integerValue || f.amount?.doubleValue || f.amount_total?.integerValue || f.amount_total?.doubleValue || f.amount_usd?.integerValue || f.unit_amount?.integerValue || f.amount_cents?.integerValue || f.price?.integerValue);
+        };
+        const validPayments = paymentsArray.filter(hasValidAmount);
+        const removedCount = originalCount - validPayments.length;
+        if (removedCount === 0) return json({ ok: true, message: "No test payments to remove", originalCount, removedCount: 0 }, 200, request);
+        const docPath = `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`;
+        const updateUrl = `https://firestore.googleapis.com/v1/${docPath}?updateMask.fieldPaths=payments`;
+        const updateRes = await fetch(updateUrl, { method: "PATCH", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }, body: JSON.stringify({ fields: { payments: { arrayValue: { values: validPayments } } } }) });
+        if (!updateRes.ok) throw new Error(`Update failed: ${updateRes.status}`);
+        console.log(`✅ Cleaned up ${removedCount} test payment(s) for ${email}`);
+        return json({ ok: true, message: `Removed ${removedCount} test payment(s)`, originalCount, removedCount, remaining: validPayments.length }, 200, request);
+      } catch (e) { console.error("❌ Cleanup failed:", e.message); return json({ ok: false, error: String(e.message) }, 500, request); }
+    }
+
+
     if (url.pathname === "/api/confirm-booking" && request.method === "GET") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      
       try {
         const bookingId = url.searchParams.get('booking_id');
         if (!bookingId) {
@@ -724,7 +864,12 @@ export default {
       try {
         const url = new URL(request.url);
         const testMode = url.searchParams.get('test') === 'true'; // Test mode: cleanup all pending
-        
+
+        // Require admin key for test mode
+        if (testMode && !requireAdminKey()) {
+          return json({ ok: false, error: 'Unauthorized: test mode requires admin_key' }, 401, request);
+        }
+
         const projectId = env.GCP_PROJECT_ID;
         const token = await getGcpAccessToken(env);
         const now = new Date();
@@ -1151,6 +1296,31 @@ export default {
       return json({ status: "ok", timestamp: new Date().toISOString() }, 200, request);
     }
 
+    // ============================================================
+    // 📊 Cron status (admin-only)
+    // GET /api/cron-status?admin_key=...
+    // ============================================================
+    if (url.pathname === "/api/cron-status" && request.method === "GET") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const doc = await firestoreGetDocument(projectId, token, `system/cron_cleanup`);
+        const f = doc?.fields || {};
+        const out = {
+          ok: true,
+          lastRunAt: f.lastRunAt?.timestampValue || null,
+          refundedCount: parseInt(f.refundedCount?.integerValue || "0", 10),
+          totalPending: parseInt(f.totalPending?.integerValue || "0", 10)
+        };
+        return json(out, 200, request);
+      } catch (e) {
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
     return new Response("UXShari Webhook Handler", { status: 200, headers: corsHeaders(request) });
   },
 
@@ -1229,6 +1399,27 @@ export default {
       }
       
       console.log(`⏰ Cron complete: ${refundedCount} credits refunded from ${docs.length} total bookings`);
+
+      // Write a lightweight status doc for monitoring
+      try {
+        const statusDoc = `projects/${projectId}/databases/(default)/documents/system/cron_cleanup`;
+        const fields = {
+          lastRunAt: { timestampValue: now.toISOString() },
+          refundedCount: { integerValue: String(refundedCount) },
+          totalPending: { integerValue: String(docs.length) },
+          ok: { booleanValue: true }
+        };
+        const res = await fetch(`https://firestore.googleapis.com/v1/${statusDoc}?updateMask.fieldPaths=lastRunAt&updateMask.fieldPaths=refundedCount&updateMask.fieldPaths=totalPending&updateMask.fieldPaths=ok`, {
+          method: "PATCH",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ fields })
+        });
+        if (!res.ok) {
+          console.warn("⚠️ Failed to write cron status:", res.status);
+        }
+      } catch (e) {
+        console.warn("⚠️ Cron status write error:", e.message);
+      }
     } catch (e) {
       console.error("❌ Cron error:", e.message);
     }
@@ -1277,6 +1468,7 @@ async function verifyCalendlySignature(signingKey, header, rawBody) {
 
 function parseSigHeader(header) {
   const out = { v1: [] };
+  if (!header || typeof header !== "string") return out;
   for (const seg of header.split(",")) {
     const [k, v] = seg.split("=");
     if (!k || !v) continue;
@@ -1288,37 +1480,11 @@ function parseSigHeader(header) {
   return out;
 }
 
-async function hmacSha256Hex(secret, data) {
-  const key = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sigBuf = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(data));
-  return toHex(sigBuf);
-}
-
-function toHex(buf) {
-  const bytes = new Uint8Array(buf);
-  return [...bytes].map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
-function timingSafeEqualHex(a, b) {
-  if (a.length !== b.length) return false;
-  let out = 0;
-  for (let i = 0; i < a.length; i++) out |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return out === 0;
-}
-
-/* ========================================
-   🔥 Firestore via OAuth2 (Service Account)
-======================================== */
-
+// Exchange a signed JWT for a short-lived GCP access token
 async function getGcpAccessToken(env) {
-  const iat = Math.floor(Date.now() / 1000);
-  const exp = iat + 3600;
+  const now = Math.floor(Date.now() / 1000);
+  const iat = now - 60;
+  const exp = iat + 3600; // 1 hour
   const header = { alg: "RS256", typ: "JWT" };
   const claims = {
     iss: env.GOOGLE_CLIENT_EMAIL,
@@ -1329,14 +1495,7 @@ async function getGcpAccessToken(env) {
     exp
   };
 
-  console.log("🔑 Signing JWT with private key...");
-  let jwt;
-  try {
-    jwt = await signJwtRS256(header, claims, env.GOOGLE_PRIVATE_KEY);
-  } catch (e) {
-    console.error("❌ JWT signing failed:", e.message);
-    throw e;
-  }
+  const jwt = await signJwtRS256(header, claims, env.GOOGLE_PRIVATE_KEY);
   const form = new URLSearchParams();
   form.set("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer");
   form.set("assertion", jwt);
@@ -1346,12 +1505,10 @@ async function getGcpAccessToken(env) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: form
   });
-
   if (!r.ok) {
     const err = await r.text();
     throw new Error(`Token exchange failed: ${err}`);
   }
-
   const res = await r.json();
   return res.access_token;
 }
