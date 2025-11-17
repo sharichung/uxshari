@@ -284,8 +284,21 @@
       if (credits > 0) {
         elements.bookBtn.disabled = false;
         elements.bookBtn.innerHTML = '<i class="fas fa-calendar-check me-2"></i> 立即預約 50 分鐘輔導';
-        elements.bookBtn.onclick = () => {
-          window.open('https://calendly.com/sharichungdesign/50min', '_blank');
+        elements.bookBtn.onclick = async () => {
+          try {
+            elements.bookBtn.disabled = true;
+            elements.bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 準備預約連結...';
+            const workerBase = 'https://uxshari-workers.uxshari.workers.dev';
+            const res = await fetch(`${workerBase}/api/create-scheduling-link?email=${encodeURIComponent(auth.currentUser.email)}`);
+            const data = await res.json();
+            if (!data.ok) throw new Error(data.error || '建立預約連結失敗');
+            window.open(data.url, '_blank');
+          } catch (e) {
+            alert(e.message || '無法建立預約連結，請稍後再試');
+          } finally {
+            elements.bookBtn.disabled = false;
+            elements.bookBtn.innerHTML = '<i class="fas fa-calendar-check me-2"></i> 立即預約 50 分鐘輔導';
+          }
         };
         elements.noCreditsAlert.classList.add('d-none');
         elements.hasCreditsAlert.classList.remove('d-none');

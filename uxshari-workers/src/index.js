@@ -68,6 +68,91 @@ export default {
     }
 
     // ============================================================
+    // 🎟️ Create single-use Calendly scheduling link (requires credits > 0)
+    // GET /api/create-scheduling-link?email=...
+    // Env needed: CALENDLY_PAT, CALENDLY_EVENT_TYPE_50MIN, optional CAL_LINK_SECRET
+    // ============================================================
+    if (url.pathname === "/api/create-scheduling-link" && request.method === "GET") {
+      try {
+        const email = url.searchParams.get("email");
+        if (!email) return json({ ok: false, error: "Missing email" }, 400);
+        if (!env.CALENDLY_PAT || !env.CALENDLY_EVENT_TYPE_50MIN) {
+          return json({ ok: false, error: "Missing Calendly configuration" }, 500);
+        }
+
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const emailDocId = toBase64Url(email);
+
+        // 1) Check credits > 0
+        const userDoc = await firestoreGetDocument(projectId, token, `users_by_email/${emailDocId}`);
+        const credits = Number(userDoc?.fields?.credits?.integerValue || 0);
+        if (!Number.isFinite(credits) || credits < 1) {
+          return json({ ok: false, error: "INSUFFICIENT_CREDITS" }, 403);
+        }
+
+        // 2) Generate link token for tracking and verification
+        const issuedAt = new Date();
+        const expiresAt = new Date(issuedAt.getTime() + 30 * 60 * 1000); // 30 min
+        const nonce = randomId();
+        const payload = { email, ts: issuedAt.toISOString(), nonce };
+        const payloadB64 = b64urlEncode(new TextEncoder().encode(JSON.stringify(payload)));
+        const secret = env.CAL_LINK_SECRET || env.STRIPE_WEBHOOK_SECRET || "fallback_secret";
+        const sig = await hmacSha256Hex(secret, payloadB64);
+        const linkToken = `${payloadB64}.${sig}`;
+
+        // 3) Record issued link (idempotent)
+        const writes = [
+          {
+            update: {
+              name: `projects/${projectId}/databases/(default)/documents/issued_links/${linkToken}`,
+              fields: mapValue({
+                email,
+                createdAt: issuedAt.toISOString(),
+                expiresAt: expiresAt.toISOString(),
+                used: false
+              }).mapValue.fields
+            },
+            currentDocument: { exists: false }
+          }
+        ];
+        await firestoreCommit(projectId, token, writes);
+
+        // 4) Create Calendly scheduling link (single-use)
+        const createBody = {
+          max_event_count: 1,
+          owner: env.CALENDLY_EVENT_TYPE_50MIN,
+          owner_type: "EventType"
+        };
+        const r = await fetch("https://api.calendly.com/scheduling_links", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${env.CALENDLY_PAT}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ data: createBody })
+        });
+        const data = await r.json();
+        const baseUrl = data?.resource?.scheduling_url;
+        if (!r.ok || !baseUrl) {
+          console.error("❌ Calendly scheduling link failed:", data);
+          return json({ ok: false, error: data?.title || "Calendly error" }, 500);
+        }
+
+        // 5) Append UTM tracking for webhook verification
+        const urlWithUtm = new URL(baseUrl);
+        urlWithUtm.searchParams.set("utm_campaign", linkToken);
+        urlWithUtm.searchParams.set("utm_medium", emailDocId);
+        urlWithUtm.searchParams.set("utm_content", String(Math.floor(issuedAt.getTime() / 1000)));
+
+        return json({ ok: true, url: urlWithUtm.toString(), expiresAt: expiresAt.toISOString() });
+      } catch (e) {
+        console.error("❌ create-scheduling-link error:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500);
+      }
+    }
+
+    // ============================================================
     // 🧪 Self-test booking: decrement credits for a given email
     // Usage: GET /api/self-test-book?email=user@example.com
     // ============================================================
@@ -346,7 +431,7 @@ export default {
       }
 
       const body = JSON.parse(raw || "{}");
-      const calEvent = body.event;
+  const calEvent = body.event;
       console.log(`📋 Calendly event: ${calEvent}`);
 
       const inviteeEmail =
@@ -366,13 +451,59 @@ export default {
       const bookingIdRaw = `${eventUri}::${inviteeKey}` || eventUri || inviteeKey;
       const bookingId = toBase64Url(bookingIdRaw);
 
+      // Tracking verification (issued_links based)
+      const tracking = body?.payload?.tracking || {};
+      const linkToken = tracking?.utm_campaign || ""; // payloadB64.signature
+      let issuedLinkValid = false;
+      let issuedDocName = linkToken
+        ? `projects/${projectId}/databases/(default)/documents/issued_links/${linkToken}`
+        : null;
+
       // 僅針對特定事件類型扣/退點（可依需求篩選 body.payload.event_type.uri 或 name）
 
       try {
         const token = await getGcpAccessToken(env);
 
+        // If created: verify issued link token and email match + not expired + not used
+        if (calEvent === "invitee.created") {
+          if (!linkToken) {
+            console.warn("⚠️ No tracking token in Calendly webhook");
+          } else {
+            try {
+              const issued = await firestoreGetDocument(projectId, token, `issued_links/${linkToken}`);
+              if (issued?.fields) {
+                const iEmail = issued.fields.email?.stringValue;
+                const used = issued.fields.used?.booleanValue === true;
+                const expiresAt = issued.fields.expiresAt?.timestampValue || issued.fields.expiresAt?.stringValue;
+                const now = Date.now();
+                const exp = expiresAt ? Date.parse(expiresAt) : 0;
+                issuedLinkValid = (iEmail === inviteeEmail) && !used && (exp === 0 || now < exp);
+              }
+            } catch (e) {
+              console.warn("ℹ️ issued_links lookup failed:", e.message);
+            }
+          }
+        }
+
         if (calEvent === "invitee.created") {
           console.log(`✅ Booking created for ${inviteeEmail}`);
+
+          if (!issuedLinkValid) {
+            console.warn("🚫 Unauthorized booking detected. Attempting to cancel.");
+            // Try to cancel the event immediately (no credit deduction)
+            if (env.CALENDLY_PAT && eventUri) {
+              try {
+                await fetch(`${eventUri}/cancellation`, {
+                  method: "POST",
+                  headers: { Authorization: `Bearer ${env.CALENDLY_PAT}`, "Content-Type": "application/json" },
+                  body: JSON.stringify({ reason: "Unauthorized booking: please use dashboard to schedule." })
+                });
+              } catch (e) {
+                console.warn("⚠️ Failed to cancel unauthorized event:", e.message);
+              }
+            }
+            return json({ ok: true, unauthorized: true });
+          }
 
           const bookingEntry = mapValue({
             calendlyEventUri: eventUri,
@@ -419,6 +550,14 @@ export default {
                 ]
               }
             },
+            // mark issued link as used
+            issuedDocName ? {
+              update: {
+                name: issuedDocName,
+                fields: mapValue({ used: true, usedAt: new Date().toISOString(), bookingId: bookingIdRaw }).mapValue.fields
+              },
+              currentDocument: { exists: true }
+            } : null,
             // bookings array append
             {
               transform: {
@@ -428,7 +567,7 @@ export default {
                 ]
               }
             }
-          ];
+          ].filter(Boolean);
 
           try {
             await firestoreCommit(projectId, token, writes);
@@ -718,6 +857,23 @@ async function firestoreCommit(projectId, accessToken, writes) {
   }
 
   return r.json();
+}
+
+async function firestoreGetDocument(projectId, accessToken, docPath) {
+  const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${docPath}`;
+  const r = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+  if (r.status === 404) return null;
+  if (!r.ok) {
+    const err = await r.text();
+    throw new Error(`Firestore get failed: ${err}`);
+  }
+  return r.json();
+}
+
+function randomId(len = 16) {
+  const bytes = new Uint8Array(len);
+  crypto.getRandomValues(bytes);
+  return b64urlEncode(bytes);
 }
 
 function updateWrite(docName, fields, fieldPaths) {
