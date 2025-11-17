@@ -496,8 +496,14 @@
       if (bookings.length > 0) {
         elements.bookingsList.innerHTML = bookings.slice().reverse().map(b => {
           const status = b.status || 'scheduled';
+          // 相容多種欄位名稱（Calendly webhook 用 calendlyEventUri，手動測試用 eventUri）
           const date = b.startAt || b.start_time || b.scheduledAt || b.eventStart || b.confirmedAt || b.createdAt || b.canceledAt;
           const formattedDate = formatTW(date);
+          const hasEvent = b.calendlyEventUri || b.eventUri;
+          // 如果沒有事件 URI 則視為測試資料，可選擇性隱藏
+          if (!hasEvent && b.calendlyEventUri === 'self-test') {
+            return ''; // 隱藏測試預約
+          }
           const badgeCls = status === 'canceled' ? 'bg-secondary' : 'bg-primary';
           const badgeText = status === 'canceled' ? '已取消' : '已預約';
           return `
