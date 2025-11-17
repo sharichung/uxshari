@@ -53,7 +53,7 @@
     </nav>
 
     <script>
-  // 倒數計時器
+  // 倒數計時器 - 3秒後跳轉回 dashboard
   let countdown = 3;
   const countdownEl = document.getElementById('countdown');
   
@@ -65,7 +65,7 @@
     
     if (countdown <= 0) {
       clearInterval(timer);
-      window.location.href = "https://calendly.com/sharichungdesign/30min";
+      window.location.href = "/dashboard.html";
     }
   }, 1000);
 </script>
@@ -73,10 +73,10 @@
 <!-- 在頁面中顯示倒數 -->
 <div class="text-center mt-4">
   <p class="text-muted">
-    <span id="countdown">3</span> 秒後自動跳轉到預約頁面...
+    <span id="countdown">3</span> 秒後自動跳轉到會員專區...
   </p>
-  <a href="https://calendly.com/sharichungdesign/30min" class="btn btn-primary-shari">
-    立即前往預約 →
+  <a href="/dashboard.html" class="btn btn-primary-shari">
+    立即前往會員專區 →
   </a>
 </div>
 
@@ -95,14 +95,14 @@
                         <div class="mb-3"></div>
                             <div class="success-emoji" aria-hidden="true">🎉</div>
                         </div>
-                        <h2 id="payment-success-heading" class="h3 fw-bold mb-2" tabindex="-1">付款成功</h2>
-                        <p class="text-muted mb-4">恭喜！你已解鎖 UXShari 專屬預約入口。</p>
-                        <a href="https://calendly.com/sharichungdesign/30min" target="_blank" rel="noopener noreferrer" class="btn btn-secondary-shari btn-lg d-inline-flex align-items-center shari-focus-ring">
-                            <i class="fas fa-calendar-check me-2" aria-hidden="true"></i>
-                            <span>預約課程時間 →</span>
+                        <h2 id="payment-success-heading" class="h3 fw-bold mb-2" tabindex="-1">付款成功！</h2>
+                        <p class="text-muted mb-4">你已獲得 1 個預約點數，可以立即預約 Shari 的一對一輔導。</p>
+                        <a href="/dashboard.html" class="btn btn-primary-shari btn-lg d-inline-flex align-items-center shari-focus-ring">
+                            <i class="fas fa-arrow-right me-2" aria-hidden="true"></i>
+                            <span>前往會員專區 →</span>
                         </a>
                         <div class="mt-3">
-                            <a href="dashboard.html" class="text-muted small">返回會員專區</a>
+                            <p class="text-muted small">付款記錄已保存在會員專區</p>
                         </div>
                     </div>
                 </div>

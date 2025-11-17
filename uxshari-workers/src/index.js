@@ -112,6 +112,49 @@ export default {
     }
 
     // ============================================================
+    // 🧹 Reset credits for UAT: /api/reset-credits?email=...&amount=0
+    // ============================================================
+    if (url.pathname === "/api/reset-credits") {
+      try {
+        const email = url.searchParams.get("email");
+        const amount = parseInt(url.searchParams.get("amount") || "0", 10);
+        if (!email) return json({ ok: false, error: "Missing email" }, 400, request);
+
+        const projectId = env.GCP_PROJECT_ID;
+        const emailDocId = toBase64Url(email);
+        const token = await getGcpAccessToken(env);
+
+        // Use update instead of transform to set absolute value
+        const docPath = `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`;
+        const updateUrl = `https://firestore.googleapis.com/v1/${docPath}?updateMask.fieldPaths=credits`;
+        
+        const updateRes = await fetch(updateUrl, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fields: {
+              email: { stringValue: email },
+              credits: { integerValue: String(amount) }
+            }
+          })
+        });
+
+        if (!updateRes.ok) {
+          throw new Error(`Failed to reset credits: ${updateRes.status}`);
+        }
+
+        console.log(`✅ Reset credits to ${amount} for ${email}`);
+        return json({ ok: true, email, amount, message: `Credits reset to ${amount}` }, 200, request);
+      } catch (e) {
+        console.error("❌ Reset credits failed:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
     // 🎟️ Create single-use Calendly scheduling link (requires credits > 0)
     // GET /api/create-scheduling-link?email=...
     // Env needed: CALENDLY_PAT, CALENDLY_EVENT_TYPE_50MIN, optional CAL_LINK_SECRET
@@ -506,6 +549,72 @@ export default {
     }
 
     // ============================================================
+    // 🔍 Debug Pending Bookings
+    // GET /api/debug-pending-bookings?email=xxx
+    // Debug endpoint to view pending bookings for a user
+    // ============================================================
+    if (url.pathname === "/api/debug-pending-bookings" && request.method === "GET") {
+      try {
+        const email = url.searchParams.get('email');
+        if (!email) {
+          return json({ ok: false, error: "Missing email parameter" }, 400);
+        }
+        
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const now = new Date();
+        
+        // List all documents in pending_bookings collection
+        const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pending_bookings`;
+        const listRes = await fetch(listUrl, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (!listRes.ok) {
+          throw new Error(`Failed to list pending_bookings: ${listRes.status}`);
+        }
+        
+        const listData = await listRes.json();
+        const docs = listData.documents || [];
+        
+        // Filter for this user's bookings
+        const userBookings = docs
+          .map(doc => {
+            const fields = doc.fields || {};
+            const bookingEmail = fields.email?.stringValue;
+            if (bookingEmail !== email) return null;
+            
+            const expiresAt = fields.expiresAt?.stringValue;
+            const createdAt = fields.createdAt?.stringValue;
+            
+            return {
+              id: doc.name.split('/').pop(),
+              email: bookingEmail,
+              status: fields.status?.stringValue || "pending",
+              confirmed: fields.confirmed?.booleanValue || false,
+              expiresAt: expiresAt,
+              createdAt: createdAt,
+              isExpired: expiresAt ? new Date(expiresAt) < now : false,
+              minutesSinceCreated: createdAt ? Math.floor((now - new Date(createdAt)) / 1000 / 60) : null,
+              minutesUntilExpiry: expiresAt ? Math.floor((new Date(expiresAt) - now) / 1000 / 60) : null
+            };
+          })
+          .filter(b => b !== null);
+        
+        return json({ 
+          ok: true,
+          email: email,
+          bookings: userBookings,
+          total: userBookings.length,
+          now: now.toISOString()
+        });
+      } catch (e) {
+        console.error("Error in debug-pending-bookings:", e);
+        return json({ ok: false, error: e.message }, 500);
+      }
+    }
+
+    // ============================================================
     // 🧹 Cleanup Expired Pending Bookings
     // GET /api/cleanup-expired-bookings
     // Scans pending_bookings collection for expired + unconfirmed entries and refunds credits
@@ -513,11 +622,14 @@ export default {
     // ============================================================
     if (url.pathname === "/api/cleanup-expired-bookings" && request.method === "GET") {
       try {
+        const url = new URL(request.url);
+        const testMode = url.searchParams.get('test') === 'true'; // Test mode: cleanup all pending
+        
         const projectId = env.GCP_PROJECT_ID;
         const token = await getGcpAccessToken(env);
         const now = new Date();
         
-        console.log("🧹 Cleanup: scanning for expired pending bookings");
+        console.log(`🧹 Cleanup: scanning for expired pending bookings (test mode: ${testMode})`);
         
         // List all documents in pending_bookings collection
         const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pending_bookings`;
@@ -540,15 +652,36 @@ export default {
           const status = fields.status?.stringValue || "pending";
           const confirmed = fields.confirmed?.booleanValue || false;
           const expiresAt = fields.expiresAt?.stringValue;
+          const createdAt = fields.createdAt?.stringValue;
           const email = fields.email?.stringValue;
           const bookingId = doc.name.split('/').pop();
           
           // Skip if already confirmed or not pending
           if (confirmed || status !== "pending") continue;
           
-          // Check if expired
-          if (expiresAt && new Date(expiresAt) < now) {
-            console.log(`🔄 Refunding expired booking: ${bookingId} for ${email}`);
+          // Check if expired (or test mode)
+          // If no expiresAt but has createdAt, calculate expiry as createdAt + 10 minutes
+          let isExpired = false;
+          if (expiresAt) {
+            isExpired = new Date(expiresAt) < now;
+          } else if (createdAt) {
+            const createdDate = new Date(createdAt);
+            const calculatedExpiry = new Date(createdDate.getTime() + 10 * 60 * 1000);
+            isExpired = calculatedExpiry < now;
+            console.log(`⚠️ Booking ${bookingId} missing expiresAt, using createdAt + 10min: ${calculatedExpiry.toISOString()}`);
+          } else {
+            // No timestamp at all - consider expired if older than ID timestamp
+            const idTimestamp = parseInt(bookingId.split('_').pop());
+            if (idTimestamp) {
+              const idDate = new Date(idTimestamp);
+              const calculatedExpiry = new Date(idDate.getTime() + 10 * 60 * 1000);
+              isExpired = calculatedExpiry < now;
+              console.log(`⚠️ Booking ${bookingId} missing timestamps, using ID timestamp + 10min: ${calculatedExpiry.toISOString()}`);
+            }
+          }
+          
+          if (isExpired || testMode) {
+            console.log(`🔄 Refunding ${testMode ? 'pending' : 'expired'} booking: ${bookingId} for ${email}`);
             
             // Refund credit
             const emailDocId = toBase64Url(email);
