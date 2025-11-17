@@ -1480,6 +1480,32 @@ function parseSigHeader(header) {
   return out;
 }
 
+// HMAC-SHA256 helper: sign a message with a secret and return hex string
+async function hmacSha256Hex(secret, message) {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+  return Array.from(new Uint8Array(signature))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+// Timing-safe hex string comparison
+function timingSafeEqualHex(a, b) {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}
+
 // Exchange a signed JWT for a short-lived GCP access token
 async function getGcpAccessToken(env) {
   const now = Math.floor(Date.now() / 1000);
