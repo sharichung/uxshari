@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+	match /databases/{database}/documents {
+		function isSignedIn() {
+			return request.auth != null;
+		}
+
+		// Allow each authenticated user to read their own profile document in users_by_email,
+		// where documents are keyed by base64url(email). We validate by comparing the
+		// stored email field to the signed-in user's email from the auth token.
+		match /users_by_email/{docId} {
+			allow read: if isSignedIn() && resource.data.email == request.auth.token.email;
+			// All client writes are disabled. Writes happen via the server (Cloudflare Worker)
+			// using a service account and IAM, which bypasses these rules.
+			allow write: if false;
+		}
+	}
+}
+
