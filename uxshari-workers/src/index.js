@@ -28,7 +28,7 @@ export default {
     if (url.pathname === "/api/self-test-write") {
       try {
         const projectId = env.GCP_PROJECT_ID;
-        const email = "stripe@example.com";
+        const email = url.searchParams.get("email") || "stripe@example.com";
         const emailDocId = toBase64Url(email);
         const token = await getGcpAccessToken(env);
 
@@ -68,6 +68,56 @@ export default {
     }
 
     // ============================================================
+    // 🧪 Self-test booking: decrement credits for a given email
+    // Usage: GET /api/self-test-book?email=user@example.com
+    // ============================================================
+    if (url.pathname === "/api/self-test-book") {
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const email = url.searchParams.get("email");
+        if (!email) return json({ ok: false, error: "Missing email" }, 400);
+        const emailDocId = toBase64Url(email);
+        const token = await getGcpAccessToken(env);
+
+        const bookingEntry = mapValue({
+          calendlyEventUri: "self-test",
+          createdAt: new Date().toISOString()
+        });
+
+        const writes = [
+          updateWrite(
+            `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+            { email: { stringValue: email } },
+            ["email"]
+          ),
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                { fieldPath: "credits", increment: { integerValue: "-1" } }
+              ]
+            }
+          },
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                { fieldPath: "bookings", appendMissingElements: { values: [bookingEntry] } }
+              ]
+            }
+          }
+        ];
+
+        await firestoreCommit(projectId, token, writes);
+        console.log(`✅ Self-test book: success for ${email}`);
+        return json({ ok: true, email, creditsDeducted: 1 });
+      } catch (e) {
+        console.error("❌ Self-test book failed:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500);
+      }
+    }
+
+    // ============================================================
     // 🔵 Stripe Webhook：付款成功 → +1 預約額度
     // ============================================================
     if (url.pathname === "/api/stripe-webhook" && request.method === "POST") {
@@ -93,17 +143,41 @@ export default {
       const event = JSON.parse(raw);
       console.log(`📋 Event type: ${event.type}`);
 
+      // 支援冪等：以 Stripe event.id 建立事件紀錄，避免重覆處理
+      const projectId = env.GCP_PROJECT_ID;
+      const token = await getGcpAccessToken(env);
+      const stripeEventId = event.id;
+      const eventDocName = `projects/${projectId}/databases/(default)/documents/events_by_id/stripe_${toBase64Url(stripeEventId)}`;
+
       if (event.type !== "checkout.session.completed") {
+        // 對其他事件先記錄已接收（未做扣點/加點）
+        try {
+          await firestoreCommit(projectId, token, [
+            {
+              update: {
+                name: eventDocName,
+                fields: mapValue({
+                  type: event.type,
+                  receivedAt: new Date().toISOString()
+                }).mapValue.fields
+              },
+              currentDocument: { exists: false }
+            }
+          ]);
+        } catch (e) {
+          // 重送無妨
+          console.warn("ℹ️ Stripe non-completed event already recorded or not critical:", e.message);
+        }
         return json({ received: true });
       }
 
       // 3️⃣ 取得 Session 詳細資料
       let session = event.data?.object || {};
       
-      // 可選：向 Stripe API 取得完整 Session（包含 line_items）
+      // 可選：向 Stripe API 取得完整 Session（包含 line_items 與 receipt_url）
       if (env.STRIPE_SECRET_KEY) {
         try {
-          const expandUrl = `https://api.stripe.com/v1/checkout/sessions/${session.id}?expand[]=line_items`;
+          const expandUrl = `https://api.stripe.com/v1/checkout/sessions/${session.id}?expand[]=line_items&expand[]=payment_intent.charges.data`;
           const resp = await fetch(expandUrl, {
             headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` }
           });
@@ -124,20 +198,33 @@ export default {
 
       console.log(`✅ Payment successful: ${email} paid ${currency} ${amount}`);
 
-      // 4️⃣ 更新 Firestore
+      // 4️⃣ 更新 Firestore（冪等）
       try {
         const emailDocId = toBase64Url(email);
-        const projectId = env.GCP_PROJECT_ID;
 
         const paymentEntry = mapValue({
           sessionId: session.id,
           amount,
           currency,
           status: "completed",
+          receiptUrl: session?.payment_intent?.charges?.data?.[0]?.receipt_url || "",
           createdAt: new Date().toISOString()
         });
 
         const writes = [
+          // 事件冪等：若事件已處理，以下寫入會被整體拒絕
+          {
+            update: {
+              name: eventDocName,
+              fields: mapValue({
+                type: event.type,
+                email,
+                sessionId: session.id,
+                processedAt: new Date().toISOString()
+              }).mapValue.fields
+            },
+            currentDocument: { exists: false }
+          },
           // 確保文件存在
           updateWrite(
             `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
@@ -173,20 +260,26 @@ export default {
           }
         ];
 
-        const token = await getGcpAccessToken(env);
         await firestoreCommit(projectId, token, writes);
 
         console.log(`🎉 Firestore updated: ${email} now has +1 credit`);
         return json({ ok: true, email, creditsAdded: 1 });
 
       } catch (e) {
+        const msg = String(e.message || e);
+        if (/ALREADY_EXISTS|409/.test(msg)) {
+          console.warn(`ℹ️ Stripe event already processed: ${stripeEventId}`);
+          return json({ ok: true, alreadyProcessed: true });
+        }
         console.error("❌ Firestore error:", e.message);
         return json({ error: "Firestore update failed", details: e.message }, 500);
       }
     }
 
     // ============================================================
-    // 🟢 Calendly Webhook：預約完成 → -1 預約額度
+    // 🟢 Calendly Webhook
+    // invitee.created  → 預約成功：扣 1 點（僅在首次處理該預約時扣點，具冪等）
+    // invitee.canceled → 取消預約：退回 1 點（僅在已存在的預約記錄上退點，避免重複）
     // ============================================================
     if (url.pathname === "/api/calendly-webhook" && request.method === "POST") {
       const raw = await request.text();
@@ -204,11 +297,8 @@ export default {
       }
 
       const body = JSON.parse(raw || "{}");
-      console.log(`📋 Calendly event: ${body.event}`);
-
-      if (body.event !== "invitee.created") {
-        return json({ received: true });
-      }
+      const calEvent = body.event;
+      console.log(`📋 Calendly event: ${calEvent}`);
 
       const inviteeEmail =
         body?.payload?.invitee?.email ||
@@ -220,54 +310,162 @@ export default {
         return json({ error: "No invitee email" }, 400);
       }
 
-      console.log(`✅ Booking confirmed: ${inviteeEmail}`);
+      const projectId = env.GCP_PROJECT_ID;
+      const emailDocId = toBase64Url(inviteeEmail);
+      const eventUri = body?.payload?.event || "";
+      const inviteeKey = body?.payload?.invitee?.uri || body?.payload?.invitee?.uuid || "";
+      const bookingIdRaw = `${eventUri}::${inviteeKey}` || eventUri || inviteeKey;
+      const bookingId = toBase64Url(bookingIdRaw);
 
-      // 更新 Firestore：credits -1
+      // 僅針對特定事件類型扣/退點（可依需求篩選 body.payload.event_type.uri 或 name）
+
       try {
-        const emailDocId = toBase64Url(inviteeEmail);
-        const projectId = env.GCP_PROJECT_ID;
-
-        const bookingEntry = mapValue({
-          calendlyEventUri: body?.payload?.event || "",
-          createdAt: new Date().toISOString()
-        });
-
-        const writes = [
-          updateWrite(
-            `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
-            { email: { stringValue: inviteeEmail } },
-            ["email"]
-          ),
-          {
-            transform: {
-              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
-              fieldTransforms: [
-                { fieldPath: "credits", increment: { integerValue: "-1" } }
-              ]
-            }
-          },
-          {
-            transform: {
-              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
-              fieldTransforms: [
-                {
-                  fieldPath: "bookings",
-                  appendMissingElements: { values: [bookingEntry] }
-                }
-              ]
-            }
-          }
-        ];
-
         const token = await getGcpAccessToken(env);
-        await firestoreCommit(projectId, token, writes);
 
-        console.log(`🎉 Firestore updated: ${inviteeEmail} used 1 credit`);
-        return json({ ok: true, email: inviteeEmail, creditsDeducted: 1 });
+        if (calEvent === "invitee.created") {
+          console.log(`✅ Booking created for ${inviteeEmail}`);
 
+          const bookingEntry = mapValue({
+            calendlyEventUri: eventUri,
+            bookingId: bookingIdRaw,
+            status: "scheduled",
+            createdAt: new Date().toISOString()
+          });
+
+          const writes = [
+            // 事件冪等紀錄
+            {
+              update: {
+                name: `projects/${projectId}/databases/(default)/documents/events_by_id/cal_${toBase64Url(calEvent + '::' + bookingIdRaw)}`,
+                fields: mapValue({ type: calEvent, bookingId: bookingIdRaw, processedAt: new Date().toISOString() }).mapValue.fields
+              },
+              currentDocument: { exists: false }
+            },
+            // 確保使用者文件存在
+            updateWrite(
+              `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              { email: { stringValue: inviteeEmail } },
+              ["email"]
+            ),
+            // 冪等性：建立 bookings_by_id/{bookingId}（若已存在則整個提交失敗，避免重複扣點）
+            {
+              update: {
+                name: `projects/${projectId}/databases/(default)/documents/bookings_by_id/${bookingId}`,
+                fields: mapValue({
+                  email: inviteeEmail,
+                  calendlyEventUri: eventUri,
+                  bookingId: bookingIdRaw,
+                  status: "scheduled",
+                  createdAt: new Date().toISOString()
+                }).mapValue.fields
+              },
+              currentDocument: { exists: false }
+            },
+            // credits -1
+            {
+              transform: {
+                document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+                fieldTransforms: [
+                  { fieldPath: "credits", increment: { integerValue: "-1" } }
+                ]
+              }
+            },
+            // bookings array append
+            {
+              transform: {
+                document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+                fieldTransforms: [
+                  { fieldPath: "bookings", appendMissingElements: { values: [bookingEntry] } }
+                ]
+              }
+            }
+          ];
+
+          try {
+            await firestoreCommit(projectId, token, writes);
+            console.log(`🎉 Firestore updated: ${inviteeEmail} used 1 credit (scheduled)`);
+            return json({ ok: true, email: inviteeEmail, creditsDeducted: 1, bookingId });
+          } catch (e) {
+            // 若因已存在導致失敗（重送 webhook），不再扣點，直接回覆 OK 以避免重試風暴
+            const msg = String(e.message || e);
+            if (/ALREADY_EXISTS|409/.test(msg)) {
+              console.warn(`ℹ️ Booking already processed: ${bookingId}`);
+              return json({ ok: true, email: inviteeEmail, alreadyProcessed: true, bookingId });
+            }
+            console.error("❌ Firestore error (created):", e.message);
+            return json({ error: "Firestore update failed", details: e.message }, 500);
+          }
+        }
+
+        if (calEvent === "invitee.canceled") {
+          console.log(`↩️ Booking canceled for ${inviteeEmail}`);
+
+          const cancelEntry = mapValue({
+            calendlyEventUri: eventUri,
+            bookingId: bookingIdRaw,
+            status: "canceled",
+            canceledAt: new Date().toISOString()
+          });
+
+          const writes = [
+            // 事件冪等紀錄
+            {
+              update: {
+                name: `projects/${projectId}/databases/(default)/documents/events_by_id/cal_${toBase64Url(calEvent + '::' + bookingIdRaw)}`,
+                fields: mapValue({ type: calEvent, bookingId: bookingIdRaw, processedAt: new Date().toISOString() }).mapValue.fields
+              },
+              currentDocument: { exists: false }
+            },
+            // 僅在預約記錄存在時才退點（避免無中生有）
+            {
+              update: {
+                name: `projects/${projectId}/databases/(default)/documents/bookings_by_id/${bookingId}`,
+                fields: mapValue({
+                  status: "canceled",
+                  canceledAt: new Date().toISOString()
+                }).mapValue.fields
+              },
+              currentDocument: { exists: true }
+            },
+            {
+              transform: {
+                document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+                fieldTransforms: [
+                  { fieldPath: "credits", increment: { integerValue: "1" } }
+                ]
+              }
+            },
+            // 附加取消紀錄到使用者文件，供 UI 顯示
+            {
+              transform: {
+                document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+                fieldTransforms: [
+                  { fieldPath: "bookings", appendMissingElements: { values: [cancelEntry] } }
+                ]
+              }
+            }
+          ];
+
+          try {
+            await firestoreCommit(projectId, token, writes);
+            console.log(`✅ Credit refunded for ${inviteeEmail} (canceled)`);
+            return json({ ok: true, email: inviteeEmail, creditsRefunded: 1, bookingId });
+          } catch (e) {
+            const msg = String(e.message || e);
+            if (/NOT_FOUND|404/.test(msg)) {
+              console.warn(`ℹ️ No booking record to refund for ${bookingId}`);
+              return json({ ok: true, noBookingRecord: true, bookingId });
+            }
+            console.error("❌ Firestore error (canceled):", e.message);
+            return json({ error: "Firestore update failed", details: e.message }, 500);
+          }
+        }
+
+        // 其他事件一律回覆已接收
+        return json({ received: true });
       } catch (e) {
-        console.error("❌ Firestore error:", e.message);
-        return json({ error: "Firestore update failed", details: e.message }, 500);
+        console.error("❌ Calendly handler error:", e.message);
+        return json({ error: "Calendly handler error", details: e.message }, 500);
       }
     }
 
