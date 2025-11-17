@@ -348,6 +348,76 @@
     const hideLoading = () => document.getElementById('loading-overlay').style.display = 'none';
     const showLoading = () => document.getElementById('loading-overlay').style.display = 'flex';
 
+    // 日期解析與格式化（容錯處理）
+    function toDate(val) {
+      try {
+        if (!val) return null;
+        if (val instanceof Date) return isNaN(val.getTime()) ? null : val;
+        const t = typeof val;
+        if (t === 'number') {
+          const ms = val < 1e12 ? val * 1000 : val; // 可能是秒或毫秒
+          const d = new Date(ms);
+          return isNaN(d.getTime()) ? null : d;
+        }
+        if (t === 'string') {
+          const s = val.trim();
+          if (/^\d+$/.test(s)) {
+            const n = Number(s);
+            return toDate(n);
+          }
+          const d = new Date(s);
+          return isNaN(d.getTime()) ? null : d;
+        }
+        if (t === 'object') {
+          // Firestore Timestamp 格式
+          if (typeof val.seconds === 'number') {
+            const ms = val.seconds * 1000 + Math.floor((val.nanoseconds || 0) / 1e6);
+            const d = new Date(ms);
+            return isNaN(d.getTime()) ? null : d;
+          }
+          if (typeof val._seconds === 'number') {
+            const ms = val._seconds * 1000 + Math.floor((val._nanoseconds || 0) / 1e6);
+            const d = new Date(ms);
+            return isNaN(d.getTime()) ? null : d;
+          }
+          if (typeof val.toDate === 'function') {
+            try {
+              const d = val.toDate();
+              return isNaN(d?.getTime?.()) ? null : d;
+            } catch {}
+          }
+        }
+      } catch (_) {}
+      return null;
+    }
+
+    function formatTW(val) {
+      const d = toDate(val);
+      if (!d) return '日期未知';
+      try {
+        return d.toLocaleString('zh-TW', {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        });
+      } catch {
+        return d.toISOString();
+      }
+    }
+
+    // 金額顯示（容錯）
+    function formatAmount(pay) {
+      const cur = (pay?.currency || 'USD').toUpperCase();
+      let amt = null;
+      if (typeof pay?.amount === 'number') amt = pay.amount;
+      else if (typeof pay?.amount_total === 'number') amt = pay.amount_total / 100;
+      else if (typeof pay?.amount_usd === 'number') amt = pay.amount_usd;
+      else if (typeof pay?.unit_amount === 'number') amt = pay.unit_amount / 100;
+      else if (typeof pay?.amount_cents === 'number') amt = pay.amount_cents / 100;
+      else if (typeof pay?.price === 'number') amt = pay.price;
+      const amtStr = (amt == null || Number.isNaN(amt)) ? '-' : Number(amt).toFixed(2);
+      return { currency: cur, amountStr: amtStr };
+    }
+
     // UI 元素
     const elements = {
       userName: document.getElementById('user-name'),
@@ -510,35 +580,27 @@
 
       // 更新付款紀錄
       if (payments.length > 0) {
-        elements.paymentsList.innerHTML = payments.reverse().map(p => `
+        elements.paymentsList.innerHTML = payments.slice().reverse().map(p => {
+          const { currency, amountStr } = formatAmount(p);
+          return `
           <div class="d-flex justify-content-between align-items-center border-bottom py-3">
             <div>
-              <div class="fw-bold">${(p.currency||'USD').toUpperCase()} $${p.amount}</div>
-              <div class="small text-muted">${new Date(p.createdAt).toLocaleString('zh-TW')}</div>
-              ${p.receiptUrl ? `<a class="small" href="${p.receiptUrl}" target="_blank">查看收據</a>` : ''}
+              <div class="fw-bold">${currency} $${amountStr}</div>
+              <div class="small text-muted">${formatTW(p.createdAt)}</div>
+              ${p.receiptUrl ? `<a class=\"small\" href=\"${p.receiptUrl}\" target=\"_blank\">查看收據</a>` : ''}
             </div>
             <span class="badge bg-success">已完成</span>
           </div>
-        `).join('');
+          `;
+        }).join('');
       }
 
       // 更新預約紀錄
       if (bookings.length > 0) {
-        elements.bookingsList.innerHTML = bookings.reverse().map(b => {
+        elements.bookingsList.innerHTML = bookings.slice().reverse().map(b => {
           const status = b.status || 'scheduled';
-          const dateStr = b.canceledAt || b.createdAt || b.confirmedAt || new Date().toISOString();
-          let formattedDate = '日期未知';
-          try {
-            formattedDate = new Date(dateStr).toLocaleString('zh-TW', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit'
-            });
-          } catch (e) {
-            console.error('Date parsing error:', e, dateStr);
-          }
+          const dateSource = b.startAt || b.start_time || b.scheduledAt || b.eventStart || b.confirmedAt || b.createdAt || b.canceledAt;
+          const formattedDate = formatTW(dateSource);
           const badgeCls = status === 'canceled' ? 'bg-secondary' : 'bg-primary';
           const badgeText = status === 'canceled' ? '已取消' : '已預約';
           return `
