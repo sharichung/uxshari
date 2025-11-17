@@ -85,9 +85,12 @@ firebase deploy --only firestore:rules
 - `STRIPE_WEBHOOK_SECRET`：Stripe webhook endpoint secret
 - `CALENDLY_PAT`：Calendly Personal Access Token
 - `CALENDLY_EVENT_TYPE_50MIN`：Calendly event type URI
+- `CALENDLY_SIGNING_KEY`：Calendly webhook signing key（可選）
 - `GOOGLE_PRIVATE_KEY`：GCP Service Account private key (PEM format)
 - `GCP_SERVICE_ACCOUNT_EMAIL`：GCP Service Account email
 - `GCP_PROJECT_ID`：Firebase project ID
+- `ADMIN_KEY`：管理端點驗證金鑰（**已設定，請妥善保管**）
+  - **當前金鑰**：`cd36c807ff6b89a47ce9877a3a317e5ecf2ce83ed31c8e7aa3ed3d6117bff6da`
 
 ### Firebase Config（前端）
 在 src/views/*.html 中配置：
@@ -104,20 +107,27 @@ const firebaseConfig = {
 
 ### 生產端點
 - `POST /api/stripe-webhook`：Stripe checkout.session.completed webhook
-- `POST /api/calendly-webhook`：Calendly invitee.created webhook（待重新配置）
+- `POST /api/calendly-webhook`：Calendly invitee.created/canceled webhook（✅ 已配置）
 - `GET /api/create-scheduling-link?email=...`：生成 Calendly 單次連結
 - `GET /api/checkout-redirect?email=...&origin=...`：Stripe checkout redirect
+- `GET /health`：健康檢查
 
-### 測試/維護端點（上線前需保護）
-- `GET /api/add-test-credits?email=...&amount=1-10`：測試加點
-- `GET /api/reset-credits?email=...&amount=0`：重設點數
-- `GET /api/cleanup-expired-bookings?test=true`：立即清理過期預約
-- `GET /api/cleanup-test-payments?email=...`：清理無金額的測試付款紀錄
+### 測試/維護端點（需 admin_key）
+所有以下端點必須帶 `?admin_key=YOUR_ADMIN_KEY` 參數：
+- `GET /api/add-test-credits?email=...&amount=1-10&admin_key=...`：測試加點
+- `GET /api/reset-credits?email=...&amount=0&admin_key=...`：重設點數
+- `GET /api/cleanup-expired-bookings?test=true&admin_key=...`：立即清理過期預約
+- `GET /api/cleanup-test-payments?email=...&admin_key=...`：清理無金額的測試付款紀錄
+- `GET /api/confirm-booking?booking_id=...&admin_key=...`：手動確認預約（臨時方案）
+- `GET /api/cron-status?admin_key=...`：查詢 Cron 最後執行狀態
+
+### 管理端點（需 admin_key）
+- `GET /api/calendly-webhook-subscribe?admin_key=...`：建立 Calendly webhook 訂閱
 - `GET /api/debug-pending-bookings?email=...`：列出待處理預約
-- `GET /api/confirm-booking?booking_id=...`：手動確認預約（臨時方案）
 
 ### Cron Jobs
 - 每 15 分鐘：自動清理過期預約並退款（wrangler.toml 配置）
+- 執行後寫入狀態到 Firestore：`system/cron_cleanup`
 
 ## 🗄️ Firestore 資料結構
 
@@ -184,20 +194,26 @@ const firebaseConfig = {
 
 ## 🔜 待處理項目
 
-### 上線前必做
-1. **Calendly Webhook 重新配置**
-   - 取得新的 PAT（目前已過期）
-   - 更新 Worker secret
-   - 重建 webhook subscription
+### ✅ 已完成（上線前）
+1. **Calendly Webhook 配置**
+   - ✅ 已設定新的 PAT
+   - ✅ Webhook 訂閱已存在並啟用
+   - ✅ 支援 invitee.created / invitee.canceled 事件
    
-2. **保護測試端點**
-   - 移除或加入 API key 驗證
-   - 關閉 test mode 功能
+2. **測試端點保護**
+   - ✅ 所有測試/管理端點已加上 ADMIN_KEY 驗證
+   - ✅ 移除重複的 cleanup 端點定義
+   - ✅ requireAdminKey() 驗證機制
    
 3. **監控設定**
-   - Cloudflare Analytics
-   - Cron job 日誌告警
-   - Stripe webhook 失敗通知
+   - ✅ Cron 執行狀態寫入 Firestore (`system/cron_cleanup`)
+   - ✅ /api/cron-status 查詢端點
+   - ✅ 每次 Cron 記錄 lastRunAt、refundedCount、totalPending
+
+### 可選增強
+- [ ] Slack/Email 告警通知（Cron 失敗時）
+- [ ] Cloudflare Analytics Dashboard
+- [ ] Stripe webhook 失敗自動重試
 
 ### 功能增強（可選）
 - [ ] Dashboard 增加歷史預約時段顯示
@@ -224,8 +240,19 @@ wrangler deploy
 # Firebase 部署
 firebase deploy
 
-# 清理測試資料
-curl "https://uxshari-workers.uxshari.workers.dev/api/cleanup-test-payments?email=test@example.com"
+# 設定 Worker secrets
+wrangler secret put ADMIN_KEY
+wrangler secret put CALENDLY_PAT
+wrangler secret put STRIPE_SECRET_KEY
+
+# 查詢 Cron 狀態（需 admin_key）
+curl "https://uxshari-workers.uxshari.workers.dev/api/cron-status?admin_key=YOUR_ADMIN_KEY"
+
+# 清理測試資料（需 admin_key）
+curl "https://uxshari-workers.uxshari.workers.dev/api/cleanup-test-payments?email=test@example.com&admin_key=YOUR_ADMIN_KEY"
+
+# 手動觸發過期清理測試（需 admin_key）
+curl "https://uxshari-workers.uxshari.workers.dev/api/cleanup-expired-bookings?test=true&admin_key=YOUR_ADMIN_KEY"
 ```
 
 ## 📞 聯絡資訊
