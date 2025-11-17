@@ -203,6 +203,10 @@
   <!-- Global function for book button (must be outside module scope) -->
   <script>
     console.log('🔵 Global script loaded - v20251117-1545');
+    
+    // Global flag to track if user has clicked book button
+    window.hasClickedBookButton = false;
+    
     window.handleBookClick = async function() {
       console.log('=== BUTTON CLICKED (GLOBAL FUNCTION) ===');
       
@@ -217,6 +221,8 @@
         bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 準備預約連結...';
         
         console.log('Showing yellow warning...');
+        window.hasClickedBookButton = true; // Set global flag
+        
         hasCreditsAlert.classList.remove('alert-success', 'd-none');
         hasCreditsAlert.classList.add('alert-warning');
         hasCreditsAlert.innerHTML = `
@@ -308,11 +314,7 @@
       }
     });
 
-    // Track if user has clicked book button (to show warning message)
-    let hasClickedBook = false;
-    let warningMessageTimer = null;
-
-    // Book button click handler - attached once on page load
+    // Book button click handler - attached once on page load (backup, onclick is primary)
     elements.bookBtn.addEventListener('click', async () => {
       console.log('=== BUTTON CLICKED ===');
       console.log('Button disabled state:', elements.bookBtn.disabled);
@@ -416,8 +418,8 @@
         elements.noCreditsAlert.classList.add('d-none');
         
         // Show appropriate message based on whether user has clicked book
-        if (hasClickedBook) {
-          console.log('Showing warning message because hasClickedBook is true');
+        if (window.hasClickedBookButton) {
+          console.log('Showing warning message because hasClickedBookButton is true');
           // Keep showing warning message
           elements.hasCreditsAlert.classList.remove('alert-success', 'd-none');
           elements.hasCreditsAlert.classList.add('alert-warning');
@@ -426,15 +428,8 @@
             <strong>已預留 1 個輔導名額</strong>
             <p class="mb-0 small">請在 <strong>10 分鐘內</strong>完成 Calendly 預約表單。若未完成，點數將自動退回。</p>
           `;
-          
-          // Auto-reset flag after 10 minutes
-          if (warningMessageTimer) clearTimeout(warningMessageTimer);
-          warningMessageTimer = setTimeout(() => {
-            console.log('10 minutes passed, resetting hasClickedBook flag');
-            hasClickedBook = false;
-          }, 10 * 60 * 1000);
         } else {
-          console.log('Showing success message because hasClickedBook is false');
+          console.log('Showing success message because hasClickedBookButton is false');
           // Show default success message
           elements.hasCreditsAlert.classList.remove('alert-warning', 'd-none');
           elements.hasCreditsAlert.classList.add('alert-success');

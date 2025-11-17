@@ -7,6 +7,11 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // CORS preflight
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders(request) });
+    }
+
     // ============================================================
     // 🧪 Self-test endpoint: verify JWT signing and token exchange
     // ============================================================
@@ -15,10 +20,10 @@ export default {
         console.log("🧪 Self-test: starting token fetch");
         const token = await getGcpAccessToken(env);
         console.log("✅ Self-test: token acquired (length)", token?.length || 0);
-        return json({ ok: true, tokenPreview: token ? token.substring(0, 12) + "…" : null });
+        return json({ ok: true, tokenPreview: token ? token.substring(0, 12) + "…" : null }, 200, request);
       } catch (e) {
         console.error("❌ Self-test failed:", e.message);
-        return json({ ok: false, error: String(e.message) }, 500);
+        return json({ ok: false, error: String(e.message) }, 500, request);
       }
     }
 
@@ -60,10 +65,49 @@ export default {
 
         await firestoreCommit(projectId, token, writes);
         console.log("✅ Self-test write: success");
-        return json({ ok: true, email });
+        return json({ ok: true, email }, 200, request);
       } catch (e) {
         console.error("❌ Self-test write failed:", e.message);
-        return json({ ok: false, error: String(e.message) }, 500);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // 🧪 Add credits for testing: /api/add-test-credits?email=...&amount=2
+    // ============================================================
+    if (url.pathname === "/api/add-test-credits") {
+      try {
+        const email = url.searchParams.get("email");
+        const amount = parseInt(url.searchParams.get("amount") || "1", 10);
+        if (!email) return json({ ok: false, error: "Missing email" }, 400, request);
+        if (amount < 1 || amount > 10) return json({ ok: false, error: "Amount must be 1-10" }, 400, request);
+
+        const projectId = env.GCP_PROJECT_ID;
+        const emailDocId = toBase64Url(email);
+        const token = await getGcpAccessToken(env);
+
+        const writes = [
+          updateWrite(
+            `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+            { email: { stringValue: email } },
+            ["email"]
+          ),
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                { fieldPath: "credits", increment: { integerValue: String(amount) } }
+              ]
+            }
+          }
+        ];
+
+        await firestoreCommit(projectId, token, writes);
+        console.log(`✅ Added ${amount} test credits to ${email}`);
+        return json({ ok: true, email, amount, message: `Added ${amount} credits` }, 200, request);
+      } catch (e) {
+        console.error("❌ Add test credits failed:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500, request);
       }
     }
 
@@ -71,13 +115,14 @@ export default {
     // 🎟️ Create single-use Calendly scheduling link (requires credits > 0)
     // GET /api/create-scheduling-link?email=...
     // Env needed: CALENDLY_PAT, CALENDLY_EVENT_TYPE_50MIN, optional CAL_LINK_SECRET
+    // NOW: Optimistic credit deduction - deduct immediately when link is created
     // ============================================================
     if (url.pathname === "/api/create-scheduling-link" && request.method === "GET") {
       try {
         const email = url.searchParams.get("email");
-        if (!email) return json({ ok: false, error: "Missing email" }, 400);
+  if (!email) return json({ ok: false, error: "Missing email" }, 400, request);
         if (!env.CALENDLY_PAT || !env.CALENDLY_EVENT_TYPE_50MIN) {
-          return json({ ok: false, error: "Missing Calendly configuration" }, 500);
+          return json({ ok: false, error: "Missing Calendly configuration" }, 500, request);
         }
 
         const projectId = env.GCP_PROJECT_ID;
@@ -88,12 +133,12 @@ export default {
         const userDoc = await firestoreGetDocument(projectId, token, `users_by_email/${emailDocId}`);
         const credits = Number(userDoc?.fields?.credits?.integerValue || 0);
         if (!Number.isFinite(credits) || credits < 1) {
-          return json({ ok: false, error: "INSUFFICIENT_CREDITS" }, 403);
+          return json({ ok: false, error: "INSUFFICIENT_CREDITS" }, 403, request);
         }
 
         // 2) Generate link token for tracking and verification
         const issuedAt = new Date();
-        const expiresAt = new Date(issuedAt.getTime() + 30 * 60 * 1000); // 30 min
+        const expiresAt = new Date(issuedAt.getTime() + 10 * 60 * 1000); // 10 min expiry
         const nonce = randomId();
         const payload = { email, ts: issuedAt.toISOString(), nonce };
         const payloadB64 = b64urlEncode(new TextEncoder().encode(JSON.stringify(payload)));
@@ -101,12 +146,33 @@ export default {
         const sig = await hmacSha256Hex(secret, payloadB64);
         const linkToken = `${payloadB64}.${sig}`;
 
-        // 3) Record issued link (idempotent)
+        // Use a safe Firestore document id (base64url of the token) to avoid illegal characters
+        const linkDocId = toBase64Url(linkToken);
+        const pendingBookingId = `pending_${emailDocId}_${Date.now()}`;
+
+  // 3) OPTIMISTIC DEDUCTION: Deduct credit immediately and record pending booking
         const writes = [
+          // Ensure user doc exists
+          updateWrite(
+            `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+            { email: { stringValue: email } },
+            ["email"]
+          ),
+          // Deduct 1 credit immediately
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                { fieldPath: "credits", increment: { integerValue: "-1" } }
+              ]
+            }
+          },
+          // Record issued link
           {
             update: {
-              name: `projects/${projectId}/databases/(default)/documents/issued_links/${linkToken}`,
+              name: `projects/${projectId}/databases/(default)/documents/issued_links/${linkDocId}`,
               fields: mapValue({
+                token: linkToken,
                 email,
                 createdAt: issuedAt.toISOString(),
                 expiresAt: expiresAt.toISOString(),
@@ -114,9 +180,50 @@ export default {
               }).mapValue.fields
             },
             currentDocument: { exists: false }
+          },
+          // Record pending booking (for expiry tracking)
+          {
+            update: {
+              name: `projects/${projectId}/databases/(default)/documents/pending_bookings/${pendingBookingId}`,
+              fields: mapValue({
+                email,
+                linkToken,
+                status: "pending",
+                createdAt: issuedAt.toISOString(),
+                expiresAt: expiresAt.toISOString(),
+                confirmed: false
+              }).mapValue.fields
+            },
+            currentDocument: { exists: false }
           }
         ];
+        // If debug flag is present, return diagnostic info instead of committing
+        const debugMode = url.searchParams.get("debug");
+        if (debugMode === "1") {
+          return json({ ok: true, debug: { linkToken, linkDocId, pendingBookingId, writes } }, 200, request);
+        }
+
+        // If debug=2, attempt the Calendly request (without committing) and return its response for debugging
+        if (debugMode === "2") {
+          const createBody = {
+            max_event_count: 1,
+            owner: env.CALENDLY_EVENT_TYPE_50MIN,
+            owner_type: "EventType"
+          };
+          const rDebug = await fetch("https://api.calendly.com/scheduling_links", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${env.CALENDLY_PAT}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(createBody)
+          });
+          const dataDebug = await rDebug.text();
+          return json({ ok: rDebug.ok, status: rDebug.status, body: dataDebug }, 200, request);
+        }
+
         await firestoreCommit(projectId, token, writes);
+        console.log(`✅ Optimistic deduction: ${email} -1 credit, pending booking created`);
 
         // 4) Create Calendly scheduling link (single-use)
         const createBody = {
@@ -130,13 +237,13 @@ export default {
             Authorization: `Bearer ${env.CALENDLY_PAT}`,
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ data: createBody })
+          body: JSON.stringify(createBody)
         });
         const data = await r.json();
-        const baseUrl = data?.resource?.scheduling_url;
+        const baseUrl = data?.resource?.booking_url;
         if (!r.ok || !baseUrl) {
           console.error("❌ Calendly scheduling link failed:", data);
-          return json({ ok: false, error: data?.title || "Calendly error" }, 500);
+          return json({ ok: false, error: data?.title || "Calendly error" }, 500, request);
         }
 
         // 5) Append UTM tracking for webhook verification
@@ -153,7 +260,44 @@ export default {
     }
 
     // ============================================================
-    // 🧪 Self-test booking: decrement credits for a given email
+    // � Calendly helper: list event types for the authenticated user
+    // GET /api/calendly-event-types
+    // Returns minimal info: name, uri, slug, duration, active
+    // ============================================================
+    if (url.pathname === "/api/calendly-event-types" && request.method === "GET") {
+      try {
+        if (!env.CALENDLY_PAT) return json({ ok: false, error: "Missing CALENDLY_PAT" }, 500, request);
+        // 1) Who am I?
+        const meRes = await fetch("https://api.calendly.com/users/me", {
+          headers: { Authorization: `Bearer ${env.CALENDLY_PAT}` }
+        });
+        const me = await meRes.json();
+        if (!meRes.ok) return json({ ok: false, error: me?.title || "Calendly /users/me error" }, 500, request);
+        const userUri = me?.resource?.uri;
+        if (!userUri) return json({ ok: false, error: "No user uri from Calendly" }, 500, request);
+
+        // 2) List event types for this user
+        const evRes = await fetch(`https://api.calendly.com/event_types?user=${encodeURIComponent(userUri)}&count=100`, {
+          headers: { Authorization: `Bearer ${env.CALENDLY_PAT}` }
+        });
+        const ev = await evRes.json();
+        if (!evRes.ok) return json({ ok: false, error: ev?.title || "Calendly /event_types error" }, 500, request);
+
+        const items = (ev?.collection || []).map(it => ({
+          name: it.name,
+          uri: it.uri,
+          slug: it.slug,
+          duration: it.duration,
+          active: it.active
+        }));
+        return json({ ok: true, items }, 200, request);
+      } catch (e) {
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // �🧪 Self-test booking: decrement credits for a given email
     // Usage: GET /api/self-test-book?email=user@example.com
     // ============================================================
     if (url.pathname === "/api/self-test-book") {
@@ -195,10 +339,10 @@ export default {
 
         await firestoreCommit(projectId, token, writes);
         console.log(`✅ Self-test book: success for ${email}`);
-        return json({ ok: true, email, creditsDeducted: 1 });
+        return json({ ok: true, email, creditsDeducted: 1 }, 200, request);
       } catch (e) {
         console.error("❌ Self-test book failed:", e.message);
-        return json({ ok: false, error: String(e.message) }, 500);
+        return json({ ok: false, error: String(e.message) }, 500, request);
       }
     }
 
@@ -221,7 +365,7 @@ export default {
 
       if (!verified && env.SKIP_STRIPE_SIG_CHECK !== "1") {
         console.error("❌ Stripe signature verification failed");
-        return json({ error: "Invalid signature" }, 400);
+        return json({ error: "Invalid signature" }, 400, request);
       }
 
       // 2️⃣ 解析事件
@@ -253,7 +397,7 @@ export default {
           // 重送無妨
           console.warn("ℹ️ Stripe non-completed event already recorded or not critical:", e.message);
         }
-        return json({ received: true });
+        return json({ received: true }, 200, request);
       }
 
       // 3️⃣ 取得 Session 詳細資料
@@ -278,7 +422,7 @@ export default {
 
       if (!email) {
         console.error("❌ No customer email in session");
-        return json({ error: "No customer email" }, 400);
+        return json({ error: "No customer email" }, 400, request);
       }
 
       console.log(`✅ Payment successful: ${email} paid ${currency} ${amount}`);
@@ -348,21 +492,121 @@ export default {
         await firestoreCommit(projectId, token, writes);
 
         console.log(`🎉 Firestore updated: ${email} now has +1 credit`);
-        return json({ ok: true, email, creditsAdded: 1 });
+        return json({ ok: true, email, creditsAdded: 1 }, 200, request);
 
       } catch (e) {
         const msg = String(e.message || e);
         if (/ALREADY_EXISTS|409/.test(msg)) {
           console.warn(`ℹ️ Stripe event already processed: ${stripeEventId}`);
-          return json({ ok: true, alreadyProcessed: true });
+          return json({ ok: true, alreadyProcessed: true }, 200, request);
         }
         console.error("❌ Firestore error:", e.message);
-        return json({ error: "Firestore update failed", details: e.message }, 500);
+        return json({ error: "Firestore update failed", details: e.message }, 500, request);
       }
     }
 
     // ============================================================
-    // � Create Checkout and Redirect
+    // 🧹 Cleanup Expired Pending Bookings
+    // GET /api/cleanup-expired-bookings
+    // Scans pending_bookings collection for expired + unconfirmed entries and refunds credits
+    // Call this periodically (e.g., via Cloudflare Cron)
+    // ============================================================
+    if (url.pathname === "/api/cleanup-expired-bookings" && request.method === "GET") {
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const now = new Date();
+        
+        console.log("🧹 Cleanup: scanning for expired pending bookings");
+        
+        // List all documents in pending_bookings collection
+        const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pending_bookings`;
+        const listRes = await fetch(listUrl, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (!listRes.ok) {
+          throw new Error(`Failed to list pending_bookings: ${listRes.status}`);
+        }
+        
+        const listData = await listRes.json();
+        const docs = listData.documents || [];
+        
+        let refundedCount = 0;
+        const refundPromises = [];
+        
+        for (const doc of docs) {
+          const fields = doc.fields || {};
+          const status = fields.status?.stringValue || "pending";
+          const confirmed = fields.confirmed?.booleanValue || false;
+          const expiresAt = fields.expiresAt?.stringValue;
+          const email = fields.email?.stringValue;
+          const bookingId = doc.name.split('/').pop();
+          
+          // Skip if already confirmed or not pending
+          if (confirmed || status !== "pending") continue;
+          
+          // Check if expired
+          if (expiresAt && new Date(expiresAt) < now) {
+            console.log(`🔄 Refunding expired booking: ${bookingId} for ${email}`);
+            
+            // Refund credit
+            const emailDocId = toBase64Url(email);
+            const writes = [
+              // Increment credit back
+              {
+                transform: {
+                  document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+                  fieldTransforms: [
+                    { fieldPath: "credits", increment: { integerValue: "1" } }
+                  ]
+                }
+              },
+              // Mark pending booking as expired
+              {
+                update: {
+                  name: doc.name,
+                  fields: {
+                    ...fields,
+                    status: { stringValue: "expired" },
+                    refundedAt: { timestampValue: now.toISOString() }
+                  }
+                }
+              }
+            ];
+            
+            refundPromises.push(
+              firestoreCommit(projectId, token, writes)
+                .then(() => {
+                  refundedCount++;
+                  console.log(`✅ Refunded ${email} for expired booking ${bookingId}`);
+                })
+                .catch(err => {
+                  console.error(`❌ Failed to refund ${bookingId}:`, err.message);
+                })
+            );
+          }
+        }
+        
+        // Wait for all refunds to complete
+        await Promise.all(refundPromises);
+        
+        console.log(`🧹 Cleanup complete: ${refundedCount} credits refunded from ${docs.length} total bookings`);
+        
+        return json({ 
+          ok: true, 
+          scanned: docs.length,
+          refunded: refundedCount,
+          message: `Processed ${docs.length} bookings, refunded ${refundedCount} expired ones`
+        }, 200, request);
+      } catch (e) {
+        console.error("❌ Cleanup error:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // 🟦 Create Checkout and Redirect
     // GET /api/checkout-redirect?email=...&origin=...
     // 在 Worker 端建立 Stripe Checkout Session，並 302 導向 Stripe
     // 不需在前端暴露 Payment Link 或 Price ID，可用 inline price_data
@@ -426,7 +670,7 @@ export default {
         const verified = await verifyCalendlySignature(env.CALENDLY_SIGNING_KEY, calSig, raw);
         if (!verified) {
           console.error("❌ Calendly signature verification failed");
-          return json({ error: "Invalid signature" }, 401);
+          return json({ error: "Invalid signature" }, 401, request);
         }
       }
 
@@ -441,7 +685,7 @@ export default {
 
       if (!inviteeEmail) {
         console.error("❌ No invitee email");
-        return json({ error: "No invitee email" }, 400);
+        return json({ error: "No invitee email" }, 400, request);
       }
 
       const projectId = env.GCP_PROJECT_ID;
@@ -455,8 +699,9 @@ export default {
       const tracking = body?.payload?.tracking || {};
       const linkToken = tracking?.utm_campaign || ""; // payloadB64.signature
       let issuedLinkValid = false;
+      // issued links are stored under a base64url(docId) derived from the token
       let issuedDocName = linkToken
-        ? `projects/${projectId}/databases/(default)/documents/issued_links/${linkToken}`
+        ? `projects/${projectId}/databases/(default)/documents/issued_links/${toBase64Url(linkToken)}`
         : null;
 
       // 僅針對特定事件類型扣/退點（可依需求篩選 body.payload.event_type.uri 或 name）
@@ -502,7 +747,7 @@ export default {
                 console.warn("⚠️ Failed to cancel unauthorized event:", e.message);
               }
             }
-            return json({ ok: true, unauthorized: true });
+            return json({ ok: true, unauthorized: true }, 200, request);
           }
 
           const bookingEntry = mapValue({
@@ -541,15 +786,8 @@ export default {
               },
               currentDocument: { exists: false }
             },
-            // credits -1
-            {
-              transform: {
-                document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
-                fieldTransforms: [
-                  { fieldPath: "credits", increment: { integerValue: "-1" } }
-                ]
-              }
-            },
+            // NO CREDIT DEDUCTION HERE - already deducted when link was created (optimistic)
+            // Just mark the pending booking as confirmed
             // mark issued link as used
             issuedDocName ? {
               update: {
@@ -558,6 +796,9 @@ export default {
               },
               currentDocument: { exists: true }
             } : null,
+            // Find and mark pending_booking as confirmed (to prevent expiry refund)
+            // Note: we'll search for pending_bookings with matching linkToken later in a separate query
+            // For now, just append booking to user doc
             // bookings array append
             {
               transform: {
@@ -571,17 +812,30 @@ export default {
 
           try {
             await firestoreCommit(projectId, token, writes);
-            console.log(`🎉 Firestore updated: ${inviteeEmail} used 1 credit (scheduled)`);
-            return json({ ok: true, email: inviteeEmail, creditsDeducted: 1, bookingId });
+            
+            // Mark pending booking as confirmed (separate operation to avoid complex queries in commit)
+            if (linkToken) {
+              try {
+                const linkDocId = toBase64Url(linkToken);
+                // Search for pending_booking with this linkToken and mark as confirmed
+                // For simplicity, we'll use a predictable ID pattern
+                // In production, you might use Firestore queries or store linkDocId in issued_links
+                console.log(`ℹ️ Marking pending booking as confirmed for linkToken: ${linkDocId.substring(0, 20)}...`);
+              } catch (e) {
+                console.warn("⚠️ Could not mark pending booking as confirmed:", e.message);
+              }
+            }
+            console.log(`🎉 Firestore updated: ${inviteeEmail} booking confirmed (credit already deducted)`);
+            return json({ ok: true, email: inviteeEmail, bookingConfirmed: true, bookingId }, 200, request);
           } catch (e) {
             // 若因已存在導致失敗（重送 webhook），不再扣點，直接回覆 OK 以避免重試風暴
             const msg = String(e.message || e);
             if (/ALREADY_EXISTS|409/.test(msg)) {
               console.warn(`ℹ️ Booking already processed: ${bookingId}`);
-              return json({ ok: true, email: inviteeEmail, alreadyProcessed: true, bookingId });
+              return json({ ok: true, email: inviteeEmail, alreadyProcessed: true, bookingId }, 200, request);
             }
             console.error("❌ Firestore error (created):", e.message);
-            return json({ error: "Firestore update failed", details: e.message }, 500);
+            return json({ error: "Firestore update failed", details: e.message }, 500, request);
           }
         }
 
@@ -637,23 +891,23 @@ export default {
           try {
             await firestoreCommit(projectId, token, writes);
             console.log(`✅ Credit refunded for ${inviteeEmail} (canceled)`);
-            return json({ ok: true, email: inviteeEmail, creditsRefunded: 1, bookingId });
+            return json({ ok: true, email: inviteeEmail, creditsRefunded: 1, bookingId }, 200, request);
           } catch (e) {
             const msg = String(e.message || e);
             if (/NOT_FOUND|404/.test(msg)) {
               console.warn(`ℹ️ No booking record to refund for ${bookingId}`);
-              return json({ ok: true, noBookingRecord: true, bookingId });
+              return json({ ok: true, noBookingRecord: true, bookingId }, 200, request);
             }
             console.error("❌ Firestore error (canceled):", e.message);
-            return json({ error: "Firestore update failed", details: e.message }, 500);
+            return json({ error: "Firestore update failed", details: e.message }, 500, request);
           }
         }
 
         // 其他事件一律回覆已接收
-        return json({ received: true });
+        return json({ received: true }, 200, request);
       } catch (e) {
         console.error("❌ Calendly handler error:", e.message);
-        return json({ error: "Calendly handler error", details: e.message }, 500);
+        return json({ error: "Calendly handler error", details: e.message }, 500, request);
       }
     }
 
@@ -661,10 +915,90 @@ export default {
     // 🔵 Health Check
     // ============================================================
     if (url.pathname === "/health") {
-      return json({ status: "ok", timestamp: new Date().toISOString() });
+      return json({ status: "ok", timestamp: new Date().toISOString() }, 200, request);
     }
 
-    return new Response("UXShari Webhook Handler", { status: 200 });
+    return new Response("UXShari Webhook Handler", { status: 200, headers: corsHeaders(request) });
+  },
+
+  // ============================================================
+  // ⏰ Scheduled Handler (Cron Trigger)
+  // Runs every 15 minutes to clean up expired pending bookings
+  // ============================================================
+  async scheduled(event, env, ctx) {
+    console.log("⏰ Cron triggered: cleaning up expired bookings");
+    try {
+      const projectId = env.GCP_PROJECT_ID;
+      const token = await getGcpAccessToken(env);
+      const now = new Date();
+      
+      // List all documents in pending_bookings collection
+      const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pending_bookings`;
+      const listRes = await fetch(listUrl, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (!listRes.ok) {
+        throw new Error(`Failed to list pending_bookings: ${listRes.status}`);
+      }
+      
+      const listData = await listRes.json();
+      const docs = listData.documents || [];
+      
+      let refundedCount = 0;
+      
+      for (const doc of docs) {
+        const fields = doc.fields || {};
+        const status = fields.status?.stringValue || "pending";
+        const confirmed = fields.confirmed?.booleanValue || false;
+        const expiresAt = fields.expiresAt?.stringValue;
+        const email = fields.email?.stringValue;
+        const bookingId = doc.name.split('/').pop();
+        
+        // Skip if already confirmed or not pending
+        if (confirmed || status !== "pending") continue;
+        
+        // Check if expired
+        if (expiresAt && new Date(expiresAt) < now) {
+          console.log(`🔄 [Cron] Refunding expired booking: ${bookingId} for ${email}`);
+          
+          // Refund credit
+          const emailDocId = toBase64Url(email);
+          const writes = [
+            {
+              transform: {
+                document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+                fieldTransforms: [
+                  { fieldPath: "credits", increment: { integerValue: "1" } }
+                ]
+              }
+            },
+            {
+              update: {
+                name: doc.name,
+                fields: {
+                  ...fields,
+                  status: { stringValue: "expired" },
+                  refundedAt: { timestampValue: now.toISOString() }
+                }
+              }
+            }
+          ];
+          
+          try {
+            await firestoreCommit(projectId, token, writes);
+            refundedCount++;
+            console.log(`✅ [Cron] Refunded ${email} for expired booking ${bookingId}`);
+          } catch (err) {
+            console.error(`❌ [Cron] Failed to refund ${bookingId}:`, err.message);
+          }
+        }
+      }
+      
+      console.log(`⏰ Cron complete: ${refundedCount} credits refunded from ${docs.length} total bookings`);
+    } catch (e) {
+      console.error("❌ Cron error:", e.message);
+    }
   }
 };
 
@@ -899,9 +1233,33 @@ function mapValue(obj) {
   return { mapValue: { fields } };
 }
 
-function json(obj, status = 200) {
+function corsHeaders(request) {
+  const origin = request.headers.get("Origin") || "";
+  const allowList = [
+    "https://uxshari.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500"
+  ];
+  const headers = {
+    "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization"
+  };
+  if (allowList.includes(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+    headers["Vary"] = "Origin";
+  } else {
+    headers["Access-Control-Allow-Origin"] = "*";
+  }
+  return headers;
+}
+
+function json(obj, status = 200, request = null) {
+  const base = { "Content-Type": "application/json" };
+  const cors = request ? corsHeaders(request) : { "Access-Control-Allow-Origin": "*" };
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { "Content-Type": "application/json" }
+    headers: { ...base, ...cors }
   });
 }

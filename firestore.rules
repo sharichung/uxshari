@@ -9,7 +9,13 @@ service cloud.firestore {
 		// where documents are keyed by base64url(email). We validate by comparing the
 		// stored email field to the signed-in user's email from the auth token.
 		match /users_by_email/{docId} {
-			allow read: if isSignedIn() && resource.data.email == request.auth.token.email;
+			// Permit reads if:
+			// 1) The document does not exist yet (so clients can check and get an empty snapshot), OR
+			// 2) The stored email matches the signed-in user's email
+			allow read: if isSignedIn() && (
+				!exists(/databases/$(database)/documents/users_by_email/$(docId)) ||
+				resource.data.email == request.auth.token.email
+			);
 			// All client writes are disabled. Writes happen via the server (Cloudflare Worker)
 			// using a service account and IAM, which bypasses these rules.
 			allow write: if false;
