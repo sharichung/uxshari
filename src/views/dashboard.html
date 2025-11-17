@@ -331,10 +331,10 @@
         elements.bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 準備預約連結...';
         console.log('Button text updated');
         
-        console.log('Book button clicked, setting hasClickedBook to true');
+        console.log('Book button clicked, setting hasClickedBookButton to true');
         // Show warning message IMMEDIATELY when button is clicked
-        hasClickedBook = true;
-        console.log('hasClickedBook set to:', hasClickedBook);
+        window.hasClickedBookButton = true;
+        console.log('hasClickedBookButton set to:', window.hasClickedBookButton);
         console.log('About to modify hasCreditsAlert...');
         console.log('hasCreditsAlert element:', elements.hasCreditsAlert);
         console.log('Current className:', elements.hasCreditsAlert.className);
@@ -364,7 +364,7 @@
       } catch (e) {
         console.error('Error creating scheduling link:', e);
         alert(e.message || '無法建立預約連結，請稍後再試');
-        hasClickedBook = false; // Reset flag on error
+        window.hasClickedBookButton = false; // Reset flag on error
         
         // Reset to success message on error
         elements.hasCreditsAlert.classList.remove('alert-warning');
@@ -387,7 +387,7 @@
       const payments = userData?.payments ?? [];
       const bookings = userData?.bookings ?? [];
       
-      console.log('updateUI called, credits:', credits, 'hasClickedBook:', hasClickedBook);
+      console.log('updateUI called, credits:', credits, 'hasClickedBookButton:', window.hasClickedBookButton);
 
       // 更新額度顯示（帶動畫）
       elements.creditsCount.textContent = credits;
