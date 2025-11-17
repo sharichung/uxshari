@@ -615,7 +615,107 @@ export default {
     }
 
     // ============================================================
-    // 🧹 Cleanup Expired Pending Bookings
+    // � Manually confirm booking for testing
+    // GET /api/confirm-booking?booking_id=xxx
+    // ============================================================
+    if (url.pathname === "/api/confirm-booking" && request.method === "GET") {
+      try {
+        const bookingId = url.searchParams.get('booking_id');
+        if (!bookingId) {
+          return json({ ok: false, error: "Missing booking_id parameter" }, 400);
+        }
+        
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const now = new Date();
+        
+        // Get the pending booking
+        const docUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pending_bookings/${bookingId}`;
+        const docRes = await fetch(docUrl, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (!docRes.ok) {
+          return json({ ok: false, error: `Booking not found: ${docRes.status}` }, 404);
+        }
+        
+        const docData = await docRes.json();
+        const fields = docData.fields || {};
+        const email = fields.email?.stringValue;
+        const linkToken = fields.linkToken?.stringValue;
+        
+        if (!email) {
+          return json({ ok: false, error: "Invalid booking data" }, 400);
+        }
+        
+        const emailDocId = toBase64Url(email);
+        const testEventUri = `https://api.calendly.com/scheduled_events/test-${Date.now()}`;
+        const bookingDocId = `booking_${emailDocId}_${Date.now()}`;
+        
+        // Confirm the booking
+        const writes = [
+          // Mark pending booking as confirmed
+          {
+            update: {
+              name: docData.name,
+              fields: {
+                ...fields,
+                status: { stringValue: "confirmed" },
+                confirmed: { booleanValue: true },
+                confirmedAt: { timestampValue: now.toISOString() }
+              }
+            }
+          },
+          // Create booking record
+          {
+            update: {
+              name: `projects/${projectId}/databases/(default)/documents/bookings_by_id/${bookingDocId}`,
+              fields: mapValue({
+                email,
+                eventUri: testEventUri,
+                createdAt: now.toISOString(),
+                status: "scheduled"
+              }).mapValue.fields
+            },
+            currentDocument: { exists: false }
+          },
+          // Add to user's bookings array
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                {
+                  fieldPath: "bookings",
+                  appendMissingElements: {
+                    values: [mapValue({
+                      eventUri: testEventUri,
+                      createdAt: now.toISOString(),
+                      status: "scheduled"
+                    })]
+                  }
+                }
+              ]
+            }
+          }
+        ];
+        
+        await firestoreCommit(projectId, token, writes);
+        
+        console.log(`✅ Manually confirmed booking ${bookingId} for ${email}`);
+        return json({ 
+          ok: true,
+          booking_id: bookingId,
+          email: email,
+          message: "Booking confirmed successfully"
+        });
+      } catch (e) {
+        console.error("Error confirming booking:", e);
+        return json({ ok: false, error: e.message }, 500);
+      }
+    }
+
+    // ============================================================
+    // �🧹 Cleanup Expired Pending Bookings
     // GET /api/cleanup-expired-bookings
     // Scans pending_bookings collection for expired + unconfirmed entries and refunds credits
     // Call this periodically (e.g., via Cloudflare Cron)

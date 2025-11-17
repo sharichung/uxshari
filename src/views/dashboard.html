@@ -464,14 +464,26 @@
       if (bookings.length > 0) {
         elements.bookingsList.innerHTML = bookings.reverse().map(b => {
           const status = b.status || 'scheduled';
-          const date = b.canceledAt || b.createdAt;
+          const dateStr = b.canceledAt || b.createdAt || b.confirmedAt || new Date().toISOString();
+          let formattedDate = '日期未知';
+          try {
+            formattedDate = new Date(dateStr).toLocaleString('zh-TW', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+          } catch (e) {
+            console.error('Date parsing error:', e, dateStr);
+          }
           const badgeCls = status === 'canceled' ? 'bg-secondary' : 'bg-primary';
           const badgeText = status === 'canceled' ? '已取消' : '已預約';
           return `
             <div class="d-flex justify-content-between align-items-center border-bottom py-3">
               <div>
-                <div class="fw-bold">一對一輔導</div>
-                <div class="small text-muted">${new Date(date).toLocaleString('zh-TW')}</div>
+                <div class="fw-bold">一對一輔導 (50 分鐘)</div>
+                <div class="small text-muted">${formattedDate}</div>
               </div>
               <span class="badge ${badgeCls}">${badgeText}</span>
             </div>
