@@ -1297,6 +1297,78 @@ export default {
     }
 
     // ============================================================
+    // 🧹 User-scoped cleanup: refund expired pending bookings for a specific email
+    // GET /api/cleanup-expired-for-user?email=...
+    // Safe to expose without admin_key because it only refunds user's own expired pendings
+    // ============================================================
+    if (url.pathname === "/api/cleanup-expired-for-user" && request.method === "GET") {
+      try {
+        const email = url.searchParams.get("email");
+        if (!email) return json({ ok: false, error: "Missing email" }, 400, request);
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const now = new Date();
+
+        // List all pending_bookings (small scale) and filter by email
+        const listUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/pending_bookings`;
+        const listRes = await fetch(listUrl, { headers: { Authorization: `Bearer ${token}` } });
+        if (!listRes.ok) {
+          throw new Error(`Failed to list pending_bookings: ${listRes.status}`);
+        }
+        const listData = await listRes.json();
+        const docs = listData.documents || [];
+
+        const toRefund = [];
+        for (const doc of docs) {
+          const fields = doc.fields || {};
+          const docEmail = fields.email?.stringValue;
+          const status = fields.status?.stringValue || "pending";
+          const confirmed = fields.confirmed?.booleanValue || false;
+          const expiresAt = fields.expiresAt?.stringValue;
+
+          if (docEmail !== email) continue;
+          if (confirmed || status !== "pending") continue;
+          if (!expiresAt) continue;
+          if (new Date(expiresAt) >= now) continue;
+          toRefund.push({ doc, fields });
+        }
+
+        if (toRefund.length === 0) {
+          return json({ ok: true, scanned: docs.length, matched: 0, refunded: 0, message: "No expired pending bookings for user" }, 200, request);
+        }
+
+        // Build writes: +1 credit and mark booking expired for each matched
+        const emailDocId = toBase64Url(email);
+        const writes = [];
+        for (const { doc, fields } of toRefund) {
+          const bookingId = doc.name.split('/').pop();
+          writes.push({
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [ { fieldPath: "credits", increment: { integerValue: "1" } } ]
+            }
+          });
+          writes.push({
+            update: {
+              name: doc.name,
+              fields: {
+                ...fields,
+                status: { stringValue: "expired" },
+                refundedAt: { timestampValue: now.toISOString() }
+              }
+            }
+          });
+        }
+
+        await firestoreCommit(projectId, token, writes);
+        return json({ ok: true, scanned: docs.length, matched: toRefund.length, refunded: toRefund.length }, 200, request);
+      } catch (e) {
+        console.error("❌ cleanup-expired-for-user error:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
     // 📊 Cron status (admin-only)
     // GET /api/cron-status?admin_key=...
     // ============================================================
