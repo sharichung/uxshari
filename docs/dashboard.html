@@ -428,5 +428,22 @@
     });
   </script>
 
+  <!-- Test Private Key -->
+  <script>
+    // 在瀏覽器 Console 測試
+    const testKey = `-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...
+-----END PRIVATE KEY-----`;
+
+    const cleaned = testKey
+      .replace(/-----BEGIN PRIVATE KEY-----/g, "")
+      .replace(/-----END PRIVATE KEY-----/g, "")
+      .replace(/\n/g, "")
+      .replace(/\s+/g, "");
+
+    console.log("Length:", cleaned.length);
+    console.log("Valid base64:", /^[A-Za-z0-9+/]*={0,2}$/.test(cleaned));
+  </script>
+
 </body>
 </html>

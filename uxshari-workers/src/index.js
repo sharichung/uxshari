@@ -8,6 +8,66 @@ export default {
     const url = new URL(request.url);
 
     // ============================================================
+    // 🧪 Self-test endpoint: verify JWT signing and token exchange
+    // ============================================================
+    if (url.pathname === "/api/self-test") {
+      try {
+        console.log("🧪 Self-test: starting token fetch");
+        const token = await getGcpAccessToken(env);
+        console.log("✅ Self-test: token acquired (length)", token?.length || 0);
+        return json({ ok: true, tokenPreview: token ? token.substring(0, 12) + "…" : null });
+      } catch (e) {
+        console.error("❌ Self-test failed:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500);
+      }
+    }
+
+    // ============================================================
+    // 🧪 Self-test Firestore write: simple upsert with transforms
+    // ============================================================
+    if (url.pathname === "/api/self-test-write") {
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const email = "stripe@example.com";
+        const emailDocId = toBase64Url(email);
+        const token = await getGcpAccessToken(env);
+
+        const paymentEntry = mapValue({ test: true, createdAt: new Date().toISOString() });
+        const writes = [
+          updateWrite(
+            `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+            { email: { stringValue: email } },
+            ["email"]
+          ),
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                { fieldPath: "credits", increment: { integerValue: "1" } },
+                { fieldPath: "lastTestWrite", setToServerValue: "REQUEST_TIME" }
+              ]
+            }
+          },
+          {
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                { fieldPath: "payments", appendMissingElements: { values: [paymentEntry] } }
+              ]
+            }
+          }
+        ];
+
+        await firestoreCommit(projectId, token, writes);
+        console.log("✅ Self-test write: success");
+        return json({ ok: true, email });
+      } catch (e) {
+        console.error("❌ Self-test write failed:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500);
+      }
+    }
+
+    // ============================================================
     // 🔵 Stripe Webhook：付款成功 → +1 預約額度
     // ============================================================
     if (url.pathname === "/api/stripe-webhook" && request.method === "POST") {
@@ -106,7 +166,7 @@ export default {
               fieldTransforms: [
                 {
                   fieldPath: "payments",
-                  appendMissingElements: { arrayValue: { values: [paymentEntry] } }
+                  appendMissingElements: { values: [paymentEntry] }
                 }
               ]
             }
@@ -192,7 +252,7 @@ export default {
               fieldTransforms: [
                 {
                   fieldPath: "bookings",
-                  appendMissingElements: { arrayValue: { values: [bookingEntry] } }
+                  appendMissingElements: { values: [bookingEntry] }
                 }
               ]
             }
@@ -316,7 +376,14 @@ async function getGcpAccessToken(env) {
     exp
   };
 
-  const jwt = await signJwtRS256(header, claims, env.GOOGLE_PRIVATE_KEY);
+  console.log("🔑 Signing JWT with private key...");
+  let jwt;
+  try {
+    jwt = await signJwtRS256(header, claims, env.GOOGLE_PRIVATE_KEY);
+  } catch (e) {
+    console.error("❌ JWT signing failed:", e.message);
+    throw e;
+  }
   const form = new URLSearchParams();
   form.set("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer");
   form.set("assertion", jwt);
@@ -349,12 +416,28 @@ async function signJwtRS256(header, payload, pemPrivateKey) {
 }
 
 async function importPkcs8PrivateKey(pem, algorithm) {
-  const pemBody = pem
+  // 清理 PEM 格式：移除 header/footer 與所有空白/換行
+  let pemBody = pem
     .replace(/-----BEGIN PRIVATE KEY-----/g, "")
     .replace(/-----END PRIVATE KEY-----/g, "")
-    .replace(/\s+/g, "");
-  const raw = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
-  return crypto.subtle.importKey("pkcs8", raw, { name: algorithm, hash: "SHA-256" }, false, ["sign"]);
+    .replace(/\\n/g, "")   // 移除轉義的 \n
+    .replace(/\n/g, "")    // 移除真實換行
+    .replace(/\r/g, "")    // 移除 \r
+    .replace(/\s+/g, "");  // 移除所有空白
+  
+  // 補齊 base64 padding
+  while (pemBody.length % 4 !== 0) {
+    pemBody += '=';
+  }
+  
+  try {
+    const raw = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
+    return crypto.subtle.importKey("pkcs8", raw, { name: algorithm, hash: "SHA-256" }, false, ["sign"]);
+  } catch (e) {
+    console.error("❌ Failed to decode private key:", e.message);
+    console.error("📏 Key length:", pemBody.length, "First 50 chars:", pemBody.substring(0, 50));
+    throw new Error(`Invalid private key format: ${e.message}`);
+  }
 }
 
 function b64urlEncode(bytes) {
