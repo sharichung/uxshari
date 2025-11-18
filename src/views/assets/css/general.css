@@ -998,3 +998,345 @@ body {
       justify-content: center;
       z-index: 9999;
     }
+
+    /* ===== UX Checklist 專用樣式 ===== */
+    .checklist-card.completed {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+    }
+
+    .checklist-name-input {
+      font-size: 1.25rem;
+      font-weight: 600;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 4px 8px;
+      background: transparent;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .checklist-name-input:focus {
+      outline: none;
+      border-bottom-color: var(--primary);
+      background: #f8f9ff;
+    }
+
+    .checklist-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .checklist-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .checklist-badge.project-type {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      font-weight: 500;
+    }
+
+    .progress-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 10px;
+      background: #e2e8f0;
+      overflow: visible;
+    }
+
+    .progress-bar {
+      border-radius: 10px;
+      background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+      transition: width 0.5s ease;
+      position: relative;
+    }
+
+    .progress-bar.complete {
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 8px;
+    }
+
+    .checklist-section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+
+    .section-icon.process { background: #dbeafe; color: #1e40af; }
+    .section-icon.interface { background: #fce7f3; color: #be185d; }
+    .section-icon.context { background: #fef3c7; color: #92400e; }
+
+    .checklist-item.checked {
+      background: #f0fdf4;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .checklist-item-text {
+      flex: 1;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .checklist-item.checked .checklist-item-text {
+      color: #10b981;
+      text-decoration: line-through;
+    }
+
+    .suggestion-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: #fef3c7;
+      color: #92400e;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 4px;
+    }
+
+    .suggestion-pill:hover {
+      background: #fde68a;
+      transform: translateX(2px);
+    }
+
+    .suggestion-tooltip {
+      position: absolute;
+      background: #1e293b;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      z-index: 1000;
+      max-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .suggestion-tooltip.show {
+      display: block;
+    }
+
+    .checklist-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .action-btn.duplicate {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .action-btn.duplicate:hover {
+      background: #c7d2fe;
+    }
+
+    .action-btn.print {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .action-btn.print:hover {
+      background: #bfdbfe;
+    }
+
+    .action-btn.delete {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .action-btn.delete:hover {
+      background: #fecaca;
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      color: #cbd5e1;
+      margin-bottom: 24px;
+    }
+
+    .achievement-toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: white;
+      padding: 20px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 2000;
+      max-width: 400px;
+      animation: slideIn 0.3s ease;
+    }
+
+    .achievement-toast.show {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .save-indicator {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      z-index: 2000;
+    }
+
+    .save-indicator.show {
+      display: flex;
+      animation: fadeInOut 2s ease;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+    }
+
+    /* 專案類型選擇 Modal */
+    .project-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .project-type-card {
+      padding: 24px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .project-type-card:hover {
+      border-color: #6366f1;
+      background: #f8f9ff;
+      transform: translateY(-2px);
+    }
+
+    .project-type-card.selected {
+      border-color: #6366f1;
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    .project-type-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .project-type-name {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .project-type-desc {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    /* Undo Toast */
+    .undo-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #334155;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      box-shadow: 0 4px 12px rgba(51, 65, 85, 0.3);
+    }
+
+    .undo-toast.show { 
+      display: flex; 
+    }
