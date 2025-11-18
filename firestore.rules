@@ -16,9 +16,19 @@ service cloud.firestore {
 				!exists(/databases/$(database)/documents/users_by_email/$(docId)) ||
 				resource.data.email == request.auth.token.email
 			);
-			// All client writes are disabled. Writes happen via the server (Cloudflare Worker)
-			// using a service account and IAM, which bypasses these rules.
-			allow write: if false;
+			
+			// Allow authenticated users to update their own uxChecklists
+			// Only allow updating email and uxChecklists fields
+			allow update: if isSignedIn() 
+				&& request.auth.token.email == resource.data.email
+				&& request.resource.data.keys().hasOnly(['email', 'uxChecklists', 'credits', 'isPaid', 'payments', 'purchasedProducts', 'lastPaymentDate', 'createdAt']);
+			
+			// Allow authenticated users to create their own document
+			allow create: if isSignedIn() 
+				&& request.auth.token.email == request.resource.data.email;
+			
+			// Deletion is still prohibited
+			allow delete: if false;
 		}
 	}
 }
