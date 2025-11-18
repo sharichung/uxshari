@@ -213,13 +213,18 @@
             預約紀錄
           </h3>
         </div>
-        <div class="card-body">
-          <div id="bookings-list">
-            <p class="text-muted text-center py-3">
-              <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-              尚無預約紀錄
-            </p>
-          </div>
+        <div class="card-body text-center py-4">
+          <i class="fas fa-calendar-alt fa-3x text-primary-shari mb-3"></i>
+          <h5 class="mb-2">在 Calendly 管理您的預約</h5>
+          <p class="text-muted mb-3">
+            查看、重新安排或取消您的預約時段
+          </p>
+          <a href="https://calendly.com/app/scheduled_events/user/me" 
+             target="_blank" 
+             class="btn btn-primary-shari">
+            <i class="fas fa-external-link-alt me-2"></i>
+            前往 Calendly 查看預約
+          </a>
         </div>
       </div>
     </section>
@@ -367,7 +372,6 @@
       noCreditsAlert: document.getElementById('no-credits-alert'),
       hasCreditsAlert: document.getElementById('has-credits-alert'),
       paymentsList: document.getElementById('payments-list'),
-      bookingsList: document.getElementById('bookings-list'),
       logoutBtn: document.getElementById('logout-btn')
     };
 
@@ -390,9 +394,7 @@
       const credits = userData?.credits ?? 0;
       const isPaid = userData?.isPaid ?? false;
       const payments = userData?.payments ?? [];
-      const bookings = userData?.bookings ?? [];
-      console.log("📅 [DASHBOARD-OPT] 解析結果 - credits:", credits, "payments:", payments.length, "bookings:", bookings.length);
-      console.log("📋 [DASHBOARD-OPT] bookings 內容：", bookings);
+      console.log("📅 [DASHBOARD-OPT] 解析結果 - credits:", credits, "payments:", payments.length);
 
       // 更新額度顯示（帶動畫）
       elements.creditsCount.textContent = credits;
@@ -458,42 +460,6 @@
             </div>
             <span class="badge bg-success">已完成</span>
           </div>
-          `;
-        }).join('');
-      }
-
-      // 更新預約紀錄
-      if (bookings.length > 0) {
-        const filteredBookings = bookings.filter(b => {
-          // 過濾掉測試預約
-          return b.calendlyEventUri !== 'self-test';
-        });
-        
-        if (filteredBookings.length === 0) {
-          elements.bookingsList.innerHTML = `
-            <p class="text-muted text-center py-3">
-              <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
-              尚無預約紀錄
-            </p>
-          `;
-          return;
-        }
-        
-        elements.bookingsList.innerHTML = filteredBookings.slice().reverse().map(b => {
-          const status = b.status || 'scheduled';
-          // 相容多種欄位名稱（Calendly webhook 用 calendlyEventUri，手動測試用 eventUri）
-          const date = b.startAt || b.start_time || b.scheduledAt || b.eventStart || b.confirmedAt || b.createdAt || b.canceledAt;
-          const formattedDate = formatTW(date);
-          const badgeCls = status === 'canceled' ? 'bg-secondary' : 'bg-primary';
-          const badgeText = status === 'canceled' ? '已取消' : '已預約';
-          return `
-            <div class="d-flex justify-content-between align-items-center border-bottom py-3">
-              <div>
-                <div class="fw-bold">一對一輔導 (50 分鐘)</div>
-                <div class="small text-muted">${formattedDate}</div>
-              </div>
-              <span class="badge ${badgeCls}">${badgeText}</span>
-            </div>
           `;
         }).join('');
       }
