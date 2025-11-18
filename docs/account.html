@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UXShari 會員專區</title>
-    <!-- Bootstrap CSS -->
+  <title>UXShari 會員帳號設定</title>
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- style.css -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Tektur:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <!-- General CSS -->
   <link rel="stylesheet" href="assets/css/general.css">
+  <!-- Cropper.js CSS (for avatar cropping) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css" integrity="sha512-+x7q7d3d4yQSgkJcC2sYq3F5ZcGRt8Z3m6b6+1jN4bM1dExbJtSsaGkS4LiRinC4eZc7zN3n3o7yV2v6+6a8tA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <script type="text/javascript">
     (function (c, l, a, r, i, t, y) {
@@ -23,7 +30,19 @@
     })(window, document, "clarity", "script", "u6yhpaipuv");
   </script>
 </head>
-<body class="bg-light">
+<body class="min-vh-100 d-flex flex-column bg-light">
+  
+  <!-- Loading Spinner -->
+  <div id="loading-overlay" class="spinner-overlay">
+    <div class="text-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">載入中...</span>
+      </div>
+      <p class="mt-3 text-muted">載入您的資料...</p>
+    </div>
+  </div>
+
+  <!-- Navbar -->
   <div id="navbar"><nav id="mainNavbar"
     class="fade-in-down navbar-general navbar navbar-expand-lg position-fixed top-0 start-0 end-0 px-3 py-2 bg-white shadow-sm transition"
     style="z-index: 1030;">
@@ -58,123 +77,519 @@
   </script>
 </div>
 
-  <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <a href="dashboard.html" class="btn btn-outline-secondary rounded-pill">
-      <i class="bi bi-arrow-left"></i> 返回首頁
-      </a>
-      <h1 class="section-title text-center flex-grow-1">會員帳號設定</h1>
+  <!-- Main Content -->
+  <main class="flex-grow-1 d-flex flex-column" style="padding-top:80px;">
+    
+    <!-- 頁面標題區 -->
+    <section class="container py-3 py-md-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-3 p-md-4">
+          <div class="row align-items-center g-3">
+            <div class="col-auto">
+              <a href="dashboard.html" class="btn btn-outline-secondary rounded-pill">
+                <i class="fas fa-arrow-left me-1"></i>
+                <span class="d-none d-sm-inline">返回會員專區</span>
+                <span class="d-inline d-sm-none">返回</span>
+              </a>
+            </div>
+            <div class="col">
+              <h1 class="h4 h3-md mb-0 text-center text-md-start">
+                <i class="fas fa-user-cog text-primary-shari me-2"></i>
+                會員帳號設定
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 內容區：登入/註冊 與 個人資料 -->
+    <section class="container py-3 py-md-4">
+      <div class="row g-4">
+        <!-- 左：個人資料 -->
+        <div class="col-12 col-lg-6">
+          <div id="profile-section" class="form-card shadow-sm rounded-4 p-4 d-none">
+            <h2 class="form-title mb-2"><i class="fas fa-id-card me-2"></i>Profile Info</h2>
+            <p class="section-subtitle mb-3">更新你的基本資料</p>
+
+            <div class="mb-3">
+              <label for="userEmail" class="form-label text-muted small">電子郵件</label>
+              <div class="bg-light p-3 rounded-3"><p id="userEmail" class="mb-0"></p></div>
+            </div>
+            <div class="mb-3">
+              <label for="userDisplayName" class="form-label text-muted small">暱稱</label>
+              <input type="text" id="userDisplayName" class="input-shari" placeholder="輸入你的暱稱" autocomplete="nickname" minlength="2" maxlength="50" />
+              <div class="validation-hint" id="displayname-hint">暱稱需 2-50 字元</div>
+            </div>
+
+            <div class="d-grid d-sm-flex gap-2">
+              <button id="saveProfileBtn" class="btn btn-primary-shari flex-fill"><i class="fas fa-save me-2"></i>保存變更</button>
+              <button id="logoutBtn" class="btn btn-danger-shari flex-fill"><i class="fas fa-sign-out-alt me-2"></i>登出</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：頭像上載/裁剪 -->
+        <div class="col-12 col-lg-6">
+          <div id="avatar-section" class="form-card shadow-sm rounded-4 p-4 d-none">
+            <h2 class="form-title mb-2"><i class="fas fa-user-circle me-2"></i>Avatar</h2>
+            <p class="section-subtitle mb-3">上載、預覽並裁剪你的頭像（1:1）</p>
+            <div class="avatar-wrapper mb-3">
+              <img id="avatar-preview" class="avatar-img" src="https://ui-avatars.com/api/?name=UX&background=FF9500&color=fff&size=256" alt="頭像預覽">
+              <div class="avatar-actions">
+                <input type="file" id="avatar-file" accept="image/*" hidden>
+                <button type="button" class="btn btn-outline-secondary" id="avatar-upload-btn"><i class="fas fa-upload me-1"></i>選擇圖片</button>
+                <button type="button" class="btn btn-primary-shari" id="avatar-crop-open" disabled><i class="fas fa-crop me-1"></i>裁剪與保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 未登入：顯示登入/註冊 -->
+        <div class="col-12">
+          <div id="auth-section" class="form-card shadow-sm rounded-4 p-4">
+            <h2 class="form-title mb-2"><i class="fas fa-user-lock me-2"></i>會員登入 / 註冊</h2>
+            <p class="section-subtitle mb-3">登入以管理你的帳號</p>
+            <button type="button" class="btn btn-outline-secondary w-100 mb-3" id="google-auth">
+              <i class="fab fa-google me-2"></i>使用 Google 登入
+            </button>
+            <div class="text-center text-muted small mb-2">或</div>
+            <form id="auth-form" novalidate>
+              <div class="mb-3">
+                <label for="email" class="form-label">電子郵件</label>
+                <input type="email" id="email" class="input-shari" placeholder="你的電子郵件" required autocomplete="email">
+                <div class="validation-hint" id="email-hint">請輸入有效的電子郵件</div>
+              </div>
+              <div class="mb-2">
+                <label for="password" class="form-label d-flex justify-content-between align-items-center">
+                  <span>密碼</span>
+                  <a href="javascript:void(0)" class="forgot-password" id="forgot-password" onclick="openPasswordResetModal()">忘記密碼？</a>
+                </label>
+                <input type="password" id="password" class="input-shari" placeholder="你的密碼" required minlength="6" autocomplete="current-password">
+                <div class="validation-hint" id="password-hint">密碼至少 6 個字元</div>
+              </div>
+              <div id="error" class="alert alert-danger mt-3 d-none text-center" role="alert"></div>
+              <button type="submit" class="btn btn-secondary-shari w-100 mt-2">登入 / 註冊</button>
+            </form>
+            <p class="small text-muted mt-3 mb-0">首次輸入 Email/密碼將自動註冊帳號。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 帳號設定 -->
+    <section class="container pb-4">
+      <div class="row g-4">
+        <div class="col-12 col-lg-8">
+          <div id="settings-section" class="form-card shadow-sm rounded-4 p-4 d-none">
+            <h2 class="form-title mb-2"><i class="fas fa-gear me-2"></i>Account Settings</h2>
+            <p class="section-subtitle mb-3">安全與通知</p>
+
+            <div class="d-flex flex-column flex-sm-row gap-2 mb-4">
+              <button type="button" id="trigger-reset" class="btn btn-outline-secondary">
+                <i class="fas fa-key me-1"></i> 更改密碼（寄送重設連結）
+              </button>
+              <button type="button" id="refresh-profile" class="btn btn-outline-secondary">
+                <i class="fas fa-rotate me-1"></i> 重新載入資料
+              </button>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="danger-zone">
+              <h3><i class="fas fa-exclamation-triangle me-2"></i>Danger Zone</h3>
+              <p class="small mb-2">刪除帳號將永久移除所有資料，此動作無法復原。</p>
+              <button type="button" id="delete-account-btn" class="btn btn-danger">
+                <i class="fas fa-trash-alt me-1"></i> 刪除我的帳號
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 忘記密碼彈窗 -->
+    <div class="modal-overlay" id="password-reset-modal" style="display:none;">
+      <div class="modal p-3">
+        <div class="modal-header">
+          <h3 class="modal-title">重設密碼</h3>
+          <button class="modal-close" id="close-reset-modal">×</button>
+        </div>
+        <div class="modal-body">
+          <p>請輸入你的電子郵件，我們將發送重設密碼連結給你。</p>
+          <form id="reset-form" class="auth-form" style="margin-top: 1.5rem;">
+            <div class="form-group">
+              <label for="reset-email" class="form-label">電子郵件</label>
+              <input type="email" id="reset-email" class="form-input" placeholder="你的電子郵件" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="cancel-reset">取消</button>
+          <button class="btn btn-primary" id="submit-reset">發送重設連結</button>
+        </div>
+      </div>
     </div>
 
-    <!-- 使用者資料卡片 -->
-    <div id="userProfileCard" class="form-card shadow-sm rounded-4 p-4 mb-4" style="display: none;">
-      <h2 class="form-title mb-4">👤 帳號資訊</h2>
-      <div class="mb-3">
-      <label class="form-label text-muted small">電子郵件</label>
-      <div class="bg-light p-3 rounded-3">
-        <p id="userEmail" class="mb-0 fw-5"></p>
+    <!-- Delete Account Re-auth Modal -->
+    <div class="modal fade" id="delete-reauth-modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><i class="fas fa-shield-alt me-2"></i>確認身份</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-danger"><strong>警告：</strong>刪除帳號將永久移除所有資料，包括購買記錄、作品集與學習進度。</p>
+            <p class="mb-3">請輸入你的密碼以確認身份：</p>
+            <input type="password" id="reauth-password" class="form-control" placeholder="你的密碼" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" id="confirm-delete">確認刪除</button>
+          </div>
+        </div>
       </div>
-      </div>
-      <div class="mb-3">
-      <label class="form-label text-muted small">暱稱</label>
-      <input type="text" id="userDisplayName" class="input-shari" placeholder="輸入你的暱稱" />
-      </div>
-      <button id="saveProfileBtn" class="btn btn-primary-shari w-100">保存變更</button>
     </div>
 
-    <!-- 註冊表單 -->
-    <form id="signupForm" class="form-card shadow-sm rounded-4 p-4 mb-4">
-      <h2 class="form-title mb-3">建立帳號</h2>
-      <input type="email" name="email" class="input-shari mb-3" placeholder="電子郵件" required />
-      <input type="password" name="password" class="input-shari mb-3" placeholder="密碼（至少 6 位數）" required minlength="6"/>
-      <button type="submit" class="btn btn-primary-shari w-100">立即註冊</button>
-    </form>
+  <footer class="bg-light border-top mt-auto py-4">
+    <div
+      class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
 
-    <!-- 登入表單 -->
-    <form id="loginForm" class="form-card shadow-sm rounded-4 p-4 mb-4">
-      <h2 class="form-title mb-3">會員登入</h2>
-      <input type="email" name="email" class="input-shari mb-3" placeholder="電子郵件" required />
-      <input type="password" name="password" class="input-shari mb-3" placeholder="密碼" required />
-      <button type="submit" class="btn btn-secondary-shari w-100">登入</button>
-    </form>
+      <!-- 社群連結 -->
+      <div class="d-flex gap-3 my-3 my-md-0">
+        <a href="https://www.instagram.com/uxshari/" class="social-link" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.youtube.com/@uxshari" class="social-link" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/sharichung/" class="social-link" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://join.slack.com/t/uxshari/shared_invite/zt-3ioqyosn8-p2VUz1ST9wceu8Io~2ovFQ" class="social-link"
+          aria-label="Slack 社群">
+          <i class="fab fa-slack"></i>
+        </a>
+      </div>
 
-    <!-- 登出按鈕 -->
-    <button id="logoutBtn" class="btn btn-danger-shari w-100 mb-4" style="display:none;">登出</button>
-  </div>
+      <!-- 快速連結 -->
+      <div class="my-3 my-md-0">
+        <a href="privacy.html" class="text-decoration-none text-muted me-3">隱私權政策</a>
+        <a href="terms.html" class="text-decoration-none text-muted me-3">使用者條款</a>
+        <a href="contact.html" class="text-decoration-none text-muted">聯絡我們</a>
+      </div>
 
-  <!-- Firebase Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+      <!-- 版權 -->
+      <div class="mb-2 mb-md-0">
+        <small class="text-muted">© <span id="current-year"></span> UXShari 學習平台. All rights reserved.</small>
+      </div>
+    </div>
+  </footer>
+</main>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-      authDomain: "uxshari-670fd.firebaseapp.com",
-      projectId: "uxshari-670fd",
-      appId: "1:907540538791:web:ed98ef4ba51c96de43c282"
-    };
+  <!-- Scripts: Firebase (compat) + Bootstrap + App -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-storage-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js" integrity="sha512-iJ2xC4pHn1lq8oRZ1iVsqxWJkU8HU4r+eKxC6l0n7s9I5M2Vw8k5gS2ZgM4z+q0wqLxk0Qz5f8zjC0r6l1X3yQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  <!-- Page-specific: toggle sections + profile update -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 初始化 Firebase（與全站一致）
+      const firebaseConfig = {
+        apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+        authDomain: "uxshari-670fd.firebaseapp.com",
+        projectId: "uxshari-670fd",
+        appId: "1:907540538791:web:ed98ef4ba51c96de43c282"
+      };
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-    const signupForm = document.getElementById("signupForm");
-    const loginForm = document.getElementById("loginForm");
-    const logoutBtn = document.getElementById("logoutBtn");
+      const profileSection = document.getElementById('profile-section');
+      const authSection = document.getElementById('auth-section');
+      const avatarSection = document.getElementById('avatar-section');
+      const settingsSection = document.getElementById('settings-section');
+      const emailEl = document.getElementById('userEmail');
+      const displayNameEl = document.getElementById('userDisplayName');
+      const saveBtn = document.getElementById('saveProfileBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const refreshBtn = document.getElementById('refresh-profile');
+      const triggerResetBtn = document.getElementById('trigger-reset');
+      const deleteAccountBtn = document.getElementById('delete-account-btn');
 
-    signupForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = e.target.email.value;
-      const password = e.target.password.value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("✅ 註冊成功！歡迎加入 UXShari 學習平台");
-          signupForm.reset();
-        })
-        .catch((error) => {
-          alert("❌ 註冊錯誤：" + error.message);
-        });
-    });
+      // Avatar elements
+      const avatarPreview = document.getElementById('avatar-preview');
+      const avatarFile = document.getElementById('avatar-file');
+      const avatarUploadBtn = document.getElementById('avatar-upload-btn');
+      const avatarCropOpen = document.getElementById('avatar-crop-open');
 
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = e.target.email.value;
-      const password = e.target.password.value;
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          alert("✅ 登入成功！歡迎回到 UXShari 會員專區");
-          loginForm.reset();
-        })
-        .catch((error) => {
-          alert("❌ 登入錯誤：" + error.message);
-        });
-    });
-
-    logoutBtn.addEventListener("click", () => {
-      signOut(auth)
-        .then(() => alert("👋 已登出，期待你再次回來！"))
-        .catch((error) => alert("❌ 登出錯誤：" + error.message));
-    });
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        memberContent.style.display = "block";
-        logoutBtn.style.display = "inline-block";
-        signupForm.style.display = "none";
-        loginForm.style.display = "none";
-      } else {
-        memberContent.style.display = "none";
-        logoutBtn.style.display = "none";
-        signupForm.style.display = "block";
-        loginForm.style.display = "block";
+      // Save toast
+      const toast = document.createElement('div');
+      toast.className = 'save-toast';
+      toast.innerHTML = '<span class="icon"><i class="fas fa-check"></i></span><span>已儲存</span>';
+      document.body.appendChild(toast);
+      function showSavedToast() {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1800);
       }
+
+      // Input validation hints
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const displayNameInput = document.getElementById('userDisplayName');
+
+      emailInput?.addEventListener('blur', function() {
+        const hint = document.getElementById('email-hint');
+        if (this.validity.typeMismatch || this.validity.valueMissing) {
+          hint?.classList.add('show');
+        } else {
+          hint?.classList.remove('show');
+        }
+      });
+
+      passwordInput?.addEventListener('input', function() {
+        const hint = document.getElementById('password-hint');
+        if (this.value.length > 0 && this.value.length < 6) {
+          hint?.classList.add('show');
+        } else {
+          hint?.classList.remove('show');
+        }
+      });
+
+      displayNameInput?.addEventListener('input', function() {
+        const hint = document.getElementById('displayname-hint');
+        if (this.value.length > 0 && (this.value.length < 2 || this.value.length > 50)) {
+          hint?.classList.add('show');
+        } else {
+          hint?.classList.remove('show');
+        }
+      });
+
+      // 切換顯示狀態
+      firebase.auth().onAuthStateChanged(function(user) {
+        document.getElementById('loading-overlay').style.display = 'none';
+        if (user) {
+          authSection.classList.add('d-none');
+          profileSection.classList.remove('d-none');
+          avatarSection.classList.remove('d-none');
+          settingsSection.classList.remove('d-none');
+          emailEl.textContent = user.email || '';
+          displayNameEl.value = user.displayName || '';
+          if (user.photoURL) avatarPreview.src = user.photoURL;
+        } else {
+          profileSection.classList.add('d-none');
+          avatarSection.classList.add('d-none');
+          settingsSection.classList.add('d-none');
+          authSection.classList.remove('d-none');
+        }
+      });
+
+      // 保存暱稱（同步到 Auth + Firestore）
+      saveBtn?.addEventListener('click', async function() {
+        const user = firebase.auth().currentUser;
+        if (!user) return;
+        const name = (displayNameEl.value || '').trim();
+        try {
+          // 更新 Firebase Auth 顯示名稱
+          await user.updateProfile({ displayName: name });
+
+          // 同步到 Firestore users/{uid}
+          const db = firebase.firestore();
+          await db.collection('users').doc(user.uid).set({
+            displayName: name,
+            email: user.email || null,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+
+          showSavedToast();
+        } catch (err) {
+          alert('❌ 更新失敗：' + err.message);
+        }
+      });
+
+      // 登出
+      logoutBtn?.addEventListener('click', async function() {
+        try {
+          await firebase.auth().signOut();
+          window.location.href = '/index.html';
+        } catch (err) {
+          alert('❌ 登出錯誤：' + err.message);
+        }
+      });
+
+      // 重新載入資料
+      refreshBtn?.addEventListener('click', async function() {
+        try {
+          await firebase.auth().currentUser?.reload();
+          const u = firebase.auth().currentUser;
+          if (!u) return;
+          displayNameEl.value = u.displayName || '';
+          if (u.photoURL) avatarPreview.src = u.photoURL;
+        } catch (err) {
+          alert('❌ 重新載入失敗：' + err.message);
+        }
+      });
+
+      // 寄送密碼重設
+      triggerResetBtn?.addEventListener('click', async function() {
+        const u = firebase.auth().currentUser;
+        if (!u?.email) return alert('請先登入');
+        try {
+          await firebase.auth().sendPasswordResetEmail(u.email);
+          alert('已寄出密碼重設信到：' + u.email);
+        } catch (err) {
+          alert('❌ 寄送失敗：' + err.message);
+        }
+      });
+
+      // Avatar upload + crop
+      let cropper;
+      avatarUploadBtn?.addEventListener('click', () => avatarFile.click());
+      avatarFile?.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          openCropperModal(reader.result);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      function openCropperModal(dataUrl) {
+        // build modal dynamically to avoid keeping cropper alive
+        const modalEl = document.createElement('div');
+        modalEl.className = 'modal fade';
+        modalEl.tabIndex = -1;
+        modalEl.innerHTML = `
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-crop me-2"></i>裁剪頭像</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="crop-container"><img id="crop-image" src="${dataUrl}" alt="Crop"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary-shari" id="confirm-crop">裁剪並保存</button>
+              </div>
+            </div>
+          </div>`;
+        document.body.appendChild(modalEl);
+        const bsModal = new bootstrap.Modal(modalEl);
+        bsModal.show();
+
+        modalEl.addEventListener('shown.bs.modal', () => {
+          const img = modalEl.querySelector('#crop-image');
+          // Wait for image to load before initializing Cropper
+          if (img.complete) {
+            initCropper(img);
+          } else {
+            img.addEventListener('load', () => initCropper(img));
+          }
+        });
+
+        function initCropper(img) {
+          cropper = new Cropper(img, {
+            aspectRatio: 1,
+            viewMode: 1,
+            dragMode: 'move',
+            background: false,
+            autoCropArea: 1,
+            responsive: true,
+            restore: true,
+            guides: true,
+            center: true,
+            highlight: true,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            toggleDragModeOnDblclick: false,
+          });
+        }
+
+        modalEl.addEventListener('hidden.bs.modal', () => {
+          try { cropper?.destroy(); } catch (_) {}
+          modalEl.remove();
+        });
+
+        modalEl.querySelector('#confirm-crop')?.addEventListener('click', async () => {
+          try {
+            const canvas = cropper.getCroppedCanvas({ width: 256, height: 256 });
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
+            if (!blob) throw new Error('裁剪失敗');
+
+            // 上傳到 Storage（使用時間戳避免快取問題）
+            const user = firebase.auth().currentUser;
+            if (!user) throw new Error('請先登入');
+            const storageRef = firebase.storage().ref();
+            const timestamp = Date.now();
+            const fileRef = storageRef.child(`avatars/${user.uid}_${timestamp}.jpg`);
+            await fileRef.put(blob, { 
+              contentType: 'image/jpeg', 
+              cacheControl: 'public, max-age=31536000',
+              customMetadata: { optimized: 'true' }
+            });
+            const url = await fileRef.getDownloadURL();
+
+            // 更新 Auth + Firestore
+            await user.updateProfile({ photoURL: url });
+            await firebase.firestore().collection('users').doc(user.uid).set({
+              photoURL: url,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+            avatarPreview.src = url;
+            bsModal.hide();
+            showSavedToast();
+          } catch (err) {
+            alert('❌ 上載失敗：' + err.message);
+          }
+        });
+      }
+
+      // Delete account with re-auth
+      deleteAccountBtn?.addEventListener('click', function() {
+        const modal = new bootstrap.Modal(document.getElementById('delete-reauth-modal'));
+        modal.show();
+      });
+
+      document.getElementById('confirm-delete')?.addEventListener('click', async function() {
+        const password = document.getElementById('reauth-password').value;
+        if (!password) return alert('請輸入密碼');
+
+        const user = firebase.auth().currentUser;
+        if (!user?.email) return alert('請先登入');
+
+        try {
+          // Re-authenticate
+          const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+          await user.reauthenticateWithCredential(credential);
+
+          // Delete Firestore user doc
+          const db = firebase.firestore();
+          await db.collection('users').doc(user.uid).delete();
+
+          // Delete Auth account
+          await user.delete();
+
+          alert('帳號已刪除，感謝使用 UXShari');
+          window.location.href = '/index.html';
+        } catch (err) {
+          if (err.code === 'auth/wrong-password') {
+            alert('❌ 密碼錯誤，請重試');
+          } else if (err.code === 'auth/requires-recent-login') {
+            alert('❌ 請登出後重新登入，再執行刪除');
+          } else {
+            alert('❌ 刪除失敗：' + err.message);
+          }
+        }
+      });
     });
   </script>
-  
 </body>
 </html>
