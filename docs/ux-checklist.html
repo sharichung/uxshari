@@ -1005,9 +1005,11 @@
               </div>
             `).join('')}
           </div>
-        </div>
-      `;
-    }
+          </div>
+
+          <!-- Interface Category -->
+          <div class="checklist-section">
+            <div class="section-title">
 
     // Show Achievement Toast
     function showAchievement(text) {
@@ -1081,21 +1083,18 @@
       };
 
       userChecklists.push(newChecklist);
-      
-      // Blur button before hiding modal to avoid ARIA warning
+
+      // Save immediately (avoid duplicate listeners/race conditions)
+      await saveToFirestore();
+      showSaveIndicator();
+
+      // Then close modal safely
       confirmBtn.blur();
-      
       const modalInstance = bootstrap.Modal.getInstance(document.getElementById('projectTypeModal'));
-      modalInstance.hide();
-      
-      // Wait for modal to fully close before saving
-      document.getElementById('projectTypeModal').addEventListener('hidden.bs.modal', async function saveAfterClose() {
-        await saveToFirestore();
-        showSaveIndicator();
-        updateUI();
-        // Remove listener after first execution
-        this.removeEventListener('hidden.bs.modal', saveAfterClose);
-      }, { once: true });
+      if (modalInstance) modalInstance.hide();
+
+      // Refresh UI after a short delay for smoother close animation
+      setTimeout(() => updateUI(), 100);
     });
 
     // Toggle Checkbox with Achievement Check

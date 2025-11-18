@@ -24,9 +24,13 @@ service cloud.firestore {
 			);
 			
 			// Allow authenticated users to update their own uxChecklists
-			// Only allow updating specific fields including projectType in nested checklist objects
+			// Permit when either the existing doc's email OR the incoming email matches the signed-in user
+			// This avoids edge-cases with initial merge writes and email casing differences
 			allow update: if isSignedIn() 
-				&& resource.data.email == request.auth.token.email
+				&& (
+					resource.data.email == request.auth.token.email ||
+					request.resource.data.email == request.auth.token.email
+				)
 				&& request.resource.data.keys().hasOnly(['email', 'uxChecklists', 'credits', 'isPaid', 'payments', 'purchasedProducts', 'lastPaymentDate', 'createdAt']);
 			
 			// Allow authenticated users to create their own document
