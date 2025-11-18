@@ -16,6 +16,10 @@
     "rules": "firestore.rules"
   },
 
+  "storage": {
+    "rules": "storage.rules"
+  },
+
   "hosting": {
     "public": "docs",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
