@@ -586,7 +586,14 @@
       const grid = document.getElementById('products-grid');
       const loading = document.getElementById('products-loading');
       const empty = document.getElementById('products-empty');
-      const searchTerm = document.getElementById('product-search').value.toLowerCase();
+      const searchInput = document.getElementById('product-search');
+      
+      if (!grid || !loading || !empty || !searchInput) {
+        console.error('❌ Required DOM elements not found');
+        return;
+      }
+      
+      const searchTerm = searchInput.value.toLowerCase();
 
       // 篩選產品
       let filtered = allProducts.filter(p => {
@@ -603,7 +610,6 @@
       if (filtered.length === 0) {
         empty.classList.remove('d-none');
         grid.innerHTML = '';
-        grid.appendChild(empty);
         return;
       }
 
