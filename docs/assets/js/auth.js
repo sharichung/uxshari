@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 控制頁面訪問權限
 firebase.auth().onAuthStateChanged((user) => {
-    const publicPages = ["/index.html", "/login.html", "/members-only.html", "/payment.html", "/pricing.html"];
+    const publicPages = ["/index.html", "/pricing.html"];
     const freePages = ["/dashboard.html", "/account.html", "/lesson.html"];
     const paidPages = ["/success.html"];
     const currentPage = window.location.pathname;

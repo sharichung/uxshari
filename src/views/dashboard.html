@@ -472,7 +472,7 @@
       if (confirm('確定要登出嗎？')) {
         try {
           await signOut(auth);
-          window.location.href = '/login.html';
+          window.location.href = '/index.html';
         } catch (error) {
           console.error('登出錯誤:', error);
           alert('登出失敗，請重試');
@@ -561,7 +561,7 @@
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         hideLoading();
-        window.location.href = '/login.html';
+        window.location.href = '/index.html';
         return;
       }
 

@@ -9,7 +9,6 @@ function ensureDir(dirPath) {
 // 頁面對應樣式配置（可擴充）
 const pageConfig = {
     "index.html": "funnel",
-    "login.html": "funnel",
     "dashboard.html": "general",
     "account.html": "general",
     "lesson.html": "general",
