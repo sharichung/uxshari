@@ -1,0 +1,37 @@
+請手動應用以下修改到 src/views/ux-checklist.html：
+
+1. 刪除重複的介面痛點 section（第 906-926 行左右）：
+   找到第一個 "<!-- Interface Category -->" 並刪除到下一個 "<!-- Interface Category -->" 之前的所有內容
+
+2. 修改 confirm-project-type 事件監聽器（第 1095 行左右）：
+   將以下代碼：
+   
+```javascript
+// 舊代碼：使用 hidden.bs.modal 事件
+const modalEl = document.getElementById('projectTypeModal');
+const modalInstance = bootstrap.Modal.getInstance(modalEl);
+
+const saveAfterModalClose = async function() {
+  await saveToFirestore();
+  showSaveIndicator();
+  updateUI();
+};
+
+modalEl.addEventListener('hidden.bs.modal', saveAfterModalClose, { once: true });
+modalInstance.hide();
+```
+
+   改為：
+
+```javascript
+// 新代碼：直接儲存再關閉
+await saveToFirestore();
+showSaveIndicator();
+
+confirmBtn.blur();
+
+const modalInstance = bootstrap.Modal.getInstance(document.getElementById('projectTypeModal'));
+modalInstance.hide();
+
+setTimeout(() => updateUI(), 100);
+```

@@ -909,25 +909,6 @@
               <div class="section-icon interface">
                 <i class="fas fa-window-maximize"></i>
               </div>
-              <h3 class="category-title">介面痛點</h3>
-            </div>
-            ${checklist.items.interface.map(item => `
-              <div class="checklist-item">
-                <input type="checkbox" 
-                       id="check-${index}-${item.id}" 
-                       ${item.checked ? 'checked' : ''}
-                       onchange="window.toggleCheckbox(${index}, 'interface', '${item.id}')">
-                <label for="check-${index}-${item.id}">${item.text}</label>
-              </div>
-            `).join('')}
-          </div>
-
-          <!-- Interface Category -->
-          <div class="checklist-section">
-            <div class="section-title">
-              <div class="section-icon interface">
-                <i class="fas fa-window-maximize"></i>
-              </div>
               <span>介面痛點</span>
             </div>
             ${checklist.items.interface.map(item => `
