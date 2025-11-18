@@ -316,6 +316,42 @@
   display: block;
 }
 
+/* Cropper.js visual enhancements */
+.cropper-view-box,
+.cropper-face {
+  outline: 1px solid rgba(255, 149, 0, 0.75) !important;
+  outline-color: rgba(255, 149, 0, 0.75) !important;
+}
+
+.cropper-line,
+.cropper-point {
+  background-color: #FF9500 !important;
+}
+
+.cropper-point {
+  width: 8px !important;
+  height: 8px !important;
+  opacity: 1 !important;
+}
+
+.cropper-line {
+  opacity: 1 !important;
+}
+
+.cropper-dashed {
+  border-color: rgba(255, 149, 0, 0.5) !important;
+  opacity: 1 !important;
+}
+
+.cropper-center {
+  opacity: 1 !important;
+}
+
+.cropper-center::before,
+.cropper-center::after {
+  background-color: #FF9500 !important;
+}
+
 /* Ensure cropper modal stays on top */
 .modal.show {
   z-index: 1055 !important;
