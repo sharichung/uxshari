@@ -78,6 +78,16 @@
       height: 200px;
       object-fit: cover;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover .product-card-image {
+      transform: scale(1.05);
+    }
+    
+    .product-card-image-wrapper {
+      overflow: hidden;
+      border-radius: 1rem 1rem 0 0;
     }
     
     .product-badge {
@@ -695,10 +705,12 @@
         return `
           <div class="col-md-6 col-lg-4">
             <div class="product-card" data-product-id="${product.id}">
-              <div class="position-relative">
-                <img src="${product.coverImage || '/assets/images/placeholder-product.jpg'}" 
+              <div class="position-relative product-card-image-wrapper">
+                <img src="${product.coverImage || 'https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=1200&h=800&fit=crop'}" 
                      class="product-card-image" 
-                     alt="${product.title}">
+                     alt="${product.title}"
+                     loading="lazy"
+                     onerror="this.src='https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=1200&h=800&fit=crop'">
                 <span class="product-badge ${purchased ? 'unlocked' : 'locked'}">
                   <i class="fas ${purchased ? 'fa-check-circle' : 'fa-lock'} me-1"></i>
                   ${purchased ? '已解鎖' : '$' + product.price}
