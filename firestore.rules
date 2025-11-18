@@ -5,6 +5,12 @@ service cloud.firestore {
 			return request.auth != null;
 		}
 
+		// Each user can read/write their own profile in `users/{uid}`
+		match /users/{uid} {
+			allow read: if isSignedIn() && request.auth.uid == uid;
+			allow write: if isSignedIn() && request.auth.uid == uid;
+		}
+
 		// Allow each authenticated user to read their own profile document in users_by_email,
 		// where documents are keyed by base64url(email). We validate by comparing the
 		// stored email field to the signed-in user's email from the auth token.

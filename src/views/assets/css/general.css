@@ -364,6 +364,15 @@
 .input-shari:invalid:not(:placeholder-shown) {
   border-color: var(--accent);
 }
+
+/* Inline micro copy for status */
+.microcopy {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+.microcopy.success { color: #10b981; }
+.microcopy.error { color: #ef4444; }
 .input-shari:valid:not(:placeholder-shown) {
   border-color: var(--success);
 }

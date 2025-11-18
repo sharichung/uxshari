@@ -1,18 +1,64 @@
+// Firebase 配置（模組範圍，確保可用）
+const __firebaseConfig = {
+    apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+    authDomain: "uxshari-670fd.firebaseapp.com",
+    projectId: "uxshari-670fd",
+    storageBucket: "uxshari-670fd.firebasestorage.app",
+    appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
+};
+
+// 確保初始化的安全助手
+function __ensureFirebaseApp() {
+    try {
+        if (typeof firebase === 'undefined') return false;
+        if (!firebase.apps.length) {
+            firebase.initializeApp(__firebaseConfig);
+        }
+        return true;
+    } catch (e) {
+        console.warn('Firebase 初始化失敗（已忽略）:', e?.message || e);
+        return false;
+    }
+}
+// 嘗試立即初始化（若已存在則跳過）
+__ensureFirebaseApp();
+
 document.addEventListener("DOMContentLoaded", function () {
-    // Firebase 配置
-    const firebaseConfig = {
-        apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
-        authDomain: "uxshari-670fd.firebaseapp.com",
-        projectId: "uxshari-670fd",
-        storageBucket: "uxshari-670fd.firebasestorage.app",
-        appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
-    };
-    // 初始化 Firebase
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+    // 再次保險初始化（若尚未完成）
+    if (!__ensureFirebaseApp()) {
+        // SDK 尚未載入，不阻斷頁面，其它頁面內部初始化會再次處理
+        return;
     }
     const auth = firebase.auth();
     const db = firebase.firestore();
+
+    // 控制頁面訪問權限（確保在初始化之後再註冊）
+    try {
+        firebase.auth().onAuthStateChanged((user) => {
+            const publicPages = ["/index.html", "/pricing.html"];
+            const freePages = ["/dashboard.html", "/account.html", "/lesson.html"];
+            const paidPages = ["/success.html"];
+            const currentPage = window.location.pathname;
+
+            if (publicPages.includes(currentPage)) return;
+
+            if (freePages.includes(currentPage) && !user) {
+                window.location.href = "/index.html";
+                return;
+            }
+
+            if (paidPages.includes(currentPage) && (!user || user.role !== "paid")) {
+                window.location.href = "/payment.html";
+                return;
+            }
+
+            if (!user) {
+                window.location.href = "/index.html";
+            }
+        });
+    } catch (e) {
+        // 若初始化尚未完成，略過守門器（頁面上還有 account.html 的初始化）
+    }
 
     // 監聽表單提交事件
     document.getElementById("auth-form")?.addEventListener("submit", handleLogin);
@@ -139,31 +185,3 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("close-reset-modal")?.addEventListener("click", closePasswordResetModal);
     document.getElementById("cancel-reset")?.addEventListener("click", closePasswordResetModal);
 });
-
-// 控制頁面訪問權限
-firebase.auth().onAuthStateChanged((user) => {
-    const publicPages = ["/index.html", "/pricing.html"];
-    const freePages = ["/dashboard.html", "/account.html", "/lesson.html"];
-    const paidPages = ["/success.html"];
-    const currentPage = window.location.pathname;
-
-    if (publicPages.includes(currentPage)) return;
-
-    if (freePages.includes(currentPage) && !user) {
-        window.location.href = "/index.html";
-        return;
-    }
-
-    if (paidPages.includes(currentPage) && (!user || user.role !== "paid")) {
-        window.location.href = "/payment.html";
-        return;
-    }
-
-    if (!user) {
-        window.location.href = "/index.html";
-    }
-});
-
-
-// 在 DOMContentLoaded 事件中檢查訪問權限
-document.addEventListener("DOMContentLoaded", checkAccess);
