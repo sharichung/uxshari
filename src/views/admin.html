@@ -162,16 +162,38 @@
             <div class="col-md-6">
               <label class="form-label">Stripe Product ID</label>
               <input type="text" class="form-control" id="stripe-product-id" 
-                     placeholder="prod_xxxxx">
-              <small class="text-muted">從 Stripe Dashboard 複製</small>
+                     placeholder="prod_1QKm8xHNWqZ9vYjJ"
+                     pattern="prod_[a-zA-Z0-9]+">
+              <small class="text-muted">
+                <i class="fas fa-info-circle me-1"></i>
+                從 <a href="https://dashboard.stripe.com/products" target="_blank">Stripe Dashboard</a> 複製 Product ID
+              </small>
             </div>
 
             <!-- Stripe Price ID -->
             <div class="col-md-6">
               <label class="form-label">Stripe Price ID *</label>
               <input type="text" class="form-control" id="stripe-price-id" required
-                     placeholder="price_xxxxx">
-              <small class="text-muted">必填，用於建立付款連結</small>
+                     placeholder="price_1QKm8xHNWqZ9vYjJ2L3k4M5n"
+                     pattern="price_[a-zA-Z0-9]+">
+              <small class="text-danger">
+                <i class="fas fa-exclamation-triangle me-1"></i>
+                <strong>必填！</strong>必須從 Stripe 實際建立的 Price ID（格式：price_xxxxx）
+              </small>
+            </div>
+
+            <!-- Stripe 設定提示 -->
+            <div class="col-12">
+              <div class="alert alert-warning">
+                <h6><i class="fas fa-lightbulb me-2"></i>Stripe 設定步驟</h6>
+                <ol class="mb-0 small">
+                  <li>登入 <a href="https://dashboard.stripe.com/products" target="_blank">Stripe Dashboard</a></li>
+                  <li>點擊 <strong>Add product</strong> 建立產品</li>
+                  <li>設定名稱、價格、One time 付款</li>
+                  <li>儲存後複製 <strong>Product ID</strong> 和 <strong>Price ID</strong></li>
+                  <li>貼到上方欄位（Price ID 必填！）</li>
+                </ol>
+              </div>
             </div>
 
             <!-- 封面圖 URL -->
@@ -400,6 +422,20 @@
     // 新增產品
     document.getElementById('product-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // 驗證 Stripe Price ID 格式
+      const stripePriceId = document.getElementById('stripe-price-id').value.trim();
+      if (!stripePriceId.startsWith('price_')) {
+        alert('❌ Stripe Price ID 格式錯誤！\n\n必須從 Stripe Dashboard 複製真實的 Price ID\n正確格式：price_1QKm8xHNWqZ9vYjJ\n\n請先在 Stripe 建立產品，再複製 Price ID 過來。');
+        document.getElementById('stripe-price-id').focus();
+        return;
+      }
+
+      if (stripePriceId.length < 20) {
+        alert('❌ Price ID 太短！\n\n這不像是真實的 Stripe Price ID。\n請確認已從 Stripe Dashboard 複製完整的 ID。');
+        document.getElementById('stripe-price-id').focus();
+        return;
+      }
 
       const productData = {
         type: document.getElementById('product-type').value,
