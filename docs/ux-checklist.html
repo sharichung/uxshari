@@ -12,37 +12,50 @@
   <script src="assets/js/clarity.js" defer></script>
 
   <style>
-    /* Add your CSS styles here if needed */
-  </style>
-
-  <!-- Hero Section -->
-  <section class="hero-section no-print">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-8">
-          <h1 class="display-5 fw-bold mb-3">
-            <i class="fas fa-clipboard-check me-3"></i>
-            UX 痛點觀察清單
-          </h1>
-          <p class="lead mb-0">
-            專案化管理、智慧建議、即時同步 — 讓 UX 研究更有條理
-          </p>
-        </div>
-        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-          <div class="d-flex flex-column gap-2">
-            <span class="badge bg-light text-dark fs-6">
-              <i class="fas fa-crown me-2"></i>
-              <span id="user-status">免費會員</span>
-            </span>
-            <span class="badge bg-light text-dark fs-6">
-              <i class="fas fa-list me-2"></i>
-              清單：<strong id="checklist-count">0</strong> / <span id="checklist-limit">3</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    /* UX Checklist 專用樣式 */
+    .checklist-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .checklist-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    
+    .checklist-card.completed {
+      border-color: var(--primary-color, #6366f1);
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+    }
+    
+    .checklist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .checklist-name-input {
+      font-size: 1.25rem;
+      font-weight: 600;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 4px 8px;
+      background: transparent;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .checklist-name-input:focus {
+      outline: none;
       border-bottom-color: var(--primary-color, #6366f1);
       background: #f8f9ff;
     }
@@ -435,8 +448,10 @@
     }
     .undo-toast.show { display: flex; }
   </style>
+ 
+  
 </head>
-<body>
+<body data-navbar-type="general">
 
   <!-- Loading -->
   <div id="loading-overlay" class="loading-overlay">
@@ -615,7 +630,7 @@
   </div>
 
   <!-- 專案類型選擇 Modal -->
-  <div class="modal fade" id="projectTypeModal" tabindex="-1" aria-labelledby="projectTypeModalLabel" aria-hidden="true">
+  <div class="modal fade" id="projectTypeModal" tabindex="-1" aria-labelledby="projectTypeModalLabel">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header border-0">
@@ -1377,7 +1392,17 @@
       try {
         const cleanChecklists = JSON.parse(JSON.stringify(userChecklists));
         const primaryRef = doc(db, 'users_by_email', encEmail(userEmail));
-        await setDoc(primaryRef, { email: userEmail, uxChecklists: cleanChecklists }, { merge: true });
+        
+        // Check if document exists to determine operation type
+        const snapshot = await getDoc(primaryRef);
+        
+        if (snapshot.exists()) {
+          // Document exists, use update
+          await updateDoc(primaryRef, { uxChecklists: cleanChecklists });
+        } else {
+          // Document doesn't exist, use create
+          await setDoc(primaryRef, { email: userEmail, uxChecklists: cleanChecklists });
+        }
         console.log('✅ 清單已儲存 (users_by_email)');
       } catch (error) {
         console.warn('users_by_email 儲存失敗，嘗試 users/{uid}：', error?.message || error);
