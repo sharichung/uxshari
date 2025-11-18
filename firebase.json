@@ -26,6 +26,10 @@
       {
         "source": "/api/calendly-webhook",
         "function": "calendlyWebhook"
+      },
+      {
+        "source": "**",
+        "destination": "/404.html"
       }
     ]
   },
