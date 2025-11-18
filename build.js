@@ -89,7 +89,7 @@ if (fs.existsSync("src/views/assets/css")) {
 }
 
 // 複製 JS 資料夾
-const jsDirs = ["auth", "layout", "visual"];
+const jsDirs = ["auth", "layout", "visual", "pages"];
 jsDirs.forEach(subdir => {
     const from = path.join("src/views/assets/js", subdir);
     const to = path.join("docs/assets/js", subdir);

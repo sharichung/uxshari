@@ -217,8 +217,8 @@
   <script src="assets/js/ui.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <!-- Page-specific (modular Firebase): auth gating, profile, avatar, hygiene -->
-  <script type="module">
+  <!-- Firebase SDK + Account Management Logic -->
+  <script type="module" src="assets/js/pages/account.js"></script>
     import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, updateProfile, signOut, sendPasswordResetEmail, reload, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, EmailAuthProvider, reauthenticateWithCredential, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { getFirestore, setDoc, doc, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";

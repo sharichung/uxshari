@@ -116,13 +116,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/ui.js"></script>
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        window.addEventListener('load', function () {
-            const heading = document.getElementById('payment-success-heading');
-            if (heading) heading.focus();
-        });
-    </script>
+    
+    <!-- Success Page Logic (countdown + accessibility) -->
+    <script src="assets/js/pages/success.js"></script>
 </body>
 
 </html>
