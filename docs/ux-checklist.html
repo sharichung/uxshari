@@ -12,7 +12,427 @@
 
   <script src="assets/js/clarity.js" defer></script>
 
-  </head>
+  <style>
+    /* UX Checklist 專用樣式 */
+    .checklist-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .checklist-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    
+    .checklist-card.completed {
+      border-color: var(--primary-color, #6366f1);
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+    }
+    
+    .checklist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    
+    .checklist-name-input {
+      font-size: 1.25rem;
+      font-weight: 600;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 4px 8px;
+      background: transparent;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .checklist-name-input:focus {
+      outline: none;
+      border-bottom-color: var(--primary-color, #6366f1);
+      background: #f8f9ff;
+    }
+    
+    .checklist-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    
+    .checklist-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #f1f5f9;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+    
+    .checklist-badge.project-type {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      font-weight: 500;
+    }
+    
+    .progress-wrapper {
+      margin-bottom: 20px;
+    }
+    
+    .progress {
+      height: 8px;
+      border-radius: 10px;
+      background: #e2e8f0;
+      overflow: visible;
+    }
+    
+    .progress-bar {
+      border-radius: 10px;
+      background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+      transition: width 0.5s ease;
+      position: relative;
+    }
+    
+    .progress-bar.complete {
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 8px;
+    }
+    
+    .checklist-section {
+      margin-bottom: 24px;
+    }
+    
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+    
+    .section-icon.process { background: #dbeafe; color: #1e40af; }
+    .section-icon.interface { background: #fce7f3; color: #be185d; }
+    .section-icon.context { background: #fef3c7; color: #92400e; }
+    
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .checklist-item:hover {
+      background: #f8fafc;
+    }
+    
+    .checklist-item.checked {
+      background: #f0fdf4;
+    }
+    
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    
+    .checklist-item-text {
+      flex: 1;
+      line-height: 1.6;
+      color: #334155;
+    }
+    
+    .checklist-item.checked .checklist-item-text {
+      color: #10b981;
+      text-decoration: line-through;
+    }
+    
+    .suggestion-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: #fef3c7;
+      color: #92400e;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 4px;
+    }
+    
+    .suggestion-pill:hover {
+      background: #fde68a;
+      transform: translateX(2px);
+    }
+    
+    .suggestion-tooltip {
+      position: absolute;
+      background: #1e293b;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      z-index: 1000;
+      max-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+    }
+    
+    .suggestion-tooltip.show {
+      display: block;
+    }
+    
+    .checklist-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .action-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .action-btn.duplicate {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+    
+    .action-btn.duplicate:hover {
+      background: #c7d2fe;
+    }
+    
+    .action-btn.print {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .action-btn.print:hover {
+      background: #bfdbfe;
+    }
+    
+    .action-btn.delete {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    .action-btn.delete:hover {
+      background: #fecaca;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    
+    .empty-icon {
+      font-size: 4rem;
+      color: #cbd5e1;
+      margin-bottom: 24px;
+    }
+    
+    .limit-notice {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 4px solid #f59e0b;
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    
+    .achievement-toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: white;
+      padding: 20px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      display: none;
+      z-index: 2000;
+      max-width: 400px;
+      animation: slideIn 0.3s ease;
+    }
+    
+    .achievement-toast.show {
+      display: block;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .save-indicator {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      z-index: 2000;
+    }
+    
+    .save-indicator.show {
+      display: flex;
+      animation: fadeInOut 2s ease;
+    }
+    
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 90% { opacity: 1; }
+    }
+    
+    /* 專案類型選擇 Modal */
+    .project-type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    
+    .project-type-card {
+      padding: 24px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .project-type-card:hover {
+      border-color: #6366f1;
+      background: #f8f9ff;
+      transform: translateY(-2px);
+    }
+    
+    .project-type-card.selected {
+      border-color: #6366f1;
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+    
+    .project-type-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    
+    .project-type-name {
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    
+    .project-type-desc {
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    
+    /* 響應式設計 */
+    @media (max-width: 768px) {
+      .checklist-card {
+        padding: 16px;
+      }
+      
+      .checklist-header {
+        flex-direction: column;
+      }
+      
+      .checklist-actions {
+        width: 100%;
+      }
+      
+      .action-btn {
+        flex: 1;
+        justify-content: center;
+      }
+      
+      .project-type-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      /* 平板雙欄模式可在此擴展 */
+    }
+    
+    /* 列印樣式 */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      
+      .checklist-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #e2e8f0;
+      }
+      
+      .checklist-actions {
+        display: none;
+      }
+    }
+  </style>
+</head>
 <body>
 
   <!-- Loading -->
@@ -93,18 +513,18 @@
             UX 痛點觀察清單
           </h1>
           <p class="lead mb-0">
-            系統化觀察與記錄使用者體驗痛點，讓您的 UX 研究更有條理
+            專案化管理、智慧建議、即時同步 — 讓 UX 研究更有條理
           </p>
         </div>
         <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
           <div class="d-flex flex-column gap-2">
             <span class="badge bg-light text-dark fs-6">
-              <i class="fas fa-user me-2"></i>
+              <i class="fas fa-crown me-2"></i>
               <span id="user-status">免費會員</span>
             </span>
             <span class="badge bg-light text-dark fs-6">
               <i class="fas fa-list me-2"></i>
-              已建立清單：<strong id="checklist-count">0</strong> / <span id="checklist-limit">3</span>
+              清單：<strong id="checklist-count">0</strong> / <span id="checklist-limit">3</span>
             </span>
           </div>
         </div>
@@ -119,8 +539,8 @@
       <div class="d-flex align-items-center">
         <i class="fas fa-exclamation-triangle fa-2x text-warning me-3"></i>
         <div class="flex-grow-1">
-          <h6 class="mb-1 fw-bold">已達免費會員清單上限</h6>
-          <p class="mb-0 small">升級到付費會員以建立無限數量的清單，並解鎖更多進階功能</p>
+          <h6 class="mb-1 fw-bold">已達免費會員清單上限（3 張）</h6>
+          <p class="mb-0 small">升級付費會員：無限清單 + AI 建議 + PDF 報告 + 團隊協作</p>
         </div>
         <a href="/pricing.html" class="btn btn-warning btn-sm ms-3 flex-shrink-0">
           <i class="fas fa-crown me-2"></i>立即升級
@@ -140,12 +560,17 @@
     <div id="checklists-container">
       <!-- Empty State -->
       <div class="empty-state" id="empty-state">
-        <i class="fas fa-clipboard-list fa-4x text-muted mb-4"></i>
-        <h4 class="mb-3">還沒有清單</h4>
-        <p class="text-muted mb-4">建立您的第一張 UX 痛點觀察清單，開始系統化記錄專案中的使用者體驗問題</p>
+        <div class="empty-icon">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h3 class="mb-3">開始您的第一個 UX 專案</h3>
+        <p class="text-muted mb-4">選擇專案類型，系統將自動載入專業的痛點檢查模板</p>
         <button class="btn btn-primary btn-lg" onclick="document.getElementById('create-checklist-btn').click()">
-          <i class="fas fa-plus me-2"></i>建立第一張清單
+          <i class="fas fa-rocket me-2"></i>建立第一張清單
         </button>
+        <div class="mt-4">
+          <small class="text-muted">💡 提示：每個清單都包含流程、介面、情境三大類痛點檢查</small>
+        </div>
       </div>
     </div>
 
@@ -162,6 +587,45 @@
       </a>
     </div>
 
+  </div>
+
+  <!-- 成就提示 Toast -->
+  <div id="achievement-toast" class="achievement-toast">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-trophy fa-2x text-warning me-3"></i>
+      <div>
+        <h6 class="mb-1 fw-bold">🎉 恭喜完成！</h6>
+        <p class="mb-0 small" id="achievement-text">你已經掌握 80% 的 UX 痛點觀察技巧</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 儲存指示器 -->
+  <div id="save-indicator" class="save-indicator">
+    <i class="fas fa-check-circle"></i>
+    <span>已自動儲存</span>
+  </div>
+
+  <!-- 專案類型選擇 Modal -->
+  <div class="modal fade" id="projectTypeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">選擇專案類型</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted mb-3">系統將根據專案類型自動載入對應的痛點檢查模板</p>
+          <div class="project-type-grid" id="project-type-grid"></div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="confirm-project-type">
+            <i class="fas fa-check me-2"></i>確認建立
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Footer -->
@@ -188,34 +652,159 @@
 
     const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 
-    // Default Checklist Template
-    const checklistTemplate = {
-      process: [
-        { id: 'p1', text: '註冊/登入流程是否過於複雜或步驟過多？', checked: false },
-        { id: 'p2', text: '使用者能否清楚理解下一步該做什麼？', checked: false },
-        { id: 'p3', text: '完成核心任務需要經過幾個步驟？是否可以簡化？', checked: false },
-        { id: 'p4', text: '錯誤處理機制是否明確？使用者知道如何修正錯誤嗎？', checked: false },
-        { id: 'p5', text: '是否有不必要的確認步驟或重複操作？', checked: false }
-      ],
-      interface: [
-        { id: 'i1', text: 'CTA 按鈕是否足夠明顯？位置是否符合使用者預期？', checked: false },
-        { id: 'i2', text: '導覽列是否清晰？使用者能否快速找到目標功能？', checked: false },
-        { id: 'i3', text: '表單設計是否友善？欄位標籤是否清楚？', checked: false },
-        { id: 'i4', text: '視覺層級是否合理？重要資訊是否突出？', checked: false },
-        { id: 'i5', text: '行動裝置上的可點擊區域是否夠大（至少 44×44px）？', checked: false }
-      ],
-      context: [
-        { id: 'c1', text: '使用情境是否符合目標使用者的真實需求？', checked: false },
-        { id: 'c2', text: '是否考慮到不同裝置（手機/平板/桌機）的使用情境？', checked: false },
-        { id: 'c3', text: '首次使用者是否能理解產品價值與使用方法？', checked: false },
-        { id: 'c4', text: '是否有考慮到網路不穩定或載入緩慢的情況？', checked: false },
-        { id: 'c5', text: '多語系使用者是否能順暢使用？（中英文切換、文字長度）', checked: false }
-      ]
-    };
+    // 專案類型與模板定義
+    const projectTypes = [
+      {
+        id: 'ecommerce',
+        name: '電商平台',
+        icon: '🛒',
+        desc: '購物、結帳、物流',
+        template: {
+          process: [
+            { id: 'e_p1', text: '商品搜尋功能是否直覺？能否快速找到目標商品？', checked: false, suggestion: '建議：加入智能推薦、篩選條件' },
+            { id: 'e_p2', text: '加入購物車流程是否順暢？', checked: false, suggestion: '參考：一鍵加購、批量選購' },
+            { id: 'e_p3', text: '結帳步驟是否過於複雜？需要多少步驟完成？', checked: false, suggestion: '優化：減少表單欄位、支援快速結帳' },
+            { id: 'e_p4', text: '付款方式是否多元？（信用卡、轉帳、第三方支付）', checked: false, suggestion: '提供：多種支付選項提升轉換率' },
+            { id: 'e_p5', text: '訂單追蹤與退貨流程是否清晰？', checked: false, suggestion: '必備：即時物流追蹤、簡易退貨政策' }
+          ],
+          interface: [
+            { id: 'e_i1', text: '商品圖片是否清晰？支援多角度檢視？', checked: false, suggestion: '建議：360度檢視、放大功能' },
+            { id: 'e_i2', text: '商品描述是否完整？（規格、尺寸、材質）', checked: false, suggestion: '優化：結構化描述、對比表格' },
+            { id: 'e_i3', text: '價格、折扣顯示是否清楚？', checked: false, suggestion: '透明：原價、折扣、運費一目了然' },
+            { id: 'e_i4', text: '購物車圖示與商品數量提示是否明顯？', checked: false, suggestion: '設計：固定懸浮按鈕、數字徽章' },
+            { id: 'e_i5', text: '行動版商品卡片是否易於瀏覽與點擊？', checked: false, suggestion: '響應式：大縮圖、清晰CTA' }
+          ],
+          context: [
+            { id: 'e_c1', text: '首次訪客能否快速理解網站賣什麼？', checked: false, suggestion: '首頁：清晰價值主張、熱門商品' },
+            { id: 'e_c2', text: '是否提供客服管道？（線上客服、FAQ）', checked: false, suggestion: '即時：聊天機器人、常見問題' },
+            { id: 'e_c3', text: '網站載入速度是否夠快？（特別是商品圖片）', checked: false, suggestion: '優化：圖片壓縮、CDN加速' },
+            { id: 'e_c4', text: '是否支援訪客結帳？（無需強制註冊）', checked: false, suggestion: '彈性：訪客結帳降低門檻' },
+            { id: 'e_c5', text: '是否有信任指標？（評論、認證、退款保證）', checked: false, suggestion: '建立信任：用戶評價、安全標章' }
+          ]
+        }
+      },
+      {
+        id: 'education',
+        name: '教育平台',
+        icon: '📚',
+        desc: '課程、學習、進度',
+        template: {
+          process: [
+            { id: 'ed_p1', text: '課程搜尋與篩選是否直覺？', checked: false, suggestion: '建議：依類別、難度、評分篩選' },
+            { id: 'ed_p2', text: '註冊/登入流程是否簡潔？', checked: false, suggestion: '優化：社群登入、單頁註冊' },
+            { id: 'ed_p3', text: '購買課程流程是否順暢？', checked: false, suggestion: '簡化：快速結帳、試看功能' },
+            { id: 'ed_p4', text: '學習進度是否能自動儲存與同步？', checked: false, suggestion: '必備：跨裝置學習進度同步' },
+            { id: 'ed_p5', text: '作業提交與批改流程是否清楚？', checked: false, suggestion: '明確：截止日期、提交狀態' }
+          ],
+          interface: [
+            { id: 'ed_i1', text: '課程導航是否清晰？（章節、單元）', checked: false, suggestion: '設計：側邊欄目錄、進度條' },
+            { id: 'ed_i2', text: '影片播放器是否易用？（速度調整、字幕）', checked: false, suggestion: '功能：倍速播放、重點筆記' },
+            { id: 'ed_i3', text: '學習儀表板是否一目了然？', checked: false, suggestion: '視覺：學習時數、完成課程、成就' },
+            { id: 'ed_i4', text: '課程資料下載是否方便？（講義、作業）', checked: false, suggestion: '便利：一鍵下載全部資料' },
+            { id: 'ed_i5', text: '討論區與問答功能是否易於使用？', checked: false, suggestion: '互動：標籤分類、搜尋功能' }
+          ],
+          context: [
+            { id: 'ed_c1', text: '新學員能否快速找到適合的課程？', checked: false, suggestion: '引導：推薦系統、學習路徑' },
+            { id: 'ed_c2', text: '是否提供試看或免費課程？', checked: false, suggestion: '降低門檻：試看 10分鐘' },
+            { id: 'ed_c3', text: '是否支援離線學習？', checked: false, suggestion: '彈性：下載課程離線觀看' },
+            { id: 'ed_c4', text: '是否有學習提醒與激勵機制？', checked: false, suggestion: '持續學習：每日提醒、成就徽章' },
+            { id: 'ed_c5', text: '行動裝置學習體驗是否流暢？', checked: false, suggestion: '優化：響應式設計、觸控友善' }
+          ]
+        }
+      },
+      {
+        id: 'onboarding',
+        name: 'App 引導',
+        icon: '🚀',
+        desc: '新手教學、權限',
+        template: {
+          process: [
+            { id: 'ob_p1', text: '首次啟動時，價值主張是否清晰？', checked: false, suggestion: '建議：3秒內說明核心價值' },
+            { id: 'ob_p2', text: '註冊流程是否簡潔？（3步驟內完成）', checked: false, suggestion: '優化：延後非必要資訊收集' },
+            { id: 'ob_p3', text: '引導流程是否可跳過？', checked: false, suggestion: '彈性：提供「跳過」選項' },
+            { id: 'ob_p4', text: '權限請求是否在適當時機出現？', checked: false, suggestion: '時機：用到才請求，說明原因' },
+            { id: 'ob_p5', text: '完成引導後，使用者是否知道下一步？', checked: false, suggestion: '明確：CTA 引導第一個行動' }
+          ],
+          interface: [
+            { id: 'ob_i1', text: '引導畫面是否視覺友善？（插圖、動畫）', checked: false, suggestion: '設計：簡潔插圖、流暢動畫' },
+            { id: 'ob_i2', text: '進度指示器是否清楚？（第幾步/共幾步）', checked: false, suggestion: '視覺：進度點、百分比' },
+            { id: 'ob_i3', text: '文字說明是否簡潔易懂？（避免專業術語）', checked: false, suggestion: '文案：口語化、關注利益點' },
+            { id: 'ob_i4', text: '按鈕設計是否明確？（繼續、跳過、完成）', checked: false, suggestion: '清晰：主要CTA突出' },
+            { id: 'ob_i5', text: '是否支援手勢操作？（滑動切換）', checked: false, suggestion: '互動：滑動換頁、點擊跳轉' }
+          ],
+          context: [
+            { id: 'ob_c1', text: '引導內容是否能個人化？（依用戶類型）', checked: false, suggestion: '智能：依使用情境調整' },
+            { id: 'ob_c2', text: '是否提供互動式教學？（而非純文字）', checked: false, suggestion: '體驗：讓用戶實際操作' },
+            { id: 'ob_c3', text: '引導結束後，是否可重新查看？', checked: false, suggestion: '幫助：設定中提供教學重播' },
+            { id: 'ob_c4', text: '首次使用是否有範例資料？', checked: false, suggestion: '降低門檻：預載範例內容' },
+            { id: 'ob_c5', text: '是否追蹤引導完成率？（優化弱點）', checked: false, suggestion: '數據：分析流失步驟' }
+          ]
+        }
+      },
+      {
+        id: 'saas',
+        name: 'SaaS 工具',
+        icon: '⚙️',
+        desc: '協作、訂閱、儀表板',
+        template: {
+          process: [
+            { id: 'saas_p1', text: '免費試用流程是否簡單？（無需信用卡）', checked: false, suggestion: '降低門檻：免卡試用' },
+            { id: 'saas_p2', text: '資料匯入/匯出是否方便？', checked: false, suggestion: '必備：支援多種格式' },
+            { id: 'saas_p3', text: '團隊協作邀請流程是否順暢？', checked: false, suggestion: '便利：Email 邀請、角色管理' },
+            { id: 'saas_p4', text: '訂閱升級/降級流程是否清楚？', checked: false, suggestion: '透明：方案比較、無痛切換' },
+            { id: 'saas_p5', text: '取消訂閱是否容易？（不刻意刁難）', checked: false, suggestion: '誠信：簡單取消建立信任' }
+          ],
+          interface: [
+            { id: 'saas_i1', text: '儀表板是否清晰展示關鍵數據？', checked: false, suggestion: '設計：卡片式布局、圖表視覺化' },
+            { id: 'saas_i2', text: '設定選項是否易於找到與調整？', checked: false, suggestion: '組織：分類清楚、搜尋功能' },
+            { id: 'saas_i3', text: '通知系統是否不過度打擾？', checked: false, suggestion: '平衡：重要通知、可自訂' },
+            { id: 'saas_i4', text: '搜尋功能是否強大且快速？', checked: false, suggestion: '必備：全局搜尋、快捷鍵' },
+            { id: 'saas_i5', text: '深色模式支援是否完整？', checked: false, suggestion: '體驗：保護視力、節省電力' }
+          ],
+          context: [
+            { id: 'saas_c1', text: '產品導覽是否針對不同角色？', checked: false, suggestion: '個人化：管理員vs使用者' },
+            { id: 'saas_c2', text: '是否提供API文件與整合支援？', checked: false, suggestion: '擴展性：開放API、Webhook' },
+            { id: 'saas_c3', text: '客服回應速度是否快速？', checked: false, suggestion: '保證：SLA承諾、多管道支援' },
+            { id: 'saas_c4', text: '是否有完整的說明文件與影片教學？', checked: false, suggestion: '自助：知識庫、影片庫' },
+            { id: 'saas_c5', text: '資料安全與隱私保護是否清楚說明？', checked: false, suggestion: '信任：認證標章、隱私政策' }
+          ]
+        }
+      },
+      {
+        id: 'general',
+        name: '通用模板',
+        icon: '📋',
+        desc: '基礎痛點檢查',
+        template: {
+          process: [
+            { id: 'p1', text: '註冊/登入流程是否過於複雜或步驟過多？', checked: false, suggestion: '建議：社群登入、減少必填欄位' },
+            { id: 'p2', text: '使用者能否清楚理解下一步該做什麼？', checked: false, suggestion: '優化：清晰CTA、引導提示' },
+            { id: 'p3', text: '完成核心任務需要經過幾個步驟？是否可以簡化？', checked: false, suggestion: '精簡：3步驟內完成主要任務' },
+            { id: 'p4', text: '錯誤處理機制是否明確？使用者知道如何修正錯誤嗎？', checked: false, suggestion: '友善：具體錯誤訊息、修正建議' },
+            { id: 'p5', text: '是否有不必要的確認步驟或重複操作？', checked: false, suggestion: '流暢：減少摩擦點' }
+          ],
+          interface: [
+            { id: 'i1', text: 'CTA 按鈕是否足夠明顯？位置是否符合使用者預期？', checked: false, suggestion: '設計：對比色、F型閱讀路徑' },
+            { id: 'i2', text: '導覽列是否清晰？使用者能否快速找到目標功能？', checked: false, suggestion: '結構：扁平化、搜尋功能' },
+            { id: 'i3', text: '表單設計是否友善？欄位標籤是否清楚？', checked: false, suggestion: '易用：內嵌標籤、即時驗證' },
+            { id: 'i4', text: '視覺層級是否合理？重要資訊是否突出？', checked: false, suggestion: '視覺：大小、顏色、位置' },
+            { id: 'i5', text: '行動裝置上的可點擊區域是否夠大（至少 44×44px）？', checked: false, suggestion: '觸控：足夠點擊區域' }
+          ],
+          context: [
+            { id: 'c1', text: '使用情境是否符合目標使用者的真實需求？', checked: false, suggestion: '用戶研究：訪談、觀察' },
+            { id: 'c2', text: '是否考慮到不同裝置（手機/平板/桌機）的使用情境？', checked: false, suggestion: '響應式：各尺寸測試' },
+            { id: 'c3', text: '首次使用者是否能理解產品價值與使用方法？', checked: false, suggestion: '清晰：價值主張、引導流程' },
+            { id: 'c4', text: '是否有考慮到網路不穩定或載入緩慢的情況？', checked: false, suggestion: '體驗：離線模式、骨架屏' },
+            { id: 'c5', text: '多語系使用者是否能順暢使用？（中英文切換、文字長度）', checked: false, suggestion: '國際化：i18n、彈性布局' }
+          ]
+        }
+      }
+    ];
 
     let userEmail = '';
     let userChecklists = [];
     let isPaid = false;
+    let selectedProjectType = null;
     const FREE_LIMIT = 3;
 
     // UI Elements
@@ -300,69 +889,79 @@
         ...checklist.items.context
       ].filter(item => item.checked).length;
       const progress = Math.round((checkedItems / totalItems) * 100);
+      const isCompleted = progress >= 80;
+      
+      const projectType = projectTypes.find(pt => pt.id === checklist.projectType) || projectTypes.find(pt => pt.id === 'general');
 
       return `
-        <div class="checklist-card" data-index="${index}">
+        <div class="checklist-card ${isCompleted ? 'completed' : ''}" data-index="${index}">
           <div class="checklist-header">
-            <div class="checklist-title">
-              <input type="text" value="${checklist.name}" 
-                     class="checklist-name-input" 
-                     data-index="${index}"
-                     placeholder="清單名稱">
-            </div>
-            <div class="action-buttons no-print">
-              <button class="btn btn-outline-primary btn-icon" 
-                      onclick="window.duplicateChecklist(${index})" 
-                      title="複製清單">
-                <i class="fas fa-copy"></i>
+            <input type="text" value="${checklist.name}" 
+                   class="checklist-name-input" 
+                   data-index="${index}"
+                   placeholder="清單名稱">
+            <div class="checklist-actions no-print">
+              <button class="action-btn duplicate" onclick="window.duplicateChecklist(${index})" title="複製清單">
+                <i class="fas fa-copy"></i> 複製
               </button>
-              <button class="btn btn-outline-success btn-icon" 
-                      onclick="window.print()" 
-                      title="列印清單">
-                <i class="fas fa-print"></i>
+              <button class="action-btn print" onclick="window.print()" title="列印清單">
+                <i class="fas fa-print"></i> 列印
               </button>
-              <button class="btn btn-outline-danger btn-icon" 
-                      onclick="window.deleteChecklist(${index})" 
-                      title="刪除清單">
-                <i class="fas fa-trash"></i>
+              <button class="action-btn delete" onclick="window.deleteChecklist(${index})" title="刪除清單">
+                <i class="fas fa-trash"></i> 刪除
               </button>
             </div>
           </div>
 
-          <!-- Progress -->
-          <div class="mb-3">
-            <div class="d-flex justify-content-between small text-muted mb-1">
-              <span>完成進度</span>
-              <span>${checkedItems}/${totalItems} 項 (${progress}%)</span>
+          <div class="checklist-meta">
+            <span class="checklist-badge project-type">
+              <span>${projectType.icon}</span>
+              <span>${projectType.name}</span>
+            </span>
+            <span class="checklist-badge">
+              <i class="fas fa-clock"></i>
+              更新：${new Date(checklist.updatedAt).toLocaleDateString('zh-TW')}
+            </span>
+          </div>
+
+          <div class="progress-wrapper">
+            <div class="progress">
+              <div class="progress-bar ${progress === 100 ? 'complete' : ''}" style="width: ${progress}%"></div>
             </div>
-            <div class="progress-bar-wrapper">
-              <div class="progress-bar-fill" style="width: ${progress}%"></div>
+            <div class="progress-label">
+              <span>${checkedItems} / ${totalItems} 項完成</span>
+              <span class="fw-bold">${progress}%</span>
             </div>
           </div>
 
           <!-- Process Category -->
-          <div class="category-section">
-            <div class="category-header">
-              <div class="category-icon process">
+          <div class="checklist-section">
+            <div class="section-title">
+              <div class="section-icon process">
                 <i class="fas fa-route"></i>
               </div>
-              <h3 class="category-title">流程痛點</h3>
+              <span>流程痛點</span>
             </div>
             ${checklist.items.process.map(item => `
-              <div class="checklist-item">
+              <div class="checklist-item ${item.checked ? 'checked' : ''}">
                 <input type="checkbox" 
                        id="check-${index}-${item.id}" 
                        ${item.checked ? 'checked' : ''}
                        onchange="window.toggleCheckbox(${index}, 'process', '${item.id}')">
-                <label for="check-${index}-${item.id}">${item.text}</label>
+                <div class="checklist-item-text">
+                  ${item.text}
+                  ${item.suggestion ? `<div class="suggestion-pill" onclick="showSuggestion(this, '${item.suggestion.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-lightbulb"></i> 建議
+                  </div>` : ''}
+                </div>
               </div>
             `).join('')}
           </div>
 
           <!-- Interface Category -->
-          <div class="category-section">
-            <div class="category-header">
-              <div class="category-icon interface">
+          <div class="checklist-section">
+            <div class="section-title">
+              <div class="section-icon interface">
                 <i class="fas fa-window-maximize"></i>
               </div>
               <h3 class="category-title">介面痛點</h3>
@@ -378,60 +977,162 @@
             `).join('')}
           </div>
 
-          <!-- Context Category -->
-          <div class="category-section">
-            <div class="category-header">
-              <div class="category-icon context">
-                <i class="fas fa-users"></i>
+          <!-- Interface Category -->
+          <div class="checklist-section">
+            <div class="section-title">
+              <div class="section-icon interface">
+                <i class="fas fa-window-maximize"></i>
               </div>
-              <h3 class="category-title">情境痛點</h3>
+              <span>介面痛點</span>
             </div>
-            ${checklist.items.context.map(item => `
-              <div class="checklist-item">
+            ${checklist.items.interface.map(item => `
+              <div class="checklist-item ${item.checked ? 'checked' : ''}">
                 <input type="checkbox" 
                        id="check-${index}-${item.id}" 
                        ${item.checked ? 'checked' : ''}
-                       onchange="window.toggleCheckbox(${index}, 'context', '${item.id}')">
-                <label for="check-${index}-${item.id}">${item.text}</label>
+                       onchange="window.toggleCheckbox(${index}, 'interface', '${item.id}')">
+                <div class="checklist-item-text">
+                  ${item.text}
+                  ${item.suggestion ? `<div class="suggestion-pill" onclick="showSuggestion(this, '${item.suggestion.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-lightbulb"></i> 建議
+                  </div>` : ''}
+                </div>
               </div>
             `).join('')}
           </div>
 
-          <div class="small text-muted mt-3">
-            <i class="fas fa-clock me-1"></i>
-            最後更新：${new Date(checklist.updatedAt).toLocaleString('zh-TW')}
+          <!-- Context Category -->
+          <div class="checklist-section">
+            <div class="section-title">
+              <div class="section-icon context">
+                <i class="fas fa-users"></i>
+              </div>
+              <span>情境痛點</span>
+            </div>
+            ${checklist.items.context.map(item => `
+              <div class="checklist-item ${item.checked ? 'checked' : ''}">
+                <input type="checkbox" 
+                       id="check-${index}-${item.id}" 
+                       ${item.checked ? 'checked' : ''}
+                       onchange="window.toggleCheckbox(${index}, 'context', '${item.id}')">
+                <div class="checklist-item-text">
+                  ${item.text}
+                  ${item.suggestion ? `<div class="suggestion-pill" onclick="showSuggestion(this, '${item.suggestion.replace(/'/g, "\\'")}')">
+                    <i class="fas fa-lightbulb"></i> 建議
+                  </div>` : ''}
+                </div>
+              </div>
+            `).join('')}
           </div>
         </div>
       `;
     }
 
-    // Create New Checklist
-    elements.createBtn.addEventListener('click', async () => {
+    // Show Achievement Toast
+    function showAchievement(text) {
+      const toast = document.getElementById('achievement-toast');
+      const textEl = document.getElementById('achievement-text');
+      textEl.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+
+    // Show Save Indicator
+    function showSaveIndicator() {
+      const indicator = document.getElementById('save-indicator');
+      indicator.classList.add('show');
+      setTimeout(() => indicator.classList.remove('show'), 2000);
+    }
+
+    // Show Suggestion Tooltip
+    window.showSuggestion = function(element, suggestion) {
+      alert(suggestion);
+    };
+
+    // Initialize Project Type Modal
+    function initProjectTypeModal() {
+      const grid = document.getElementById('project-type-grid');
+      grid.innerHTML = projectTypes.map(pt => `
+        <div class="project-type-card" data-type="${pt.id}" onclick="selectProjectType('${pt.id}')">
+          <div class="project-type-icon">${pt.icon}</div>
+          <div class="project-type-name">${pt.name}</div>
+          <div class="project-type-desc">${pt.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    // Select Project Type
+    window.selectProjectType = function(typeId) {
+      selectedProjectType = typeId;
+      document.querySelectorAll('.project-type-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.type === typeId);
+      });
+    };
+
+    // Create New Checklist with Project Type
+    elements.createBtn.addEventListener('click', () => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
         alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
         return;
       }
+      
+      selectedProjectType = null;
+      const modal = new bootstrap.Modal(document.getElementById('projectTypeModal'));
+      modal.show();
+    });
 
+    // Confirm Project Type and Create Checklist
+    document.getElementById('confirm-project-type').addEventListener('click', async () => {
+      if (!selectedProjectType) {
+        alert('請選擇專案類型');
+        return;
+      }
+
+      const projectType = projectTypes.find(pt => pt.id === selectedProjectType);
       const newChecklist = {
         id: Date.now().toString(),
-        name: `專案清單 ${userChecklists.length + 1}`,
-        items: JSON.parse(JSON.stringify(checklistTemplate)),
+        name: `${projectType.name} - ${new Date().toLocaleDateString('zh-TW')}`,
+        projectType: selectedProjectType,
+        items: JSON.parse(JSON.stringify(projectType.template)),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
 
       userChecklists.push(newChecklist);
       await saveToFirestore();
+      showSaveIndicator();
       updateUI();
+
+      bootstrap.Modal.getInstance(document.getElementById('projectTypeModal')).hide();
     });
 
-    // Toggle Checkbox
+    // Toggle Checkbox with Achievement Check
     window.toggleCheckbox = async (checklistIndex, category, itemId) => {
       const item = userChecklists[checklistIndex].items[category].find(i => i.id === itemId);
       if (item) {
+        const wasChecked = item.checked;
         item.checked = !item.checked;
         userChecklists[checklistIndex].updatedAt = new Date().toISOString();
+        
+        // Check progress for achievement
+        const checklist = userChecklists[checklistIndex];
+        const totalItems = checklist.items.process.length + checklist.items.interface.length + checklist.items.context.length;
+        const checkedItems = [
+          ...checklist.items.process,
+          ...checklist.items.interface,
+          ...checklist.items.context
+        ].filter(i => i.checked).length;
+        const progress = Math.round((checkedItems / totalItems) * 100);
+        
+        // Show achievement at 80% completion (only when checking, not unchecking)
+        if (!wasChecked && progress >= 80 && progress < 100) {
+          showAchievement('🎉 太棒了！你已經完成 80% 的痛點檢查');
+        } else if (progress === 100 && !wasChecked) {
+          showAchievement('🏆 完美！所有痛點檢查完成，你已經是 UX 觀察高手');
+        }
+        
         await saveToFirestore();
+        showSaveIndicator();
         updateUI();
       }
     };
@@ -461,19 +1162,25 @@
 
       userChecklists.push(duplicate);
       await saveToFirestore();
+      showSaveIndicator();
       updateUI();
     };
 
     // Attach Event Listeners
     function attachEventListeners() {
-      // Name input listeners
+      // Name input listeners with debounce
       document.querySelectorAll('.checklist-name-input').forEach(input => {
-        input.addEventListener('blur', async (e) => {
-          const index = parseInt(e.target.dataset.index);
-          const newName = e.target.value.trim() || `專案清單 ${index + 1}`;
-          userChecklists[index].name = newName;
-          userChecklists[index].updatedAt = new Date().toISOString();
-          await saveToFirestore();
+        let timeout;
+        input.addEventListener('input', (e) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(async () => {
+            const index = parseInt(e.target.dataset.index);
+            const newName = e.target.value.trim() || `專案清單 ${index + 1}`;
+            userChecklists[index].name = newName;
+            userChecklists[index].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+          }, 500);
         });
       });
     }
@@ -508,6 +1215,7 @@
 
       userEmail = user.email;
       await loadUserData(user.email);
+      initProjectTypeModal();
       hideLoading();
     });
   </script>
