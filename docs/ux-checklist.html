@@ -480,6 +480,11 @@
 
     // Save to Firestore
     async function saveToFirestore() {
+      if (!userEmail) {
+        console.warn('⚠️ 尚未登入，無法儲存');
+        return;
+      }
+      
       try {
         const docRef = doc(db, 'users_by_email', encEmail(userEmail));
         await setDoc(docRef, {

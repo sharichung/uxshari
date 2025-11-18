@@ -26,10 +26,11 @@ service cloud.firestore {
 			// Allow authenticated users to update their own uxChecklists
 			// Only allow updating email and uxChecklists fields
 			allow update: if isSignedIn() 
-				&& request.auth.token.email == resource.data.email
+				&& resource.data.email == request.auth.token.email
 				&& request.resource.data.keys().hasOnly(['email', 'uxChecklists', 'credits', 'isPaid', 'payments', 'purchasedProducts', 'lastPaymentDate', 'createdAt']);
 			
 			// Allow authenticated users to create their own document
+			// The email in the document must match the authenticated user's email
 			allow create: if isSignedIn() 
 				&& request.auth.token.email == request.resource.data.email;
 			
