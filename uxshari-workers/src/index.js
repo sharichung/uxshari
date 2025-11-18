@@ -1044,12 +1044,14 @@ export default {
 
       // 可選：驗證簽名（需設定 CALENDLY_SIGNING_KEY）
       if (env.CALENDLY_SIGNING_KEY) {
-        const calSig = request.headers.get("x-cal-signature") || "";
+        const calSig = request.headers.get("Calendly-Webhook-Signature") || "";
+        console.log("🔐 Verifying Calendly signature...");
         const verified = await verifyCalendlySignature(env.CALENDLY_SIGNING_KEY, calSig, raw);
         if (!verified) {
           console.error("❌ Calendly signature verification failed");
           return json({ error: "Invalid signature" }, 401, request);
         }
+        console.log("✅ Calendly signature verified");
       }
 
       const body = JSON.parse(raw || "{}");
