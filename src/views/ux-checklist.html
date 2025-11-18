@@ -12,50 +12,37 @@
   <script src="assets/js/clarity.js" defer></script>
 
   <style>
-    /* UX Checklist 專用樣式 */
-    .checklist-card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      padding: 24px;
-      margin-bottom: 24px;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
-    }
-    
-    .checklist-card:hover {
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      transform: translateY(-2px);
-    }
-    
-    .checklist-card.completed {
-      border-color: var(--primary-color, #6366f1);
-      background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
-    }
-    
-    .checklist-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    
-    .checklist-name-input {
-      font-size: 1.25rem;
-      font-weight: 600;
-      border: none;
-      border-bottom: 2px solid transparent;
-      padding: 4px 8px;
-      background: transparent;
-      transition: all 0.3s ease;
-      flex: 1;
-      min-width: 200px;
-    }
-    
-    .checklist-name-input:focus {
-      outline: none;
+    /* Add your CSS styles here if needed */
+  </style>
+
+  <!-- Hero Section -->
+  <section class="hero-section no-print">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-5 fw-bold mb-3">
+            <i class="fas fa-clipboard-check me-3"></i>
+            UX 痛點觀察清單
+          </h1>
+          <p class="lead mb-0">
+            專案化管理、智慧建議、即時同步 — 讓 UX 研究更有條理
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <div class="d-flex flex-column gap-2">
+            <span class="badge bg-light text-dark fs-6">
+              <i class="fas fa-crown me-2"></i>
+              <span id="user-status">免費會員</span>
+            </span>
+            <span class="badge bg-light text-dark fs-6">
+              <i class="fas fa-list me-2"></i>
+              清單：<strong id="checklist-count">0</strong> / <span id="checklist-limit">3</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
       border-bottom-color: var(--primary-color, #6366f1);
       background: #f8f9ff;
     }
@@ -430,6 +417,23 @@
         display: none;
       }
     }
+
+    /* Undo Toast */
+    .undo-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: #334155;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      box-shadow: 0 4px 12px rgba(51, 65, 85, 0.3);
+    }
+    .undo-toast.show { display: flex; }
   </style>
 </head>
 <body>
@@ -445,7 +449,62 @@
   </div>
 
   <!-- Navbar -->
-  <div id="navbar"></div>
+  <div id="navbar"><nav class="navbar navbar-expand-lg">
+    <div class="container navbar-container">
+
+      <!-- Logo + Toggler -->
+      <div class="logo-container d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo futuristic-hover navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
+            alt="UXShari UX 學習平台 Logo">
+            <path
+              d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z"
+              style="fill:#ff9500" />
+          </svg>
+          UX Shari
+        </a>
+
+        <!-- Bootstrap 5 toggler button -->
+        <button class="navbar-toggler mobile-menu-toggle" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 6H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 18H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Links -->
+<div class="collapse navbar-collapse nav-links" id="navbarNav">
+  <ul class="navbar-nav ms-md-auto d-flex gap-3">
+    <li class="nav-item">
+      <a href="#courses" class="nav-link">課程與產品</a>
+    </li>
+    <li class="nav-item">
+      <a href="#members" class="nav-link">會員專區</a>
+    </li>
+    <li class="nav-item">
+      <a href="#instructor" class="nav-link">導師介紹</a>
+    </li>
+    <li class="nav-item">
+      <a href="#resources" class="nav-link">學習資源</a>
+    </li>
+    <li class="nav-item">
+      <a href="#testimonials" class="nav-link">學員心得</a>
+    </li>
+    <li class="nav-item">
+      <a href="#faq" class="nav-link">常見問題</a>
+    </li>
+    <li class="nav-item">
+      <a href="#auth-wrapper" class="nav-link cta px-3">登入 / 註冊</a>
+    </li>
+  </ul>
+</div>
+
+
+    </div>
+  </nav></div>
 
   <!-- Hero Section -->
   <section class="hero-section no-print">
@@ -538,7 +597,6 @@
     <div class="d-flex align-items-center">
       <i class="fas fa-trophy fa-2x text-warning me-3"></i>
       <div>
-        <h6 class="mb-1 fw-bold">🎉 恭喜完成！</h6>
         <p class="mb-0 small" id="achievement-text">你已經掌握 80% 的 UX 痛點觀察技巧</p>
       </div>
     </div>
@@ -548,6 +606,12 @@
   <div id="save-indicator" class="save-indicator">
     <i class="fas fa-check-circle"></i>
     <span>已自動儲存</span>
+  </div>
+
+  <!-- 復原提示 -->
+  <div id="undo-toast" class="undo-toast">
+    <span id="undo-text">已刪除</span>
+    <button id="undo-btn" class="btn btn-light btn-sm">復原</button>
   </div>
 
   <!-- 專案類型選擇 Modal -->
@@ -573,9 +637,24 @@
   </div>
 
   <!-- Footer -->
-  <footer class="footer no-print"></footer>
+  
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Fallback: hide loader if module fails to initialize (parse/runtime error)
+    (function(){
+      const safety = setTimeout(() => {
+        const el = document.getElementById('loading-overlay');
+        if (el) el.style.display = 'none';
+      }, 8000);
+      window.__uxChecklistOk = () => clearTimeout(safety);
+      window.addEventListener('error', function(){
+        const el = document.getElementById('loading-overlay');
+        if (el) el.style.display = 'none';
+      }, true);
+    })();
+  </script>
 
   <script type="module">
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -751,6 +830,10 @@
     let selectedProjectType = null;
     const FREE_LIMIT = 3;
 
+    // Undo State
+    let undoTimer = null;
+    let lastDeleted = null; // { data, index }
+
     // UI Elements
     const elements = {
       loading: document.getElementById('loading-overlay'),
@@ -768,32 +851,77 @@
 
     // Load User Data
     async function loadUserData(email) {
-      try {
-        const docRef = doc(db, 'users_by_email', encEmail(email));
-        const docSnap = await getDoc(docRef);
+      const uid = (auth.currentUser && auth.currentUser.uid) || '';
+      const refEmail = doc(db, 'users_by_email', encEmail(email));
+      const refUid = uid ? doc(db, 'users', uid) : null;
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          isPaid = data.isPaid || false;
-          userChecklists = data.uxChecklists || [];
-          
-          elements.userStatus.textContent = isPaid ? '付費會員' : '免費會員';
-          elements.checklistLimit.textContent = isPaid ? '∞' : FREE_LIMIT;
-          
-          updateUI();
-        } else {
-          // Initialize user document with empty checklists
-          await setDoc(docRef, {
-            email,
-            uxChecklists: []
-          }, { merge: true });
-          userChecklists = [];
-          updateUI();
-        }
-      } catch (error) {
-        console.error('載入資料錯誤:', error);
-        alert('載入資料失敗，請重新整理頁面');
+      let emailData = null;
+      let uidData = null;
+
+      // Read both paths (sequential to keep it simple and robust to auth state)
+      try {
+        const snapEmail = await getDoc(refEmail);
+        if (snapEmail.exists()) emailData = snapEmail.data();
+      } catch (err) {
+        console.warn('讀取 users_by_email 失敗：', err?.message || err);
       }
+      try {
+        if (refUid) {
+          const snapUid = await getDoc(refUid);
+          if (snapUid.exists()) uidData = snapUid.data();
+        }
+      } catch (err2) {
+        console.warn('讀取 users/{uid} 失敗：', err2?.message || err2);
+      }
+
+      const emailLists = (emailData && Array.isArray(emailData.uxChecklists)) ? emailData.uxChecklists : [];
+      const uidLists = (uidData && Array.isArray(uidData.uxChecklists)) ? uidData.uxChecklists : [];
+
+      // Prefer non-empty source; otherwise prefer users_by_email if present; else users/{uid}; else init
+      let source = 'none';
+      if (emailLists.length > 0) {
+        userChecklists = emailLists;
+        source = 'users_by_email';
+      } else if (uidLists.length > 0) {
+        userChecklists = uidLists;
+        source = 'users_uid';
+      } else if (emailData) {
+        userChecklists = emailLists;
+        source = 'users_by_email';
+      } else if (uidData) {
+        userChecklists = uidLists;
+        source = 'users_uid';
+      } else {
+        userChecklists = [];
+        source = 'none';
+      }
+
+      // Merge membership flags (prefer true if any source has it)
+      isPaid = Boolean((emailData && emailData.isPaid) || (uidData && uidData.isPaid));
+      elements.userStatus.textContent = isPaid ? '付費會員' : '免費會員';
+      elements.checklistLimit.textContent = isPaid ? '∞' : FREE_LIMIT;
+
+      // If we used users/{uid} as source and have lists, try to sync into users_by_email for future reads
+      if (source === 'users_uid' && userChecklists.length > 0) {
+        try {
+          await setDoc(refEmail, { email, uxChecklists: JSON.parse(JSON.stringify(userChecklists)) }, { merge: true });
+          console.log('↪ 已同步清單到 users_by_email');
+        } catch (syncErr) {
+          console.warn('同步到 users_by_email 失敗（可忽略）：', syncErr?.message || syncErr);
+        }
+      }
+
+      // If neither path existed, initialize primary doc (email-keyed)
+      if (source === 'none') {
+        try {
+          await setDoc(refEmail, { email, uxChecklists: [] }, { merge: true });
+          console.log('已初始化使用者文件 users_by_email');
+        } catch (initErr) {
+          console.error('初始化使用者文件失敗：', initErr);
+        }
+      }
+
+      updateUI();
     }
 
     // Update UI
@@ -837,6 +965,27 @@
       
       const projectType = projectTypes.find(pt => pt.id === checklist.projectType) || projectTypes.find(pt => pt.id === 'general');
 
+      // helper to safely embed suggestion text for data-attributes
+      const encAttr = (s) => encodeURIComponent(s || '');
+
+      // Build section items without nested template literals (robust parsing)
+      const renderItem = (cat, item) => {
+        return '<div class="checklist-item ' + (item.checked ? 'checked' : '') + '">' +
+               '<input type="checkbox" ' +
+               'id="check-' + index + '-' + item.id + '" ' +
+               (item.checked ? 'checked' : '') + ' ' +
+               'onchange="window.toggleCheckbox(' + index + ', &quot;' + cat + '&quot;, &quot;' + item.id + '&quot;)">' +
+               '<div class="checklist-item-text">' +
+               item.text +
+               (item.suggestion ? ('<div class="suggestion-pill" data-suggestion="' + encAttr(item.suggestion) + '"><i class="fas fa-lightbulb"></i> 建議</div>') : '') +
+               '</div>' +
+               '</div>';
+      };
+
+      const processHtml = checklist.items.process.map(item => renderItem('process', item)).join('');
+      const interfaceHtml = checklist.items.interface.map(item => renderItem('interface', item)).join('');
+      const contextHtml = checklist.items.context.map(item => renderItem('context', item)).join('');
+
       return `
         <div class="checklist-card ${isCompleted ? 'completed' : ''}" data-index="${index}">
           <div class="checklist-header">
@@ -845,13 +994,13 @@
                    data-index="${index}"
                    placeholder="清單名稱">
             <div class="checklist-actions no-print">
-              <button class="action-btn duplicate" onclick="window.duplicateChecklist(${index})" title="複製清單">
+              <button class="action-btn duplicate" data-action="duplicate" title="複製清單">
                 <i class="fas fa-copy"></i> 複製
               </button>
-              <button class="action-btn print" onclick="window.print()" title="列印清單">
+              <button class="action-btn print" data-action="print" title="列印清單">
                 <i class="fas fa-print"></i> 列印
               </button>
-              <button class="action-btn delete" onclick="window.deleteChecklist(${index})" title="刪除清單">
+              <button class="action-btn delete" data-action="delete" title="刪除清單">
                 <i class="fas fa-trash"></i> 刪除
               </button>
             </div>
@@ -886,20 +1035,7 @@
               </div>
               <span>流程痛點</span>
             </div>
-            ${checklist.items.process.map(item => `
-              <div class="checklist-item ${item.checked ? 'checked' : ''}">
-                <input type="checkbox" 
-                       id="check-${index}-${item.id}" 
-                       ${item.checked ? 'checked' : ''}
-                       onchange="window.toggleCheckbox(${index}, 'process', '${item.id}')">
-                <div class="checklist-item-text">
-                  ${item.text}
-                  ${item.suggestion ? `<div class="suggestion-pill" onclick="showSuggestion(this, '${item.suggestion.replace(/'/g, "\\'")}')">
-                    <i class="fas fa-lightbulb"></i> 建議
-                  </div>` : ''}
-                </div>
-              </div>
-            `).join('')}
+            ${processHtml}
           </div>
 
           <!-- Interface Category -->
@@ -910,20 +1046,7 @@
               </div>
               <span>介面痛點</span>
             </div>
-            ${checklist.items.interface.map(item => `
-              <div class="checklist-item ${item.checked ? 'checked' : ''}">
-                <input type="checkbox" 
-                       id="check-${index}-${item.id}" 
-                       ${item.checked ? 'checked' : ''}
-                       onchange="window.toggleCheckbox(${index}, 'interface', '${item.id}')">
-                <div class="checklist-item-text">
-                  ${item.text}
-                  ${item.suggestion ? `<div class="suggestion-pill" onclick="showSuggestion(this, '${item.suggestion.replace(/'/g, "\\'")}')">
-                    <i class="fas fa-lightbulb"></i> 建議
-                  </div>` : ''}
-                </div>
-              </div>
-            `).join('')}
+            ${interfaceHtml}
           </div>
 
           <!-- Context Category -->
@@ -934,22 +1057,9 @@
               </div>
               <span>情境痛點</span>
             </div>
-            ${checklist.items.context.map(item => `
-              <div class="checklist-item ${item.checked ? 'checked' : ''}">
-                <input type="checkbox" 
-                       id="check-${index}-${item.id}" 
-                       ${item.checked ? 'checked' : ''}
-                       onchange="window.toggleCheckbox(${index}, 'context', '${item.id}')">
-                <div class="checklist-item-text">
-                  ${item.text}
-                  ${item.suggestion ? `<div class="suggestion-pill" onclick="showSuggestion(this, '${item.suggestion.replace(/'/g, "\\'")}')">
-                    <i class="fas fa-lightbulb"></i> 建議
-                  </div>` : ''}
-                </div>
-              </div>
-            `).join('')}
+            ${contextHtml}
           </div>
-              </div>
+        </div>
 
           `;
             }
@@ -970,10 +1080,54 @@
       setTimeout(() => indicator.classList.remove('show'), 2000);
     }
 
-    // Show Suggestion Tooltip
-    window.showSuggestion = function(element, suggestion) {
-      alert(suggestion);
-    };
+    // Undo Toast helpers
+    function showUndoToast(message, onUndo) {
+      clearTimeout(undoTimer);
+      const toast = document.getElementById('undo-toast');
+      const textEl = document.getElementById('undo-text');
+      const btn = document.getElementById('undo-btn');
+      textEl.textContent = message;
+      toast.classList.add('show');
+      btn.onclick = () => {
+        clearTimeout(undoTimer);
+        toast.classList.remove('show');
+        if (typeof onUndo === 'function') onUndo();
+      };
+      undoTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 5000);
+    }
+
+    // Suggestion click (delegated) - avoids inline onclick parsing issues
+    elements.container.addEventListener('click', (e) => {
+      // suggestion pill
+      const pill = e.target.closest('.suggestion-pill');
+      if (pill) {
+        try {
+          const text = decodeURIComponent(pill.dataset.suggestion || '');
+          alert(text || '（無建議內容）');
+        } catch (err) {
+          alert('無法讀取建議內容');
+        }
+        return;
+      }
+      // action buttons (duplicate/print/delete)
+      const btn = e.target.closest('button[data-action]');
+      if (btn) {
+        const card = e.target.closest('.checklist-card');
+        if (!card) return;
+        const idx = parseInt(card.dataset.index);
+        const action = btn.dataset.action;
+        if (action === 'duplicate') {
+          window.duplicateChecklistWithUI ? window.duplicateChecklistWithUI(idx, btn) : (window.duplicateChecklist && window.duplicateChecklist(idx));
+        } else if (action === 'delete') {
+          window.deleteChecklistWithUI ? window.deleteChecklistWithUI(idx, btn) : (window.deleteChecklist && window.deleteChecklist(idx));
+        } else if (action === 'print') {
+          window.print && window.print();
+        }
+        return;
+      }
+    });
 
     // Initialize Project Type Modal
     function initProjectTypeModal() {
@@ -1015,6 +1169,21 @@
       }
 
       const confirmBtn = document.getElementById('confirm-project-type');
+      const cancelBtn = document.querySelector('#projectTypeModal .btn.btn-secondary');
+      const setBtnBusy = (btn, label) => {
+        if (!btn) return;
+        btn.disabled = true;
+        btn.dataset.original = btn.innerHTML;
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>${label}`;
+      };
+      const restoreBtn = (btn) => {
+        if (!btn || !btn.dataset.original) return;
+        btn.innerHTML = btn.dataset.original;
+        btn.disabled = false;
+        delete btn.dataset.original;
+      };
+      setBtnBusy(confirmBtn, '建立中…');
+      if (cancelBtn) cancelBtn.disabled = true;
       const projectType = projectTypes.find(pt => pt.id === selectedProjectType);
       const newChecklist = {
         id: Date.now().toString(),
@@ -1038,6 +1207,10 @@
 
       // Refresh UI after a short delay for smoother close animation
       setTimeout(() => updateUI(), 100);
+      setTimeout(() => {
+        restoreBtn(confirmBtn);
+        if (cancelBtn) cancelBtn.disabled = false;
+      }, 150);
     });
 
     // Toggle Checkbox with Achievement Check
@@ -1071,16 +1244,55 @@
       }
     };
 
-    // Delete Checklist
+    // Delete Checklist (basic)
     window.deleteChecklist = async (index) => {
       if (!confirm('確定要刪除此清單嗎？此操作無法復原。')) return;
-      
+      const removed = userChecklists[index];
+      const restoreAt = index;
       userChecklists.splice(index, 1);
-      await saveToFirestore();
+      // Optimistic UI: render immediately
       updateUI();
+      lastDeleted = { data: removed, index: restoreAt };
+      showUndoToast(`已刪除「${removed?.name || '清單'}」`, async () => {
+        const insertAt = Math.min(lastDeleted.index, userChecklists.length);
+        userChecklists.splice(insertAt, 0, lastDeleted.data);
+        lastDeleted = null;
+        updateUI();
+        try { await saveToFirestore(); showSaveIndicator(); } catch(e) {}
+      });
+      // Save in background
+      saveToFirestore().then(() => {
+        showSaveIndicator();
+      }).catch(err => {
+        console.warn('刪除同步失敗：', err?.message || err);
+      });
     };
 
-    // Duplicate Checklist
+    // Delete Checklist with UI feedback
+    window.deleteChecklistWithUI = async (index, btnEl) => {
+      if (!confirm('確定要刪除此清單嗎？此操作無法復原。')) return;
+      // Optimistic remove: update UI immediately, save in background, provide undo
+      const removed = userChecklists[index];
+      const restoreAt = index;
+      userChecklists.splice(index, 1);
+      updateUI();
+      lastDeleted = { data: removed, index: restoreAt };
+      showUndoToast(`已刪除「${removed?.name || '清單'}」`, async () => {
+        const insertAt = Math.min(lastDeleted.index, userChecklists.length);
+        userChecklists.splice(insertAt, 0, lastDeleted.data);
+        lastDeleted = null;
+        updateUI();
+        try { await saveToFirestore(); showSaveIndicator(); } catch(e) {}
+      });
+      // Save in background
+      saveToFirestore().then(() => {
+        showSaveIndicator();
+      }).catch(err => {
+        console.warn('刪除同步失敗：', err?.message || err);
+      });
+    };
+
+    // Duplicate Checklist (basic)
     window.duplicateChecklist = async (index) => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
         alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
@@ -1098,6 +1310,42 @@
       await saveToFirestore();
       showSaveIndicator();
       updateUI();
+    };
+
+    // Duplicate Checklist with UI feedback
+    window.duplicateChecklistWithUI = async (index, btnEl) => {
+      if (!isPaid && userChecklists.length >= FREE_LIMIT) {
+        alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
+        return;
+      }
+      const setBtnBusy = (btn, label) => {
+        if (!btn) return;
+        btn.disabled = true;
+        btn.dataset.original = btn.innerHTML;
+        btn.innerHTML = `<span class=\"spinner-border spinner-border-sm me-2\" role=\"status\" aria-hidden=\"true\"></span>${label}`;
+      };
+      const restoreBtn = (btn) => {
+        if (!btn || !btn.dataset.original) return;
+        btn.innerHTML = btn.dataset.original;
+        btn.disabled = false;
+        delete btn.dataset.original;
+      };
+      setBtnBusy(btnEl, '複製中…');
+      try {
+        const original = userChecklists[index];
+        const duplicate = JSON.parse(JSON.stringify(original));
+        duplicate.id = Date.now().toString();
+        duplicate.name = `${original.name} (副本)`;
+        duplicate.createdAt = new Date().toISOString();
+        duplicate.updatedAt = new Date().toISOString();
+        userChecklists.push(duplicate);
+        await saveToFirestore();
+        showSaveIndicator();
+        updateUI();
+      } catch (e) {
+        alert('複製失敗，請重試');
+        restoreBtn(btnEl);
+      }
     };
 
     // Attach Event Listeners
@@ -1127,20 +1375,24 @@
       }
       
       try {
-        const docRef = doc(db, 'users_by_email', encEmail(userEmail));
-        
-        // Ensure clean data structure - remove any undefined or function properties
         const cleanChecklists = JSON.parse(JSON.stringify(userChecklists));
-        
-        await setDoc(docRef, {
-          email: userEmail,
-          uxChecklists: cleanChecklists
-        }, { merge: true });
-        console.log('✅ 清單已儲存');
+        const primaryRef = doc(db, 'users_by_email', encEmail(userEmail));
+        await setDoc(primaryRef, { email: userEmail, uxChecklists: cleanChecklists }, { merge: true });
+        console.log('✅ 清單已儲存 (users_by_email)');
       } catch (error) {
-        console.error('❌ 儲存錯誤:', error);
-        console.error('清單資料:', userChecklists);
-        alert('儲存失敗，請重試\n\n錯誤訊息：' + error.message);
+        console.warn('users_by_email 儲存失敗，嘗試 users/{uid}：', error?.message || error);
+        try {
+          const uid = (auth.currentUser && auth.currentUser.uid) || '';
+          if (!uid) throw new Error('No UID for fallback write');
+          const cleanChecklists = JSON.parse(JSON.stringify(userChecklists));
+          const uidRef = doc(db, 'users', uid);
+          await setDoc(uidRef, { email: userEmail, uxChecklists: cleanChecklists }, { merge: true });
+          console.log('✅ 清單已儲存 (users/{uid})');
+        } catch (err2) {
+          console.error('❌ 儲存錯誤 (兩路徑皆失敗):', err2);
+          console.error('清單資料:', userChecklists);
+          alert('儲存失敗，請重試\n\n錯誤訊息：' + (err2?.message || err2));
+        }
       }
     }
 
@@ -1156,6 +1408,7 @@
       await loadUserData(user.email);
       initProjectTypeModal();
       hideLoading();
+      if (window.__uxChecklistOk) window.__uxChecklistOk();
     });
   </script>
 
