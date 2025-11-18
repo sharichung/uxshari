@@ -56,6 +56,105 @@
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
     }
+
+    /* Product Cards */
+    .product-card {
+      transition: all 0.3s ease;
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+    }
+    
+    .product-badge.unlocked {
+      background: rgba(16, 185, 129, 0.9);
+      color: white;
+    }
+    
+    .product-badge.locked {
+      background: rgba(107, 114, 128, 0.9);
+      color: white;
+    }
+    
+    .product-type-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .product-type-tool { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); }
+    .product-type-course { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    .product-type-challenge { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .product-type-resource { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+    
+    .product-progress {
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    
+    .product-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+      transition: width 0.3s ease;
+    }
+
+    .product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .product-tag {
+      padding: 0.25rem 0.5rem;
+      background: #f3f4f6;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      color: #6b7280;
+    }
+
+    @keyframes unlock-animation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .unlocked-animation {
+      animation: unlock-animation 0.5s ease-in-out;
+    }
   </style>
 </head>
 <body class="min-vh-100 d-flex flex-column bg-light">
@@ -193,6 +292,55 @@
             <i class="fas fa-external-link-alt me-2"></i>
             前往 Calendly 查看預約
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🛍️ 數位產品商店 -->
+    <section class="container py-2 mb-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+          <h3 class="h5 mb-0">
+            <i class="fas fa-store me-2"></i>
+            數位產品商店
+          </h3>
+          <div class="btn-group btn-group-sm" role="group" id="product-filter-buttons">
+            <button type="button" class="btn btn-outline-primary active" data-filter="all">全部</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="tool">🧰 工具</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="course">📚 課程</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="challenge">🎯 挑戰</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="resource">📦 資源</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- 搜尋列 -->
+          <div class="mb-4">
+            <div class="input-group">
+              <span class="input-group-text bg-white">
+                <i class="fas fa-search text-muted"></i>
+              </span>
+              <input type="text" class="form-control" id="product-search" 
+                     placeholder="搜尋產品名稱、類別或標籤...">
+            </div>
+          </div>
+
+          <!-- 產品卡片網格 -->
+          <div id="products-grid" class="row g-4">
+            <!-- 載入中狀態 -->
+            <div class="col-12 text-center py-5" id="products-loading">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">載入中...</span>
+              </div>
+              <p class="text-muted mt-3">正在載入產品...</p>
+            </div>
+            
+            <!-- 空狀態 -->
+            <div class="col-12 text-center py-5 d-none" id="products-empty">
+              <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+              <h5 class="text-muted">暫無產品</h5>
+              <p class="text-muted small">敬請期待更多精彩內容</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -441,6 +589,250 @@
         });
       } else {
         hideLoading();
+      }
+    });
+
+    // ============================================================
+    // 🛍️ 產品商店功能
+    // ============================================================
+    const WORKER_BASE = 'https://uxshari-workers.uxshari.workers.dev';
+    let allProducts = [];
+    let userPurchasedProducts = [];
+    let currentFilter = 'all';
+
+    // 產品類型圖標和顯示名稱
+    const productTypeConfig = {
+      tool: { icon: '🧰', name: '工具', class: 'product-type-tool' },
+      course: { icon: '📚', name: '課程', class: 'product-type-course' },
+      challenge: { icon: '🎯', name: '挑戰', class: 'product-type-challenge' },
+      resource: { icon: '📦', name: '資源', class: 'product-type-resource' }
+    };
+
+    // 載入產品列表
+    async function loadProducts() {
+      try {
+        const response = await fetch(`${WORKER_BASE}/api/products?active=true`);
+        const data = await response.json();
+        
+        if (data.ok) {
+          allProducts = data.products;
+          renderProducts();
+        } else {
+          throw new Error(data.error || '載入產品失敗');
+        }
+      } catch (error) {
+        console.error('❌ 載入產品錯誤:', error);
+        document.getElementById('products-loading').innerHTML = `
+          <div class="text-center text-danger">
+            <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+            <p>載入產品失敗，請重新整理頁面</p>
+          </div>
+        `;
+      }
+    }
+
+    // 載入使用者已購產品
+    async function loadUserPurchases(email) {
+      try {
+        const response = await fetch(`${WORKER_BASE}/api/user/purchased-products?email=${encodeURIComponent(email)}`);
+        const data = await response.json();
+        
+        if (data.ok) {
+          userPurchasedProducts = data.purchasedProducts || [];
+          renderProducts();
+        }
+      } catch (error) {
+        console.error('❌ 載入購買紀錄錯誤:', error);
+      }
+    }
+
+    // 檢查產品是否已購買
+    function isPurchased(productId) {
+      return userPurchasedProducts.some(p => p.productId === productId);
+    }
+
+    // 獲取產品進度
+    function getProductProgress(productId) {
+      const purchase = userPurchasedProducts.find(p => p.productId === productId);
+      return purchase?.progress || null;
+    }
+
+    // 渲染產品卡片
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      const loading = document.getElementById('products-loading');
+      const empty = document.getElementById('products-empty');
+      const searchTerm = document.getElementById('product-search').value.toLowerCase();
+
+      // 篩選產品
+      let filtered = allProducts.filter(p => {
+        const matchFilter = currentFilter === 'all' || p.type === currentFilter;
+        const matchSearch = !searchTerm || 
+          p.title.toLowerCase().includes(searchTerm) ||
+          p.description.toLowerCase().includes(searchTerm) ||
+          (p.tags || []).some(tag => tag.toLowerCase().includes(searchTerm));
+        return matchFilter && matchSearch;
+      });
+
+      loading.classList.add('d-none');
+
+      if (filtered.length === 0) {
+        empty.classList.remove('d-none');
+        grid.innerHTML = '';
+        grid.appendChild(empty);
+        return;
+      }
+
+      empty.classList.add('d-none');
+      
+      // 渲染卡片
+      grid.innerHTML = filtered.map(product => {
+        const config = productTypeConfig[product.type] || productTypeConfig.tool;
+        const purchased = isPurchased(product.id);
+        const progress = getProductProgress(product.id);
+        const progressPercent = progress ? Math.round((progress.completedUnits.length / progress.totalUnits) * 100) : 0;
+
+        return `
+          <div class="col-md-6 col-lg-4">
+            <div class="product-card" data-product-id="${product.id}">
+              <div class="position-relative">
+                <img src="${product.coverImage || '/assets/images/placeholder-product.jpg'}" 
+                     class="product-card-image" 
+                     alt="${product.title}">
+                <span class="product-badge ${purchased ? 'unlocked' : 'locked'}">
+                  <i class="fas ${purchased ? 'fa-check-circle' : 'fa-lock'} me-1"></i>
+                  ${purchased ? '已解鎖' : '$' + product.price}
+                </span>
+              </div>
+              
+              <div class="p-3 flex-grow-1 d-flex flex-column">
+                <div class="${config.class} product-type-icon">
+                  ${config.icon}
+                </div>
+                
+                <h5 class="mb-2">${product.title}</h5>
+                <p class="text-muted small mb-3">${product.description}</p>
+                
+                ${progress ? `
+                  <div class="mb-3">
+                    <div class="d-flex justify-content-between small text-muted mb-1">
+                      <span>學習進度</span>
+                      <span>${progress.completedUnits.length}/${progress.totalUnits} 單元</span>
+                    </div>
+                    <div class="product-progress">
+                      <div class="product-progress-bar" style="width: ${progressPercent}%"></div>
+                    </div>
+                  </div>
+                ` : ''}
+                
+                ${(product.tags || []).length > 0 ? `
+                  <div class="product-tags">
+                    ${product.tags.slice(0, 3).map(tag => `
+                      <span class="product-tag">${tag}</span>
+                    `).join('')}
+                  </div>
+                ` : ''}
+                
+                <div class="mt-auto pt-3">
+                  ${purchased ? `
+                    <button class="btn btn-success w-100" onclick="accessProduct('${product.id}', '${product.type}', '${product.contentUrl || product.downloadUrl}')">
+                      <i class="fas fa-${product.type === 'tool' ? 'download' : 'play-circle'} me-2"></i>
+                      ${product.type === 'tool' ? '下載' : product.type === 'course' ? '繼續學習' : '開始挑戰'}
+                    </button>
+                  ` : `
+                    <button class="btn btn-primary-shari w-100" onclick="purchaseProduct('${product.id}')">
+                      <i class="fas fa-shopping-cart me-2"></i>
+                      購買 - $${product.price}
+                    </button>
+                  `}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 購買產品
+    window.purchaseProduct = async function(productId) {
+      const user = auth.currentUser;
+      if (!user || !user.email) {
+        alert('請先登入');
+        return;
+      }
+
+      try {
+        const btn = event.target.closest('button');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 處理中...';
+
+        const response = await fetch(`${WORKER_BASE}/api/checkout/create-product-session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            productId,
+            userEmail: user.email
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.ok && data.checkoutUrl) {
+          window.location.href = data.checkoutUrl;
+        } else {
+          throw new Error(data.error || '建立付款頁面失敗');
+        }
+      } catch (error) {
+        console.error('❌ 購買錯誤:', error);
+        alert(error.message || '購買失敗，請重試');
+        event.target.closest('button').disabled = false;
+        event.target.closest('button').innerHTML = '<i class="fas fa-shopping-cart me-2"></i> 購買';
+      }
+    };
+
+    // 存取產品
+    window.accessProduct = function(productId, type, url) {
+      if (type === 'course') {
+        // 導向課程頁面（未來實作）
+        window.location.href = `/lesson.html?course=${productId}`;
+      } else if (type === 'challenge') {
+        // 導向挑戰頁面（未來實作）
+        window.location.href = `/challenge.html?id=${productId}`;
+      } else if (url) {
+        // 直接下載或開啟連結
+        window.open(url, '_blank');
+      } else {
+        alert('此產品暫無內容連結');
+      }
+    };
+
+    // 篩選按鈕事件
+    document.getElementById('product-filter-buttons').addEventListener('click', (e) => {
+      if (e.target.tagName === 'BUTTON') {
+        // 更新按鈕狀態
+        document.querySelectorAll('#product-filter-buttons button').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        e.target.classList.add('active');
+
+        // 更新篩選條件
+        currentFilter = e.target.dataset.filter;
+        renderProducts();
+      }
+    });
+
+    // 搜尋事件
+    document.getElementById('product-search').addEventListener('input', () => {
+      renderProducts();
+    });
+
+    // 初始化產品
+    loadProducts();
+
+    // 當使用者登入後載入已購產品
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.email) {
+        loadUserPurchases(user.email);
       }
     });
   </script>

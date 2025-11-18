@@ -530,6 +530,9 @@ export default {
       const email = session.customer_details?.email;
       const amount = (session.amount_total || 0) / 100;
       const currency = session.currency || "usd";
+      const metadata = session.metadata || {};
+      const productId = metadata.productId;
+      const productType = metadata.productType;
 
       if (!email) {
         console.error("❌ No customer email in session");
@@ -537,6 +540,9 @@ export default {
       }
 
       console.log(`✅ Payment successful: ${email} paid ${currency} ${amount}`);
+      if (productId) {
+        console.log(`🛍️ Product purchase: ${productType} - ${productId}`);
+      }
 
       // 4️⃣ 更新 Firestore（冪等）
       try {
@@ -547,9 +553,28 @@ export default {
           amount,
           currency,
           status: "completed",
+          productId: productId || "",
+          productType: productType || "",
           receiptUrl: session?.payment_intent?.charges?.data?.[0]?.receipt_url || "",
           createdAt: new Date().toISOString()
         });
+
+        // Build product purchase entry if applicable
+        const purchaseEntry = productId ? mapValue({
+          productId,
+          productType: productType || "tool",
+          purchaseDate: new Date().toISOString(),
+          stripePaymentId: session.payment_intent?.id || session.id,
+          unlocked: true,
+          progress: productType === "course" ? {
+            currentUnit: 0,
+            totalUnits: 0,
+            completedUnits: [],
+            lastAccessedAt: null,
+            isCompleted: false,
+            completedAt: null
+          } : undefined
+        }) : null;
 
         const writes = [
           // 事件冪等：若事件已處理，以下寫入會被整體拒絕
@@ -599,6 +624,21 @@ export default {
             }
           }
         ];
+
+        // Add purchasedProducts entry if product purchase
+        if (purchaseEntry) {
+          writes.push({
+            transform: {
+              document: `projects/${projectId}/databases/(default)/documents/users_by_email/${emailDocId}`,
+              fieldTransforms: [
+                {
+                  fieldPath: "purchasedProducts",
+                  appendMissingElements: { values: [purchaseEntry] }
+                }
+              ]
+            }
+          });
+        }
 
         await firestoreCommit(projectId, token, writes);
 
@@ -979,6 +1019,216 @@ export default {
         }, 200, request);
       } catch (e) {
         console.error("❌ Cleanup error:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // 🛒 Create Product Checkout Session
+    // POST /api/checkout/create-product-session
+    // Body: { productId, userEmail }
+    // ============================================================
+    if (url.pathname === "/api/checkout/create-product-session" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        const { productId, userEmail } = body;
+        
+        if (!productId || !userEmail) {
+          return json({ ok: false, error: 'Missing productId or userEmail' }, 400, request);
+        }
+        
+        if (!env.STRIPE_SECRET_KEY) {
+          return json({ ok: false, error: 'Stripe not configured' }, 500, request);
+        }
+        
+        // Fetch product from Firestore
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const productDoc = await firestoreGetDocument(projectId, token, `products/${productId}`);
+        
+        if (!productDoc || !productDoc.fields) {
+          return json({ ok: false, error: 'Product not found' }, 404, request);
+        }
+        
+        const fields = productDoc.fields;
+        const stripePriceId = fields.stripePriceId?.stringValue;
+        const productType = fields.type?.stringValue || 'tool';
+        const productTitle = fields.title?.stringValue || 'Product';
+        const price = parseFloat(fields.price?.doubleValue || fields.price?.integerValue || 0);
+        
+        if (!stripePriceId) {
+          return json({ ok: false, error: 'Product has no Stripe price ID configured' }, 400, request);
+        }
+        
+        // Create Stripe Checkout Session
+        const origin = url.searchParams.get('origin') || 'https://uxshari.com';
+        const checkoutBody = new URLSearchParams();
+        checkoutBody.set('mode', 'payment');
+        checkoutBody.set('success_url', `${origin}/success.html?product=${productId}`);
+        checkoutBody.set('cancel_url', `${origin}/dashboard.html`);
+        checkoutBody.set('customer_email', userEmail);
+        checkoutBody.set('line_items[0][price]', stripePriceId);
+        checkoutBody.set('line_items[0][quantity]', '1');
+        checkoutBody.set('metadata[productId]', productId);
+        checkoutBody.set('metadata[productType]', productType);
+        checkoutBody.set('metadata[userEmail]', userEmail);
+        
+        const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${env.STRIPE_SECRET_KEY}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: checkoutBody.toString()
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Stripe API error: ${errorText}`);
+        }
+        
+        const session = await response.json();
+        console.log('✅ Product checkout session created:', session.id);
+        
+        return json({ 
+          ok: true, 
+          sessionId: session.id, 
+          checkoutUrl: session.url 
+        }, 200, request);
+        
+      } catch (e) {
+        console.error('❌ Product checkout error:', e);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // 📦 Get User's Purchased Products
+    // GET /api/user/purchased-products?email=xxx
+    // ============================================================
+    if (url.pathname === "/api/user/purchased-products" && request.method === "GET") {
+      try {
+        const email = url.searchParams.get('email');
+        if (!email) {
+          return json({ ok: false, error: 'Missing email parameter' }, 400, request);
+        }
+        
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const emailDocId = toBase64Url(email);
+        
+        const userDoc = await firestoreGetDocument(projectId, token, `users_by_email/${emailDocId}`);
+        
+        if (!userDoc || !userDoc.fields) {
+          return json({ ok: true, purchasedProducts: [] }, 200, request);
+        }
+        
+        const fields = userDoc.fields;
+        const purchasedProducts = fields.purchasedProducts?.arrayValue?.values?.map(v => {
+          const pFields = v.mapValue?.fields || {};
+          return {
+            productId: pFields.productId?.stringValue,
+            productType: pFields.productType?.stringValue,
+            purchaseDate: pFields.purchaseDate?.timestampValue,
+            stripePaymentId: pFields.stripePaymentId?.stringValue,
+            unlocked: pFields.unlocked?.booleanValue ?? true,
+            progress: pFields.progress?.mapValue?.fields ? {
+              currentUnit: parseInt(pFields.progress.mapValue.fields.currentUnit?.integerValue || "0", 10),
+              totalUnits: parseInt(pFields.progress.mapValue.fields.totalUnits?.integerValue || "0", 10),
+              completedUnits: pFields.progress.mapValue.fields.completedUnits?.arrayValue?.values?.map(u => parseInt(u.integerValue || "0", 10)) || [],
+              lastAccessedAt: pFields.progress.mapValue.fields.lastAccessedAt?.timestampValue,
+              isCompleted: pFields.progress.mapValue.fields.isCompleted?.booleanValue ?? false,
+              completedAt: pFields.progress.mapValue.fields.completedAt?.timestampValue
+            } : undefined
+          };
+        }) || [];
+        
+        return json({ ok: true, purchasedProducts }, 200, request);
+        
+      } catch (e) {
+        console.error('❌ Get purchased products error:', e);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // 📈 Update Course Progress
+    // PATCH /api/user/progress
+    // Body: { email, productId, currentUnit, completedUnits }
+    // ============================================================
+    if (url.pathname === "/api/user/progress" && request.method === "PATCH") {
+      try {
+        const body = await request.json();
+        const { email, productId, currentUnit, completedUnits } = body;
+        
+        if (!email || !productId) {
+          return json({ ok: false, error: 'Missing email or productId' }, 400, request);
+        }
+        
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const emailDocId = toBase64Url(email);
+        
+        // Fetch user document to find the product index
+        const userDoc = await firestoreGetDocument(projectId, token, `users_by_email/${emailDocId}`);
+        
+        if (!userDoc || !userDoc.fields) {
+          return json({ ok: false, error: 'User not found' }, 404, request);
+        }
+        
+        const purchasedProducts = userDoc.fields.purchasedProducts?.arrayValue?.values || [];
+        const productIndex = purchasedProducts.findIndex(p => 
+          p.mapValue?.fields?.productId?.stringValue === productId
+        );
+        
+        if (productIndex === -1) {
+          return json({ ok: false, error: 'Product not purchased by user' }, 404, request);
+        }
+        
+        // Update the progress fields
+        const updatedProducts = [...purchasedProducts];
+        const product = updatedProducts[productIndex];
+        const progressFields = product.mapValue.fields.progress?.mapValue?.fields || {};
+        
+        if (currentUnit !== undefined) {
+          progressFields.currentUnit = { integerValue: String(currentUnit) };
+        }
+        if (completedUnits) {
+          progressFields.completedUnits = {
+            arrayValue: { values: completedUnits.map(u => ({ integerValue: String(u) })) }
+          };
+        }
+        progressFields.lastAccessedAt = { timestampValue: new Date().toISOString() };
+        
+        product.mapValue.fields.progress = { mapValue: { fields: progressFields } };
+        
+        // Update document
+        const updateDoc = {
+          fields: {
+            purchasedProducts: { arrayValue: { values: updatedProducts } }
+          }
+        };
+        
+        const updateUrl = `https://firestore.googleapis.com/v1/${userDoc.name}?updateMask.fieldPaths=purchasedProducts`;
+        const response = await fetch(updateUrl, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateDoc)
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Firestore update failed: ${errorText}`);
+        }
+        
+        console.log('✅ Progress updated for', email, productId);
+        return json({ ok: true, message: 'Progress updated successfully' }, 200, request);
+        
+      } catch (e) {
+        console.error('❌ Update progress error:', e);
         return json({ ok: false, error: String(e.message) }, 500, request);
       }
     }
@@ -1366,6 +1616,260 @@ export default {
         return json({ ok: true, scanned: docs.length, matched: toRefund.length, refunded: toRefund.length }, 200, request);
       } catch (e) {
         console.error("❌ cleanup-expired-for-user error:", e.message);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+
+    // ============================================================
+    // 🛍️ Products Management API
+    // ============================================================
+    
+    // GET /api/products - List all products (with optional filters)
+    // Query params: type, category, active, featured
+    if (url.pathname === "/api/products" && request.method === "GET") {
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        
+        const type = url.searchParams.get('type'); // tool|course|challenge|resource
+        const category = url.searchParams.get('category');
+        const active = url.searchParams.get('active');
+        const featured = url.searchParams.get('featured');
+        
+        // Query Firestore products collection
+        const productsUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/products`;
+        const response = await fetch(productsUrl, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Firestore query failed: ${errorText}`);
+        }
+        
+        const data = await response.json();
+        let products = (data.documents || []).map(doc => {
+          const fields = doc.fields || {};
+          return {
+            id: doc.name.split('/').pop(),
+            type: fields.type?.stringValue,
+            title: fields.title?.stringValue,
+            description: fields.description?.stringValue,
+            price: parseFloat(fields.price?.doubleValue || fields.price?.integerValue || 0),
+            currency: fields.currency?.stringValue || 'USD',
+            stripeProductId: fields.stripeProductId?.stringValue,
+            stripePriceId: fields.stripePriceId?.stringValue,
+            coverImage: fields.coverImage?.stringValue,
+            category: fields.category?.stringValue,
+            tags: fields.tags?.arrayValue?.values?.map(v => v.stringValue) || [],
+            isActive: fields.isActive?.booleanValue ?? true,
+            isFeatured: fields.isFeatured?.booleanValue ?? false,
+            downloadUrl: fields.downloadUrl?.stringValue,
+            contentUrl: fields.contentUrl?.stringValue,
+            duration: parseInt(fields.duration?.integerValue || "0", 10),
+            level: fields.level?.stringValue,
+            totalUnits: parseInt(fields.totalUnits?.integerValue || "0", 10),
+            previewAvailable: fields.previewAvailable?.booleanValue ?? false,
+            freeUnits: parseInt(fields.freeUnits?.integerValue || "0", 10),
+            creditsReward: parseInt(fields.creditsReward?.integerValue || "0", 10),
+            createdAt: fields.createdAt?.timestampValue,
+            updatedAt: fields.updatedAt?.timestampValue
+          };
+        });
+        
+        // Apply filters
+        if (type) products = products.filter(p => p.type === type);
+        if (category) products = products.filter(p => p.category === category);
+        if (active !== null) products = products.filter(p => p.isActive === (active === 'true'));
+        if (featured !== null) products = products.filter(p => p.isFeatured === (featured === 'true'));
+        
+        return json({ ok: true, products, count: products.length }, 200, request);
+      } catch (e) {
+        console.error('❌ Products list error:', e);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+    
+    // POST /api/products?admin_key=xxx - Create new product
+    if (url.pathname === "/api/products" && request.method === "POST") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const body = await request.json();
+        
+        // Generate product ID
+        const productId = body.id || `product_${Date.now()}`;
+        const now = new Date().toISOString();
+        
+        // Build Firestore document
+        const firestoreDoc = {
+          fields: {
+            id: { stringValue: productId },
+            type: { stringValue: body.type || 'tool' },
+            title: { stringValue: body.title || 'Untitled Product' },
+            description: { stringValue: body.description || '' },
+            price: { doubleValue: parseFloat(body.price || 0) },
+            currency: { stringValue: body.currency || 'USD' },
+            stripeProductId: { stringValue: body.stripeProductId || '' },
+            stripePriceId: { stringValue: body.stripePriceId || '' },
+            coverImage: { stringValue: body.coverImage || '' },
+            category: { stringValue: body.category || '' },
+            tags: { arrayValue: { values: (body.tags || []).map(t => ({ stringValue: t })) } },
+            isActive: { booleanValue: body.isActive ?? true },
+            isFeatured: { booleanValue: body.isFeatured ?? false },
+            downloadUrl: { stringValue: body.downloadUrl || '' },
+            contentUrl: { stringValue: body.contentUrl || '' },
+            duration: { integerValue: String(body.duration || 0) },
+            level: { stringValue: body.level || 'beginner' },
+            totalUnits: { integerValue: String(body.totalUnits || 0) },
+            previewAvailable: { booleanValue: body.previewAvailable ?? false },
+            freeUnits: { integerValue: String(body.freeUnits || 0) },
+            creditsReward: { integerValue: String(body.creditsReward || 0) },
+            createdAt: { timestampValue: now },
+            updatedAt: { timestampValue: now }
+          }
+        };
+        
+        // Create document in Firestore
+        const createUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/products?documentId=${productId}`;
+        const response = await fetch(createUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(firestoreDoc)
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Firestore create failed: ${errorText}`);
+        }
+        
+        const created = await response.json();
+        console.log('✅ Product created:', productId);
+        
+        return json({ ok: true, productId, message: 'Product created successfully' }, 201, request);
+      } catch (e) {
+        console.error('❌ Product create error:', e);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+    
+    // PATCH /api/products/{id}?admin_key=xxx - Update product
+    if (url.pathname.startsWith("/api/products/") && request.method === "PATCH") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const productId = url.pathname.split('/').pop();
+        const body = await request.json();
+        
+        const now = new Date().toISOString();
+        
+        // Build update mask and fields
+        const updateFields = {};
+        const updateMask = [];
+        
+        if (body.title !== undefined) {
+          updateFields.title = { stringValue: body.title };
+          updateMask.push('title');
+        }
+        if (body.description !== undefined) {
+          updateFields.description = { stringValue: body.description };
+          updateMask.push('description');
+        }
+        if (body.price !== undefined) {
+          updateFields.price = { doubleValue: parseFloat(body.price) };
+          updateMask.push('price');
+        }
+        if (body.coverImage !== undefined) {
+          updateFields.coverImage = { stringValue: body.coverImage };
+          updateMask.push('coverImage');
+        }
+        if (body.isActive !== undefined) {
+          updateFields.isActive = { booleanValue: body.isActive };
+          updateMask.push('isActive');
+        }
+        if (body.isFeatured !== undefined) {
+          updateFields.isFeatured = { booleanValue: body.isFeatured };
+          updateMask.push('isFeatured');
+        }
+        if (body.stripeProductId !== undefined) {
+          updateFields.stripeProductId = { stringValue: body.stripeProductId };
+          updateMask.push('stripeProductId');
+        }
+        if (body.stripePriceId !== undefined) {
+          updateFields.stripePriceId = { stringValue: body.stripePriceId };
+          updateMask.push('stripePriceId');
+        }
+        if (body.downloadUrl !== undefined) {
+          updateFields.downloadUrl = { stringValue: body.downloadUrl };
+          updateMask.push('downloadUrl');
+        }
+        if (body.contentUrl !== undefined) {
+          updateFields.contentUrl = { stringValue: body.contentUrl };
+          updateMask.push('contentUrl');
+        }
+        
+        updateFields.updatedAt = { timestampValue: now };
+        updateMask.push('updatedAt');
+        
+        const updateDoc = { fields: updateFields };
+        const updateUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/products/${productId}?updateMask.fieldPaths=${updateMask.join('&updateMask.fieldPaths=')}`;
+        
+        const response = await fetch(updateUrl, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateDoc)
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Firestore update failed: ${errorText}`);
+        }
+        
+        console.log('✅ Product updated:', productId);
+        return json({ ok: true, productId, message: 'Product updated successfully' }, 200, request);
+      } catch (e) {
+        console.error('❌ Product update error:', e);
+        return json({ ok: false, error: String(e.message) }, 500, request);
+      }
+    }
+    
+    // DELETE /api/products/{id}?admin_key=xxx - Delete product
+    if (url.pathname.startsWith("/api/products/") && request.method === "DELETE") {
+      if (!requireAdminKey()) {
+        return json({ ok: false, error: 'Unauthorized: invalid or missing admin_key' }, 401, request);
+      }
+      try {
+        const projectId = env.GCP_PROJECT_ID;
+        const token = await getGcpAccessToken(env);
+        const productId = url.pathname.split('/').pop();
+        
+        const deleteUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/products/${productId}`;
+        const response = await fetch(deleteUrl, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!response.ok && response.status !== 404) {
+          const errorText = await response.text();
+          throw new Error(`Firestore delete failed: ${errorText}`);
+        }
+        
+        console.log('✅ Product deleted:', productId);
+        return json({ ok: true, productId, message: 'Product deleted successfully' }, 200, request);
+      } catch (e) {
+        console.error('❌ Product delete error:', e);
         return json({ ok: false, error: String(e.message) }, 500, request);
       }
     }

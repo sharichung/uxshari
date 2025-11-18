@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>產品管理 | UXShari Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/general.css">
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    
+    .admin-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .product-form {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .product-list-item {
+      background: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+    
+    .product-list-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-thumbnail {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+    }
+    
+    .status-indicator.active {
+      background: #10b981;
+    }
+    
+    .status-indicator.inactive {
+      background: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <div class="container">
+      <h1><i class="fas fa-tools me-2"></i>產品管理系統</h1>
+      <p class="mb-0">新增、編輯和管理您的數位產品</p>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    
+    <!-- 管理員驗證 -->
+    <div id="auth-section" class="product-form mb-4">
+      <h4 class="mb-3"><i class="fas fa-key me-2"></i>管理員驗證</h4>
+      <div class="row g-3">
+        <div class="col-md-10">
+          <input type="password" class="form-control" id="admin-key-input" 
+                 placeholder="請輸入管理員密鑰 (Admin Key)">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" id="verify-btn">
+            <i class="fas fa-unlock me-2"></i>驗證
+          </button>
+        </div>
+      </div>
+      <div class="alert alert-info mt-3 mb-0 small">
+        <i class="fas fa-info-circle me-2"></i>
+        請使用您的 ADMIN_KEY 進行驗證後才能管理產品
+      </div>
+    </div>
+
+    <!-- 主要管理區域（驗證後顯示） -->
+    <div id="admin-area" class="d-none">
+      
+      <!-- 新增/編輯產品表單 -->
+      <div class="product-form mb-4">
+        <h4 class="mb-3">
+          <i class="fas fa-plus-circle me-2"></i>
+          <span id="form-title">新增產品</span>
+        </h4>
+        
+        <form id="product-form">
+          <input type="hidden" id="product-id">
+          
+          <div class="row g-3">
+            <!-- 產品類型 -->
+            <div class="col-md-6">
+              <label class="form-label">產品類型 *</label>
+              <select class="form-select" id="product-type" required>
+                <option value="tool">🧰 工具 (Tool)</option>
+                <option value="course">📚 課程 (Course)</option>
+                <option value="challenge">🎯 挑戰包 (Challenge)</option>
+                <option value="resource">📦 資源庫 (Resource)</option>
+              </select>
+            </div>
+
+            <!-- 產品名稱 -->
+            <div class="col-md-6">
+              <label class="form-label">產品名稱 *</label>
+              <input type="text" class="form-control" id="product-title" required 
+                     placeholder="例如：UX 線框圖模板包">
+            </div>
+
+            <!-- 產品描述 -->
+            <div class="col-12">
+              <label class="form-label">產品描述 *</label>
+              <textarea class="form-control" id="product-description" rows="3" required
+                        placeholder="簡短描述產品內容與價值"></textarea>
+            </div>
+
+            <!-- 價格 -->
+            <div class="col-md-4">
+              <label class="form-label">價格 (USD) *</label>
+              <input type="number" class="form-control" id="product-price" 
+                     min="0" step="0.01" required placeholder="9.00">
+            </div>
+
+            <!-- 類別 -->
+            <div class="col-md-4">
+              <label class="form-label">類別</label>
+              <input type="text" class="form-control" id="product-category" 
+                     placeholder="例如：wireframe, persona">
+            </div>
+
+            <!-- 難度 -->
+            <div class="col-md-4">
+              <label class="form-label">難度</label>
+              <select class="form-select" id="product-level">
+                <option value="beginner">初學者</option>
+                <option value="intermediate">中級</option>
+                <option value="advanced">進階</option>
+              </select>
+            </div>
+
+            <!-- Stripe Product ID -->
+            <div class="col-md-6">
+              <label class="form-label">Stripe Product ID</label>
+              <input type="text" class="form-control" id="stripe-product-id" 
+                     placeholder="prod_xxxxx">
+              <small class="text-muted">從 Stripe Dashboard 複製</small>
+            </div>
+
+            <!-- Stripe Price ID -->
+            <div class="col-md-6">
+              <label class="form-label">Stripe Price ID *</label>
+              <input type="text" class="form-control" id="stripe-price-id" required
+                     placeholder="price_xxxxx">
+              <small class="text-muted">必填，用於建立付款連結</small>
+            </div>
+
+            <!-- 封面圖 URL -->
+            <div class="col-12">
+              <label class="form-label">封面圖 URL</label>
+              <input type="url" class="form-control" id="cover-image" 
+                     placeholder="https://...">
+            </div>
+
+            <!-- 下載/內容連結 -->
+            <div class="col-md-6">
+              <label class="form-label">下載連結 (工具/資源)</label>
+              <input type="url" class="form-control" id="download-url" 
+                     placeholder="https://...">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">內容頁連結 (課程/挑戰)</label>
+              <input type="url" class="form-control" id="content-url" 
+                     placeholder="https://...">
+            </div>
+
+            <!-- 標籤 -->
+            <div class="col-12">
+              <label class="form-label">標籤 (逗號分隔)</label>
+              <input type="text" class="form-control" id="product-tags" 
+                     placeholder="beginner, template, figma">
+            </div>
+
+            <!-- 課程相關 -->
+            <div class="col-md-4">
+              <label class="form-label">總單元數 (課程)</label>
+              <input type="number" class="form-control" id="total-units" 
+                     min="0" value="0">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">免費單元數</label>
+              <input type="number" class="form-control" id="free-units" 
+                     min="0" value="0">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">完成獎勵點數</label>
+              <input type="number" class="form-control" id="credits-reward" 
+                     min="0" value="0">
+            </div>
+
+            <!-- 狀態開關 -->
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="is-active" checked>
+                <label class="form-check-label" for="is-active">
+                  上架狀態
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="is-featured">
+                <label class="form-check-label" for="is-featured">
+                  精選推薦
+                </label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="preview-available">
+                <label class="form-check-label" for="preview-available">
+                  支援預覽
+                </label>
+              </div>
+            </div>
+
+            <!-- 提交按鈕 -->
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-lg me-2">
+                <i class="fas fa-save me-2"></i>
+                <span id="submit-btn-text">建立產品</span>
+              </button>
+              <button type="button" class="btn btn-outline-secondary" id="cancel-btn">
+                取消
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- 產品列表 -->
+      <div class="product-form">
+        <h4 class="mb-3">
+          <i class="fas fa-list me-2"></i>
+          現有產品 (<span id="products-count">0</span>)
+        </h4>
+        
+        <div class="mb-3">
+          <input type="text" class="form-control" id="search-products" 
+                 placeholder="🔍 搜尋產品...">
+        </div>
+
+        <div id="products-list">
+          <div class="text-center py-5 text-muted">
+            <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
+            <p>載入中...</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    const WORKER_BASE = 'https://uxshari-workers.uxshari.workers.dev';
+    let adminKey = '';
+    let allProducts = [];
+    let editingProductId = null;
+
+    // 驗證管理員
+    document.getElementById('verify-btn').addEventListener('click', async () => {
+      const key = document.getElementById('admin-key-input').value.trim();
+      if (!key) {
+        alert('請輸入管理員密鑰');
+        return;
+      }
+
+      try {
+        // 測試 API 呼叫驗證
+        const response = await fetch(`${WORKER_BASE}/api/products?admin_key=${encodeURIComponent(key)}`);
+        
+        if (response.ok) {
+          adminKey = key;
+          document.getElementById('auth-section').classList.add('d-none');
+          document.getElementById('admin-area').classList.remove('d-none');
+          loadProducts();
+        } else {
+          alert('管理員密鑰錯誤');
+        }
+      } catch (error) {
+        alert('驗證失敗：' + error.message);
+      }
+    });
+
+    // 載入產品列表
+    async function loadProducts() {
+      try {
+        const response = await fetch(`${WORKER_BASE}/api/products`);
+        const data = await response.json();
+        
+        if (data.ok) {
+          allProducts = data.products;
+          renderProducts();
+        }
+      } catch (error) {
+        console.error('載入產品失敗:', error);
+        document.getElementById('products-list').innerHTML = `
+          <div class="alert alert-danger">
+            載入失敗：${error.message}
+          </div>
+        `;
+      }
+    }
+
+    // 渲染產品列表
+    function renderProducts() {
+      const searchTerm = document.getElementById('search-products').value.toLowerCase();
+      const filtered = allProducts.filter(p => 
+        p.title.toLowerCase().includes(searchTerm) ||
+        p.description.toLowerCase().includes(searchTerm) ||
+        p.type.includes(searchTerm)
+      );
+
+      document.getElementById('products-count').textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        document.getElementById('products-list').innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <i class="fas fa-box-open fa-3x mb-3"></i>
+            <p>沒有產品</p>
+          </div>
+        `;
+        return;
+      }
+
+      document.getElementById('products-list').innerHTML = filtered.map(p => `
+        <div class="product-list-item">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img src="${p.coverImage || '/assets/images/placeholder.jpg'}" 
+                   class="product-thumbnail" alt="${p.title}">
+            </div>
+            <div class="col">
+              <div class="d-flex align-items-center mb-1">
+                <span class="badge bg-primary me-2">${p.type}</span>
+                <span class="status-indicator ${p.isActive ? 'active' : 'inactive'}"></span>
+                <span class="small text-muted">${p.isActive ? '上架中' : '已下架'}</span>
+                ${p.isFeatured ? '<span class="badge bg-warning ms-2">精選</span>' : ''}
+              </div>
+              <h5 class="mb-1">${p.title}</h5>
+              <p class="text-muted small mb-2">${p.description}</p>
+              <div class="small text-muted">
+                <span class="me-3">💰 $${p.price}</span>
+                <span class="me-3">📦 ${p.category || 'N/A'}</span>
+                <span>🆔 ${p.id}</span>
+              </div>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-sm btn-outline-primary me-2" onclick="editProduct('${p.id}')">
+                <i class="fas fa-edit"></i> 編輯
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct('${p.id}', '${p.title}')">
+                <i class="fas fa-trash"></i> 刪除
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 搜尋
+    document.getElementById('search-products').addEventListener('input', renderProducts);
+
+    // 新增產品
+    document.getElementById('product-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const productData = {
+        type: document.getElementById('product-type').value,
+        title: document.getElementById('product-title').value,
+        description: document.getElementById('product-description').value,
+        price: parseFloat(document.getElementById('product-price').value),
+        category: document.getElementById('product-category').value,
+        level: document.getElementById('product-level').value,
+        stripeProductId: document.getElementById('stripe-product-id').value,
+        stripePriceId: document.getElementById('stripe-price-id').value,
+        coverImage: document.getElementById('cover-image').value,
+        downloadUrl: document.getElementById('download-url').value,
+        contentUrl: document.getElementById('content-url').value,
+        tags: document.getElementById('product-tags').value.split(',').map(t => t.trim()).filter(t => t),
+        totalUnits: parseInt(document.getElementById('total-units').value) || 0,
+        freeUnits: parseInt(document.getElementById('free-units').value) || 0,
+        creditsReward: parseInt(document.getElementById('credits-reward').value) || 0,
+        isActive: document.getElementById('is-active').checked,
+        isFeatured: document.getElementById('is-featured').checked,
+        previewAvailable: document.getElementById('preview-available').checked
+      };
+
+      try {
+        const url = editingProductId 
+          ? `${WORKER_BASE}/api/products/${editingProductId}?admin_key=${encodeURIComponent(adminKey)}`
+          : `${WORKER_BASE}/api/products?admin_key=${encodeURIComponent(adminKey)}`;
+        
+        const method = editingProductId ? 'PATCH' : 'POST';
+
+        const response = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(productData)
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          alert(editingProductId ? '產品已更新！' : '產品已建立！');
+          cancelEdit();
+          loadProducts();
+        } else {
+          alert('操作失敗：' + result.error);
+        }
+      } catch (error) {
+        alert('錯誤：' + error.message);
+      }
+    });
+
+    // 編輯產品
+    window.editProduct = function(productId) {
+      const product = allProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      editingProductId = productId;
+      document.getElementById('form-title').textContent = '編輯產品';
+      document.getElementById('submit-btn-text').textContent = '更新產品';
+
+      document.getElementById('product-type').value = product.type;
+      document.getElementById('product-title').value = product.title;
+      document.getElementById('product-description').value = product.description;
+      document.getElementById('product-price').value = product.price;
+      document.getElementById('product-category').value = product.category || '';
+      document.getElementById('product-level').value = product.level || 'beginner';
+      document.getElementById('stripe-product-id').value = product.stripeProductId || '';
+      document.getElementById('stripe-price-id').value = product.stripePriceId || '';
+      document.getElementById('cover-image').value = product.coverImage || '';
+      document.getElementById('download-url').value = product.downloadUrl || '';
+      document.getElementById('content-url').value = product.contentUrl || '';
+      document.getElementById('product-tags').value = (product.tags || []).join(', ');
+      document.getElementById('total-units').value = product.totalUnits || 0;
+      document.getElementById('free-units').value = product.freeUnits || 0;
+      document.getElementById('credits-reward').value = product.creditsReward || 0;
+      document.getElementById('is-active').checked = product.isActive ?? true;
+      document.getElementById('is-featured').checked = product.isFeatured ?? false;
+      document.getElementById('preview-available').checked = product.previewAvailable ?? false;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // 刪除產品
+    window.deleteProduct = async function(productId, title) {
+      if (!confirm(`確定要刪除「${title}」嗎？此操作無法復原！`)) return;
+
+      try {
+        const response = await fetch(
+          `${WORKER_BASE}/api/products/${productId}?admin_key=${encodeURIComponent(adminKey)}`,
+          { method: 'DELETE' }
+        );
+
+        const result = await response.json();
+
+        if (result.ok) {
+          alert('產品已刪除！');
+          loadProducts();
+        } else {
+          alert('刪除失敗：' + result.error);
+        }
+      } catch (error) {
+        alert('錯誤：' + error.message);
+      }
+    };
+
+    // 取消編輯
+    document.getElementById('cancel-btn').addEventListener('click', cancelEdit);
+
+    function cancelEdit() {
+      editingProductId = null;
+      document.getElementById('form-title').textContent = '新增產品';
+      document.getElementById('submit-btn-text').textContent = '建立產品';
+      document.getElementById('product-form').reset();
+      document.getElementById('is-active').checked = true;
+    }
+  </script>
+
+</body>
+</html>
