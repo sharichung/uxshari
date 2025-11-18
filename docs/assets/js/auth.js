@@ -4,10 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
         apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
         authDomain: "uxshari-670fd.firebaseapp.com",
         projectId: "uxshari-670fd",
+        storageBucket: "uxshari-670fd.appspot.com",
         appId: "1:907540538791:web:ed98ef4ba51c96de43c282",
     };
     // 初始化 Firebase
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
     const db = firebase.firestore();
 
