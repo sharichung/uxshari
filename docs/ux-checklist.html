@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UX 痛點觀察清單 | UXShari 會員工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/general.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 0 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .checklist-card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .checklist-card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .checklist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .checklist-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2d3748;
+      flex-grow: 1;
+      margin-right: 1rem;
+    }
+
+    .checklist-title input {
+      border: none;
+      background: transparent;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      width: 100%;
+    }
+
+    .checklist-title input:focus {
+      outline: none;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .category-section {
+      margin-bottom: 2rem;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      border-radius: 0.5rem;
+    }
+
+    .category-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-right: 1rem;
+    }
+
+    .category-icon.process {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+
+    .category-icon.interface {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .category-icon.context {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+    }
+
+    .category-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+      transition: background 0.2s;
+    }
+
+    .checklist-item:hover {
+      background: #f9fafb;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-right: 1rem;
+      margin-top: 0.125rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checklist-item label {
+      cursor: pointer;
+      margin: 0;
+      color: #4b5563;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .checklist-item input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    .progress-bar-wrapper {
+      background: #e5e7eb;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+      transition: width 0.3s ease;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .limit-notice {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 4px solid #f59e0b;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .upgrade-cta {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 1rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .checklist-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #e5e7eb;
+      }
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="text-center">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">載入中...</span>
+      </div>
+      <p class="mt-3 text-muted">載入您的清單...</p>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <div id="navbar"><nav class="navbar navbar-expand-lg">
+    <div class="container navbar-container">
+
+      <!-- Logo + Toggler -->
+      <div class="logo-container d-flex align-items-center justify-content-between">
+        <a href="index.html" class="logo futuristic-hover navbar-brand d-flex align-items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1017.99 1024" width="24" height="24" class="me-2"
+            alt="UXShari UX 學習平台 Logo">
+            <path
+              d="m662.99 0 24 35.99c-58.06 30.18-115.56 68.24-163.52 112.99-70.02 65.33-116.87 138.09-103.04 238.01 8.19 59.16 31.31 115.54 56.58 169.01l17.19-33.29c49.23-84.32 134.1-142.53 225.8-172.69-17.41 20.48-33.56 42.23-46.8 65.69-32.86 58.28-50.98 125.62-24.69 190.28 60.95 149.87 255.97 98.73 368.99 47.02l.49 1.48C920.22 783.53 765.07 907.6 592 860.5c-72.54-19.74-122.63-68.39-136.68-143.32-1.57-8.36-1.84-16.93-3.81-25.18L24.99 1024h-2L0 989.02C97.58 936.38 191.59 843.53 221.49 734c30.92-113.28-26.26-241.7-88.68-334.31-6.46-9.59-14.29-18.74-19.81-28.67L660.99 0z"
+              style="fill:#ff9500" />
+          </svg>
+          UX Shari
+        </a>
+
+        <!-- Bootstrap 5 toggler button -->
+        <button class="navbar-toggler mobile-menu-toggle" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 6H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 18H21" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Links -->
+<div class="collapse navbar-collapse nav-links" id="navbarNav">
+  <ul class="navbar-nav ms-md-auto d-flex gap-3">
+    <li class="nav-item">
+      <a href="#courses" class="nav-link">課程與產品</a>
+    </li>
+    <li class="nav-item">
+      <a href="#members" class="nav-link">會員專區</a>
+    </li>
+    <li class="nav-item">
+      <a href="#instructor" class="nav-link">導師介紹</a>
+    </li>
+    <li class="nav-item">
+      <a href="#resources" class="nav-link">學習資源</a>
+    </li>
+    <li class="nav-item">
+      <a href="#testimonials" class="nav-link">學員心得</a>
+    </li>
+    <li class="nav-item">
+      <a href="#faq" class="nav-link">常見問題</a>
+    </li>
+    <li class="nav-item">
+      <a href="#auth-wrapper" class="nav-link cta px-3">登入 / 註冊</a>
+    </li>
+  </ul>
+</div>
+
+
+    </div>
+  </nav></div>
+
+  <!-- Hero Section -->
+  <section class="hero-section no-print">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <h1 class="display-5 fw-bold mb-3">
+            <i class="fas fa-clipboard-check me-3"></i>
+            UX 痛點觀察清單
+          </h1>
+          <p class="lead mb-0">
+            系統化觀察與記錄使用者體驗痛點，讓您的 UX 研究更有條理
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <div class="d-flex flex-column gap-2">
+            <span class="badge bg-light text-dark fs-6">
+              <i class="fas fa-user me-2"></i>
+              <span id="user-status">免費會員</span>
+            </span>
+            <span class="badge bg-light text-dark fs-6">
+              <i class="fas fa-list me-2"></i>
+              已建立清單：<strong id="checklist-count">0</strong> / <span id="checklist-limit">3</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container pb-5">
+
+    <!-- Limit Notice -->
+    <div id="limit-notice" class="limit-notice d-none">
+      <div class="d-flex align-items-center">
+        <i class="fas fa-exclamation-triangle fa-2x text-warning me-3"></i>
+        <div class="flex-grow-1">
+          <h6 class="mb-1 fw-bold">已達免費會員清單上限</h6>
+          <p class="mb-0 small">升級到付費會員以建立無限數量的清單，並解鎖更多進階功能</p>
+        </div>
+        <a href="/pricing.html" class="btn btn-warning btn-sm ms-3 flex-shrink-0">
+          <i class="fas fa-crown me-2"></i>立即升級
+        </a>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+      <h2 class="h4 mb-0">我的清單</h2>
+      <button id="create-checklist-btn" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>建立新清單
+      </button>
+    </div>
+
+    <!-- Checklists Container -->
+    <div id="checklists-container">
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <i class="fas fa-clipboard-list fa-4x text-muted mb-4"></i>
+        <h4 class="mb-3">還沒有清單</h4>
+        <p class="text-muted mb-4">建立您的第一張 UX 痛點觀察清單，開始系統化記錄專案中的使用者體驗問題</p>
+        <button class="btn btn-primary btn-lg" onclick="document.getElementById('create-checklist-btn').click()">
+          <i class="fas fa-plus me-2"></i>建立第一張清單
+        </button>
+      </div>
+    </div>
+
+    <!-- Upgrade CTA -->
+    <div class="upgrade-cta no-print">
+      <i class="fas fa-graduation-cap fa-3x mb-3"></i>
+      <h3 class="mb-3">想要更深入的 UX 痛點拆解方法？</h3>
+      <p class="mb-4 lead">學習如何系統化分析使用者痛點、建立同理心地圖、設計解決方案</p>
+      <a href="/pricing.html" class="btn btn-light btn-lg me-3">
+        <i class="fas fa-book-open me-2"></i>查看完整課程
+      </a>
+      <a href="/dashboard.html" class="btn btn-outline-light btn-lg">
+        <i class="fas fa-th-large me-2"></i>返回儀表板
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCZs2a35ENke7G8K7pzAMKCY3HOoi-IUcU",
+      authDomain: "uxshari-670fd.firebaseapp.com",
+      projectId: "uxshari-670fd",
+      appId: "1:907540538791:web:ed98ef4ba51c96de43c282"
+    };
+
+    if (!getApps().length) initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+
+    // Default Checklist Template
+    const checklistTemplate = {
+      process: [
+        { id: 'p1', text: '註冊/登入流程是否過於複雜或步驟過多？', checked: false },
+        { id: 'p2', text: '使用者能否清楚理解下一步該做什麼？', checked: false },
+        { id: 'p3', text: '完成核心任務需要經過幾個步驟？是否可以簡化？', checked: false },
+        { id: 'p4', text: '錯誤處理機制是否明確？使用者知道如何修正錯誤嗎？', checked: false },
+        { id: 'p5', text: '是否有不必要的確認步驟或重複操作？', checked: false }
+      ],
+      interface: [
+        { id: 'i1', text: 'CTA 按鈕是否足夠明顯？位置是否符合使用者預期？', checked: false },
+        { id: 'i2', text: '導覽列是否清晰？使用者能否快速找到目標功能？', checked: false },
+        { id: 'i3', text: '表單設計是否友善？欄位標籤是否清楚？', checked: false },
+        { id: 'i4', text: '視覺層級是否合理？重要資訊是否突出？', checked: false },
+        { id: 'i5', text: '行動裝置上的可點擊區域是否夠大（至少 44×44px）？', checked: false }
+      ],
+      context: [
+        { id: 'c1', text: '使用情境是否符合目標使用者的真實需求？', checked: false },
+        { id: 'c2', text: '是否考慮到不同裝置（手機/平板/桌機）的使用情境？', checked: false },
+        { id: 'c3', text: '首次使用者是否能理解產品價值與使用方法？', checked: false },
+        { id: 'c4', text: '是否有考慮到網路不穩定或載入緩慢的情況？', checked: false },
+        { id: 'c5', text: '多語系使用者是否能順暢使用？（中英文切換、文字長度）', checked: false }
+      ]
+    };
+
+    let userEmail = '';
+    let userChecklists = [];
+    let isPaid = false;
+    const FREE_LIMIT = 3;
+
+    // UI Elements
+    const elements = {
+      loading: document.getElementById('loading-overlay'),
+      emptyState: document.getElementById('empty-state'),
+      container: document.getElementById('checklists-container'),
+      createBtn: document.getElementById('create-checklist-btn'),
+      userStatus: document.getElementById('user-status'),
+      checklistCount: document.getElementById('checklist-count'),
+      checklistLimit: document.getElementById('checklist-limit'),
+      limitNotice: document.getElementById('limit-notice')
+    };
+
+    // Hide Loading
+    const hideLoading = () => elements.loading.style.display = 'none';
+
+    // Load User Data
+    async function loadUserData(email) {
+      try {
+        const docRef = doc(db, 'users_by_email', encEmail(email));
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          isPaid = data.isPaid || false;
+          userChecklists = data.uxChecklists || [];
+          
+          elements.userStatus.textContent = isPaid ? '付費會員' : '免費會員';
+          elements.checklistLimit.textContent = isPaid ? '∞' : FREE_LIMIT;
+          
+          updateUI();
+        } else {
+          // Initialize user document with empty checklists
+          await setDoc(docRef, {
+            email,
+            uxChecklists: []
+          }, { merge: true });
+          userChecklists = [];
+          updateUI();
+        }
+      } catch (error) {
+        console.error('載入資料錯誤:', error);
+        alert('載入資料失敗，請重新整理頁面');
+      }
+    }
+
+    // Update UI
+    function updateUI() {
+      elements.checklistCount.textContent = userChecklists.length;
+
+      // Check limit
+      const reachedLimit = !isPaid && userChecklists.length >= FREE_LIMIT;
+      elements.createBtn.disabled = reachedLimit;
+      elements.limitNotice.classList.toggle('d-none', !reachedLimit);
+
+      // Show/Hide empty state
+      if (userChecklists.length === 0) {
+        elements.emptyState.style.display = 'block';
+        return;
+      } else {
+        elements.emptyState.style.display = 'none';
+      }
+
+      // Render checklists
+      const checklistsHtml = userChecklists.map((checklist, index) => 
+        renderChecklist(checklist, index)
+      ).join('');
+
+      elements.container.innerHTML = checklistsHtml;
+
+      // Attach event listeners
+      attachEventListeners();
+    }
+
+    // Render Single Checklist
+    function renderChecklist(checklist, index) {
+      const totalItems = checklist.items.process.length + checklist.items.interface.length + checklist.items.context.length;
+      const checkedItems = [
+        ...checklist.items.process,
+        ...checklist.items.interface,
+        ...checklist.items.context
+      ].filter(item => item.checked).length;
+      const progress = Math.round((checkedItems / totalItems) * 100);
+
+      return `
+        <div class="checklist-card" data-index="${index}">
+          <div class="checklist-header">
+            <div class="checklist-title">
+              <input type="text" value="${checklist.name}" 
+                     class="checklist-name-input" 
+                     data-index="${index}"
+                     placeholder="清單名稱">
+            </div>
+            <div class="action-buttons no-print">
+              <button class="btn btn-outline-primary btn-icon" 
+                      onclick="window.duplicateChecklist(${index})" 
+                      title="複製清單">
+                <i class="fas fa-copy"></i>
+              </button>
+              <button class="btn btn-outline-success btn-icon" 
+                      onclick="window.print()" 
+                      title="列印清單">
+                <i class="fas fa-print"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-icon" 
+                      onclick="window.deleteChecklist(${index})" 
+                      title="刪除清單">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress -->
+          <div class="mb-3">
+            <div class="d-flex justify-content-between small text-muted mb-1">
+              <span>完成進度</span>
+              <span>${checkedItems}/${totalItems} 項 (${progress}%)</span>
+            </div>
+            <div class="progress-bar-wrapper">
+              <div class="progress-bar-fill" style="width: ${progress}%"></div>
+            </div>
+          </div>
+
+          <!-- Process Category -->
+          <div class="category-section">
+            <div class="category-header">
+              <div class="category-icon process">
+                <i class="fas fa-route"></i>
+              </div>
+              <h3 class="category-title">流程痛點</h3>
+            </div>
+            ${checklist.items.process.map(item => `
+              <div class="checklist-item">
+                <input type="checkbox" 
+                       id="check-${index}-${item.id}" 
+                       ${item.checked ? 'checked' : ''}
+                       onchange="window.toggleCheckbox(${index}, 'process', '${item.id}')">
+                <label for="check-${index}-${item.id}">${item.text}</label>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Interface Category -->
+          <div class="category-section">
+            <div class="category-header">
+              <div class="category-icon interface">
+                <i class="fas fa-window-maximize"></i>
+              </div>
+              <h3 class="category-title">介面痛點</h3>
+            </div>
+            ${checklist.items.interface.map(item => `
+              <div class="checklist-item">
+                <input type="checkbox" 
+                       id="check-${index}-${item.id}" 
+                       ${item.checked ? 'checked' : ''}
+                       onchange="window.toggleCheckbox(${index}, 'interface', '${item.id}')">
+                <label for="check-${index}-${item.id}">${item.text}</label>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Context Category -->
+          <div class="category-section">
+            <div class="category-header">
+              <div class="category-icon context">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3 class="category-title">情境痛點</h3>
+            </div>
+            ${checklist.items.context.map(item => `
+              <div class="checklist-item">
+                <input type="checkbox" 
+                       id="check-${index}-${item.id}" 
+                       ${item.checked ? 'checked' : ''}
+                       onchange="window.toggleCheckbox(${index}, 'context', '${item.id}')">
+                <label for="check-${index}-${item.id}">${item.text}</label>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="small text-muted mt-3">
+            <i class="fas fa-clock me-1"></i>
+            最後更新：${new Date(checklist.updatedAt).toLocaleString('zh-TW')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Create New Checklist
+    elements.createBtn.addEventListener('click', async () => {
+      if (!isPaid && userChecklists.length >= FREE_LIMIT) {
+        alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
+        return;
+      }
+
+      const newChecklist = {
+        id: Date.now().toString(),
+        name: `專案清單 ${userChecklists.length + 1}`,
+        items: JSON.parse(JSON.stringify(checklistTemplate)),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      userChecklists.push(newChecklist);
+      await saveToFirestore();
+      updateUI();
+    });
+
+    // Toggle Checkbox
+    window.toggleCheckbox = async (checklistIndex, category, itemId) => {
+      const item = userChecklists[checklistIndex].items[category].find(i => i.id === itemId);
+      if (item) {
+        item.checked = !item.checked;
+        userChecklists[checklistIndex].updatedAt = new Date().toISOString();
+        await saveToFirestore();
+        updateUI();
+      }
+    };
+
+    // Delete Checklist
+    window.deleteChecklist = async (index) => {
+      if (!confirm('確定要刪除此清單嗎？此操作無法復原。')) return;
+      
+      userChecklists.splice(index, 1);
+      await saveToFirestore();
+      updateUI();
+    };
+
+    // Duplicate Checklist
+    window.duplicateChecklist = async (index) => {
+      if (!isPaid && userChecklists.length >= FREE_LIMIT) {
+        alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
+        return;
+      }
+
+      const original = userChecklists[index];
+      const duplicate = JSON.parse(JSON.stringify(original));
+      duplicate.id = Date.now().toString();
+      duplicate.name = `${original.name} (副本)`;
+      duplicate.createdAt = new Date().toISOString();
+      duplicate.updatedAt = new Date().toISOString();
+
+      userChecklists.push(duplicate);
+      await saveToFirestore();
+      updateUI();
+    };
+
+    // Attach Event Listeners
+    function attachEventListeners() {
+      // Name input listeners
+      document.querySelectorAll('.checklist-name-input').forEach(input => {
+        input.addEventListener('blur', async (e) => {
+          const index = parseInt(e.target.dataset.index);
+          const newName = e.target.value.trim() || `專案清單 ${index + 1}`;
+          userChecklists[index].name = newName;
+          userChecklists[index].updatedAt = new Date().toISOString();
+          await saveToFirestore();
+        });
+      });
+    }
+
+    // Save to Firestore
+    async function saveToFirestore() {
+      try {
+        const docRef = doc(db, 'users_by_email', encEmail(userEmail));
+        await updateDoc(docRef, {
+          uxChecklists: userChecklists
+        });
+      } catch (error) {
+        console.error('儲存錯誤:', error);
+        alert('儲存失敗，請重試');
+      }
+    }
+
+    // Auth State
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        hideLoading();
+        window.location.href = '/login.html';
+        return;
+      }
+
+      userEmail = user.email;
+      await loadUserData(user.email);
+      hideLoading();
+    });
+  </script>
+
+  <!--Start of Tawk.to Script-->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6838fcda70b16107011a0baa/1isf9ndi1';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  </script>
+  <!--End of Tawk.to Script-->
+
+</body>
+</html>
