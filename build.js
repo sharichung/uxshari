@@ -18,7 +18,11 @@ const pageConfig = {
 const viewFiles = fs.readdirSync("src/views").filter(file => file.endsWith(".html"));
 
 viewFiles.forEach(file => {
-    const pageType = pageConfig[file] || "funnel"; // 預設為 funnel
+    let html = fs.readFileSync(path.join("src/views", file), "utf-8");
+    
+    // ✅ 檢查 HTML 中的 data-navbar-type 屬性
+    const dataNavbarTypeMatch = html.match(/<body[^>]*data-navbar-type=["']([^"']+)["']/);
+    const pageType = dataNavbarTypeMatch ? dataNavbarTypeMatch[1] : (pageConfig[file] || "funnel"); // 先檢查 data-navbar-type，再用 pageConfig，最後預設為 funnel
 
     // ✅ 讀取 navbar 和 footer
     const navbarPath = `src/views/components/${pageType}-navbar.html`;
@@ -33,8 +37,6 @@ viewFiles.forEach(file => {
     if (fs.existsSync(footerPath)) {
         footer = fs.readFileSync(footerPath, "utf-8");
     }
-
-    let html = fs.readFileSync(path.join("src/views", file), "utf-8");
 
 // 🔍 除錯訊息
 if (file === "index.html") {
