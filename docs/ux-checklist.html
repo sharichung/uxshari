@@ -700,12 +700,14 @@
     async function saveToFirestore() {
       try {
         const docRef = doc(db, 'users_by_email', encEmail(userEmail));
-        await updateDoc(docRef, {
+        await setDoc(docRef, {
+          email: userEmail,
           uxChecklists: userChecklists
-        });
+        }, { merge: true });
+        console.log('✅ 清單已儲存');
       } catch (error) {
-        console.error('儲存錯誤:', error);
-        alert('儲存失敗，請重試');
+        console.error('❌ 儲存錯誤:', error);
+        alert('儲存失敗，請重試\n\n錯誤訊息：' + error.message);
       }
     }
 
