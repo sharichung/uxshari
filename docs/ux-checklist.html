@@ -607,12 +607,12 @@
   </div>
 
   <!-- 專案類型選擇 Modal -->
-  <div class="modal fade" id="projectTypeModal" tabindex="-1">
+  <div class="modal fade" id="projectTypeModal" tabindex="-1" aria-labelledby="projectTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header border-0">
-          <h5 class="modal-title fw-bold">選擇專案類型</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <h5 class="modal-title fw-bold" id="projectTypeModalLabel">選擇專案類型</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
         </div>
         <div class="modal-body">
           <p class="text-muted mb-3">系統將根據專案類型自動載入對應的痛點檢查模板</p>
