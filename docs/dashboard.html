@@ -563,7 +563,10 @@
         
         if (data.ok) {
           userPurchasedProducts = data.purchasedProducts || [];
-          renderProducts();
+          // Only render if products have been loaded
+          if (allProducts.length > 0) {
+            renderProducts();
+          }
         }
       } catch (error) {
         console.error('❌ 載入購買紀錄錯誤:', error);
@@ -609,6 +612,11 @@
 
       if (filtered.length === 0) {
         empty.classList.remove('d-none');
+        // Clear grid but keep empty state visible as a child of products-grid parent
+        const gridParent = grid.parentElement;
+        if (gridParent && !gridParent.contains(empty)) {
+          // Empty is already a sibling in the HTML, just ensure visibility
+        }
         grid.innerHTML = '';
         return;
       }
