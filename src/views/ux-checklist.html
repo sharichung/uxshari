@@ -45,9 +45,9 @@
         </div>
         <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
           <div class="d-flex flex-column gap-2">
-            <span class="badge bg-light text-dark fs-6">
-              <i class="fas fa-crown me-2"></i>
-              <span id="user-status">免費會員</span>
+            <span class="badge fs-6 ${isPaid ? 'bg-success text-white' : 'bg-light text-dark'}">
+              <i class="fas ${isPaid ? 'fa-check-circle' : 'fa-lock'} me-2"></i>
+              <span id="user-status">${isPaid ? '付費會員' : '免費會員'}</span>
             </span>
             <span class="badge bg-light text-dark fs-6">
               <i class="fas fa-list me-2"></i>
