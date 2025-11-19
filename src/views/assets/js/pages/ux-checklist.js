@@ -1,6 +1,6 @@
     import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     // Firebase Config
     const firebaseConfig = {
@@ -13,6 +13,7 @@
     if (!getApps().length) initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
+    try { await enableIndexedDbPersistence(db); } catch (e) { /* ignore persistence errors (multi-tab, etc.) */ }
 
     const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 
@@ -169,6 +170,8 @@
     let userChecklists = [];
     let isPaid = false;
     let selectedProjectType = null;
+    let selectedIndex = -1;
+    let searchQuery = '';
     const FREE_LIMIT = 3;
 
     // Undo State
@@ -177,14 +180,30 @@
 
     // UI Elements
     const elements = {
+      // Sidebar
+      sidebarFavorites: document.getElementById('favorites-list'),
+      sidebarAll: document.getElementById('all-list'),
+      sidebarSearch: document.getElementById('sidebar-search'),
       emptyState: document.getElementById('empty-state'),
-      container: document.getElementById('checklists-container'),
       createBtn: document.getElementById('create-checklist-btn'),
+      limitNotice: document.getElementById('limit-notice'),
+      // Header counters
       userStatus: document.getElementById('user-status'),
       userStatusBadge: document.getElementById('user-status-badge'),
       checklistCount: document.getElementById('checklist-count'),
       checklistLimit: document.getElementById('checklist-limit'),
-      limitNotice: document.getElementById('limit-notice')
+      // Detail
+      detailTitle: document.getElementById('detail-title'),
+      detailProgressBar: document.getElementById('detail-progress-bar'),
+      detailUpdated: document.getElementById('detail-updated'),
+      detailSections: document.getElementById('detail-sections'),
+      detailEmpty: document.getElementById('detail-empty'),
+      btnDuplicate: document.getElementById('btn-duplicate'),
+      btnPrint: document.getElementById('btn-print'),
+      btnDelete: document.getElementById('btn-delete'),
+      perkPdf: document.getElementById('perk-pdf'),
+      perkAi: document.getElementById('perk-ai'),
+      perkTeam: document.getElementById('perk-team')
     };
 
     let dataReady = false;
@@ -279,44 +298,168 @@
 
     // Update UI
     function updateUI() {
+      // header counters
       elements.checklistCount.textContent = userChecklists.length;
-      // Enable button and remove placeholder look
+      if (elements.userStatus) elements.userStatus.classList.remove('placeholder-glow');
+      if (elements.checklistLimit) elements.checklistLimit.classList.remove('placeholder-glow');
+      // create button state
       if (elements.createBtn) {
         elements.createBtn.disabled = false;
         elements.createBtn.classList.remove('placeholder-glow');
-        if (!elements.createBtn.querySelector('i')) {
-          elements.createBtn.innerHTML = '<i class="fas fa-plus me-2"></i>建立新清單';
-        }
+        elements.createBtn.innerHTML = '<i class="fas fa-plus"></i> 新增';
       }
-      if (elements.userStatus) elements.userStatus.classList.remove('placeholder-glow');
-      if (elements.checklistLimit) elements.checklistLimit.classList.remove('placeholder-glow');
-
-      // Check limit
       const reachedLimit = !isPaid && userChecklists.length >= FREE_LIMIT;
-      elements.createBtn.disabled = reachedLimit;
-      elements.limitNotice.classList.toggle('d-none', !reachedLimit);
+      if (elements.createBtn) elements.createBtn.disabled = reachedLimit;
+      if (elements.limitNotice) elements.limitNotice.classList.toggle('d-none', !reachedLimit);
 
-      // Show/Hide empty state
-      if (userChecklists.length === 0) {
-        elements.emptyState.style.display = 'block';
-        return;
-      } else {
-        elements.emptyState.style.display = 'none';
-      }
-
-      // Render checklists
-      const checklistsHtml = userChecklists.map((checklist, index) => 
-        renderChecklist(checklist, index)
-      ).join('');
-
-      elements.container.innerHTML = checklistsHtml;
-
-      // Attach event listeners
-      attachEventListeners();
+      // Sidebar render
+      renderSidebar();
+      // Detail render
+      renderDetail();
+      // VIP perks enable/disable
+      const perkButtons = [elements.perkPdf, elements.perkAi, elements.perkTeam];
+      perkButtons.forEach(btn => {
+        if (!btn) return;
+        if (isPaid) {
+          btn.disabled = false;
+          btn.title = '';
+        } else {
+          btn.disabled = true;
+          btn.title = 'VIP 會員限定功能';
+        }
+      });
     }
 
     // Render Single Checklist
-    function renderChecklist(checklist, index) {
+    function computeProgress(checklist){
+      const totalItems = checklist.items.process.length + checklist.items.interface.length + checklist.items.context.length;
+      const checkedItems = [
+        ...checklist.items.process,
+        ...checklist.items.interface,
+        ...checklist.items.context
+      ].filter(item => item.checked).length;
+      const progress = totalItems ? Math.round((checkedItems / totalItems) * 100) : 0;
+      return { totalItems, checkedItems, progress };
+    }
+
+    function renderSidebar(){
+      const q = (searchQuery || '').trim().toLowerCase();
+      const filterFn = (cl) => {
+        if (!q) return true;
+        if ((cl.name || '').toLowerCase().includes(q)) return true;
+        // shallow search within item texts
+        const texts = [
+          ...cl.items.process,
+          ...cl.items.interface,
+          ...cl.items.context
+        ].map(i => (i.text||'').toLowerCase());
+        return texts.some(t => t.includes(q));
+      };
+      const favWrap = elements.sidebarFavorites;
+      const allWrap = elements.sidebarAll;
+      if (!favWrap || !allWrap) return;
+      const listToLi = (cl, idx) => {
+        const {progress} = computeProgress(cl);
+        const active = idx === selectedIndex ? 'active' : '';
+        const pinClass = cl.pinned ? 'pin-btn' : 'pin-btn inactive';
+        return `
+          <li class="list-group-item ${active}" data-index="${idx}" draggable="true">
+            <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm ${pinClass}" data-pin type="button" title="收藏/取消收藏"><i class="fas fa-thumbtack"></i></button>
+              <div class="flex-grow-1" data-select>
+                <div class="list-item-title fw-semibold">${cl.name || '未命名清單'}</div>
+                <div class="d-flex align-items-center gap-2 small text-muted">
+                  <div class="progress flex-grow-1">
+                    <div class="progress-bar ${progress===100?'complete':''}" style="width:${progress}%"></div>
+                  </div>
+                  <span>${progress}%</span>
+                </div>
+              </div>
+              <span class="text-muted small" title="拖曳排序"><i class="fas fa-grip-vertical"></i></span>
+            </div>
+          </li>`;
+      };
+      const filtered = userChecklists.map((cl,i)=>({cl,i})).filter(({cl})=>filterFn(cl));
+      const favs = filtered.filter(({cl})=>!!cl.pinned);
+      const others = filtered.filter(({cl})=>!cl.pinned);
+      favWrap.innerHTML = favs.map(({cl,i})=>listToLi(cl,i)).join('') || '<li class="list-group-item text-muted">無收藏清單</li>';
+      allWrap.innerHTML = others.map(({cl,i})=>listToLi(cl,i)).join('');
+      elements.emptyState.classList.toggle('d-none', userChecklists.length !== 0);
+
+      attachSidebarEvents();
+    }
+
+    function renderDetail(){
+      const idx = selectedIndex;
+      if (idx < 0 || idx >= userChecklists.length){
+        if (elements.detailSections) elements.detailSections.innerHTML = '<div class="text-muted text-center py-5">請從左側選擇或建立清單</div>';
+        return;
+      }
+      const checklist = userChecklists[idx];
+      const { totalItems, checkedItems, progress } = computeProgress(checklist);
+      if (elements.detailTitle) elements.detailTitle.value = checklist.name || '';
+      if (elements.detailProgressBar) elements.detailProgressBar.style.width = progress + '%';
+      if (elements.detailUpdated) elements.detailUpdated.textContent = new Date(checklist.updatedAt).toLocaleDateString('zh-TW');
+
+      const renderItem = (cat, item) => {
+        return `<div class="checklist-item ${item.checked?'checked':''}">
+          <input type="checkbox" id="d-${idx}-${item.id}" ${item.checked?'checked':''} data-cat="${cat}" data-id="${item.id}">
+          <div class="checklist-item-text">${item.text}
+            ${item.suggestion?`<div class="suggestion-pill" data-suggestion="${encodeURIComponent(item.suggestion)}"><i class="fas fa-lightbulb"></i> 建議</div>`:''}
+          </div>
+        </div>`;
+      };
+      const pt = projectTypes.find(p=>p.id===checklist.projectType) || projectTypes.find(p=>p.id==='general');
+      const section = (title, iconClass, catArrName) => `
+        <div class="checklist-section">
+          <div class="section-title">
+            <div class="section-icon"><i class="${iconClass}"></i></div>
+            <span>${title}</span>
+          </div>
+          ${checklist.items[catArrName].map(item=>renderItem(catArrName,item)).join('')}
+        </div>`;
+      const html = [
+        section('流程痛點','fas fa-route','process'),
+        section('介面痛點','fas fa-window-maximize','interface'),
+        section('情境痛點','fas fa-users','context')
+      ].join('');
+      elements.detailSections.innerHTML = html;
+
+      // checkbox changes
+      elements.detailSections.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+        cb.addEventListener('change', async (e)=>{
+          const cat = e.target.getAttribute('data-cat');
+          const itemId = e.target.getAttribute('data-id');
+          const item = userChecklists[idx].items[cat].find(i=>i.id===itemId);
+          if (item){
+            item.checked = !!e.target.checked;
+            userChecklists[idx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+            updateUI();
+          }
+        });
+      });
+
+      // title changes (debounced)
+      if (elements.detailTitle){
+        let t; elements.detailTitle.oninput = (e)=>{
+          clearTimeout(t);
+          t = setTimeout(async ()=>{
+            userChecklists[idx].name = (e.target.value||'').trim() || `專案清單 ${idx+1}`;
+            userChecklists[idx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+            renderSidebar();
+          }, 400);
+        };
+      }
+
+      // actions
+      if (elements.btnDuplicate) elements.btnDuplicate.onclick = ()=>window.duplicateChecklistWithUI?window.duplicateChecklistWithUI(idx, elements.btnDuplicate):window.duplicateChecklist(idx);
+      if (elements.btnDelete) elements.btnDelete.onclick = ()=>window.deleteChecklistWithUI?window.deleteChecklistWithUI(idx, elements.btnDelete):window.deleteChecklist(idx);
+      if (elements.btnPrint) elements.btnPrint.onclick = ()=>window.print && window.print();
+    }
       const totalItems = checklist.items.process.length + checklist.items.interface.length + checklist.items.context.length;
       const checkedItems = [
         ...checklist.items.process,
@@ -461,8 +604,8 @@
       }, 5000);
     }
 
-    // Suggestion click (delegated) - avoids inline onclick parsing issues
-    elements.container.addEventListener('click', (e) => {
+    // Suggestion click in detail
+    elements.detailSections.addEventListener('click', (e) => {
       // suggestion pill
       const pill = e.target.closest('.suggestion-pill');
       if (pill) {
@@ -474,23 +617,71 @@
         }
         return;
       }
-      // action buttons (duplicate/print/delete)
-      const btn = e.target.closest('button[data-action]');
-      if (btn) {
-        const card = e.target.closest('.checklist-card');
-        if (!card) return;
-        const idx = parseInt(card.dataset.index);
-        const action = btn.dataset.action;
-        if (action === 'duplicate') {
-          window.duplicateChecklistWithUI ? window.duplicateChecklistWithUI(idx, btn) : (window.duplicateChecklist && window.duplicateChecklist(idx));
-        } else if (action === 'delete') {
-          window.deleteChecklistWithUI ? window.deleteChecklistWithUI(idx, btn) : (window.deleteChecklist && window.deleteChecklist(idx));
-        } else if (action === 'print') {
-          window.print && window.print();
-        }
-        return;
-      }
     });
+
+    function attachSidebarEvents(){
+      const sidebar = document.getElementById('checklistSidebar');
+      const wireList = (ulEl)=>{
+        if (!ulEl) return;
+        ulEl.querySelectorAll('li.list-group-item').forEach(li=>{
+          // select
+          const sel = li.querySelector('[data-select]');
+          if (sel) sel.onclick = ()=>{ selectedIndex = parseInt(li.dataset.index); renderSidebar(); renderDetail(); };
+          // pin
+          const pinBtn = li.querySelector('[data-pin]');
+          if (pinBtn) pinBtn.onclick = async (e)=>{
+            e.stopPropagation();
+            const idx = parseInt(li.dataset.index);
+            userChecklists[idx].pinned = !userChecklists[idx].pinned;
+            userChecklists[idx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            renderSidebar();
+          };
+          // dnd
+          li.addEventListener('dragstart', ()=>{ li.classList.add('dragging'); });
+          li.addEventListener('dragend', async ()=>{
+            li.classList.remove('dragging');
+            // after drop, recompute order by current DOM
+            const order = [];
+            const collect = (root)=>{
+              root.querySelectorAll('li.list-group-item').forEach(n=>{ order.push(parseInt(n.dataset.index)); });
+            };
+            collect(elements.sidebarFavorites);
+            collect(elements.sidebarAll);
+            const newArr = order.map(i=>userChecklists[i]);
+            userChecklists = newArr;
+            selectedIndex = Math.max(0, Math.min(selectedIndex, userChecklists.length-1));
+            await saveToFirestore();
+            renderSidebar();
+          });
+        });
+        ulEl.addEventListener('dragover', (e)=>{
+          e.preventDefault();
+          const dragging = ulEl.querySelector('.dragging');
+          const afterElement = getDragAfterElement(ulEl, e.clientY);
+          if (!dragging) return;
+          if (afterElement == null) {
+            ulEl.appendChild(dragging);
+          } else {
+            ulEl.insertBefore(dragging, afterElement);
+          }
+        });
+      };
+      wireList(elements.sidebarFavorites);
+      wireList(elements.sidebarAll);
+      function getDragAfterElement(container, y){
+        const els = [...container.querySelectorAll('li.list-group-item:not(.dragging)')];
+        return els.reduce((closest, child)=>{
+          const box = child.getBoundingClientRect();
+          const offset = y - box.top - box.height/2;
+          if (offset < 0 && offset > closest.offset) return { offset, element: child };
+          else return closest;
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+      }
+      if (elements.sidebarSearch){
+        elements.sidebarSearch.oninput = (e)=>{ searchQuery = e.target.value || ''; renderSidebar(); };
+      }
+    }
 
     // Initialize Project Type Modal
     function initProjectTypeModal() {
@@ -554,7 +745,8 @@
         projectType: selectedProjectType,
         items: JSON.parse(JSON.stringify(projectType.template)),
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
+        pinned: false
       };
 
       userChecklists.push(newChecklist);
@@ -569,42 +761,29 @@
       if (modalInstance) modalInstance.hide();
 
       // Refresh UI after a short delay for smoother close animation
-      setTimeout(() => updateUI(), 100);
+      setTimeout(() => { selectedIndex = userChecklists.length - 1; updateUI(); }, 120);
       setTimeout(() => {
         restoreBtn(confirmBtn);
         if (cancelBtn) cancelBtn.disabled = false;
       }, 150);
     });
 
-    // Toggle Checkbox with Achievement Check
+    // Toggle Checkbox (legacy hook kept for safety)
     window.toggleCheckbox = async (checklistIndex, category, itemId) => {
-      const item = userChecklists[checklistIndex].items[category].find(i => i.id === itemId);
-      if (item) {
-        const wasChecked = item.checked;
-        item.checked = !item.checked;
-        userChecklists[checklistIndex].updatedAt = new Date().toISOString();
-        
-        // Check progress for achievement
-        const checklist = userChecklists[checklistIndex];
-        const totalItems = checklist.items.process.length + checklist.items.interface.length + checklist.items.context.length;
-        const checkedItems = [
-          ...checklist.items.process,
-          ...checklist.items.interface,
-          ...checklist.items.context
-        ].filter(i => i.checked).length;
-        const progress = Math.round((checkedItems / totalItems) * 100);
-        
-        // Show achievement at 80% completion (only when checking, not unchecking)
-        if (!wasChecked && progress >= 80 && progress < 100) {
-          showAchievement('🎉 太棒了！你已經完成 80% 的痛點檢查');
-        } else if (progress === 100 && !wasChecked) {
-          showAchievement('🏆 完美！所有痛點檢查完成，你已經是 UX 觀察高手');
-        }
-        
-        await saveToFirestore();
-        showSaveIndicator();
-        updateUI();
+      const item = userChecklists[checklistIndex]?.items?.[category]?.find(i => i.id === itemId);
+      if (!item) return;
+      const wasChecked = item.checked;
+      item.checked = !item.checked;
+      userChecklists[checklistIndex].updatedAt = new Date().toISOString();
+      const { progress } = computeProgress(userChecklists[checklistIndex]);
+      if (!wasChecked && progress >= 80 && progress < 100) {
+        showAchievement('🎉 太棒了！你已經完成 80% 的痛點檢查');
+      } else if (progress === 100 && !wasChecked) {
+        showAchievement('🏆 完美！所有痛點檢查完成，你已經是 UX 觀察高手');
       }
+      await saveToFirestore();
+      showSaveIndicator();
+      updateUI();
     };
 
     // Delete Checklist (basic)
@@ -614,6 +793,7 @@
       const restoreAt = index;
       userChecklists.splice(index, 1);
       // Optimistic UI: render immediately
+      selectedIndex = Math.max(0, Math.min(selectedIndex, userChecklists.length - 1));
       updateUI();
       lastDeleted = { data: removed, index: restoreAt };
       showUndoToast(`已刪除「${removed?.name || '清單'}」`, async () => {
@@ -668,10 +848,12 @@
       duplicate.name = `${original.name} (副本)`;
       duplicate.createdAt = new Date().toISOString();
       duplicate.updatedAt = new Date().toISOString();
+      duplicate.pinned = false;
 
       userChecklists.push(duplicate);
       await saveToFirestore();
       showSaveIndicator();
+      selectedIndex = userChecklists.length - 1;
       updateUI();
     };
 
@@ -701,9 +883,11 @@
         duplicate.name = `${original.name} (副本)`;
         duplicate.createdAt = new Date().toISOString();
         duplicate.updatedAt = new Date().toISOString();
+        duplicate.pinned = false;
         userChecklists.push(duplicate);
         await saveToFirestore();
         showSaveIndicator();
+        selectedIndex = userChecklists.length - 1;
         updateUI();
       } catch (e) {
         alert('複製失敗，請重試');
@@ -712,23 +896,7 @@
     };
 
     // Attach Event Listeners
-    function attachEventListeners() {
-      // Name input listeners with debounce
-      document.querySelectorAll('.checklist-name-input').forEach(input => {
-        let timeout;
-        input.addEventListener('input', (e) => {
-          clearTimeout(timeout);
-          timeout = setTimeout(async () => {
-            const index = parseInt(e.target.dataset.index);
-            const newName = e.target.value.trim() || `專案清單 ${index + 1}`;
-            userChecklists[index].name = newName;
-            userChecklists[index].updatedAt = new Date().toISOString();
-            await saveToFirestore();
-            showSaveIndicator();
-          }, 500);
-        });
-      });
-    }
+    function attachEventListeners() { /* replaced by renderDetail + attachSidebarEvents */ }
 
     // Save to Firestore
     async function saveToFirestore() {
@@ -780,4 +948,13 @@
       await loadUserData(user.email);
       initProjectTypeModal();
       dataReady = true;
+      // Default select first checklist if available
+      if (userChecklists.length > 0 && selectedIndex === -1) {
+        selectedIndex = 0;
+        updateUI();
+      }
+      // Wire create button if not already
+      if (elements.createBtn && !elements.createBtn._wired){ elements.createBtn._wired = true; /* already set earlier */ }
+      // Sidebar search initial render
+      renderSidebar();
     });

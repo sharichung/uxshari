@@ -22,104 +22,153 @@
   <!-- Navbar -->
   <div id="navbar"></div>
 
-  <!-- Hero Section -->
-  <section class="hero-section no-print">
+  <!-- Header / Hero (compact) -->
+  <section class="hero-section no-print py-3 py-md-4">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-8">
-          <h1 class="display-5 fw-bold mb-3">
-            <i class="fas fa-clipboard-check me-3"></i>
-            UX 痛點觀察清單
-          </h1>
-          <p class="lead mb-0">
-            專案化管理、智慧建議、即時同步 — 讓 UX 研究更有條理
-          </p>
-        </div>
-        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-          <div class="d-flex flex-column gap-2">
-            <span id="user-status-badge" class="badge-normal">
-              <i class="fas fa-crown me-2"></i>
-              <span id="user-status" class="placeholder-glow"><span class="placeholder col-4"></span></span>
-            </span>
-            <span class="badge bg-light text-dark fs-6">
-              <i class="fas fa-list me-2"></i>
-              清單：<strong id="checklist-count" class="placeholder-glow"><span class="placeholder col-2"></span></strong>
-              / <span id="checklist-limit" class="placeholder-glow"><span class="placeholder col-1"></span></span>
-            </span>
+      <div class="d-flex align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-outline-secondary d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#checklistSidebar" aria-controls="checklistSidebar">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div>
+            <h1 class="h3 h-100 fw-bold mb-1"><i class="fas fa-clipboard-check me-2"></i>UX 痛點觀察清單</h1>
+            <div class="text-muted small">側邊欄 + 搜尋 + 收藏 — 高效導航</div>
           </div>
+        </div>
+        <div class="d-flex flex-column align-items-end gap-2">
+          <span id="user-status-badge" class="badge-normal">
+            <i class="fas fa-user me-2"></i>
+            <span id="user-status" class="placeholder-glow"><span class="placeholder col-4"></span></span>
+          </span>
+          <span class="badge bg-light text-dark">
+            <i class="fas fa-list me-2"></i>
+            清單：<strong id="checklist-count" class="placeholder-glow"><span class="placeholder col-2"></span></strong>
+            / <span id="checklist-limit" class="placeholder-glow"><span class="placeholder col-1"></span></span>
+          </span>
         </div>
       </div>
     </div>
   </section>
 
   <div class="container pb-5">
+    <div class="row g-4">
+      <!-- Sidebar (desktop) / Offcanvas (mobile) -->
+      <div class="col-12 col-md-4 col-lg-3">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="checklistSidebar" aria-labelledby="checklistSidebarLabel">
+          <div class="offcanvas-header d-flex d-md-none">
+            <h5 class="offcanvas-title" id="checklistSidebarLabel">我的清單</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body p-0">
+            <div class="card border-0 shadow-sm mb-3">
+              <div class="card-body p-3">
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                  <input id="sidebar-search" type="text" class="form-control" placeholder="搜尋清單或關鍵字…"/>
+                </div>
+              </div>
+            </div>
 
-    <!-- Limit Notice -->
-    <div id="limit-notice" class="limit-notice d-none">
-      <div class="d-flex align-items-center">
-        <i class="fas fa-exclamation-triangle fa-2x text-warning me-3"></i>
-        <div class="flex-grow-1">
-          <h6 class="mb-1 fw-bold">已達普通會員清單上限（3 張）</h6>
-          <p class="mb-0 small">升級 VIP 會員：無限清單 + AI 建議 + PDF 報告 + 團隊協作</p>
+            <!-- Favorites Section -->
+            <div class="card border-0 shadow-sm mb-3">
+              <div class="card-header bg-white d-flex align-items-center justify-content-between py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-thumbtack text-warning"></i>
+                  <span class="fw-bold">收藏</span>
+                </div>
+                <small class="text-muted">拖曳調整順序</small>
+              </div>
+              <ul id="favorites-list" class="list-group list-group-flush small-draggable"></ul>
+            </div>
+
+            <!-- All Lists Section -->
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white d-flex align-items-center justify-content-between py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-folder-open text-primary-shari"></i>
+                  <span class="fw-bold">全部清單</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <button id="create-checklist-btn" class="btn btn-sm btn-primary" disabled>
+                    <i class="fas fa-plus"></i> 新增
+                  </button>
+                </div>
+              </div>
+              <ul id="all-list" class="list-group list-group-flush small-draggable"></ul>
+              <div class="p-3 d-none" id="empty-state">
+                <div class="text-center text-muted">
+                  <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                  <div>沒有清單，點擊「新增」開始</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Limit Notice -->
+            <div id="limit-notice" class="limit-notice d-none mt-3">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle fa-lg text-warning me-2"></i>
+                <div class="flex-grow-1">
+                  <div class="fw-bold small">已達普通會員清單上限（3 張）</div>
+                  <div class="small text-muted">升級 VIP 會員：無限清單 + AI 建議 + PDF 報告 + 團隊協作</div>
+                </div>
+                <a href="/pricing.html" class="btn btn-warning btn-sm ms-2">
+                  <i class="fas fa-crown me-1"></i>升級
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <a href="/pricing.html" class="btn btn-warning btn-sm ms-3 flex-shrink-0">
-          <i class="fas fa-crown me-2"></i>立即升級
-        </a>
+      </div>
+
+      <!-- Detail Area -->
+      <div class="col-12 col-md-8 col-lg-9">
+        <div id="detail-wrapper" class="card border-0 shadow-sm">
+          <div class="card-body p-3 p-md-4">
+            <!-- Toolbar -->
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print">
+              <div class="d-flex align-items-center gap-2 flex-grow-1">
+                <input id="detail-title" class="form-control form-control-lg fw-bold" placeholder="清單名稱"/>
+              </div>
+              <div class="btn-group flex-shrink-0" role="group">
+                <button id="btn-duplicate" class="btn btn-outline-secondary" title="複製"><i class="fas fa-copy"></i></button>
+                <button id="btn-print" class="btn btn-outline-secondary" title="列印"><i class="fas fa-print"></i></button>
+                <button id="btn-delete" class="btn btn-outline-danger" title="刪除"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+
+            <!-- Progress + Meta -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="flex-grow-1 me-3">
+                <div class="progress" style="height: 10px;">
+                  <div id="detail-progress-bar" class="progress-bar" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="text-muted small">
+                更新：<span id="detail-updated">—</span>
+              </div>
+            </div>
+
+            <!-- VIP Perks -->
+            <div class="row g-2 no-print mb-3">
+              <div class="col-12 col-sm-4">
+                <button id="perk-pdf" class="btn w-100 btn-outline-primary-shari"><i class="fas fa-file-pdf me-2"></i>PDF 報告</button>
+              </div>
+              <div class="col-12 col-sm-4">
+                <button id="perk-ai" class="btn w-100 btn-outline-primary-shari"><i class="fas fa-robot me-2"></i>AI 建議</button>
+              </div>
+              <div class="col-12 col-sm-4">
+                <button id="perk-team" class="btn w-100 btn-outline-primary-shari"><i class="fas fa-users me-2"></i>團隊協作</button>
+              </div>
+            </div>
+
+            <!-- Sections -->
+            <div id="detail-sections">
+              <div class="text-muted text-center py-5" id="detail-empty">請從左側選擇或建立清單</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Action Bar -->
-    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
-      <h2 class="h4 mb-0">我的清單</h2>
-      <button id="create-checklist-btn" class="btn btn-primary placeholder-glow" disabled>
-        <span class="placeholder col-6"></span>
-      </button>
-    </div>
-
-    <!-- Checklists Container -->
-    <div id="checklists-container">
-      <!-- Skeleton placeholders while loading -->
-      <div class="placeholder-glow">
-        <div class="card mb-3 p-4">
-          <span class="placeholder col-6 mb-2"></span>
-          <span class="placeholder col-10 mb-2"></span>
-          <span class="placeholder col-8"></span>
-        </div>
-        <div class="card mb-3 p-4">
-          <span class="placeholder col-5 mb-2"></span>
-          <span class="placeholder col-9 mb-2"></span>
-          <span class="placeholder col-7"></span>
-        </div>
-      </div>
-      <!-- Empty State (hidden until data known) -->
-      <div class="empty-state d-none" id="empty-state">
-        <div class="empty-icon">
-          <i class="fas fa-clipboard-list"></i>
-        </div>
-        <h3 class="mb-3">開始您的第一個 UX 專案</h3>
-        <p class="text-muted mb-4">選擇專案類型，系統將自動載入專業的痛點檢查模板</p>
-        <button class="btn btn-primary btn-lg" onclick="document.getElementById('create-checklist-btn').click()">
-          <i class="fas fa-rocket me-2"></i>建立第一張清單
-        </button>
-        <div class="mt-4">
-          <small class="text-muted">💡 提示：每個清單都包含流程、介面、情境三大類痛點檢查</small>
-        </div>
-      </div>
-    </div>
-
-    <!-- Upgrade CTA -->
-    <div class="upgrade-cta no-print">
-      <i class="fas fa-graduation-cap fa-3x mb-3"></i>
-      <h3 class="mb-3">想要更深入的 UX 痛點拆解方法？</h3>
-      <p class="mb-4 lead">學習如何系統化分析使用者痛點、建立同理心地圖、設計解決方案</p>
-      <a href="/pricing.html" class="btn btn-light btn-lg me-3">
-        <i class="fas fa-book-open me-2"></i>查看完整課程
-      </a>
-      <a href="/dashboard.html" class="btn btn-outline-light btn-lg">
-        <i class="fas fa-th-large me-2"></i>返回儀表板
-      </a>
-    </div>
-
   </div>
 
   <!-- 成就提示 Toast -->
@@ -171,7 +220,27 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script type="module" src="assets/js/pages/ux-checklist.js?v=20251119a"></script>
+  <style>
+    /* Sidebar list item */
+    .small-draggable .list-group-item{ cursor:grab; }
+    .small-draggable .list-group-item.dragging{ opacity:.7; }
+    .small-draggable .progress{ height:6px; }
+    .list-item-title{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .pin-btn{ color:#f59e0b; }
+    .pin-btn.inactive{ color:#9CA3AF; }
+    @media (min-width:768px){
+      .offcanvas-md{ position:static; display:block; visibility:visible; transform:none; }
+      .offcanvas-backdrop{ display:none; }
+    }
+    /* Print-friendly area */
+    @media print{
+      .no-print, .navbar, .footer{ display:none !important; }
+      body{ background:#fff; }
+      #detail-wrapper{ box-shadow:none !important; border:0 !important; }
+    }
+  </style>
+
+  <script type="module" src="assets/js/pages/ux-checklist.js?v=20251119b"></script>
 
 </body>
 </html>
