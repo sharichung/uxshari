@@ -1,6 +1,24 @@
 const fs = require("fs");
 const path = require("path");
 
+// 先清空 docs 目錄，避免遺留舊檔（保留 CNAME/.nojekyll）
+function cleanDocs(dir = "docs") {
+    if (!fs.existsSync(dir)) return;
+    const preserve = new Map();
+    ["CNAME", ".nojekyll"].forEach((name) => {
+        const p = path.join(dir, name);
+        if (fs.existsSync(p) && fs.statSync(p).isFile()) {
+            preserve.set(name, fs.readFileSync(p));
+        }
+    });
+    fs.rmSync(dir, { recursive: true, force: true });
+    fs.mkdirSync(dir, { recursive: true });
+    // 還原保留檔
+    preserve.forEach((buf, name) => {
+        fs.writeFileSync(path.join(dir, name), buf);
+    });
+}
+
 // 工具：確保資料夾存在
 function ensureDir(dirPath) {
     fs.mkdirSync(dirPath, { recursive: true });
@@ -14,19 +32,43 @@ const pageConfig = {
     "lesson.html": "general",
 };
 
-// 處理 HTML views（支援多頁）
-const viewFiles = fs.readdirSync("src/views").filter(file => file.endsWith(".html"));
+// 取得 src/views 下所有 .html（排除 assets 與 components）
+function getAllHtmlFiles(dir, base = "") {
+    const full = path.join(dir, base);
+    const entries = fs.readdirSync(full, { withFileTypes: true });
+    const out = [];
+    for (const e of entries) {
+        if (e.isDirectory()) {
+            if (["assets", "components"].includes(e.name)) continue;
+            out.push(...getAllHtmlFiles(dir, path.join(base, e.name)));
+        } else if (e.isFile() && e.name.endsWith(".html")) {
+            out.push(path.join(base, e.name));
+        }
+    }
+    return out;
+}
 
-viewFiles.forEach(file => {
-    let html = fs.readFileSync(path.join("src/views", file), "utf-8");
+// 先乾淨化輸出目錄，避免殘留舊版頁面
+cleanDocs("docs");
+
+// 處理 HTML views（支援子資料夾）
+const viewFiles = getAllHtmlFiles("src/views");
+
+viewFiles.forEach(relPath => {
+    const srcPath = path.join("src/views", relPath);
+    let html = fs.readFileSync(srcPath, "utf-8");
     
     // ✅ 檢查 HTML 中的 data-navbar-type 屬性
     const dataNavbarTypeMatch = html.match(/<body[^>]*data-navbar-type=["']([^"']+)["']/);
-    const pageType = dataNavbarTypeMatch ? dataNavbarTypeMatch[1] : (pageConfig[file] || "funnel"); // 先檢查 data-navbar-type，再用 pageConfig，最後預設為 funnel
+    const fileName = path.basename(relPath);
+    const pageType = dataNavbarTypeMatch ? dataNavbarTypeMatch[1] : (pageConfig[fileName] || "funnel"); // 先檢查 data-navbar-type，再用 pageConfig，最後預設為 funnel
 
     // ✅ 讀取 navbar 和 footer
     const navbarPath = `src/views/components/${pageType}-navbar.html`;
     const footerPath = `src/views/components/${pageType}-footer.html`;
+    
+    // 保險：若仍殘留以 console.log("🟢 [DASHBOARD-OPT] 開頭的垃圾段落，直接清除到 Tawk 腳本前
+    html = html.replace(/\n\s*console\.log\(\"🟢 \[DASHBOARD-OPT\][\s\S]*?(?=<!--Start of Tawk\.to Script-->)/, "\n\n");
     
     let navbar = "";
     let footer = "";
@@ -39,8 +81,8 @@ viewFiles.forEach(file => {
     }
 
 // 🔍 除錯訊息
-if (file === "index.html") {
-    console.log(`📝 處理 ${file}`);
+if (fileName === "index.html") {
+    console.log(`📝 處理 ${relPath}`);
     console.log(`✓ Navbar 路徑: ${navbarPath}`);
     console.log(`✓ Navbar 內容長度: ${navbar.length} 字元`);
     console.log(`✓ 原始 HTML 中的 navbar div: ${html.includes('<div id="navbar"></div>')}`);
@@ -53,7 +95,7 @@ html = html.replace(
     `<div id="navbar">${navbar}</div>`
 );
 
-if (file === "index.html") {
+if (fileName === "index.html") {
     console.log(`✓ 注入前是否找到 div id="navbar": ${beforeReplace.includes('<div id="navbar"></div>')}`);
     console.log(`✓ 注入後包含 navbar 內容: ${html.includes('fab fa-slack')}`);
     console.log(`✓ HTML 是否改變: ${beforeReplace !== html}`);
@@ -73,10 +115,27 @@ html = html.replace(/<\/main>/, `${footer}\n</main>`);
     html = html.replace(/(src|href)="\.?\/?(css\/[^"]+)"/g, '$1="assets/$2"');
     html = html.replace(/(src|href)="\.?\/?(js\/[^"]+)"/g, '$1="assets/$2"');
 
-    // 輸出至 docs/
-    ensureDir("docs");
-    fs.writeFileSync(path.join("docs", file), html);
-    console.log(`✅ 已處理 ${file}（樣式類型：${pageType}）`);
+    // 針對 dashboard.html：強制保持只載入外部模組腳本
+    if (fileName === "dashboard.html") {
+        const beforeHasInline = html.includes('console.log("🟢 [DASHBOARD-OPT]');
+        // 先嘗試以區段替換（Firebase 標記到 Tawk 標記）
+        html = html.replace(
+            /(<!--\s*Firebase SDK \+ Dashboard Logic\s*-->)[\s\S]*?(<!--Start of Tawk\.to Script-->)/,
+            `$1\n  <script type=\"module\" src=\"assets/js/pages/dashboard.js\"></script>\n\n$2`
+        );
+        // 再保險：移除任何殘留的 console.log 開頭到 Tawk 前的段落
+        html = html.replace(/\s*console\.log\(\"🟢 \[DASHBOARD-OPT\][\s\S]*?(?=<!--Start of Tawk\.to Script-->)/, "\n\n");
+        const afterHasInline = html.includes('console.log("🟢 [DASHBOARD-OPT]');
+        if (beforeHasInline && afterHasInline) {
+            console.warn('⚠️ [DASHBOARD] Inline block still present after cleanup');
+        }
+    }
+
+    // 輸出至 docs/（保留相對路徑）
+    const outPath = path.join("docs", relPath);
+    ensureDir(path.dirname(outPath));
+    fs.writeFileSync(outPath, html);
+    console.log(`✅ 已處理 ${relPath}（樣式類型：${pageType}）`);
 });
 
 // 複製 CSS
