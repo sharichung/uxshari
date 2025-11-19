@@ -1,22 +1,48 @@
-# UXShari 學習平台
+# UX Shari 學習平台
 
-一個完整的 UX/UI 教育平台，整合付費預約、課程管理與會員系統。
+專業、親切、現代感的 UX/UI 教育平台，整合付費預約、課程管理、UX 痛點觀察清單與會員系統。
 
 ## 🎯 核心功能
 
-### 付款與預約系統
+### 🎨 UX 痛點觀察清單（全新功能）
+- **專案管理**：支援多專案類型（網站、App、實體空間等）
+- **痛點追蹤**：三大類別（流程/介面/情境），60+ 預設檢查項目
+- **智能功能**：
+  - ⭐ 重點標記與篩選
+  - 📝 項目筆記（詳細觀察記錄）
+  - 🎯 嚴重程度評級（無/低/中/高）
+  - ➕ 自定義痛點（每類最多 5 個）
+  - 💡 建議查看（內建改善提示）
+  - 📊 類別進度條（即時視覺化）
+  - 🖨️ 列印友善設計
+- **使用者體驗**：
+  - 側邊欄導航 + 搜尋 + 收藏功能
+  - 即時保存（Firebase offline persistence）
+  - 骨架屏載入動畫
+  - Undo 機制（誤刪復原）
+  - 響應式設計（手機/平板/桌面）
+
+### 💳 付款與預約系統
 - **Stripe 整合**：支援 Test/Live Mode，checkout session + webhook 自動增加點數
 - **Calendly 單次連結**：每次預約生成 10 分鐘過期的單次使用連結
 - **自動退款機制**：Cloudflare Cron 每 15 分鐘清理過期未完成的預約並退回點數
 - **Credits 系統**：optimistic deduction（點擊預約立即扣點），未完成自動退款
 
-### 會員管理
+### 👤 會員管理
 - **Firebase Auth**：email/password 登入
-- **Firestore**：users_by_email, pending_bookings, bookings_by_id, events_by_id, issued_links
+- **Firestore**：users_by_email, pending_bookings, bookings_by_id, events_by_id, issued_links, uxChecklists
 - **即時更新**：Dashboard 使用 onSnapshot 監聽資料變化
 
-### 前端體驗
+### 🎨 品牌設計系統
+- **主色調**：橘色 (#ff9500) - 代表能量與洞察力
+- **輔色**：紫色 (#7c3aed) - 專業與創意
+- **語義色**：成功 (#10b981)、警告 (#f59e0b)、錯誤 (#ef4444)
+- **WCAG AAA 合規**：所有文字對比度 ≥7.5:1
+- **完整 Design Tokens**：90+ 顏色變數，支援深色模式擴展
+
+### 🌐 前端體驗
 - **Dashboard**：顯示剩餘點數、付款紀錄、預約紀錄
+- **UX Checklist**：專業痛點觀察工具
 - **智能提示**：預約時顯示黃色倒數警告框（10 分鐘內完成）
 - **容錯顯示**：支援多種時間戳與金額格式，避免 Invalid Date / undefined
 
@@ -26,21 +52,44 @@
 uxshari/
 ├── docs/                          # GitHub Pages 靜態站（build 輸出）
 │   ├── dashboard.html             # 會員儀表板
+│   ├── ux-checklist.html          # UX 痛點觀察清單 ⭐ 新增
+│   ├── account.html               # 帳號設定
 │   ├── login.html                 # 登入頁
-│   ├── payment.html               # 付款頁
+│   ├── pricing.html               # 定價頁
 │   ├── success.html               # 付款成功頁
-│   └── assets/                    # CSS/JS/Images
+│   └── assets/
+│       ├── css/
+│       │   ├── general.css        # 品牌配色系統 ⭐ 全面更新
+│       │   └── funnel.css
+│       └── js/
+│           └── pages/
+│               ├── ux-checklist.js  # 清單邏輯 ⭐ 新增
+│               ├── dashboard.js
+│               └── account.js
 ├── src/
 │   └── views/                     # 原始 HTML 模板
+│       ├── ux-checklist.html      # UX 觀察清單頁
 │       ├── dashboard.html
-│       ├── dashboard-optimized.html
+│       ├── account.html
+│       ├── assets/
+│       │   ├── css/
+│       │   │   └── general.css    # 90+ 顏色變數，完整 design tokens
+│       │   └── js/
+│       │       └── pages/
+│       │           └── ux-checklist.js  # 1300+ 行核心邏輯
 │       └── components/            # Navbar/Footer 元件
+│           ├── general-navbar.html
+│           ├── general-footer.html
+│           ├── funnel-navbar.html
+│           └── funnel-footer.html
 ├── uxshari-workers/               # Cloudflare Worker (後端 API)
 │   ├── src/
 │   │   └── index.js              # 主要 API 端點
 │   ├── wrangler.toml             # Worker 配置 + Cron
 │   └── package.json
-├── build.js                       # 靜態站建構腳本
+├── build.js                       # 靜態站建構腳本（自動注入元件）
+├── LIVE_MODE_CHECKLIST.md        # Stripe Live Mode 上線檢查清單
+├── STRIPE_LIVE_MODE_GUIDE.md     # Stripe Live Mode 設定指南
 └── README.md
 ```
 
@@ -168,6 +217,33 @@ const firebaseConfig = {
 }
 ```
 
+### uxChecklists/{userId}/checklists/{checklistId} ⭐ 新增
+```javascript
+{
+  title: "電商網站改版",
+  projectType: "website",          // website, mobile_app, etc.
+  createdAt: "2025-11-19T...",
+  updatedAt: "2025-11-19T...",
+  isFavorite: false,
+  items: {
+    process: [                     // 流程痛點
+      {
+        id: "p1",
+        text: "註冊流程過長",
+        checked: true,
+        suggestion: "建議...",
+        priority: true,            // 標記為重點
+        severity: "high",          // none | low | medium | high
+        note: "3位用戶反映...",   // 詳細筆記
+        custom: false              // 是否為自定義項目
+      }
+    ],
+    interface: [...],              // 介面痛點
+    context: [...]                 // 情境痛點
+  }
+}
+```
+
 ## ✅ UAT 驗證結果
 
 ### 場景 1：完整付款流程
@@ -187,10 +263,30 @@ const firebaseConfig = {
 - ✅ pending_bookings 清空
 - ✅ 黃色警告自動變回綠色
 
+### 場景 4：UX 痛點觀察清單 ⭐ 新增
+- ✅ 專案類型選擇 Modal（9 種類型）
+- ✅ 側邊欄三態導航（全部/收藏/搜尋）
+- ✅ 即時搜尋過濾功能
+- ✅ Checkbox 勾選狀態同步
+- ✅ 重點標記與篩選
+- ✅ 嚴重程度下拉選單
+- ✅ 項目筆記 Modal（含保存動畫）
+- ✅ 建議查看功能
+- ✅ 自定義痛點（含 5 個上限）
+- ✅ 刪除保護（僅自定義項目可刪除）
+- ✅ 類別進度條即時更新
+- ✅ 骨架屏載入動畫
+- ✅ 手機版 FAB 按鈕
+- ✅ 列印友善樣式
+- ✅ WCAG AAA 對比度合規
+
 ### 額外修正
 - ✅ 修復 Invalid Date（支援多種時間戳格式）
 - ✅ 修復 USD $undefined（支援多種金額欄位）
 - ✅ 清理測試紀錄功能
+- ✅ 品牌配色統一（橘色/紫色系統）
+- ✅ 手機版 hero section 優化
+- ✅ 移除 VIP perks 區域（簡化 UI）
 
 ## 🔜 待處理項目
 
@@ -210,7 +306,19 @@ const firebaseConfig = {
    - ✅ /api/cron-status 查詢端點
    - ✅ 每次 Cron 記錄 lastRunAt、refundedCount、totalPending
 
+4. **UX 痛點觀察清單** ⭐ 最新完成
+   - ✅ 完整 CRUD 功能（建立/讀取/更新/刪除）
+   - ✅ 11 項 UX 增強功能（載入動畫、重點標記、筆記等）
+   - ✅ 品牌配色系統重構（90+ color tokens）
+   - ✅ WCAG AAA 合規（對比度 ≥7.5:1）
+   - ✅ 響應式設計（手機/平板/桌面）
+   - ✅ 離線支援（Firebase persistence）
+
 ### 可選增強
+- [ ] UX Checklist 數據分析儀表板
+- [ ] 團隊協作功能（共享清單）
+- [ ] PDF 匯出功能
+- [ ] AI 建議生成（基於痛點模式）
 - [ ] Slack/Email 告警通知（Cron 失敗時）
 - [ ] Cloudflare Analytics Dashboard
 - [ ] Stripe webhook 失敗自動重試
@@ -220,6 +328,7 @@ const firebaseConfig = {
 - [ ] Email 通知（預約確認/取消）
 - [ ] 批量購買折扣
 - [ ] 推薦獎勵機制
+- [ ] 拖拽排序（重點項目優先級）
 
 ## 🛠️ 開發指令
 
@@ -255,12 +364,76 @@ curl "https://uxshari-workers.uxshari.workers.dev/api/cleanup-test-payments?emai
 curl "https://uxshari-workers.uxshari.workers.dev/api/cleanup-expired-bookings?test=true&admin_key=YOUR_ADMIN_KEY"
 ```
 
+## 🎨 設計系統
+
+### Color Tokens (general.css)
+- **Primary（橘色）**：主按鈕、CTA、進度條
+  - `--primary: #ff9500`
+  - `--primary-hover: #e67e00`
+  - `--primary-pale: #fff4e6`
+  - `--primary-text: #B35900` (WCAG AAA)
+
+- **Secondary（紫色）**：次要按鈕、標籤、互動元素
+  - `--secondary: #7c3aed`
+  - `--secondary-hover: #6d28d9`
+  - `--secondary-pale: #f5f3ff`
+  - `--secondary-text: #4c1d95` (WCAG AAA)
+
+- **Neutral（灰色）**：背景、邊框、文字
+  - `--bg-base: #f8fafc` (頁面底色)
+  - `--text-primary: #0f172a` (18.1:1)
+  - `--text-secondary: #475569` (8.3:1)
+
+- **Semantic（語義色）**：
+  - Success: `#10b981` (綠色)
+  - Warning: `#f59e0b` (琥珀色)
+  - Error: `#ef4444` (紅色)
+  - Info: `#8b5cf6` (紫色)
+
+- **Accent（強調色）**：
+  - Star/Favorite: `#f59e0b` (金色)
+
+### 組件類別
+- 按鈕：`.btn-primary-shari`, `.btn-secondary-shari`, `.btn-outline-*`
+- 進度條：`.progress` + `.progress-bar`
+- 徽章：`.badge-primary`, `.badge-success`, etc.
+- 警告：`.alert-success`, `.alert-info`, `.alert-warning`, `.alert-danger`
+- 卡片：`.card` + `.card-header` + `.card-body`
+
+### WCAG 合規
+- 所有主要文字：AAA 級（≥7.5:1）
+- 互動元素：AA 級（≥4.5:1）
+- Focus indicators：3px outline
+- Touch targets：≥44x44px
+
 ## 📞 聯絡資訊
 
 - 網站：https://uxshari.com
 - Worker API：https://uxshari-workers.uxshari.workers.dev
 - Firebase：https://console.firebase.google.com/project/uxshari-670fd
 
+## 📊 專案統計
+
+- **總代碼行數**：~15,000 行
+  - JavaScript：~8,000 行
+  - CSS：~2,400 行
+  - HTML：~4,500 行
+- **核心功能模組**：5 個（付款、預約、會員、清單、設計系統）
+- **API 端點**：15+ 個
+- **Firebase 集合**：6 個
+- **支援裝置**：Desktop / Tablet / Mobile (iOS & Android)
+- **瀏覽器支援**：Chrome, Safari, Firefox, Edge (最新版本)
+
+## 🔒 安全性
+
+- ✅ HTTPS only (GitHub Pages)
+- ✅ CORS 配置（僅允許 uxshari.com）
+- ✅ Firebase Security Rules（用戶隔離）
+- ✅ Admin endpoints 需 ADMIN_KEY 驗證
+- ✅ Stripe webhook signature 驗證
+- ✅ Calendly PAT 加密存儲
+- ✅ 敏感資料不存前端（env 使用 Cloudflare Secrets）
+
 ## 📄 授權
 
-© 2025 UXShari. All rights reserved.
+© 2025 UX Shari. All rights reserved.
