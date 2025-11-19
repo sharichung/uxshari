@@ -15,7 +15,7 @@
  
   
 </head>
-<body data-navbar-type="general">
+<body data-navbar-type="general" style="padding-top: 70px;">
 
   <!-- Removed full-page loading overlay; using lazy placeholders instead -->
 
@@ -23,24 +23,32 @@
   <div id="navbar"></div>
 
   <!-- Header / Hero (compact) -->
-  <section class="hero-section no-print py-3 py-md-4">
+  <section class="hero-section no-print py-3 py-md-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
     <div class="container">
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>'; font-size: 0.875rem;">
+          <li class="breadcrumb-item"><a href="/dashboard.html" class="text-white text-decoration-none opacity-75"><i class="fas fa-home"></i> 儀表板</a></li>
+          <li class="breadcrumb-item active text-white" aria-current="page">UX 痛點觀察清單</li>
+        </ol>
+      </nav>
+      
       <div class="d-flex align-items-center justify-content-between gap-3">
         <div class="d-flex align-items-center gap-3">
-          <button class="btn btn-outline-secondary d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#checklistSidebar" aria-controls="checklistSidebar">
+          <button class="btn btn-light d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#checklistSidebar" aria-controls="checklistSidebar">
             <i class="fas fa-bars"></i>
           </button>
           <div>
             <h1 class="h3 h-100 fw-bold mb-1"><i class="fas fa-clipboard-check me-2"></i>UX 痛點觀察清單</h1>
-            <div class="text-muted small">側邊欄 + 搜尋 + 收藏 — 高效導航</div>
+            <div class="small opacity-90">側邊欄 + 搜尋 + 收藏 — 高效導航</div>
           </div>
         </div>
         <div class="d-flex flex-column align-items-end gap-2">
-          <span id="user-status-badge" class="badge-normal">
+          <span id="user-status-badge" class="badge-normal" style="background: rgba(255,255,255,0.2); color: white;">
             <i class="fas fa-user me-2"></i>
             <span id="user-status" class="placeholder-glow"><span class="placeholder col-4"></span></span>
           </span>
-          <span class="badge bg-light text-dark">
+          <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">
             <i class="fas fa-list me-2"></i>
             清單：<strong id="checklist-count" class="placeholder-glow"><span class="placeholder col-2"></span></strong>
             / <span id="checklist-limit" class="placeholder-glow"><span class="placeholder col-1"></span></span>
@@ -95,7 +103,7 @@
                   <span class="fw-bold">全部清單</span>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                  <button id="create-checklist-btn" class="btn btn-sm btn-primary">
+                  <button id="create-checklist-btn" class="btn btn-sm btn-secondary">
                     <i class="fas fa-plus"></i> 新增
                   </button>
                 </div>
@@ -126,13 +134,37 @@
         </div>
       </div>
 
+      <!-- Mobile FAB (Floating Action Button) - Always visible on mobile -->
+      <button id="mobile-create-btn" class="btn btn-secondary shadow-lg d-md-none" 
+              style="position: fixed; bottom: 20px; right: 20px; width: 56px; height: 56px; border-radius: 50%; z-index: 1040;"
+              title="新增清單"
+              aria-label="新增清單">
+        <i class="fas fa-plus" style="font-size: 1.5rem;"></i>
+      </button>
+
       <!-- Detail Area -->
       <div class="col-12 col-md-8 col-lg-9">
+        <!-- Loading Placeholder -->
+        <div id="detail-loading" class="card border-0 shadow-sm">
+          <div class="card-body p-3 p-md-4">
+            <div class="placeholder-glow mb-3">
+              <span class="placeholder col-6" style="height: 38px; display: block;"></span>
+            </div>
+            <div class="placeholder-glow mb-3">
+              <span class="placeholder col-12" style="height: 10px; display: block;"></span>
+            </div>
+            <div class="placeholder-glow">
+              <span class="placeholder col-8" style="height: 200px; display: block;"></span>
+            </div>
+          </div>
+        </div>
+        
         <div id="detail-wrapper" class="card border-0 shadow-sm">
           <div class="card-body p-3 p-md-4">
             <!-- Toolbar -->
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print">
-              <div class="d-flex align-items-center gap-2 flex-grow-1">
+              <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
+                <span id="detail-project-type" class="badge bg-light text-dark" style="font-size: 0.9rem;"></span>
                 <input id="detail-title" class="form-control fw-bold border-0 bg-transparent" style="font-size:1.25rem; padding: 0.25rem 0.5rem;" placeholder="清單名稱"/>
                 <small class="text-muted flex-shrink-0" id="detail-save-status">
                   <i class="fas fa-check-circle text-success d-none" id="save-icon"></i>
@@ -152,11 +184,11 @@
             </div>
 
             <!-- Progress + Meta + VIP Perks -->
-            <div class="mb-3">
+            <div class="mb-3 no-print">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <div class="flex-grow-1 me-3">
                   <div class="progress" style="height: 10px;">
-                    <div id="detail-progress-bar" class="progress-bar" style="width: 0%"></div>
+                    <div id="detail-progress-bar" class="progress-bar bg-secondary" style="width: 0%"></div>
                   </div>
                 </div>
                 <div class="text-muted small">

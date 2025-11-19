@@ -187,6 +187,7 @@
       sidebarSearch: document.getElementById('sidebar-search'),
       emptyState: document.getElementById('empty-state'),
       createBtn: document.getElementById('create-checklist-btn'),
+      mobileCreateBtn: document.getElementById('mobile-create-btn'),
       limitNotice: document.getElementById('limit-notice'),
       // Header counters
       userStatus: document.getElementById('user-status'),
@@ -194,6 +195,7 @@
       checklistCount: document.getElementById('checklist-count'),
       checklistLimit: document.getElementById('checklist-limit'),
       // Detail
+      detailLoading: document.getElementById('detail-loading'),
       detailTitle: document.getElementById('detail-title'),
       detailProgressBar: document.getElementById('detail-progress-bar'),
       detailUpdated: document.getElementById('detail-updated'),
@@ -304,6 +306,9 @@
 
     // Update UI
     function updateUI() {
+      // Hide loading placeholder
+      if (elements.detailLoading) elements.detailLoading.classList.add('d-none');
+      
       // header counters
       if (elements.checklistCount) {
         elements.checklistCount.textContent = String(userChecklists.length);
@@ -318,8 +323,13 @@
         elements.createBtn.classList.remove('placeholder-glow');
         elements.createBtn.innerHTML = '<i class="fas fa-plus"></i> 新增';
       }
+      if (elements.mobileCreateBtn) {
+        elements.mobileCreateBtn.disabled = false;
+        try { elements.mobileCreateBtn.removeAttribute('disabled'); } catch(_){}
+      }
       const reachedLimit = !isPaid && userChecklists.length >= FREE_LIMIT;
       if (elements.createBtn) elements.createBtn.disabled = reachedLimit;
+      if (elements.mobileCreateBtn) elements.mobileCreateBtn.disabled = reachedLimit;
       if (elements.limitNotice) elements.limitNotice.classList.toggle('d-none', !reachedLimit);
 
       // Sidebar render
@@ -372,15 +382,19 @@
         const {progress} = computeProgress(cl);
         const active = idx === selectedIndex ? 'active' : '';
         const pinClass = cl.pinned ? 'pin-btn' : 'pin-btn inactive';
+        const pt = projectTypes.find(p=>p.id===cl.projectType) || projectTypes.find(p=>p.id==='general');
         return `
           <li class="list-group-item ${active}" data-index="${idx}" draggable="true">
             <div class="d-flex align-items-center gap-2">
               <button class="btn btn-sm ${pinClass}" data-pin type="button" title="收藏/取消收藏"><i class="fas fa-thumbtack"></i></button>
               <div class="flex-grow-1" data-select>
-                <div class="list-item-title fw-semibold">${cl.name || '未命名清單'}</div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <span class="list-item-title fw-semibold">${cl.name || '未命名清單'}</span>
+                  <span class="badge bg-light text-dark" style="font-size: 0.7rem;" title="${pt.name}">${pt.icon}</span>
+                </div>
                 <div class="d-flex align-items-center gap-2 small text-muted">
                   <div class="progress flex-grow-1">
-                    <div class="progress-bar ${progress===100?'complete':''}" style="width:${progress}%"></div>
+                    <div class="progress-bar ${progress===100?'complete':''} bg-secondary" style="width:${progress}%"></div>
                   </div>
                   <span>${progress}%</span>
                 </div>
@@ -417,10 +431,18 @@
       const idx = selectedIndex;
       if (idx < 0 || idx >= userChecklists.length){
         if (elements.detailSections) elements.detailSections.innerHTML = '<div class="text-muted text-center py-5">請從左側選擇或建立清單</div>';
+        const ptBadge = document.getElementById('detail-project-type');
+        if (ptBadge) ptBadge.textContent = '';
         return;
       }
       const checklist = userChecklists[idx];
       const { totalItems, checkedItems, progress } = computeProgress(checklist);
+      const pt = projectTypes.find(p=>p.id===checklist.projectType) || projectTypes.find(p=>p.id==='general');
+      
+      // Update project type badge
+      const ptBadge = document.getElementById('detail-project-type');
+      if (ptBadge) ptBadge.textContent = `${pt.icon} ${pt.name}`;
+      
       if (elements.detailTitle) elements.detailTitle.value = checklist.name || '';
       if (elements.detailProgressBar) elements.detailProgressBar.style.width = progress + '%';
       if (elements.detailUpdated) elements.detailUpdated.textContent = new Date(checklist.updatedAt).toLocaleDateString('zh-TW');
@@ -433,7 +455,6 @@
           </div>
         </div>`;
       };
-      const pt = projectTypes.find(p=>p.id===checklist.projectType) || projectTypes.find(p=>p.id==='general');
       const section = (title, iconClass, catArrName) => `
         <div class="checklist-section">
           <div class="section-title">
@@ -690,7 +711,7 @@
     };
 
     // Create New Checklist with Project Type
-    if (elements.createBtn) elements.createBtn.addEventListener('click', () => {
+    const openCreateModal = () => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
         alert('已達普通會員上限（3 張清單）\n\n升級到 VIP 會員以建立無限數量清單！');
         return;
@@ -699,7 +720,10 @@
       selectedProjectType = null;
       const modal = new bootstrap.Modal(document.getElementById('projectTypeModal'));
       modal.show();
-    });
+    };
+    
+    if (elements.createBtn) elements.createBtn.addEventListener('click', openCreateModal);
+    if (elements.mobileCreateBtn) elements.mobileCreateBtn.addEventListener('click', openCreateModal);
 
     // Confirm Project Type and Create Checklist
     document.getElementById('confirm-project-type').addEventListener('click', async () => {
