@@ -305,12 +305,16 @@
     // Update UI
     function updateUI() {
       // header counters
-      elements.checklistCount.textContent = userChecklists.length;
+      if (elements.checklistCount) {
+        elements.checklistCount.textContent = String(userChecklists.length);
+        elements.checklistCount.classList.remove('placeholder-glow');
+      }
       if (elements.userStatus) elements.userStatus.classList.remove('placeholder-glow');
       if (elements.checklistLimit) elements.checklistLimit.classList.remove('placeholder-glow');
       // create button state
       if (elements.createBtn) {
         elements.createBtn.disabled = false;
+        try { elements.createBtn.removeAttribute('disabled'); } catch(_){}
         elements.createBtn.classList.remove('placeholder-glow');
         elements.createBtn.innerHTML = '<i class="fas fa-plus"></i> 新增';
       }
