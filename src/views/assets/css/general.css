@@ -6,6 +6,7 @@
   --primary-pale-rgb: 249, 234, 213;
   --secondary: #6e00ff;
   --secondary-light: #9d4eff;
+  --secondary-dark: #4f00b8;
   --accent: #ff3d00;
   --dark: #1a1a2e;
   --dark-blue: #16213e;
@@ -107,6 +108,7 @@
   box-shadow: var(--glow);
   color: var(--light);
 }
+.btn-primary-shari:focus-visible { outline: 3px solid rgba(255,149,0,0.5); outline-offset: 2px; }
 
 /* Secondary 樣式 */
 .btn-secondary-shari {
@@ -120,6 +122,26 @@
   box-shadow: 0 0 0.75rem rgba(109, 0, 255, 0.4);
   transform: scale(1.03);
 }
+.btn-secondary-shari:focus-visible { outline: 3px solid rgba(110,0,255,0.45); outline-offset: 2px; }
+
+/* Outline variants (brand) */
+.btn-outline-primary-shari {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+}
+.btn-outline-primary-shari:hover,
+.btn-outline-primary-shari:focus { background: var(--primary); color: white; }
+.btn-outline-primary-shari:focus-visible { outline: 3px solid rgba(255,149,0,0.5); outline-offset: 2px; }
+
+.btn-outline-secondary-shari {
+  border: 2px solid var(--secondary);
+  color: var(--secondary);
+  background: transparent;
+}
+.btn-outline-secondary-shari:hover,
+.btn-outline-secondary-shari:focus { background: var(--secondary); color: white; }
+.btn-outline-secondary-shari:focus-visible { outline: 3px solid rgba(110,0,255,0.45); outline-offset: 2px; }
 
 /* Danger 樣式 */
 .btn-danger-shari {
@@ -134,19 +156,7 @@
   transform: scale(1.03);
 }
 
-.btn-outline-shari {
-  border: 2px solid var(--primary-shari);
-  color: var(--primary-shari);
-  background: transparent;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-outline-shari:hover {
-  background: var(--primary-shari);
-  color: white;
-  transform: translateY(-2px);
-}
+/* legacy outline utility removed in favor of brand variants */
 
 .btn-success-shari {
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
@@ -201,6 +211,9 @@
 }
 
 /* === social link icon === */
+/* Brand background helpers */
+.bg-primary-shari { background-color: var(--primary) !important; }
+.bg-secondary-shari { background-color: var(--secondary) !important; }
 .social-link {
   width: 40px;
   height: 40px;
