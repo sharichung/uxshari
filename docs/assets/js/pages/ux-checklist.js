@@ -429,8 +429,24 @@
 
     function renderDetail(){
       const idx = selectedIndex;
+      const toolbar = document.getElementById('detail-toolbar');
+      const meta = document.getElementById('detail-meta');
       if (idx < 0 || idx >= userChecklists.length){
-        if (elements.detailSections) elements.detailSections.innerHTML = '<div class="text-muted text-center py-5">請從左側選擇或建立清單</div>';
+        // Hide toolbar and meta blocks
+        if (toolbar) toolbar.classList.add('d-none');
+        if (meta) meta.classList.add('d-none');
+        // Show CTA empty state with brand styling
+        if (elements.detailSections) {
+          elements.detailSections.innerHTML = `
+            <div class="text-center py-5" id="detail-empty">
+              <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+              <h5 class="text-muted">開始您的第一個 UX 專案</h5>
+              <p class="text-muted mb-4">選擇專案類型，系統將自動載入專業的痛點檢查模板</p>
+              <button class="btn btn-primary-shari btn-lg" onclick="document.getElementById('create-checklist-btn').click() || document.getElementById('mobile-create-btn').click()">
+                <i class="fas fa-plus me-2"></i>建立第一張清單
+              </button>
+            </div>`;
+        }
         const ptBadge = document.getElementById('detail-project-type');
         if (ptBadge) ptBadge.textContent = '';
         return;
@@ -443,6 +459,10 @@
       const ptBadge = document.getElementById('detail-project-type');
       if (ptBadge) ptBadge.textContent = `${pt.icon} ${pt.name}`;
       
+      // Ensure toolbar and meta visible when a checklist is selected
+      if (toolbar) toolbar.classList.remove('d-none');
+      if (meta) meta.classList.remove('d-none');
+
       if (elements.detailTitle) elements.detailTitle.value = checklist.name || '';
       if (elements.detailProgressBar) elements.detailProgressBar.style.width = progress + '%';
       if (elements.detailUpdated) elements.detailUpdated.textContent = new Date(checklist.updatedAt).toLocaleDateString('zh-TW');
@@ -518,7 +538,8 @@
       // actions
       if (elements.btnDuplicate) {
         elements.btnDuplicate.onclick = async () => {
-          const dropdownToggle = document.querySelector('.dropdown-toggle');
+          const dropdownEl = elements.btnDuplicate.closest('.dropdown');
+          const dropdownToggle = dropdownEl ? dropdownEl.querySelector('.dropdown-toggle') : document.querySelector('.dropdown-toggle');
           if (dropdownToggle) {
             const icon = dropdownToggle.querySelector('i');
             const originalIcon = icon.className;
@@ -618,30 +639,31 @@
           if (pinBtn) pinBtn.onclick = async (e)=>{
             e.stopPropagation();
             const idx = parseInt(li.dataset.index);
-            
-            // Show loading spinner immediately
+
+            // Show loading spinner immediately and keep until save completes
             const icon = pinBtn.querySelector('i');
             const originalIcon = icon.className;
             icon.className = 'fas fa-spinner fa-spin';
             pinBtn.disabled = true;
-            
-            // Optimistic update
+
             const previousState = userChecklists[idx].pinned;
             userChecklists[idx].pinned = !userChecklists[idx].pinned;
             userChecklists[idx].updatedAt = new Date().toISOString();
-            
-            // Update UI immediately
-            renderSidebar();
-            
-            // Save in background
+
             try {
               await saveToFirestore();
+              showSaveIndicator();
+              renderSidebar();
             } catch (err) {
               // Rollback on error
               console.error('Pin toggle failed:', err);
               userChecklists[idx].pinned = previousState;
-              renderSidebar();
               alert('收藏狀態更新失敗，請重試');
+              renderSidebar();
+            } finally {
+              // In case renderSidebar didn't rerender this element yet
+              if (icon) icon.className = originalIcon;
+              pinBtn.disabled = false;
             }
           };
           // dnd

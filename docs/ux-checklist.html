@@ -85,11 +85,11 @@
           </div>
         </div>
         <div class="d-flex flex-column align-items-end gap-2">
-          <span id="user-status-badge" class="badge-normal" style="background: rgba(255,255,255,0.2); color: white;">
+          <span id="user-status-badge" class="badge-normal">
             <i class="fas fa-user me-2"></i>
             <span id="user-status" class="placeholder-glow"><span class="placeholder col-4"></span></span>
           </span>
-          <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">
+          <span class="badge" style="background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.3);">
             <i class="fas fa-list me-2"></i>
             清單：<strong id="checklist-count" class="placeholder-glow"><span class="placeholder col-2"></span></strong>
             / <span id="checklist-limit" class="placeholder-glow"><span class="placeholder col-1"></span></span>
@@ -203,7 +203,7 @@
         <div id="detail-wrapper" class="card border-0 shadow-sm">
           <div class="card-body p-3 p-md-4">
             <!-- Toolbar -->
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print">
+            <div id="detail-toolbar" class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print">
               <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
                 <span id="detail-project-type" class="badge bg-light text-dark" style="font-size: 0.9rem;"></span>
                 <input id="detail-title" class="form-control fw-bold border-0 bg-transparent" style="font-size:1.25rem; padding: 0.25rem 0.5rem;" placeholder="清單名稱"/>
@@ -225,7 +225,7 @@
             </div>
 
             <!-- Progress + Meta + VIP Perks -->
-            <div class="mb-3 no-print">
+            <div id="detail-meta" class="mb-3 no-print">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <div class="flex-grow-1 me-3">
                   <div class="progress" style="height: 10px;">
@@ -255,7 +255,7 @@
                 <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
                 <h5 class="text-muted">開始您的第一個 UX 專案</h5>
                 <p class="text-muted mb-4">選擇專案類型，系統將自動載入專業的痛點檢查模板</p>
-                <button class="btn btn-primary btn-lg" onclick="document.getElementById('create-checklist-btn').click()">
+                <button class="btn btn-primary-shari btn-lg" onclick="document.getElementById('create-checklist-btn').click() || document.getElementById('mobile-create-btn').click()">
                   <i class="fas fa-plus me-2"></i>建立第一張清單
                 </button>
               </div>
