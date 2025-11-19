@@ -2302,6 +2302,19 @@ body {
       text-decoration: line-through;
     }
 
+    /* Preserve severity button text color when item is checked */
+    .checklist-item.checked .severity-btn.btn-success,
+    .checklist-item.checked .severity-btn.btn-warning,
+    .checklist-item.checked .severity-btn.btn-danger,
+    .checklist-item.checked .severity-btn.btn-outline-secondary {
+      color: inherit !important; /* keep the intrinsic severity color applied earlier */
+      text-decoration: none !important;
+    }
+
+    /* More specific to override strike-through from parent */
+    .checklist-item.checked .severity-btn span,
+    .checklist-item.checked .severity-btn { text-decoration: none !important; }
+
     .suggestion-pill {
       display: inline-flex;
       align-items: center;
