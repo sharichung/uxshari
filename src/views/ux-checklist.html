@@ -88,7 +88,14 @@
                 <i class="fas fa-chevron-down"></i>
               </div>
               <div class="collapse show" id="favoritesCollapse">
-                <ul id="favorites-list" class="list-group list-group-flush small-draggable"></ul>
+                <!-- Loading skeleton for favorites -->
+                <div id="favorites-loading" class="p-3">
+                  <div class="placeholder-glow">
+                    <div class="placeholder col-12 mb-2" style="height: 40px; border-radius: 4px;"></div>
+                    <div class="placeholder col-12" style="height: 40px; border-radius: 4px;"></div>
+                  </div>
+                </div>
+                <ul id="favorites-list" class="list-group list-group-flush small-draggable" style="display: none;"></ul>
                 <div class="p-3 text-center text-muted small d-none" id="favorites-empty">
                   <i class="fas fa-info-circle me-1"></i>點擊圖釘收藏常用清單
                 </div>
@@ -103,12 +110,20 @@
                   <span class="fw-bold">全部清單</span>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                  <button id="create-checklist-btn" class="btn btn-sm btn-secondary-shari">
-                    <i class="fas fa-plus"></i> 新增
+                  <button id="create-checklist-btn" class="btn btn-primary-shari shadow-sm">
+                    <i class="fas fa-plus me-1"></i><span class="fw-bold">新增清單</span>
                   </button>
                 </div>
               </div>
-              <ul id="all-list" class="list-group list-group-flush small-draggable"></ul>
+              <!-- Loading skeleton for all lists -->
+              <div id="all-list-loading" class="p-3">
+                <div class="placeholder-glow">
+                  <div class="placeholder col-12 mb-2" style="height: 50px; border-radius: 4px;"></div>
+                  <div class="placeholder col-12 mb-2" style="height: 50px; border-radius: 4px;"></div>
+                  <div class="placeholder col-12" style="height: 50px; border-radius: 4px;"></div>
+                </div>
+              </div>
+              <ul id="all-list" class="list-group list-group-flush small-draggable" style="display: none;"></ul>
               <div class="p-3 d-none" id="empty-state">
                 <div class="text-center text-muted">
                   <i class="fas fa-clipboard-list fa-2x mb-2"></i>
@@ -135,8 +150,8 @@
       </div>
 
       <!-- Mobile FAB (Floating Action Button) - Always visible on mobile -->
-      <button id="mobile-create-btn" class="btn btn-secondary-shari shadow-lg d-md-none" 
-              style="position: fixed; bottom: 20px; right: 20px; width: 56px; height: 56px; border-radius: 50%; z-index: 1040;"
+      <button id="mobile-create-btn" class="btn btn-primary-shari shadow-lg d-md-none" 
+              style="position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px; border-radius: 50%; z-index: 1040; font-size: 1.5rem;"
               title="新增清單"
               aria-label="新增清單">
         <i class="fas fa-plus" style="font-size: 1.5rem;"></i>
@@ -253,7 +268,14 @@
         </div>
         <div class="modal-body">
           <p class="text-muted mb-3">系統將根據專案類型自動載入對應的痛點檢查模板</p>
-          <div class="project-type-grid" id="project-type-grid"></div>
+          <!-- Loading placeholder for project types -->
+          <div id="project-type-loading" class="text-center py-4">
+            <div class="spinner-border text-primary-shari" role="status">
+              <span class="visually-hidden">載入專案類型...</span>
+            </div>
+            <p class="text-muted mt-2 small">載入專案類型...</p>
+          </div>
+          <div class="project-type-grid" id="project-type-grid" style="display: none;"></div>
           <div class="alert alert-info mt-3 small">
             <i class="fas fa-lightbulb me-2"></i>
             <strong>提示：</strong>不同類型包含針對性的痛點檢查項目，選擇最符合您專案的類型以獲得更精準的檢查清單。

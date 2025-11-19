@@ -266,6 +266,18 @@
   gap: 1rem;
 }
 
+/* Override Bootstrap active list items with brand colors */
+.list-group-item.active {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: white !important;
+}
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
 /* Navbar avatar overlay styles */
 .navbar-general .avatar-wrapper {
   position: relative;

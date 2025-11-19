@@ -378,6 +378,15 @@
       const favWrap = elements.sidebarFavorites;
       const allWrap = elements.sidebarAll;
       if (!favWrap || !allWrap) return;
+
+      // Hide loading skeletons
+      const favLoading = document.getElementById('favorites-loading');
+      const allLoading = document.getElementById('all-list-loading');
+      if (favLoading) favLoading.style.display = 'none';
+      if (allLoading) allLoading.style.display = 'none';
+      // Show lists
+      favWrap.style.display = 'block';
+      allWrap.style.display = 'block';
       const listToLi = (cl, idx) => {
         const {progress} = computeProgress(cl);
         const active = idx === selectedIndex ? 'active' : '';
@@ -715,6 +724,7 @@
     // Initialize Project Type Modal
     function initProjectTypeModal() {
       const grid = document.getElementById('project-type-grid');
+      const loading = document.getElementById('project-type-loading');
       grid.innerHTML = projectTypes.map(pt => `
         <div class="project-type-card" data-type="${pt.id}" onclick="selectProjectType('${pt.id}')">
           <div class="project-type-icon">${pt.icon}</div>
@@ -722,6 +732,9 @@
           <div class="project-type-desc">${pt.desc}</div>
         </div>
       `).join('');
+      // Hide loading, show grid
+      if (loading) loading.style.display = 'none';
+      grid.style.display = 'grid';
     }
 
     // Select Project Type
