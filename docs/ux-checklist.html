@@ -74,23 +74,23 @@
         </ol>
       </nav>
       
-      <div class="d-flex align-items-center justify-content-between gap-3">
-        <div class="d-flex align-items-center gap-3">
+      <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 gap-md-3">
+        <div class="d-flex align-items-center gap-2 gap-md-3 w-100 w-md-auto">
           <button class="btn btn-light d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#checklistSidebar" aria-controls="checklistSidebar">
             <i class="fas fa-bars"></i>
           </button>
-          <div>
-            <h1 class="h3 h-100 fw-bold mb-1"><i class="fas fa-clipboard-check me-2"></i>UX 痛點觀察清單</h1>
-            <div class="small opacity-90">側邊欄 + 搜尋 + 收藏 — 高效導航</div>
+          <div class="flex-grow-1">
+            <h1 class="h4 h-md-3 fw-bold mb-1"><i class="fas fa-clipboard-check me-2"></i>UX 痛點觀察清單</h1>
+            <div class="small opacity-90 d-none d-md-block">側邊欄 + 搜尋 + 收藏 — 高效導航</div>
           </div>
         </div>
-        <div class="d-flex flex-column align-items-end gap-2">
+        <div class="d-flex flex-row flex-md-column align-items-center align-items-md-end gap-2 w-100 w-md-auto justify-content-between justify-content-md-start">
           <span id="user-status-badge" class="badge-normal">
-            <i class="fas fa-user me-2"></i>
+            <i class="fas fa-user me-1 me-md-2"></i>
             <span id="user-status" class="placeholder-glow"><span class="placeholder col-4"></span></span>
           </span>
           <span class="badge" style="background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.3);">
-            <i class="fas fa-list me-2"></i>
+            <i class="fas fa-list me-1 me-md-2"></i>
             清單：<strong id="checklist-count" class="placeholder-glow"><span class="placeholder col-2"></span></strong>
             / <span id="checklist-limit" class="placeholder-glow"><span class="placeholder col-1"></span></span>
           </span>
@@ -256,17 +256,6 @@
                   更新：<span id="detail-updated">—</span>
                 </div>
               </div>
-              <div class="d-flex gap-2 flex-wrap no-print" id="vip-perks-area">
-                <button id="perk-pdf" class="btn btn-sm btn-outline-secondary-shari" title="VIP 會員專屬">
-                  <i class="fas fa-lock me-1"></i>PDF 報告
-                </button>
-                <button id="perk-ai" class="btn btn-sm btn-outline-secondary-shari" title="VIP 會員專屬">
-                  <i class="fas fa-lock me-1"></i>AI 建議
-                </button>
-                <button id="perk-team" class="btn btn-sm btn-outline-secondary-shari" title="VIP 會員專屬">
-                  <i class="fas fa-lock me-1"></i>團隊協作
-                </button>
-              </div>
             </div>
 
             <!-- Sections -->
@@ -394,9 +383,6 @@
     #favoritesCollapse .list-group-item:first-child{ border-top:0; }
     /* Simplified toolbar */
     #detail-title:focus{ outline:none; box-shadow:0 0 0 0.2rem rgba(255,107,53,0.25); }
-    /* VIP perks subtle styling */
-    #vip-perks-area .btn{ opacity:0.7; }
-    #vip-perks-area .btn:hover{ opacity:1; }
     /* Notification animations */
     #achievement-toast, #undo-toast{ transition: all 0.3s ease; opacity:0; transform:translateY(-20px); pointer-events:none; }
     #achievement-toast.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
