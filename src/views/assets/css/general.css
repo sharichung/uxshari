@@ -2967,7 +2967,8 @@ body {
   .no-print, 
   .navbar, 
   .footer,
-  .progress { 
+  .progress,
+  .collapse-btn { 
     display: none !important; 
   }
   
