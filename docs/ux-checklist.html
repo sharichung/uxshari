@@ -15,7 +15,7 @@
  
   
 </head>
-<body data-navbar-type="general" style="padding-top: 70px;">
+<body data-navbar-type="general" style="padding-top: 46px;">
 
   <!-- Removed full-page loading overlay; using lazy placeholders instead -->
 
@@ -326,6 +326,31 @@
           <button type="button" class="btn btn-secondary-shari" data-bs-dismiss="modal">取消</button>
           <button type="button" class="btn btn-primary-shari" id="confirm-project-type">
             <i class="fas fa-check me-2"></i>確認建立
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note Modal -->
+  <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="noteModalLabel">
+            <i class="fas fa-sticky-note me-2 text-primary"></i>添加筆記
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small mb-3">記錄觀察細節、用戶反應或補充說明</p>
+          <textarea id="note-textarea" class="form-control" rows="5" 
+                    placeholder="例如：在首頁發現此問題，3位受測者都無法找到註冊按鈕..."></textarea>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary-shari" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary-shari" id="save-note-btn">
+            <i class="fas fa-save me-2"></i>保存筆記
           </button>
         </div>
       </div>

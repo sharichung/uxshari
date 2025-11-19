@@ -476,22 +476,79 @@
       if (elements.detailProgressBar) elements.detailProgressBar.style.width = progress + '%';
       if (elements.detailUpdated) elements.detailUpdated.textContent = new Date(checklist.updatedAt).toLocaleDateString('zh-TW');
 
-      const renderItem = (cat, item) => {
-        return `<div class="checklist-item ${item.checked?'checked':''}">
+      const renderItem = (cat, item, itemIndex) => {
+        const severity = item.severity || 'none';
+        const severityColors = { none: 'secondary', low: 'success', medium: 'warning', high: 'danger' };
+        const severityLabels = { none: '未設定', low: '低', medium: '中', high: '高' };
+        const hasPriority = item.priority || false;
+        const hasNote = item.note && item.note.trim();
+        
+        return `<div class="checklist-item ${item.checked?'checked':''}" data-cat="${cat}" data-item-id="${item.id}">
           <input type="checkbox" id="d-${idx}-${item.id}" ${item.checked?'checked':''} data-cat="${cat}" data-id="${item.id}">
-          <div class="checklist-item-text">${item.text}
-            ${item.suggestion?`<div class="suggestion-pill" data-suggestion="${encodeURIComponent(item.suggestion)}"><i class="fas fa-lightbulb"></i> 建議</div>`:''}
+          <div class="checklist-item-text">
+            <div class="d-flex align-items-start gap-2 w-100">
+              <span class="flex-grow-1">${item.text}</span>
+              <div class="d-flex align-items-center gap-1 flex-shrink-0">
+                <!-- Priority star -->
+                <button class="btn btn-sm btn-link p-0 text-decoration-none priority-btn ${hasPriority?'active':''}" 
+                        data-cat="${cat}" data-id="${item.id}" title="標記為重點">
+                  <i class="fas fa-star ${hasPriority?'text-warning':'text-muted'}"></i>
+                </button>
+                <!-- Severity dropdown -->
+                <div class="dropdown d-inline-block">
+                  <button class="btn btn-sm btn-outline-${severityColors[severity]} dropdown-toggle py-0 px-1" 
+                          type="button" data-bs-toggle="dropdown" style="font-size: 0.75rem; line-height: 1.2;">
+                    ${severityLabels[severity]}
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item severity-option" href="#" data-cat="${cat}" data-id="${item.id}" data-severity="none">未設定</a></li>
+                    <li><a class="dropdown-item severity-option text-success" href="#" data-cat="${cat}" data-id="${item.id}" data-severity="low">低</a></li>
+                    <li><a class="dropdown-item severity-option text-warning" href="#" data-cat="${cat}" data-id="${item.id}" data-severity="medium">中</a></li>
+                    <li><a class="dropdown-item severity-option text-danger" href="#" data-cat="${cat}" data-id="${item.id}" data-severity="high">高</a></li>
+                  </ul>
+                </div>
+                <!-- Note button -->
+                <button class="btn btn-sm btn-link p-0 text-decoration-none note-btn ${hasNote?'text-primary':'text-muted'}" 
+                        data-cat="${cat}" data-id="${item.id}" title="添加筆記">
+                  <i class="fas fa-sticky-note"></i>
+                </button>
+                <!-- Explanation icon -->
+                ${item.suggestion?`<button class="btn btn-sm btn-link p-0 text-decoration-none text-info" 
+                                           data-suggestion="${encodeURIComponent(item.suggestion)}" title="查看建議">
+                  <i class="fas fa-info-circle"></i>
+                </button>`:''}
+              </div>
+            </div>
+            ${hasNote?`<div class="item-note mt-1 small text-muted"><i class="fas fa-comment-dots me-1"></i>${item.note}</div>`:''}
           </div>
         </div>`;
       };
-      const section = (title, iconClass, catArrName) => `
-        <div class="checklist-section">
-          <div class="section-title">
-            <div class="section-icon"><i class="${iconClass}"></i></div>
-            <span>${title}</span>
+      const section = (title, iconClass, catArrName) => {
+        const items = checklist.items[catArrName];
+        const catTotal = items.length;
+        const catChecked = items.filter(i => i.checked).length;
+        const catProgress = catTotal ? Math.round((catChecked / catTotal) * 100) : 0;
+        
+        return `
+        <div class="checklist-section" data-category="${catArrName}">
+          <div class="section-title d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-2">
+              <div class="section-icon"><i class="${iconClass}"></i></div>
+              <span>${title}</span>
+              <span class="badge bg-light text-muted">${catChecked}/${catTotal}</span>
+            </div>
+            <div class="progress" style="width: 80px; height: 6px;">
+              <div class="progress-bar bg-secondary-shari" role="progressbar" style="width: ${catProgress}%" 
+                   aria-valuenow="${catProgress}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
           </div>
-          ${checklist.items[catArrName].map(item=>renderItem(catArrName,item)).join('')}
+          ${items.map((item, itemIndex)=>renderItem(catArrName,item,itemIndex)).join('')}
+          <button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn" 
+                  data-category="${catArrName}">
+            <i class="fas fa-plus me-1"></i>新增自定義痛點
+          </button>
         </div>`;
+      };
       const html = [
         section('流程痛點','fas fa-route','process'),
         section('介面痛點','fas fa-window-maximize','interface'),
@@ -527,6 +584,63 @@
             showSaveIndicator();
             updateUI();
           }
+        });
+      });
+
+      // Priority toggle
+      elements.detailSections.querySelectorAll('.priority-btn').forEach(btn=>{
+        btn.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          const cat = e.currentTarget.getAttribute('data-cat');
+          const itemId = e.currentTarget.getAttribute('data-id');
+          const item = userChecklists[idx].items[cat].find(i=>i.id===itemId);
+          if (item){
+            item.priority = !item.priority;
+            userChecklists[idx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+            renderDetail();
+          }
+        });
+      });
+
+      // Severity dropdown
+      elements.detailSections.querySelectorAll('.severity-option').forEach(opt=>{
+        opt.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          const cat = e.currentTarget.getAttribute('data-cat');
+          const itemId = e.currentTarget.getAttribute('data-id');
+          const severity = e.currentTarget.getAttribute('data-severity');
+          const item = userChecklists[idx].items[cat].find(i=>i.id===itemId);
+          if (item){
+            item.severity = severity;
+            userChecklists[idx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+            renderDetail();
+          }
+        });
+      });
+
+      // Note button
+      elements.detailSections.querySelectorAll('.note-btn').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const cat = e.currentTarget.getAttribute('data-cat');
+          const itemId = e.currentTarget.getAttribute('data-id');
+          const item = userChecklists[idx].items[cat].find(i=>i.id===itemId);
+          if (item){
+            openNoteModal(idx, cat, itemId, item.note || '');
+          }
+        });
+      });
+
+      // Add custom item buttons
+      elements.detailSections.querySelectorAll('.add-custom-item-btn').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const category = e.currentTarget.getAttribute('data-category');
+          addCustomItem(idx, category);
         });
       });
 
@@ -983,6 +1097,64 @@
 
     // Attach Event Listeners
     function attachEventListeners() { /* replaced by renderDetail + attachSidebarEvents */ }
+
+    // Open Note Modal
+    function openNoteModal(checklistIdx, category, itemId, currentNote) {
+      const modal = new bootstrap.Modal(document.getElementById('noteModal'));
+      const textarea = document.getElementById('note-textarea');
+      const saveBtn = document.getElementById('save-note-btn');
+      
+      textarea.value = currentNote || '';
+      
+      // Remove old listeners
+      const newSaveBtn = saveBtn.cloneNode(true);
+      saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+      
+      newSaveBtn.addEventListener('click', async () => {
+        const note = textarea.value.trim();
+        const item = userChecklists[checklistIdx].items[category].find(i => i.id === itemId);
+        if (item) {
+          item.note = note;
+          userChecklists[checklistIdx].updatedAt = new Date().toISOString();
+          await saveToFirestore();
+          showSaveIndicator();
+          modal.hide();
+          renderDetail();
+        }
+      });
+      
+      modal.show();
+    }
+
+    // Add Custom Item
+    function addCustomItem(checklistIdx, category) {
+      const itemText = prompt('請輸入自定義痛點項目：');
+      if (!itemText || !itemText.trim()) return;
+      
+      const customItems = userChecklists[checklistIdx].items[category].filter(i => i.id.startsWith('custom_'));
+      if (customItems.length >= 5) {
+        alert('每個類別最多只能新增 5 個自定義項目');
+        return;
+      }
+      
+      const newItem = {
+        id: `custom_${category}_${Date.now()}`,
+        text: itemText.trim(),
+        checked: false,
+        suggestion: '',
+        severity: 'none',
+        priority: false,
+        note: '',
+        custom: true
+      };
+      
+      userChecklists[checklistIdx].items[category].push(newItem);
+      userChecklists[checklistIdx].updatedAt = new Date().toISOString();
+      saveToFirestore().then(() => {
+        showSaveIndicator();
+        renderDetail();
+      });
+    }
 
     // Save to Firestore
     async function saveToFirestore() {

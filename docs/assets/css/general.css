@@ -1498,6 +1498,36 @@ body {
       background: #f0fdf4;
     }
 
+    /* Item action buttons */
+    .checklist-item .priority-btn,
+    .checklist-item .note-btn {
+      transition: all 0.2s ease;
+      opacity: 0.5;
+    }
+    
+    .checklist-item:hover .priority-btn,
+    .checklist-item:hover .note-btn {
+      opacity: 1;
+    }
+    
+    .checklist-item .priority-btn.active,
+    .checklist-item .note-btn.text-primary {
+      opacity: 1;
+    }
+    
+    .checklist-item .priority-btn:hover {
+      transform: scale(1.2);
+    }
+    
+    /* Item note display */
+    .item-note {
+      background: #f8fafc;
+      border-left: 3px solid var(--primary);
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
     .checklist-item input[type="checkbox"] {
       width: 20px;
       height: 20px;
