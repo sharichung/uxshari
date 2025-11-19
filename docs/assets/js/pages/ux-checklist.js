@@ -177,7 +177,6 @@
 
     // UI Elements
     const elements = {
-      loading: document.getElementById('loading-overlay'),
       emptyState: document.getElementById('empty-state'),
       container: document.getElementById('checklists-container'),
       createBtn: document.getElementById('create-checklist-btn'),
@@ -187,8 +186,15 @@
       limitNotice: document.getElementById('limit-notice')
     };
 
-    // Hide Loading
-    const hideLoading = () => elements.loading.style.display = 'none';
+    let dataReady = false;
+    // Watchdog: clear placeholders if data doesn't arrive within 5s
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        if (!dataReady) {
+          try { updateUI(); } catch(_) {}
+        }
+      }, 5000);
+    });
 
     // Load User Data
     async function loadUserData(email) {
@@ -268,6 +274,16 @@
     // Update UI
     function updateUI() {
       elements.checklistCount.textContent = userChecklists.length;
+      // Enable button and remove placeholder look
+      if (elements.createBtn) {
+        elements.createBtn.disabled = false;
+        elements.createBtn.classList.remove('placeholder-glow');
+        if (!elements.createBtn.querySelector('i')) {
+          elements.createBtn.innerHTML = '<i class="fas fa-plus me-2"></i>建立新清單';
+        }
+      }
+      if (elements.userStatus) elements.userStatus.classList.remove('placeholder-glow');
+      if (elements.checklistLimit) elements.checklistLimit.classList.remove('placeholder-glow');
 
       // Check limit
       const reachedLimit = !isPaid && userChecklists.length >= FREE_LIMIT;
@@ -750,7 +766,6 @@
     // Auth State
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        hideLoading();
         window.location.href = '/index.html';
         return;
       }
@@ -758,6 +773,5 @@
       userEmail = user.email;
       await loadUserData(user.email);
       initProjectTypeModal();
-      hideLoading();
-      if (window.__uxChecklistOk) window.__uxChecklistOk();
+      dataReady = true;
     });
