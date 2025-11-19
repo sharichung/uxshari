@@ -816,8 +816,8 @@
         filterIncompleteBtn.onclick = () => {
           showOnlyIncomplete = !showOnlyIncomplete;
           if (showOnlyIncomplete) {
-            filterIncompleteBtn.classList.remove('btn-outline-secondary-shari');
-            filterIncompleteBtn.classList.add('btn-secondary-shari');
+            filterIncompleteBtn.classList.remove('btn-outline-warning-shari');
+            filterIncompleteBtn.classList.add('btn-warning-shari');
             showOnlyNeedsWork = false; // 互斥
             const needsWorkBtn = document.getElementById('filter-needs-work-btn');
             if (needsWorkBtn) {
@@ -825,8 +825,8 @@
               needsWorkBtn.classList.add('btn-outline-error-shari');
             }
           } else {
-            filterIncompleteBtn.classList.remove('btn-secondary-shari');
-            filterIncompleteBtn.classList.add('btn-outline-secondary-shari');
+            filterIncompleteBtn.classList.remove('btn-warning-shari');
+            filterIncompleteBtn.classList.add('btn-outline-warning-shari');
           }
           renderDetail();
         };

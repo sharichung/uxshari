@@ -516,7 +516,6 @@ input[type="checkbox"]:hover {
 
 /* Actions dropdown in top-right corner - responsive spacing */
 @media (max-width: 767px) {
-  #detail-wrapper .card-body { padding-top: 3.5rem !important; }
   #detail-toolbar { padding-right: 0 !important; }
 }
 
@@ -528,13 +527,12 @@ input[type="checkbox"]:hover {
   text-decoration: none !important;
 }
 
-/* Toolbar button neutral colors using Bootstrap variables */
+/* Toolbar button neutral colors using Bootstrap variables (exclude priority buttons) */
 #detail-toolbar .btn-outline-secondary-shari,
 #detail-toolbar .btn-secondary-shari,
 #detail-toolbar .btn-outline-error-shari,
 #detail-toolbar .btn-error-shari,
-#detail-toolbar .btn-outline-warning-shari,
-#detail-toolbar .btn-warning-shari {
+#detail-toolbar #collapse-all-btn {
   border-color: var(--bs-border-color-translucent) !important;
   background-color: var(--bs-body-bg) !important;
   color: var(--bs-body-color) !important;
@@ -544,8 +542,7 @@ input[type="checkbox"]:hover {
 #detail-toolbar .btn-secondary-shari i,
 #detail-toolbar .btn-outline-error-shari i,
 #detail-toolbar .btn-error-shari i,
-#detail-toolbar .btn-outline-warning-shari i,
-#detail-toolbar .btn-warning-shari i {
+#detail-toolbar #collapse-all-btn i {
   color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity));
   --bs-text-opacity: 1;
 }
@@ -554,8 +551,26 @@ input[type="checkbox"]:hover {
 #detail-toolbar .btn-secondary-shari:hover,
 #detail-toolbar .btn-outline-error-shari:hover,
 #detail-toolbar .btn-error-shari:hover,
-#detail-toolbar .btn-outline-warning-shari:hover,
-#detail-toolbar .btn-warning-shari:hover {
+#detail-toolbar #collapse-all-btn:hover {
+  background-color: var(--bs-secondary-bg) !important;
+}
+
+/* Mobile dropdown and actions button neutral colors */
+#mobileChecklistDropdown,
+#detail-wrapper .dropdown-toggle {
+  border-color: var(--bs-border-color-translucent) !important;
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+#mobileChecklistDropdown i,
+#detail-wrapper .dropdown-toggle i {
+  color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity));
+  --bs-text-opacity: 1;
+}
+
+#mobileChecklistDropdown:hover,
+#detail-wrapper .dropdown-toggle:hover {
   background-color: var(--bs-secondary-bg) !important;
 }
 
@@ -2867,12 +2882,70 @@ body {
   }
   
   body { 
-    background: #fff; 
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.3;
   }
   
   #detail-wrapper { 
     box-shadow: none !important; 
     border: 0 !important; 
+  }
+  
+  /* Compact print layout */
+  .card-body {
+    padding: 0.5rem !important;
+  }
+  
+  .checklist-section {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .section-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.25rem !important;
+    padding: 0.25rem 0 !important;
+  }
+  
+  .checklist-item {
+    padding: 0.25rem 0 !important;
+    margin-bottom: 0.15rem !important;
+    gap: 0.35rem !important;
+  }
+  
+  .checklist-item-text {
+    font-size: 0.9rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .print-checklist-title {
+    margin-bottom: 0.5rem !important;
+    font-size: 1.1rem !important;
+  }
+  
+  .section-icon {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.75rem !important;
+  }
+  
+  .checkbox-touch-area {
+    min-width: 18px !important;
+    max-width: 18px !important;
+    min-height: 18px !important;
+  }
+  
+  .checkbox-touch-area input[type="checkbox"] {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  
+  .checklist-section {
+    page-break-inside: avoid;
   }
 }
 
