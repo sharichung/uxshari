@@ -258,6 +258,15 @@
             </div>
             <!-- Print-only Checklist Title -->
             <div id="print-checklist-title" class="print-checklist-title print-only"></div>
+            <!-- Collapse button (left of actions) -->
+            <button id="collapse-all-btn" class="btn btn-outline-secondary-shari btn-sm no-print" type="button" title="折疊所有類別" style="position: absolute; top: 12px; right: 80px; z-index: 10; border-radius: 8px;">
+              <i class="fas fa-compress-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-compress-alt me-1"></i>折疊</span><span class="d-md-none">折疊</span>
+            </button>
+            <!-- Actions Dropdown (Top-Right Corner) -->
+            <div class="dropdown no-print" style="position: absolute; top: 12px; right: 12px; z-index: 10;">
+              <button class="btn btn-outline-error-shari btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="清單操作" style="border-radius: 8px;">
+                <i class="fas fa-ellipsis-v"></i><span class="d-none d-lg-inline ms-2">操作</span>
+              </button>
             <!-- Toolbar -->
             <div id="detail-toolbar" class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print">
               <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
@@ -267,7 +276,7 @@
                   <i class="fas fa-check-circle text-success d-none" id="save-icon"></i>
                 </small>
               </div>
-              <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
+              <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap" style="padding-right: 140px;">
                 <!-- 篩選器按鈕 -->
                 <button id="filter-incomplete-btn" class="btn btn-outline-error-shari btn-sm btn-chip" type="button" title="只顯示未完成">
                   <i class="fas fa-square d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-square me-1"></i>未完成</span><span class="d-md-none">未完成</span>
@@ -275,19 +284,12 @@
                 <button id="filter-needs-work-btn" class="btn btn-outline-error-shari btn-sm btn-chip" type="button" title="只顯示需修正">
                   <i class="fas fa-exclamation-circle d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-exclamation-circle me-1"></i>需修正</span><span class="d-md-none">需修正</span>
                 </button>
-                <!-- 折疊控制 -->
-                <button id="collapse-all-btn" class="btn btn-outline-secondary-shari btn-sm btn-chip" type="button" title="折疊所有類別">
-                  <i class="fas fa-compress-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-compress-alt me-1"></i>折疊</span><span class="d-md-none">折疊</span>
-                </button>
                 <!-- 重點篩選 -->
                 <button id="priority-filter-btn" class="btn btn-outline-error-shari btn-sm btn-chip" type="button" title="只顯示重點項目">
                   <i class="fas fa-star d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-star me-1"></i>重點</span><span class="d-md-none">重點</span>
                 </button>
               </div>
             </div>
-
-            <!-- Progress + Meta + VIP Perks -->
-            <div id="detail-meta" class="mb-3 no-print">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <div class="flex-grow-1 me-3">
                   <div class="progress" style="height: 10px;">

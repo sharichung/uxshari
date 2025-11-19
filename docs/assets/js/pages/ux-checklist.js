@@ -799,13 +799,6 @@
         priorityFilterBtn.onclick = () => {
           showPriorityOnly = !showPriorityOnly;
           priorityFilterBtn.classList.toggle('active', showPriorityOnly);
-          if (showPriorityOnly) {
-            priorityFilterBtn.classList.remove('btn-outline-error-shari');
-            priorityFilterBtn.classList.add('btn-error-shari');
-          } else {
-            priorityFilterBtn.classList.remove('btn-error-shari');
-            priorityFilterBtn.classList.add('btn-outline-error-shari');
-          }
           renderDetail();
         };
       }
@@ -815,18 +808,13 @@
       if (filterIncompleteBtn) {
         filterIncompleteBtn.onclick = () => {
           showOnlyIncomplete = !showOnlyIncomplete;
+          filterIncompleteBtn.classList.toggle('active', showOnlyIncomplete);
           if (showOnlyIncomplete) {
-            filterIncompleteBtn.classList.remove('btn-outline-error-shari');
-            filterIncompleteBtn.classList.add('btn-error-shari');
             showOnlyNeedsWork = false; // 互斥
             const needsWorkBtn = document.getElementById('filter-needs-work-btn');
             if (needsWorkBtn) {
-              needsWorkBtn.classList.remove('btn-error-shari');
-              needsWorkBtn.classList.add('btn-outline-error-shari');
+              needsWorkBtn.classList.remove('active');
             }
-          } else {
-            filterIncompleteBtn.classList.remove('btn-error-shari');
-            filterIncompleteBtn.classList.add('btn-outline-error-shari');
           }
           renderDetail();
         };
@@ -837,18 +825,13 @@
       if (filterNeedsWorkBtn) {
         filterNeedsWorkBtn.onclick = () => {
           showOnlyNeedsWork = !showOnlyNeedsWork;
+          filterNeedsWorkBtn.classList.toggle('active', showOnlyNeedsWork);
           if (showOnlyNeedsWork) {
-            filterNeedsWorkBtn.classList.remove('btn-outline-error-shari');
-            filterNeedsWorkBtn.classList.add('btn-error-shari');
             showOnlyIncomplete = false; // 互斥
             const incompleteBtn = document.getElementById('filter-incomplete-btn');
             if (incompleteBtn) {
-              incompleteBtn.classList.remove('btn-secondary-shari');
-              incompleteBtn.classList.add('btn-outline-secondary-shari');
+              incompleteBtn.classList.remove('active');
             }
-          } else {
-            filterNeedsWorkBtn.classList.remove('btn-error-shari');
-            filterNeedsWorkBtn.classList.add('btn-outline-error-shari');
           }
           renderDetail();
         };

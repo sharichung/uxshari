@@ -527,12 +527,17 @@ input[type="checkbox"]:hover {
   text-decoration: none !important;
 }
 
-/* Toolbar button neutral colors using Bootstrap variables (exclude priority buttons) */
+/* Toolbar button neutral colors using Bootstrap variables (ALL buttons unified) */
 #detail-toolbar .btn-outline-secondary-shari,
 #detail-toolbar .btn-secondary-shari,
 #detail-toolbar .btn-outline-error-shari,
 #detail-toolbar .btn-error-shari,
-#detail-toolbar #collapse-all-btn {
+#detail-toolbar .btn-outline-warning-shari,
+#detail-toolbar .btn-warning-shari,
+#detail-toolbar #collapse-all-btn,
+#detail-toolbar #filter-incomplete-btn,
+#detail-toolbar #filter-needs-work-btn,
+#detail-toolbar #priority-filter-btn {
   border-color: var(--bs-border-color-translucent) !important;
   background-color: var(--bs-body-bg) !important;
   color: var(--bs-body-color) !important;
@@ -542,7 +547,12 @@ input[type="checkbox"]:hover {
 #detail-toolbar .btn-secondary-shari i,
 #detail-toolbar .btn-outline-error-shari i,
 #detail-toolbar .btn-error-shari i,
-#detail-toolbar #collapse-all-btn i {
+#detail-toolbar .btn-outline-warning-shari i,
+#detail-toolbar .btn-warning-shari i,
+#detail-toolbar #collapse-all-btn i,
+#detail-toolbar #filter-incomplete-btn i,
+#detail-toolbar #filter-needs-work-btn i,
+#detail-toolbar #priority-filter-btn i {
   color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity));
   --bs-text-opacity: 1;
 }
@@ -551,8 +561,30 @@ input[type="checkbox"]:hover {
 #detail-toolbar .btn-secondary-shari:hover,
 #detail-toolbar .btn-outline-error-shari:hover,
 #detail-toolbar .btn-error-shari:hover,
-#detail-toolbar #collapse-all-btn:hover {
+#detail-toolbar .btn-outline-warning-shari:hover,
+#detail-toolbar .btn-warning-shari:hover,
+#detail-toolbar #collapse-all-btn:hover,
+#detail-toolbar #filter-incomplete-btn:hover,
+#detail-toolbar #filter-needs-work-btn:hover,
+#detail-toolbar #priority-filter-btn:hover {
   background-color: var(--bs-secondary-bg) !important;
+}
+
+/* Selected state for filter buttons */
+#detail-toolbar .btn-error-shari,
+#detail-toolbar #filter-incomplete-btn.active,
+#detail-toolbar #filter-needs-work-btn.active,
+#detail-toolbar #priority-filter-btn.active {
+  background-color: var(--primary-pale) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary-text) !important;
+}
+
+#detail-toolbar .btn-error-shari i,
+#detail-toolbar #filter-incomplete-btn.active i,
+#detail-toolbar #filter-needs-work-btn.active i,
+#detail-toolbar #priority-filter-btn.active i {
+  color: var(--primary) !important;
 }
 
 /* Mobile dropdown and actions button neutral colors */
@@ -622,7 +654,7 @@ input[type="checkbox"]:hover {
 
 /* Mobile search padding */
 #mobile-checklist-menu .mobile-search-item {
-  padding: 0 .7rem .5rem .7rem;
+  padding: 0 .5rem .5rem .5rem;
 }
 
 /* Dropdown active background */
@@ -2979,7 +3011,6 @@ body {
 #mobile-checklist-menu .mobile-search-item { padding: 0; }
 #mobile-checklist-menu .input-group { 
   border: 2px solid var(--border-base);
-  border-radius: 12px;
   overflow: hidden;
 }
 #mobile-checklist-menu .input-group .input-group-text { 
