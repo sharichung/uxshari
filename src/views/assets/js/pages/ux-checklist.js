@@ -207,9 +207,6 @@
       perkTeam: document.getElementById('perk-team')
     };
 
-    // First paint: ensure UI becomes interactive even before data
-    try { updateUI(); } catch (_) {}
-
     let dataReady = false;
     // Watchdog: ensure UI becomes interactive quickly even before data
     function scheduleInitialUIFlush() {
@@ -964,10 +961,7 @@
       // Default select first checklist if available
       if (userChecklists.length > 0 && selectedIndex === -1) {
         selectedIndex = 0;
-        updateUI();
       }
-      // Wire create button if not already
-      if (elements.createBtn && !elements.createBtn._wired){ elements.createBtn._wired = true; /* already set earlier */ }
-      // Sidebar search initial render
-      renderSidebar();
+      // Always render UI after data loads
+      updateUI();
     });
