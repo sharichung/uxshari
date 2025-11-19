@@ -862,13 +862,13 @@
           if (allCollapsed) {
             // 全部展開
             collapsedCategories.clear();
-            collapseAllBtn.innerHTML = '<i class="fas fa-compress-alt me-1"></i><span class="d-none d-md-inline">折疊</span>';
+            collapseAllBtn.innerHTML = '<i class="fas fa-compress-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-compress-alt me-1"></i>折疊</span><span class="d-md-none">折疊</span>';
           } else {
             // 全部折疊
             collapsedCategories.add('process');
             collapsedCategories.add('interface');
             collapsedCategories.add('context');
-            collapseAllBtn.innerHTML = '<i class="fas fa-expand-alt me-1"></i><span class="d-none d-md-inline">展開</span>';
+            collapseAllBtn.innerHTML = '<i class="fas fa-expand-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-expand-alt me-1"></i>展開</span><span class="d-md-none">展開</span>';
           }
           renderDetail();
         };

@@ -520,6 +520,103 @@ input[type="checkbox"]:hover {
   #detail-toolbar { padding-right: 0 !important; }
 }
 
+/* Prevent strikethrough on action icon buttons when item is checked */
+.checklist-item.checked .btn-icon-shari,
+.checklist-item.checked .btn-icon-shari i,
+.checklist-item.checked .item-actions,
+.checklist-item.checked .item-actions * {
+  text-decoration: none !important;
+}
+
+/* Toolbar button neutral colors using Bootstrap variables */
+#detail-toolbar .btn-outline-secondary-shari,
+#detail-toolbar .btn-secondary-shari,
+#detail-toolbar .btn-outline-error-shari,
+#detail-toolbar .btn-error-shari,
+#detail-toolbar .btn-outline-warning-shari,
+#detail-toolbar .btn-warning-shari {
+  border-color: var(--bs-border-color-translucent) !important;
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-body-color) !important;
+}
+
+#detail-toolbar .btn-outline-secondary-shari i,
+#detail-toolbar .btn-secondary-shari i,
+#detail-toolbar .btn-outline-error-shari i,
+#detail-toolbar .btn-error-shari i,
+#detail-toolbar .btn-outline-warning-shari i,
+#detail-toolbar .btn-warning-shari i {
+  color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity));
+  --bs-text-opacity: 1;
+}
+
+#detail-toolbar .btn-outline-secondary-shari:hover,
+#detail-toolbar .btn-secondary-shari:hover,
+#detail-toolbar .btn-outline-error-shari:hover,
+#detail-toolbar .btn-error-shari:hover,
+#detail-toolbar .btn-outline-warning-shari:hover,
+#detail-toolbar .btn-warning-shari:hover {
+  background-color: var(--bs-secondary-bg) !important;
+}
+
+/* Mobile: Move item-actions to bottom-right for thumb reach */
+@media (max-width: 767px) {
+  .checklist-item {
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+  }
+  
+  .checklist-item .checkbox-touch-area {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+  }
+  
+  .checklist-item .checklist-item-text {
+    padding-left: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .checklist-item .item-actions {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    justify-content: flex-end;
+  }
+}
+
+/* Mobile modal padding reduction */
+@media (max-width: 767px) {
+  .modal-content .modal-header,
+  .modal-content .modal-body,
+  .modal-content .modal-footer {
+    padding: 0.75rem 1rem !important;
+  }
+  
+  .modal-content .modal-body p,
+  .modal-content .modal-body .alert {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .modal-content textarea,
+  .modal-content .form-control {
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile search padding */
+#mobile-checklist-menu .mobile-search-item {
+  padding: 0 .7rem .5rem .7rem;
+}
+
+/* Dropdown active background */
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: var(--primary-pale) !important;
+  color: var(--primary-text) !important;
+}
+
 /* Warning 按鈕 */
 .btn-warning {
   background-color: var(--warning);
