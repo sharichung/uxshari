@@ -896,6 +896,7 @@
         showSaveIndicator();
         selectedIndex = userChecklists.length - 1;
         updateUI();
+        restoreBtn(btnEl);
       } catch (e) {
         alert('複製失敗，請重試');
         restoreBtn(btnEl);
