@@ -178,4 +178,13 @@ if (fs.existsSync("src/views/assets/images")) {
     });
 }
 
+// 將 favicon.ico 複製到網站根目錄（同時保留 assets 下的副本）
+try {
+    const favInAssets = path.join("docs/assets/images", "favicon.ico");
+    const favAtRoot = path.join("docs", "favicon.ico");
+    if (fs.existsSync(favInAssets)) {
+        fs.copyFileSync(favInAssets, favAtRoot);
+    }
+} catch (_) {}
+
 console.log("🎉 Build 完成，所有資源已移動並修正！");

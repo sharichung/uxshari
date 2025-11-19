@@ -21,6 +21,15 @@ const db = getFirestore();
 
 // 工具函數
 const encEmail = (e) => btoa(e).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+// 安全的載入覆蓋層控制（若不存在則不動作）
+const hideLoading = () => {
+  const el = document.getElementById('loading-overlay');
+  if (el && el.style) el.style.display = 'none';
+};
+const showLoading = () => {
+  const el = document.getElementById('loading-overlay');
+  if (el && el.style) el.style.display = 'flex';
+};
 
 // 日期解析與格式化（容錯處理）
 function toDate(val) {
@@ -90,6 +99,7 @@ function formatAmount(pay) {
 
 // UI 元素 - 使用 DOMContentLoaded 確保元素已載入
 let elements = {};
+let dataReady = false;
 
 document.addEventListener('DOMContentLoaded', () => {
   elements = {
@@ -119,11 +129,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Watchdog: if資料 5 秒內未完成載入，先用預設值渲染避免 placeholder 卡住
+  setTimeout(() => {
+    try {
+      if (!dataReady) {
+        console.warn('⏳ [DASHBOARD] 掛載 5s 未取得資料，使用預設值渲染');
+        updateUI({});
+      }
+    } catch (e) { console.error(e); }
+  }, 5000);
 });
 
 // 更新 UI
 function updateUI(userData) {
   console.log("📊 [DASHBOARD] updateUI 被呼叫，完整資料：", userData);
+  dataReady = true;
   
   // 等待 DOM 載入完成
   if (!elements.creditsCount) {
