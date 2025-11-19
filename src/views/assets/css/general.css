@@ -494,6 +494,26 @@ input[type="checkbox"]:hover {
   line-height: 1.1; 
 }
 
+/* Ghost button variant (secondary) - subtle action like 更多 */
+.btn-ghost-secondary-shari {
+  color: var(--secondary);
+  background: transparent;
+  border: 0;
+}
+.btn-ghost-secondary-shari:hover,
+.btn-ghost-secondary-shari:focus {
+  background: var(--secondary-pale);
+  color: var(--secondary);
+}
+.btn-ghost-secondary-shari:active {
+  background: color-mix(in srgb, var(--secondary) 16%, transparent);
+}
+.btn-ghost-secondary-shari:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--secondary) 40%, white);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+
 /* Warning 按鈕 */
 .btn-warning {
   background-color: var(--warning);
@@ -2640,6 +2660,29 @@ body {
   flex-shrink: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
 }
+
+/* === Icon Buttons (Accessible Hit Area) === */
+.btn-icon-shari {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-tertiary);
+}
+.btn-icon-shari:hover { background: rgba(0,0,0,0.05); color: var(--text-secondary); }
+.btn-icon-shari:active { transform: scale(0.98); }
+.btn-icon-shari:focus-visible { outline: 3px solid rgba(124,58,237,0.35); outline-offset: 2px; }
+.btn-icon-shari .fa, .btn-icon-shari i { pointer-events: none; }
+@media (max-width: 767px) { .btn-icon-shari { width: 44px; height: 44px; } }
+
+/* Priority/Nickname icon coloring */
+.priority-btn.active i { color: var(--accent-star) !important; }
+.note-btn.text-primary i { color: var(--secondary) !important; }
 
 .checkbox-touch-area input[type="checkbox"] {
   width: 20px;

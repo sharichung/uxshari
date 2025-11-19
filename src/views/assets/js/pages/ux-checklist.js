@@ -561,16 +561,16 @@
                   ${severity!== 'none' ? `<span class="print-badge sev-${severity}">${severityLabels[severity]}</span>` : ''}
                 </span>
               </span>
-              <div class="d-flex align-items-center gap-2 flex-shrink-0 no-print">
+              <div class="d-flex align-items-center gap-2 flex-shrink-0 no-print item-actions" role="toolbar" aria-label="項目操作">
                 <!-- Priority star -->
-                <button class="btn btn-sm btn-link p-0 text-decoration-none priority-btn ${hasPriority?'active':''}" 
-                        data-cat="${cat}" data-id="${item.id}" title="標記為重點">
+                <button class="btn btn-icon-shari priority-btn ${hasPriority?'active':''}" 
+                        data-cat="${cat}" data-id="${item.id}" title="標記為重點" aria-label="標記為重點">
                   <i class="fas fa-star ${hasPriority?'text-warning':'text-muted'}"></i>
                 </button>
                 <!-- Severity dropdown -->
                 <div class="dropdown d-inline-block">
-                  <button class="btn btn-sm btn-outline-${severityColors[severity]} dropdown-toggle py-0 px-2" 
-                          type="button" data-bs-toggle="dropdown" style="font-size: 0.75rem; line-height: 1.4; min-width: 48px;">
+                  <button class="btn btn-sm btn-outline-${severityColors[severity]} dropdown-toggle py-0 px-2 btn-chip" 
+                          type="button" data-bs-toggle="dropdown" style="font-size: 0.8rem; line-height: 1.4; min-height: 32px; min-width: 52px;">
                     ${severityLabels[severity]}
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -581,18 +581,18 @@
                   </ul>
                 </div>
                 <!-- Note button -->
-                <button class="btn btn-sm btn-link p-0 text-decoration-none note-btn ${hasNote?'text-primary':'text-muted'}" 
-                        data-cat="${cat}" data-id="${item.id}" title="添加筆記">
+                <button class="btn btn-icon-shari note-btn ${hasNote?'text-primary':'text-muted'}" 
+                        data-cat="${cat}" data-id="${item.id}" title="添加筆記" aria-label="添加筆記">
                   <i class="fas fa-sticky-note"></i>
                 </button>
                 <!-- Explanation icon -->
-                ${item.suggestion?`<button class="btn btn-sm btn-link p-0 text-decoration-none text-info suggestion-btn" 
-                                           data-suggestion="${encodeURIComponent(item.suggestion)}" title="查看建議">
+                ${item.suggestion?`<button class="btn btn-icon-shari text-info suggestion-btn" 
+                                           data-suggestion="${encodeURIComponent(item.suggestion)}" title="查看建議" aria-label="查看建議">
                   <i class="fas fa-info-circle"></i>
                 </button>`:''}
                 <!-- Delete button (custom items only) -->
-                ${isCustom?`<button class="btn btn-sm btn-link p-0 text-decoration-none text-danger delete-item-btn" 
-                                    data-cat="${cat}" data-id="${item.id}" title="刪除自定義項目">
+                ${isCustom?`<button class="btn btn-icon-shari text-danger delete-item-btn" 
+                                    data-cat="${cat}" data-id="${item.id}" title="刪除自定義項目" aria-label="刪除自定義項目">
                   <i class="fas fa-trash-alt"></i>
                 </button>`:''}
               </div>
