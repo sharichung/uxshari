@@ -67,104 +67,6 @@
   <!-- Main Content -->
   <main class="flex-grow-1 d-flex flex-column" style="padding-top:80px;">
 
-    <!-- 會員狀態橫幅 -->
-    <section class="container py-4">
-      <div class="card border-0 shadow-sm">
-        <div class="card-body">
-          <div class="row align-items-center">
-            <div class="col-md-8">
-              <h1 class="h4 mb-2">
-                <i class="fas fa-user-circle text-primary-shari me-2"></i>
-                你好，<span id="user-name"><span class="skeleton skeleton-text" style="width: 100px; display: inline-block;"></span></span>！
-              </h1>
-              <div id="status-badge-container">
-                <span class="skeleton skeleton-badge" style="width: 120px; display: inline-block;"></span>
-              </div>
-            </div>
-            <div class="col-md-4 text-md-end mt-3 mt-md-0">
-              <a href="account.html" class="btn btn-outline-secondary-shari">
-                <i class="fas fa-user-cog me-2"></i>
-                查看完整帳戶
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 預約額度卡片 -->
-    <section class="container py-2">
-      <div class="card border-0 shadow-sm" id="credits-card">
-        <div class="card-body p-4">
-          <div class="row align-items-center g-4">
-            <!-- 左側：額度顯示 -->
-            <div class="col-md-6">
-              <div class="d-flex align-items-center gap-3">
-                <div class="icon-wrapper bg-pale-primary rounded-circle p-3">
-                  <i class="fas fa-calendar-check fa-2x text-primary-shari"></i>
-                </div>
-                <div>
-                  <h3 class="h5 mb-1">一對一輔導預約</h3>
-                  <p class="text-muted small mb-0">
-                    剩餘點數：<strong id="credits-count" class="text-primary-shari fs-4">
-                      <span class="skeleton skeleton-text" style="width: 40px; display: inline-block; vertical-align: middle;"></span>
-                    </strong> 次
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 右側：動作按鈕 -->
-            <div class="col-md-6 text-md-end">
-              <button id="book-session-btn" class="btn btn-lg btn-primary-shari w-100 w-md-auto" disabled style="min-width: 200px;">
-                <span class="skeleton skeleton-text" style="width: 120px; height: 20px; display: inline-block;"></span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 狀態訊息 -->
-          <div id="no-credits-alert" class="alert alert-warning mt-3 d-none" role="alert">
-            <i class="fas fa-info-circle me-2"></i>
-            <strong>需要購買預約額度</strong>
-            <p class="mb-2 small">每次 50 分鐘的一對一輔導需要 1 個額度（$33 USD）</p>
-            <a id="buy-link" class="btn btn-sm btn-warning" target="_blank">
-              <i class="fas fa-shopping-cart me-2"></i>
-              購買 1 次輔導（$33）
-            </a>
-          </div>
-
-          <div id="has-credits-alert" class="alert alert-success mt-3 d-none" role="alert">
-            <i class="fas fa-check-circle me-2"></i>
-            <strong>您已擁有預約額度！</strong>
-            <p class="mb-0 small">點擊上方按鈕即可預約 Shari 的一對一輔導時段</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 預約紀錄 -->
-    <section class="container py-2 mb-4">
-      <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white border-0 py-3">
-          <h3 class="h5 mb-0">
-            <i class="fas fa-history me-2"></i>
-            預約紀錄
-          </h3>
-        </div>
-        <div class="card-body text-center py-4">
-          <i class="fas fa-calendar-alt fa-3x text-primary-shari mb-3"></i>
-          <h5 class="mb-2">在 Calendly 管理您的預約</h5>
-          <p class="text-muted mb-3">
-            查看、重新安排或取消您的預約時段
-          </p>
-          <a href="https://calendly.com/app/scheduled_events/user/me" target="_blank" class="btn btn-primary-shari">
-            <i class="fas fa-external-link-alt me-2"></i>
-            前往 Calendly 查看預約
-          </a>
-        </div>
-      </div>
-    </section>
-
     <!-- 🛍️ 數位產品商店 -->
     <section class="container py-2 mb-4">
       <div class="product-store-card">
@@ -267,6 +169,79 @@
               <p class="text-muted small">敬請期待更多精彩內容</p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- 預約額度卡片 -->
+    <section class="container py-2">
+      <div class="card border-0 shadow-sm" id="credits-card">
+        <div class="card-body p-4">
+          <div class="row align-items-center g-4">
+            <!-- 左側：額度顯示 -->
+            <div class="col-md-6">
+              <div class="d-flex align-items-center gap-3">
+                <div class="icon-wrapper bg-pale-primary rounded-circle p-3">
+                  <i class="fas fa-calendar-check fa-2x text-primary-shari"></i>
+                </div>
+                <div>
+                  <h3 class="h5 mb-1">一對一輔導預約</h3>
+                  <p class="text-muted small mb-0">
+                    剩餘點數：<strong id="credits-count" class="text-primary-shari fs-4">
+                      <span class="skeleton skeleton-text" style="width: 40px; display: inline-block; vertical-align: middle;"></span>
+                    </strong> 次
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 右側：動作按鈕 -->
+            <div class="col-md-6 text-md-end">
+              <button id="book-session-btn" class="btn btn-lg btn-primary-shari w-100 w-md-auto" disabled style="min-width: 200px;">
+                <span class="skeleton skeleton-text" style="width: 120px; height: 20px; display: inline-block;"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 狀態訊息 -->
+          <div id="no-credits-alert" class="alert alert-warning mt-3 d-none" role="alert">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>需要購買預約額度</strong>
+            <p class="mb-2 small">每次 50 分鐘的一對一輔導需要 1 個額度（$33 USD）</p>
+            <a id="buy-link" class="btn btn-sm btn-warning" target="_blank">
+              <i class="fas fa-shopping-cart me-2"></i>
+              購買 1 次輔導（$33）
+            </a>
+          </div>
+
+          <div id="has-credits-alert" class="alert alert-success mt-3 d-none" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong>您已擁有預約額度！</strong>
+            <p class="mb-0 small">點擊上方按鈕即可預約 Shari 的一對一輔導時段</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 預約紀錄 -->
+    <section class="container py-2 mb-4">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white border-0 py-3">
+          <h3 class="h5 mb-0">
+            <i class="fas fa-history me-2"></i>
+            預約紀錄
+          </h3>
+        </div>
+        <div class="card-body text-center py-4">
+          <i class="fas fa-calendar-alt fa-3x text-primary-shari mb-3"></i>
+          <h5 class="mb-2">在 Calendly 管理您的預約</h5>
+          <p class="text-muted mb-3">
+            查看、重新安排或取消您的預約時段
+          </p>
+          <a href="https://calendly.com/app/scheduled_events/user/me" target="_blank" class="btn btn-primary-shari">
+            <i class="fas fa-external-link-alt me-2"></i>
+            前往 Calendly 查看預約
+          </a>
         </div>
       </div>
     </section>
