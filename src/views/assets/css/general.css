@@ -547,7 +547,9 @@ input[type="checkbox"]:hover {
 .checklist-item.checked .btn-icon-shari,
 .checklist-item.checked .btn-icon-shari i,
 .checklist-item.checked .item-actions,
-.checklist-item.checked .item-actions * {
+.checklist-item.checked .item-actions *,
+.checklist-item.checked .severity-btn,
+.checklist-item.checked .severity-btn * {
   text-decoration: none !important;
 }
 
@@ -2302,20 +2304,31 @@ body {
       text-decoration: line-through;
     }
 
-    /* Preserve severity button text color when item is checked */
-    .checklist-item.checked .severity-btn.btn-success,
-    .checklist-item.checked .severity-btn.btn-warning,
-    .checklist-item.checked .severity-btn.btn-danger,
-    .checklist-item.checked .severity-btn.btn-outline-secondary {
-      color: inherit !important; /* keep the intrinsic severity color applied earlier */
-      text-decoration: none !important;
-    }
-
-    /* More specific to override strike-through from parent */
-    .checklist-item.checked .severity-btn span,
-    .checklist-item.checked .severity-btn { text-decoration: none !important; }
-
-    .suggestion-pill {
+/* Preserve severity button appearance when item is checked */
+.checklist-item.checked .severity-btn.btn-success {
+  background-color: rgba(var(--bs-success-rgb), 0.18) !important;
+  color: var(--bs-success-text) !important;
+  border-color: rgba(var(--bs-success-rgb), 0.35) !important;
+  text-decoration: none !important;
+}
+.checklist-item.checked .severity-btn.btn-warning {
+  background-color: rgba(var(--bs-warning-rgb), 0.25) !important;
+  color: var(--bs-warning-text) !important;
+  border-color: rgba(var(--bs-warning-rgb), 0.45) !important;
+  text-decoration: none !important;
+}
+.checklist-item.checked .severity-btn.btn-danger {
+  background-color: rgba(var(--bs-danger-rgb), 0.18) !important;
+  color: var(--bs-danger-text) !important;
+  border-color: rgba(var(--bs-danger-rgb), 0.40) !important;
+  text-decoration: none !important;
+}
+.checklist-item.checked .severity-btn.btn-outline-secondary {
+  background-color: var(--bs-body-bg) !important;
+  color: var(--bs-secondary-color) !important;
+  border-color: var(--bs-border-color-translucent) !important;
+  text-decoration: none !important;
+}    .suggestion-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
