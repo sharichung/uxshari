@@ -514,6 +514,12 @@ input[type="checkbox"]:hover {
   border-radius: 10px;
 }
 
+/* Actions dropdown in top-right corner - responsive spacing */
+@media (max-width: 767px) {
+  #detail-wrapper .card-body { padding-top: 3.5rem !important; }
+  #detail-toolbar { padding-right: 0 !important; }
+}
+
 /* Warning 按鈕 */
 .btn-warning {
   background-color: var(--warning);
