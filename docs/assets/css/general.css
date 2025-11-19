@@ -2641,6 +2641,23 @@ body {
   }
 }
 
+/* Print-only indicators for checklist items */
+.print-only { display: none !important; }
+@media print {
+  .print-only { display: inline-flex !important; align-items: center; gap: 6px; }
+  .print-star { color: var(--accent-star) !important; }
+  .print-badge { 
+    border: 1px solid var(--border-base);
+    border-radius: 6px; 
+    padding: 0 6px; 
+    font-size: 0.75rem; 
+    line-height: 1.4; 
+  }
+  .print-badge.sev-low { border-color: var(--success); color: var(--success-text); }
+  .print-badge.sev-medium { border-color: var(--warning); color: var(--warning-text); }
+  .print-badge.sev-high { border-color: var(--error); color: var(--error-text); }
+}
+
 /* === Mobile Checklist Dropdown (Themed) === */
 #mobile-checklist-menu .mobile-search-item { padding: 0; }
 #mobile-checklist-menu .input-group { 

@@ -552,7 +552,12 @@
           </label>
           <div class="checklist-item-text">
             <div class="d-flex flex-column flex-md-row align-items-start gap-2 w-100">
-              <span class="flex-grow-1 mb-2 mb-md-0">${item.text}</span>
+              <span class="flex-grow-1 mb-2 mb-md-0">${item.text}
+                <span class="print-only ms-2">
+                  ${hasPriority?'<i class="fas fa-star print-star"></i>':''}
+                  ${severity!== 'none' ? `<span class="print-badge sev-${severity}">${severityLabels[severity]}</span>` : ''}
+                </span>
+              </span>
               <div class="d-flex align-items-center gap-2 flex-shrink-0 no-print">
                 <!-- Priority star -->
                 <button class="btn btn-sm btn-link p-0 text-decoration-none priority-btn ${hasPriority?'active':''}" 
