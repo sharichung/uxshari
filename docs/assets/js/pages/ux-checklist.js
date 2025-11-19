@@ -208,14 +208,19 @@
     };
 
     let dataReady = false;
-    // Watchdog: clear placeholders if data doesn't arrive within 5s
-    document.addEventListener('DOMContentLoaded', () => {
+    // Watchdog: ensure UI becomes interactive quickly even before data
+    function scheduleInitialUIFlush() {
       setTimeout(() => {
         if (!dataReady) {
           try { updateUI(); } catch(_) {}
         }
-      }, 5000);
-    });
+      }, 800);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', scheduleInitialUIFlush);
+    } else {
+      scheduleInitialUIFlush();
+    }
 
     // Load User Data
     async function loadUserData(email) {
