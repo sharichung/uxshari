@@ -253,6 +253,33 @@
   gap: 1rem;
 }
 
+/* Navbar avatar overlay styles */
+.navbar-general .avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+  gap: 0;
+}
+.navbar-general .avatar-badge {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  line-height: 1;
+  border: 2px solid #fff;
+  background: #adb5bd; /* default grey */
+  color: #fff;
+}
+.navbar-general .avatar-badge.paid { background: #f0ad00; color: #1f1f1f; }
+.navbar-general .avatar-badge.free { background: #6c757d; color: #fff; }
+.navbar-general .avatar-badge i { display:block; }
+
 .avatar-img {
   width: 96px;
   height: 96px;

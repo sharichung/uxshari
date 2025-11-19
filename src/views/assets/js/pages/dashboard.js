@@ -125,6 +125,9 @@ function updateUI(userData) {
   const payments = userData?.payments ?? [];
   console.log("📅 [DASHBOARD] 解析結果 - credits:", credits, "payments:", payments.length);
 
+  // Persist membership flag for navbar badge rendering
+  try { localStorage.setItem('userPaid', isPaid ? '1' : '0'); sessionStorage.setItem('userPaid', isPaid ? '1' : '0'); } catch (_) {}
+
   // 更新額度顯示（帶動畫）
   elements.creditsCount.textContent = credits;
   elements.creditsCard.classList.add('credits-updated');

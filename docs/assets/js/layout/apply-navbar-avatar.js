@@ -8,18 +8,33 @@
       if (!nav) return false;
       const navLink = nav.querySelector('a[href="account.html"]');
       if (!navLink) return false;
-      const existingImg = navLink.querySelector('#userAvatar');
-      if (existingImg) { existingImg.src = url; return true; }
-      const img = document.createElement('img');
-      img.id = 'userAvatar';
-      img.alt = 'User Avatar';
-      img.className = 'rounded-circle';
-      img.style.width = '32px';
-      img.style.height = '32px';
-      img.style.objectFit = 'cover';
+      // Ensure wrapper + badge exist
+      let wrapper = navLink.querySelector('.avatar-wrapper');
+      if (!wrapper) {
+        wrapper = document.createElement('div');
+        wrapper.className = 'avatar-wrapper position-relative';
+        wrapper.style.lineHeight = '0';
+        navLink.innerHTML = '';
+        navLink.appendChild(wrapper);
+      }
+      let img = wrapper.querySelector('#userAvatar');
+      if (!img) {
+        img = document.createElement('img');
+        img.id = 'userAvatar';
+        img.alt = 'User Avatar';
+        img.className = 'rounded-circle';
+        img.style.width = '32px';
+        img.style.height = '32px';
+        img.style.objectFit = 'cover';
+        wrapper.appendChild(img);
+      }
       img.src = url;
-      navLink.innerHTML = '';
-      navLink.appendChild(img);
+      if (!wrapper.querySelector('#avatar-badge')) {
+        const b = document.createElement('span');
+        b.id = 'avatar-badge';
+        b.className = 'avatar-badge';
+        wrapper.appendChild(b);
+      }
       return true;
     } catch (_) { return false; }
   }
@@ -41,6 +56,26 @@
     return false;
   }
 
+  function applyBadge() {
+    try {
+      const nav = document.getElementById('mainNavbar');
+      if (!nav) return;
+      const badge = nav.querySelector('#avatar-badge');
+      if (!badge) return;
+      const paid = (localStorage.getItem('userPaid') || sessionStorage.getItem('userPaid')) === '1';
+      badge.classList.remove('paid','free');
+      if (paid) {
+        badge.classList.add('paid');
+        badge.innerHTML = '<i class="fas fa-crown" aria-hidden="true"></i>';
+        badge.title = '付費會員';
+      } else {
+        badge.classList.add('free');
+        badge.innerHTML = '<i class="fas fa-star" aria-hidden="true"></i>';
+        badge.title = '免費會員';
+      }
+    } catch (_) {}
+  }
+
   function applyAvatarWithRetries() {
     if (tryApplyOnce()) return;
     // Poll for up to ~5 seconds while auth/account scripts initialize
@@ -54,8 +89,11 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyAvatarWithRetries);
+    document.addEventListener('DOMContentLoaded', function(){ applyAvatarWithRetries(); applyBadge(); });
   } else {
     applyAvatarWithRetries();
+    applyBadge();
   }
+  // Also update badge when storage changes (best-effort)
+  window.addEventListener('storage', function(e){ if (e.key === 'userPaid') applyBadge(); });
 })();
