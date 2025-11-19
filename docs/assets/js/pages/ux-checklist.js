@@ -174,6 +174,12 @@
     let selectedIndex = -1;
     let searchQuery = '';
     let showPriorityOnly = false;
+    
+    // 折疊與篩選狀態
+    let collapsedCategories = new Set(); // 儲存已折疊的類別
+    let showOnlyIncomplete = false; // 只顯示未完成
+    let showOnlyNeedsWork = false; // 只顯示需修正（severity > none）
+    
     const FREE_LIMIT = 3;
 
     // Undo State
@@ -434,6 +440,61 @@
       allWrap.innerHTML = others.map(({cl,i})=>listToLi(cl,i)).join('');
       elements.emptyState.classList.toggle('d-none', userChecklists.length !== 0);
 
+      // Populate mobile dropdown lists
+      const mobileFavWrap = document.getElementById('mobile-favorites-list');
+      const mobileAllWrap = document.getElementById('mobile-all-list');
+      const mobileDropdownBtn = document.getElementById('mobile-current-checklist');
+      
+      if (mobileFavWrap && mobileAllWrap && mobileDropdownBtn) {
+        const mobileListToLi = (cl, idx) => {
+          const {progress} = computeProgress(cl);
+          const active = idx === selectedIndex ? 'active' : '';
+          const pt = projectTypes.find(p=>p.id===cl.projectType) || projectTypes.find(p=>p.id==='general');
+          return `
+            <li class="dropdown-item ${active}" data-mobile-index="${idx}">
+              <div class="d-flex align-items-center gap-2 w-100">
+                <span class="badge bg-light text-dark" style="font-size: 0.7rem;" title="${pt.name}">${pt.icon}</span>
+                <div class="flex-grow-1">
+                  <div class="fw-semibold">${cl.name || '未命名清單'}</div>
+                  <div class="d-flex align-items-center gap-2 small text-muted">
+                    <div class="progress flex-grow-1" style="height: 4px;">
+                      <div class="progress-bar ${progress===100?'complete':''} bg-secondary" style="width:${progress}%"></div>
+                    </div>
+                    <span>${progress}%</span>
+                  </div>
+                </div>
+              </div>
+            </li>`;
+        };
+        
+        if (favs.length > 0) {
+          mobileFavWrap.innerHTML = favs.map(({cl,i})=>mobileListToLi(cl,i)).join('');
+        } else {
+          mobileFavWrap.innerHTML = '<li class="dropdown-item disabled text-muted">尚無收藏清單</li>';
+        }
+        
+        mobileAllWrap.innerHTML = others.map(({cl,i})=>mobileListToLi(cl,i)).join('');
+        
+        // Update dropdown button text
+        if (selectedIndex >= 0 && selectedIndex < userChecklists.length) {
+          const currentChecklist = userChecklists[selectedIndex];
+          mobileDropdownBtn.textContent = currentChecklist.name || '未命名清單';
+        }
+        
+        // Attach mobile dropdown click events
+        document.querySelectorAll('[data-mobile-index]').forEach(li => {
+          li.addEventListener('click', (e) => {
+            e.preventDefault();
+            const idx = parseInt(li.dataset.mobileIndex, 10);
+            if (idx >= 0 && idx < userChecklists.length) {
+              selectedIndex = idx;
+              renderDetail();
+              renderSidebar();
+            }
+          });
+        });
+      }
+
       attachSidebarEvents();
     }
 
@@ -485,8 +546,10 @@
         const hasNote = item.note && item.note.trim();
         const isCustom = item.custom === true;
         
-        return `<div class="checklist-item ${item.checked?'checked':''}" data-cat="${cat}" data-item-id="${item.id}">
-          <input type="checkbox" id="d-${idx}-${item.id}" ${item.checked?'checked':''} data-cat="${cat}" data-id="${item.id}">
+        return `<div class="checklist-item touch-feedback ${item.checked?'checked':''}" data-cat="${cat}" data-item-id="${item.id}">
+          <label class="checkbox-touch-area" for="d-${idx}-${item.id}">
+            <input type="checkbox" id="d-${idx}-${item.id}" ${item.checked?'checked':''} data-cat="${cat}" data-id="${item.id}">
+          </label>
           <div class="checklist-item-text">
             <div class="d-flex align-items-start gap-2 w-100">
               <span class="flex-grow-1">${item.text}</span>
@@ -532,16 +595,32 @@
       };
       const section = (title, iconClass, catArrName) => {
         const items = checklist.items[catArrName];
-        const filteredItems = showPriorityOnly ? items.filter(i => i.priority) : items;
+        let filteredItems = items;
+        
+        // 應用多重篩選
+        if (showPriorityOnly) {
+          filteredItems = filteredItems.filter(i => i.priority);
+        }
+        if (showOnlyIncomplete) {
+          filteredItems = filteredItems.filter(i => !i.checked);
+        }
+        if (showOnlyNeedsWork) {
+          filteredItems = filteredItems.filter(i => i.severity && i.severity !== 'none');
+        }
+        
         const catTotal = items.length;
         const catChecked = items.filter(i => i.checked).length;
         const catProgress = catTotal ? Math.round((catChecked / catTotal) * 100) : 0;
         const customCount = items.filter(i => i.custom).length;
+        const isCollapsed = collapsedCategories.has(catArrName);
         
         return `
         <div class="checklist-section" data-category="${catArrName}">
-          <div class="section-title d-flex align-items-center justify-content-between">
+          <div class="section-title d-flex align-items-center justify-content-between" style="cursor: pointer;" data-toggle-category="${catArrName}">
             <div class="d-flex align-items-center gap-2">
+              <button class="btn btn-sm btn-link p-0 text-decoration-none collapse-btn" data-toggle-category="${catArrName}">
+                <i class="fas fa-chevron-${isCollapsed ? 'right' : 'down'} text-muted"></i>
+              </button>
               <div class="section-icon"><i class="${iconClass}"></i></div>
               <span>${title}</span>
               <span class="badge bg-light text-muted">${catChecked}/${catTotal}</span>
@@ -551,14 +630,16 @@
                    aria-valuenow="${catProgress}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
           </div>
-          ${filteredItems.map((item, itemIndex)=>renderItem(catArrName,item,itemIndex)).join('')}
-          ${showPriorityOnly ? '' : `
-          <button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn no-print" 
-                  data-category="${catArrName}">
-            <i class="fas fa-plus me-1"></i>新增自定義痛點
-          </button>
-          <div class="text-muted small text-center mt-1 no-print">(最多 5 個，已使用 ${customCount})</div>
-          `}
+          <div class="category-items ${isCollapsed ? 'd-none' : ''}">
+            ${filteredItems.map((item, itemIndex)=>renderItem(catArrName,item,itemIndex)).join('')}
+            ${showPriorityOnly ? '' : `
+            <button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn no-print" 
+                    data-category="${catArrName}">
+              <i class="fas fa-plus me-1"></i>新增自定義痛點
+            </button>
+            <div class="text-muted small text-center mt-1 no-print">(最多 5 個，已使用 ${customCount})</div>
+            `}
+          </div>
         </div>`;
       };
       const html = [
@@ -595,6 +676,11 @@
             await saveToFirestore();
             showSaveIndicator();
             updateUI();
+            
+            // 檢查成就（只在勾選時觸發）
+            if (e.target.checked) {
+              checkAchievements(userChecklists[idx]);
+            }
           }
         });
       });
@@ -715,6 +801,84 @@
           renderDetail();
         };
       }
+      
+      // 只顯示未完成篩選
+      const filterIncompleteBtn = document.getElementById('filter-incomplete-btn');
+      if (filterIncompleteBtn) {
+        filterIncompleteBtn.onclick = () => {
+          showOnlyIncomplete = !showOnlyIncomplete;
+          if (showOnlyIncomplete) {
+            filterIncompleteBtn.classList.remove('btn-outline-secondary');
+            filterIncompleteBtn.classList.add('btn-secondary', 'text-white');
+            showOnlyNeedsWork = false; // 互斥
+            const needsWorkBtn = document.getElementById('filter-needs-work-btn');
+            if (needsWorkBtn) {
+              needsWorkBtn.classList.remove('btn-danger', 'text-white');
+              needsWorkBtn.classList.add('btn-outline-danger');
+            }
+          } else {
+            filterIncompleteBtn.classList.remove('btn-secondary', 'text-white');
+            filterIncompleteBtn.classList.add('btn-outline-secondary');
+          }
+          renderDetail();
+        };
+      }
+      
+      // 只顯示需修正篩選
+      const filterNeedsWorkBtn = document.getElementById('filter-needs-work-btn');
+      if (filterNeedsWorkBtn) {
+        filterNeedsWorkBtn.onclick = () => {
+          showOnlyNeedsWork = !showOnlyNeedsWork;
+          if (showOnlyNeedsWork) {
+            filterNeedsWorkBtn.classList.remove('btn-outline-danger');
+            filterNeedsWorkBtn.classList.add('btn-danger', 'text-white');
+            showOnlyIncomplete = false; // 互斥
+            const incompleteBtn = document.getElementById('filter-incomplete-btn');
+            if (incompleteBtn) {
+              incompleteBtn.classList.remove('btn-secondary', 'text-white');
+              incompleteBtn.classList.add('btn-outline-secondary');
+            }
+          } else {
+            filterNeedsWorkBtn.classList.remove('btn-danger', 'text-white');
+            filterNeedsWorkBtn.classList.add('btn-outline-danger');
+          }
+          renderDetail();
+        };
+      }
+      
+      // 折疊所有類別
+      const collapseAllBtn = document.getElementById('collapse-all-btn');
+      if (collapseAllBtn) {
+        collapseAllBtn.onclick = () => {
+          const allCollapsed = collapsedCategories.size === 3;
+          if (allCollapsed) {
+            // 全部展開
+            collapsedCategories.clear();
+            collapseAllBtn.innerHTML = '<i class="fas fa-compress-alt me-1"></i><span class="d-none d-md-inline">折疊</span>';
+          } else {
+            // 全部折疊
+            collapsedCategories.add('process');
+            collapsedCategories.add('interface');
+            collapsedCategories.add('context');
+            collapseAllBtn.innerHTML = '<i class="fas fa-expand-alt me-1"></i><span class="d-none d-md-inline">展開</span>';
+          }
+          renderDetail();
+        };
+      }
+      
+      // 類別折疊切換
+      document.querySelectorAll('[data-toggle-category]').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          const category = btn.getAttribute('data-toggle-category');
+          if (collapsedCategories.has(category)) {
+            collapsedCategories.delete(category);
+          } else {
+            collapsedCategories.add(category);
+          }
+          renderDetail();
+        };
+      });
 
       // actions
       if (elements.btnDuplicate) {
@@ -742,13 +906,111 @@
       if (elements.btnPrint) elements.btnPrint.onclick = ()=>window.print && window.print();
     }
 
-            // Show Achievement Toast
-    function showAchievement(text) {
+    // Show Achievement Toast with progress
+    function showAchievement(text, progress, detail) {
       const toast = document.getElementById('achievement-toast');
+      const titleEl = document.getElementById('achievement-title');
       const textEl = document.getElementById('achievement-text');
+      const detailEl = document.getElementById('achievement-detail');
+      const progressBar = document.getElementById('achievement-progress-bar');
+      
+      // 根據進度設定標題和圖示
+      if (progress >= 100) {
+        titleEl.innerHTML = '<i class="fas fa-trophy me-2"></i>🎉 完美達成！';
+      } else if (progress >= 80) {
+        titleEl.innerHTML = '<i class="fas fa-star me-2"></i>✨ 太棒了！';
+      } else if (progress >= 50) {
+        titleEl.innerHTML = '<i class="fas fa-check-circle me-2"></i>👍 做得好！';
+      } else {
+        titleEl.innerHTML = '<i class="fas fa-thumbs-up me-2"></i>💪 繼續加油！';
+      }
+      
       textEl.textContent = text;
+      detailEl.textContent = detail || '';
+      
+      // 動畫更新進度條
+      progressBar.style.width = '0%';
+      setTimeout(() => {
+        progressBar.style.width = progress + '%';
+        progressBar.style.transition = 'width 0.8s ease';
+      }, 100);
+      
       toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 5000);
+      
+      // 根據進度調整顯示時間
+      const displayTime = progress >= 100 ? 6000 : progress >= 80 ? 5000 : 4000;
+      setTimeout(() => toast.classList.remove('show'), displayTime);
+    }
+    
+    // 檢查並觸發成就提示
+    function checkAchievements(checklist) {
+      const { totalItems, checkedItems, progress } = computeProgress(checklist);
+      
+      // 類別完成度檢查
+      ['process', 'interface', 'context'].forEach(cat => {
+        const items = checklist.items[cat];
+        const catTotal = items.length;
+        const catChecked = items.filter(i => i.checked).length;
+        const catProgress = catTotal ? Math.round((catChecked / catTotal) * 100) : 0;
+        
+        if (catProgress === 100 && catChecked > 0) {
+          const categoryNames = {
+            process: '流程痛點',
+            interface: '介面痛點',
+            context: '情境痛點'
+          };
+          showAchievement(
+            `${categoryNames[cat]}類別全部完成！`,
+            100,
+            `已完成 ${catChecked} 個項目`
+          );
+        } else if (catProgress >= 80 && catProgress < 100) {
+          // 80% 里程碑（只在第一次達到時顯示）
+          const key = `achievement_${cat}_80`;
+          if (!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key, 'shown');
+            const categoryNames = {
+              process: '流程痛點',
+              interface: '介面痛點',
+              context: '情境痛點'
+            };
+            showAchievement(
+              `${categoryNames[cat]}快完成了！`,
+              catProgress,
+              `還剩 ${catTotal - catChecked} 個項目`
+            );
+          }
+        }
+      });
+      
+      // 整體完成度里程碑
+      if (progress === 100 && totalItems > 0) {
+        showAchievement(
+          '恭喜！所有痛點都已檢查完成',
+          100,
+          `共完成 ${totalItems} 個項目`
+        );
+      } else if (progress >= 75 && progress < 100) {
+        const key = `achievement_overall_75`;
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, 'shown');
+          showAchievement(
+            '超過四分之三了！',
+            progress,
+            `已完成 ${checkedItems}/${totalItems} 個項目`
+          );
+        }
+      } else if (progress >= 50 && progress < 75) {
+        const key = `achievement_overall_50`;
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, 'shown');
+          showAchievement(
+            '已完成一半！繼續加油',
+            progress,
+            `已完成 ${checkedItems}/${totalItems} 個項目`
+          );
+        }
+      }
     }
 
     // Show Save Indicator
