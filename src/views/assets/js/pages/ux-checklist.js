@@ -552,11 +552,13 @@
             </div>
           </div>
           ${filteredItems.map((item, itemIndex)=>renderItem(catArrName,item,itemIndex)).join('')}
-          ${showPriorityOnly ? '' : `<button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn no-print" 
+          ${showPriorityOnly ? '' : `
+          <button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn no-print" 
                   data-category="${catArrName}">
             <i class="fas fa-plus me-1"></i>新增自定義痛點
-            <span class="text-muted small">(最多 5 個，已使用 ${customCount})</span>
-          </button>`}
+          </button>
+          <div class="text-muted small text-center mt-1 no-print">(最多 5 個，已使用 ${customCount})</div>
+          `}
         </div>`;
       };
       const html = [
@@ -1167,15 +1169,29 @@
       saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
       
       newSaveBtn.addEventListener('click', async () => {
-        const note = textarea.value.trim();
-        const item = userChecklists[checklistIdx].items[category].find(i => i.id === itemId);
-        if (item) {
-          item.note = note;
-          userChecklists[checklistIdx].updatedAt = new Date().toISOString();
-          await saveToFirestore();
-          showSaveIndicator();
-          modal.hide();
-          renderDetail();
+        // Show spinner
+        const btnText = newSaveBtn.querySelector('.btn-text');
+        const btnSpinner = newSaveBtn.querySelector('.btn-spinner');
+        btnText.classList.add('d-none');
+        btnSpinner.classList.remove('d-none');
+        newSaveBtn.disabled = true;
+        
+        try {
+          const note = textarea.value.trim();
+          const item = userChecklists[checklistIdx].items[category].find(i => i.id === itemId);
+          if (item) {
+            item.note = note;
+            userChecklists[checklistIdx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+            modal.hide();
+            renderDetail();
+          }
+        } finally {
+          // Hide spinner
+          btnText.classList.remove('d-none');
+          btnSpinner.classList.add('d-none');
+          newSaveBtn.disabled = false;
         }
       });
       
