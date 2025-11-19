@@ -419,6 +419,81 @@ input[type="checkbox"]:hover {
   outline-offset: 2px; 
 }
 
+/* Outline Warning 按鈕 */
+.btn-outline-warning-shari {
+  border: 2px solid var(--warning);
+  color: var(--warning);
+  background: transparent;
+  font-weight: 600;
+}
+
+.btn-outline-warning-shari:hover:not(:disabled),
+.btn-outline-warning-shari:focus:not(:disabled) { 
+  background: var(--warning); 
+  color: var(--text-inverse);
+  border-color: var(--warning);
+}
+
+.btn-outline-warning-shari:focus-visible { 
+  outline: 3px solid rgba(245, 158, 11, 0.5); 
+  outline-offset: 2px; 
+}
+
+/* Filled Warning 按鈕 */
+.btn-warning-shari { 
+  background-color: var(--warning);
+  color: var(--text-inverse);
+  border: none;
+  font-weight: 600;
+}
+
+.btn-warning-shari:hover:not(:disabled),
+.btn-warning-shari:focus:not(:disabled) {
+  background-color: var(--warning-hover);
+  color: var(--text-inverse);
+}
+
+/* Outline Error 按鈕 */
+.btn-outline-error-shari {
+  border: 2px solid var(--error);
+  color: var(--error);
+  background: transparent;
+  font-weight: 600;
+}
+
+.btn-outline-error-shari:hover:not(:disabled),
+.btn-outline-error-shari:focus:not(:disabled) { 
+  background: var(--error); 
+  color: var(--text-inverse);
+  border-color: var(--error);
+}
+
+.btn-outline-error-shari:focus-visible { 
+  outline: 3px solid rgba(239, 68, 68, 0.5); 
+  outline-offset: 2px; 
+}
+
+/* Filled Error 按鈕 */
+.btn-error-shari { 
+  background-color: var(--error);
+  color: var(--text-inverse);
+  border: none;
+  font-weight: 600;
+}
+
+.btn-error-shari:hover:not(:disabled),
+.btn-error-shari:focus:not(:disabled) {
+  background-color: var(--error-hover);
+  color: var(--text-inverse);
+}
+
+/* Small unified chip look */
+.btn-chip { 
+  border-radius: 999px; 
+  padding: 0.35rem 0.75rem; 
+  line-height: 1.1; 
+}
+
 /* Warning 按鈕 */
 .btn-warning {
   background-color: var(--warning);
@@ -2656,6 +2731,15 @@ body {
   .print-badge.sev-low { border-color: var(--success); color: var(--success-text); }
   .print-badge.sev-medium { border-color: var(--warning); color: var(--warning-text); }
   .print-badge.sev-high { border-color: var(--error); color: var(--error-text); }
+
+  /* Print title styling */
+  .print-checklist-title { 
+    display: block !important; 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    color: var(--text-primary); 
+    margin-bottom: 0.75rem; 
+  }
 }
 
 /* === Mobile Checklist Dropdown (Themed) === */

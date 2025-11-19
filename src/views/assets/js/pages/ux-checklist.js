@@ -207,6 +207,7 @@
       detailProgressBar: document.getElementById('detail-progress-bar'),
       detailUpdated: document.getElementById('detail-updated'),
       detailSections: document.getElementById('detail-sections'),
+      printTitle: document.getElementById('print-checklist-title'),
       detailEmpty: document.getElementById('detail-empty'),
       btnDuplicate: document.getElementById('btn-duplicate'),
       btnPrint: document.getElementById('btn-print'),
@@ -506,6 +507,7 @@
         // Hide toolbar and meta blocks
         if (toolbar) toolbar.classList.add('d-none');
         if (meta) meta.classList.add('d-none');
+        if (elements.printTitle) elements.printTitle.textContent = '';
         // Show CTA empty state with brand styling
         if (elements.detailSections) {
           elements.detailSections.innerHTML = `
@@ -535,6 +537,7 @@
       if (meta) meta.classList.remove('d-none');
 
       if (elements.detailTitle) elements.detailTitle.value = checklist.name || '';
+      if (elements.printTitle) elements.printTitle.textContent = checklist.name || '';
       if (elements.detailProgressBar) elements.detailProgressBar.style.width = progress + '%';
       if (elements.detailUpdated) elements.detailUpdated.textContent = new Date(checklist.updatedAt).toLocaleDateString('zh-TW');
 
@@ -797,11 +800,11 @@
           showPriorityOnly = !showPriorityOnly;
           priorityFilterBtn.classList.toggle('active', showPriorityOnly);
           if (showPriorityOnly) {
-            priorityFilterBtn.classList.remove('btn-outline-warning');
-            priorityFilterBtn.classList.add('btn-warning');
+            priorityFilterBtn.classList.remove('btn-outline-warning-shari');
+            priorityFilterBtn.classList.add('btn-warning-shari');
           } else {
-            priorityFilterBtn.classList.remove('btn-warning');
-            priorityFilterBtn.classList.add('btn-outline-warning');
+            priorityFilterBtn.classList.remove('btn-warning-shari');
+            priorityFilterBtn.classList.add('btn-outline-warning-shari');
           }
           renderDetail();
         };
@@ -813,17 +816,17 @@
         filterIncompleteBtn.onclick = () => {
           showOnlyIncomplete = !showOnlyIncomplete;
           if (showOnlyIncomplete) {
-            filterIncompleteBtn.classList.remove('btn-outline-secondary');
-            filterIncompleteBtn.classList.add('btn-secondary', 'text-white');
+            filterIncompleteBtn.classList.remove('btn-outline-secondary-shari');
+            filterIncompleteBtn.classList.add('btn-secondary-shari');
             showOnlyNeedsWork = false; // 互斥
             const needsWorkBtn = document.getElementById('filter-needs-work-btn');
             if (needsWorkBtn) {
-              needsWorkBtn.classList.remove('btn-danger', 'text-white');
-              needsWorkBtn.classList.add('btn-outline-danger');
+              needsWorkBtn.classList.remove('btn-error-shari');
+              needsWorkBtn.classList.add('btn-outline-error-shari');
             }
           } else {
-            filterIncompleteBtn.classList.remove('btn-secondary', 'text-white');
-            filterIncompleteBtn.classList.add('btn-outline-secondary');
+            filterIncompleteBtn.classList.remove('btn-secondary-shari');
+            filterIncompleteBtn.classList.add('btn-outline-secondary-shari');
           }
           renderDetail();
         };
@@ -835,17 +838,17 @@
         filterNeedsWorkBtn.onclick = () => {
           showOnlyNeedsWork = !showOnlyNeedsWork;
           if (showOnlyNeedsWork) {
-            filterNeedsWorkBtn.classList.remove('btn-outline-danger');
-            filterNeedsWorkBtn.classList.add('btn-danger', 'text-white');
+            filterNeedsWorkBtn.classList.remove('btn-outline-error-shari');
+            filterNeedsWorkBtn.classList.add('btn-error-shari');
             showOnlyIncomplete = false; // 互斥
             const incompleteBtn = document.getElementById('filter-incomplete-btn');
             if (incompleteBtn) {
-              incompleteBtn.classList.remove('btn-secondary', 'text-white');
-              incompleteBtn.classList.add('btn-outline-secondary');
+              incompleteBtn.classList.remove('btn-secondary-shari');
+              incompleteBtn.classList.add('btn-outline-secondary-shari');
             }
           } else {
-            filterNeedsWorkBtn.classList.remove('btn-danger', 'text-white');
-            filterNeedsWorkBtn.classList.add('btn-outline-danger');
+            filterNeedsWorkBtn.classList.remove('btn-error-shari');
+            filterNeedsWorkBtn.classList.add('btn-outline-error-shari');
           }
           renderDetail();
         };
