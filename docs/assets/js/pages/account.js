@@ -21,10 +21,81 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// 工具函數
+const encEmail = (e) => btoa(e).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+
+// 日期解析與格式化（容錯處理）
+function toDate(val) {
+  try {
+    if (!val) return null;
+    if (val instanceof Date) return isNaN(val.getTime()) ? null : val;
+    const t = typeof val;
+    if (t === 'number') {
+      const ms = val < 1e12 ? val * 1000 : val;
+      const d = new Date(ms);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    if (t === 'string') {
+      const s = val.trim();
+      if (/^\d+$/.test(s)) {
+        const n = Number(s);
+        return toDate(n);
+      }
+      const d = new Date(s);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    if (t === 'object') {
+      if (typeof val.seconds === 'number') {
+        const ms = val.seconds * 1000 + Math.floor((val.nanoseconds || 0) / 1e6);
+        const d = new Date(ms);
+        return isNaN(d.getTime()) ? null : d;
+      }
+      if (typeof val._seconds === 'number') {
+        const ms = val._seconds * 1000 + Math.floor((val._nanoseconds || 0) / 1e6);
+        const d = new Date(ms);
+        return isNaN(d.getTime()) ? null : d;
+      }
+      if (typeof val.toDate === 'function') {
+        try {
+          const d = val.toDate();
+          return isNaN(d?.getTime?.()) ? null : d;
+        } catch {}
+      }
+    }
+  } catch (_) {}
+  return null;
+}
+
+function formatTW(val) {
+  const d = toDate(val);
+  if (!d) return '日期未知';
+  try {
+    return d.toLocaleString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return d.toISOString();
+  }
+}
+
+// 金額顯示（容錯）
+function formatAmount(pay) {
+  const cur = (pay?.currency || 'USD').toUpperCase();
+  let amt = null;
+  if (typeof pay?.amount === 'number') amt = pay.amount;
+  else if (typeof pay?.amount_total === 'number') amt = pay.amount_total / 100;
+  else if (typeof pay?.amount_usd === 'number') amt = pay.amount_usd;
+  else if (typeof pay?.unit_amount === 'number') amt = pay.unit_amount / 100;
+  else if (typeof pay?.amount_cents === 'number') amt = pay.amount_cents / 100;
+  else if (typeof pay?.price === 'number') amt = pay.price;
+  const amtStr = (amt == null || Number.isNaN(amt)) ? '-' : Number(amt).toFixed(2);
+  return { currency: cur, amountStr: amtStr };
+}
+
 const profileSection = document.getElementById('profile-section');
 const authSection = document.getElementById('auth-section');
 const avatarSection = document.getElementById('avatar-section');
 const settingsSection = document.getElementById('settings-section');
+const membershipSection = document.getElementById('membership-section');
+const paymentsSection = document.getElementById('payments-section');
 const emailEl = document.getElementById('userEmail');
 const displayNameEl = document.getElementById('userDisplayName');
 const saveBtn = document.getElementById('saveProfileBtn');
@@ -96,20 +167,78 @@ function updateNavbarAvatar(url) {
 }
 
 // Auth gating
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   document.getElementById('loading-overlay').style.display = 'none';
   if (user) {
     authSection.classList.add('d-none');
     profileSection.classList.remove('d-none');
     avatarSection.classList.remove('d-none');
     settingsSection.classList.remove('d-none');
+    membershipSection.classList.remove('d-none');
+    paymentsSection.classList.remove('d-none');
     emailEl.textContent = user.email || '';
     displayNameEl.value = user.displayName || '';
     if (user.photoURL) { avatarPreview.src = user.photoURL; updateNavbarAvatar(user.photoURL); }
+    
+    // 載入會員資料與付款紀錄
+    if (user.email) {
+      try {
+        const docRef = doc(db, "users_by_email", encEmail(user.email));
+        const snapshot = await getDoc(docRef);
+        
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          
+          // 更新會員狀態
+          const statusBadge = document.getElementById('member-status-badge');
+          const memberSince = document.getElementById('member-since');
+          
+          if (data.isPaid) {
+            statusBadge.innerHTML = '<span class="badge bg-primary rounded-pill"><i class="fas fa-crown me-1"></i>付費會員</span>';
+          } else {
+            statusBadge.innerHTML = '<span class="badge bg-secondary rounded-pill"><i class="fas fa-star me-1"></i>免費會員</span>';
+          }
+          
+          // 顯示註冊日期
+          if (data.createdAt) {
+            const createdDate = toDate(data.createdAt);
+            if (createdDate) {
+              memberSince.textContent = createdDate.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+          }
+          
+          // 顯示付款紀錄
+          const payments = data.payments || [];
+          const paymentsList = document.getElementById('payments-list');
+          
+          if (payments.length > 0) {
+            paymentsList.innerHTML = payments.slice().reverse().map(p => {
+              const { currency, amountStr } = formatAmount(p);
+              return `
+                <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                  <div>
+                    <div class="fw-bold">${currency} $${amountStr}</div>
+                    <div class="small text-muted">${formatTW(p.createdAt)}</div>
+                    ${p.receiptUrl ? `<a class="small" href="${p.receiptUrl}" target="_blank">查看收據</a>` : ''}
+                  </div>
+                  <span class="badge bg-success">已完成</span>
+                </div>
+              `;
+            }).join('');
+          } else {
+            paymentsList.innerHTML = '<p class="text-muted mb-0">尚無付款紀錄</p>';
+          }
+        }
+      } catch (error) {
+        console.error('載入會員資料失敗:', error);
+      }
+    }
   } else {
     profileSection.classList.add('d-none');
     avatarSection.classList.add('d-none');
     settingsSection.classList.add('d-none');
+    membershipSection.classList.add('d-none');
+    paymentsSection.classList.add('d-none');
     authSection.classList.remove('d-none');
   }
 });

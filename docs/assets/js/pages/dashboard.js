@@ -73,29 +73,7 @@ function toDate(val) {
   return null;
 }
 
-function formatTW(val) {
-  const d = toDate(val);
-  if (!d) return '日期未知';
-  try {
-    return d.toLocaleString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-  } catch {
-    return d.toISOString();
-  }
-}
 
-// 金額顯示（容錯）
-function formatAmount(pay) {
-  const cur = (pay?.currency || 'USD').toUpperCase();
-  let amt = null;
-  if (typeof pay?.amount === 'number') amt = pay.amount;
-  else if (typeof pay?.amount_total === 'number') amt = pay.amount_total / 100;
-  else if (typeof pay?.amount_usd === 'number') amt = pay.amount_usd;
-  else if (typeof pay?.unit_amount === 'number') amt = pay.unit_amount / 100;
-  else if (typeof pay?.amount_cents === 'number') amt = pay.amount_cents / 100;
-  else if (typeof pay?.price === 'number') amt = pay.price;
-  const amtStr = (amt == null || Number.isNaN(amt)) ? '-' : Number(amt).toFixed(2);
-  return { currency: cur, amountStr: amtStr };
-}
 
 // UI 元素 - 使用 DOMContentLoaded 確保元素已載入
 let elements = {};
@@ -111,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     buyLink: document.getElementById('buy-link'),
     noCreditsAlert: document.getElementById('no-credits-alert'),
     hasCreditsAlert: document.getElementById('has-credits-alert'),
-    paymentsList: document.getElementById('payments-list'),
     logoutBtn: document.getElementById('logout-btn')
   };
 
@@ -155,8 +132,7 @@ function updateUI(userData) {
   
   const credits = userData?.credits ?? 0;
   const isPaid = userData?.isPaid ?? false;
-  const payments = userData?.payments ?? [];
-  console.log("📅 [DASHBOARD] 解析結果 - credits:", credits, "payments:", payments.length);
+  console.log("📅 [DASHBOARD] 解析結果 - credits:", credits);
 
   // Persist membership flag for navbar badge rendering
   try { localStorage.setItem('userPaid', isPaid ? '1' : '0'); sessionStorage.setItem('userPaid', isPaid ? '1' : '0'); } catch (_) {}
@@ -212,23 +188,6 @@ function updateUI(userData) {
     elements.bookBtn.innerHTML = '<i class="fas fa-lock me-2"></i> 需先購買預約額度';
     elements.noCreditsAlert.classList.remove('d-none');
     elements.hasCreditsAlert.classList.add('d-none');
-  }
-
-  // 更新付款紀錄
-  if (payments.length > 0) {
-    elements.paymentsList.innerHTML = payments.slice().reverse().map(p => {
-      const { currency, amountStr } = formatAmount(p);
-      return `
-      <div class="d-flex justify-content-between align-items-center border-bottom py-3">
-        <div>
-          <div class="fw-bold">${currency} $${amountStr}</div>
-          <div class="small text-muted">${formatTW(p.createdAt)}</div>
-          ${p.receiptUrl ? `<a class="small" href="${p.receiptUrl}" target="_blank">查看收據</a>` : ''}
-        </div>
-        <span class="badge bg-success">已完成</span>
-      </div>
-      `;
-    }).join('');
   }
 }
 
