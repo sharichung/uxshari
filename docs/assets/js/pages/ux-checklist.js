@@ -13,7 +13,8 @@
     if (!getApps().length) initializeApp(firebaseConfig);
     const auth = getAuth();
     const db = getFirestore();
-    try { await enableIndexedDbPersistence(db); } catch (e) { /* ignore persistence errors (multi-tab, etc.) */ }
+    // Enable offline persistence without top-level await for broader browser support
+    enableIndexedDbPersistence(db).catch(() => {});
 
     const encEmail = (e) => btoa(e).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 

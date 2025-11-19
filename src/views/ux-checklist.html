@@ -230,8 +230,13 @@
     .pin-btn.inactive{ color:#9CA3AF; }
     @media (min-width:768px){
       .offcanvas-md{ position:static; display:block; visibility:visible; transform:none; }
+      /* Make the sidebar fill the column width on desktop */
+      #checklistSidebar{ width:100% !important; }
+      #checklistSidebar .offcanvas-body{ display:block; }
       .offcanvas-backdrop{ display:none; }
     }
+    /* Stack cards inside offcanvas body vertically with spacing */
+    #checklistSidebar .offcanvas-body{ display:flex; flex-direction:column; gap:0.75rem; }
     /* Print-friendly area */
     @media print{
       .no-print, .navbar, .footer{ display:none !important; }
