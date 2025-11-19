@@ -21,8 +21,6 @@ const db = getFirestore();
 
 // 工具函數
 const encEmail = (e) => btoa(e).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-const hideLoading = () => document.getElementById('loading-overlay').style.display = 'none';
-const showLoading = () => document.getElementById('loading-overlay').style.display = 'flex';
 
 // 日期解析與格式化（容錯處理）
 function toDate(val) {
@@ -90,36 +88,50 @@ function formatAmount(pay) {
   return { currency: cur, amountStr: amtStr };
 }
 
-// UI 元素
-const elements = {
-  userName: document.getElementById('user-name'),
-  statusBadge: document.getElementById('status-badge-container'),
-  creditsCount: document.getElementById('credits-count'),
-  creditsCard: document.getElementById('credits-card'),
-  bookBtn: document.getElementById('book-session-btn'),
-  buyLink: document.getElementById('buy-link'),
-  noCreditsAlert: document.getElementById('no-credits-alert'),
-  hasCreditsAlert: document.getElementById('has-credits-alert'),
-  paymentsList: document.getElementById('payments-list'),
-  logoutBtn: document.getElementById('logout-btn')
-};
+// UI 元素 - 使用 DOMContentLoaded 確保元素已載入
+let elements = {};
 
-// 登出功能
-elements.logoutBtn.addEventListener('click', async () => {
-  if (confirm('確定要登出嗎？')) {
-    try {
-      await signOut(auth);
-      window.location.href = '/index.html';
-    } catch (error) {
-      console.error('登出錯誤:', error);
-      alert('登出失敗，請重試');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  elements = {
+    userName: document.getElementById('user-name'),
+    statusBadge: document.getElementById('status-badge-container'),
+    creditsCount: document.getElementById('credits-count'),
+    creditsCard: document.getElementById('credits-card'),
+    bookBtn: document.getElementById('book-session-btn'),
+    buyLink: document.getElementById('buy-link'),
+    noCreditsAlert: document.getElementById('no-credits-alert'),
+    hasCreditsAlert: document.getElementById('has-credits-alert'),
+    paymentsList: document.getElementById('payments-list'),
+    logoutBtn: document.getElementById('logout-btn')
+  };
+
+  // 登出功能
+  if (elements.logoutBtn) {
+    elements.logoutBtn.addEventListener('click', async () => {
+      if (confirm('確定要登出嗎？')) {
+        try {
+          await signOut(auth);
+          window.location.href = '/index.html';
+        } catch (error) {
+          console.error('登出錯誤:', error);
+          alert('登出失敗，請重試');
+        }
+      }
+    });
   }
 });
 
 // 更新 UI
 function updateUI(userData) {
   console.log("📊 [DASHBOARD] updateUI 被呼叫，完整資料：", userData);
+  
+  // 等待 DOM 載入完成
+  if (!elements.creditsCount) {
+    console.log("⚠️ [DASHBOARD] 等待 DOM 載入...");
+    setTimeout(() => updateUI(userData), 100);
+    return;
+  }
+  
   const credits = userData?.credits ?? 0;
   const isPaid = userData?.isPaid ?? false;
   const payments = userData?.payments ?? [];
@@ -128,8 +140,8 @@ function updateUI(userData) {
   // Persist membership flag for navbar badge rendering
   try { localStorage.setItem('userPaid', isPaid ? '1' : '0'); sessionStorage.setItem('userPaid', isPaid ? '1' : '0'); } catch (_) {}
 
-  // 更新額度顯示（帶動畫）
-  elements.creditsCount.textContent = credits;
+  // 更新額度顯示（帶動畫）- 移除 placeholder
+  elements.creditsCount.innerHTML = credits;
   elements.creditsCard.classList.add('credits-updated');
   setTimeout(() => elements.creditsCard.classList.remove('credits-updated'), 500);
 
@@ -150,9 +162,10 @@ function updateUI(userData) {
     `;
   }
 
-  // 更新預約按鈕
+  // 更新預約按鈕 - 移除 placeholder
   if (credits > 0) {
     elements.bookBtn.disabled = false;
+    elements.bookBtn.className = 'btn btn-lg btn-primary-shari w-100 w-md-auto';
     elements.bookBtn.innerHTML = '<i class="fas fa-calendar-check me-2"></i> 立即預約 50 分鐘輔導';
     elements.bookBtn.onclick = async () => {
       try {
@@ -174,6 +187,7 @@ function updateUI(userData) {
     elements.hasCreditsAlert.classList.remove('d-none');
   } else {
     elements.bookBtn.disabled = true;
+    elements.bookBtn.className = 'btn btn-lg btn-primary-shari w-100 w-md-auto';
     elements.bookBtn.innerHTML = '<i class="fas fa-lock me-2"></i> 需先購買預約額度';
     elements.noCreditsAlert.classList.remove('d-none');
     elements.hasCreditsAlert.classList.add('d-none');

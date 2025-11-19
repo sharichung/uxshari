@@ -166,11 +166,15 @@ if (fs.existsSync(compsDir)) {
 }
 
 // 複製圖片
-if (fs.existsSync("src/assets/images")) {
+if (fs.existsSync("src/views/assets/images")) {
     ensureDir("docs/assets/images");
-    const images = fs.readdirSync("src/assets/images");
+    const images = fs.readdirSync("src/views/assets/images");
     images.forEach(img => {
-        fs.copyFileSync(`src/assets/images/${img}`, `docs/assets/images/${img}`);
+        const srcPath = path.join("src/views/assets/images", img);
+        const destPath = path.join("docs/assets/images", img);
+        if (fs.statSync(srcPath).isFile()) {
+            fs.copyFileSync(srcPath, destPath);
+        }
     });
 }
 
