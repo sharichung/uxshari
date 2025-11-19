@@ -147,14 +147,14 @@ function updateUI(userData) {
     elements.statusBadge.innerHTML = `
       <span class="status-badge paid">
         <i class="fas fa-crown"></i>
-        付費會員
+        VIP會員
       </span>
     `;
   } else {
     elements.statusBadge.innerHTML = `
       <span class="status-badge free">
         <i class="fas fa-star"></i>
-        免費會員
+        普通會員
       </span>
     `;
   }

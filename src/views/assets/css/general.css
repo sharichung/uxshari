@@ -1242,16 +1242,18 @@ body {
       align-items: center;
       gap: 6px;
       padding: 6px 12px;
-      background: #f1f5f9;
+      background: rgba(255, 107, 53, 0.08);
       border-radius: 20px;
       font-size: 0.875rem;
-      color: #64748b;
+      color: #FF6B35;
+      border: 1px solid rgba(255, 107, 53, 0.2);
     }
 
     .checklist-badge.project-type {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      background: linear-gradient(135deg, #FF6B35 0%, #FF9800 100%);
       color: white;
-      font-weight: 500;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25), 0 0 20px rgba(255, 107, 53, 0.15);
     }
 
     .progress-wrapper {
@@ -1261,15 +1263,16 @@ body {
     .progress {
       height: 8px;
       border-radius: 10px;
-      background: #e2e8f0;
+      background: rgba(255, 107, 53, 0.12);
       overflow: visible;
     }
 
     .progress-bar {
       border-radius: 10px;
-      background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+      background: linear-gradient(90deg, #FF6B35 0%, #FF9800 100%);
       transition: width 0.5s ease;
       position: relative;
+      box-shadow: 0 0 10px rgba(255, 107, 53, 0.35);
     }
 
     .progress-bar.complete {
@@ -1340,19 +1343,21 @@ body {
       align-items: center;
       gap: 6px;
       padding: 4px 10px;
-      background: #fef3c7;
-      color: #92400e;
+      background: rgba(255, 107, 53, 0.12);
+      color: #D3542A;
       border-radius: 12px;
       font-size: 0.75rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
       margin-top: 4px;
+      border: 1px solid rgba(255, 107, 53, 0.25);
     }
 
     .suggestion-pill:hover {
-      background: #fde68a;
+      background: rgba(255, 107, 53, 0.2);
       transform: translateX(2px);
+      box-shadow: 0 4px 10px rgba(255, 107, 53, 0.15);
     }
 
     .suggestion-tooltip {

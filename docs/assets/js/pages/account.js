@@ -190,14 +190,17 @@ onAuthStateChanged(auth, async (user) => {
           const data = snapshot.data();
           console.log('📊 [ACCOUNT] Firestore 資料更新:', data);
           
-          // 更新會員狀態
-          const statusBadge = document.getElementById('member-status-badge');
+          // 更新會員狀態（修正目標節點 + 名稱調整）
+          const statusBadge = document.getElementById('membership-badge-container');
+          const statusText = document.getElementById('membership-status');
           const memberSince = document.getElementById('member-since');
-          
+
           if (data.isPaid) {
-            statusBadge.innerHTML = '<span class="badge bg-primary rounded-pill"><i class="fas fa-crown me-1"></i>付費會員</span>';
+            if (statusBadge) statusBadge.innerHTML = '<span class="badge bg-primary rounded-pill"><i class="fas fa-crown me-2"></i>VIP會員</span>';
+            if (statusText) statusText.textContent = 'VIP會員';
           } else {
-            statusBadge.innerHTML = '<span class="badge bg-secondary rounded-pill"><i class="fas fa-star me-1"></i>免費會員</span>';
+            if (statusBadge) statusBadge.innerHTML = '<span class="badge bg-light text-dark fs-6"><i class="fas fa-star me-2"></i>普通會員</span>';
+            if (statusText) statusText.textContent = '普通會員';
           }
           
           // 顯示註冊日期

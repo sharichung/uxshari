@@ -245,7 +245,7 @@
 
       // Merge membership flags (prefer true if any source has it)
       isPaid = Boolean((emailData && emailData.isPaid) || (uidData && uidData.isPaid));
-      elements.userStatus.textContent = isPaid ? '付費會員' : '免費會員';
+      elements.userStatus.textContent = isPaid ? 'VIP會員' : '普通會員';
       elements.checklistLimit.textContent = isPaid ? '∞' : FREE_LIMIT;
 
       // If we used users/{uid} as source and have lists, try to sync into users_by_email for future reads
@@ -509,7 +509,7 @@
     // Create New Checklist with Project Type
     elements.createBtn.addEventListener('click', () => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
-        alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
+        alert('已達普通會員上限（3 張清單）\n\n升級到 VIP 會員以建立無限數量清單！');
         return;
       }
       
@@ -652,7 +652,7 @@
     // Duplicate Checklist (basic)
     window.duplicateChecklist = async (index) => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
-        alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
+        alert('已達普通會員上限（3 張清單）\n\n升級到 VIP 會員以建立無限數量清單！');
         return;
       }
 
@@ -672,7 +672,7 @@
     // Duplicate Checklist with UI feedback
     window.duplicateChecklistWithUI = async (index, btnEl) => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
-        alert('已達免費會員上限（3 張清單）\n\n升級到付費會員以建立無限數量清單！');
+        alert('已達普通會員上限（3 張清單）\n\n升級到 VIP 會員以建立無限數量清單！');
         return;
       }
       const setBtnBusy = (btn, label) => {
