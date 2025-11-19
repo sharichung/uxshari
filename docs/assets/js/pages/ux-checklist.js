@@ -181,6 +181,7 @@
       container: document.getElementById('checklists-container'),
       createBtn: document.getElementById('create-checklist-btn'),
       userStatus: document.getElementById('user-status'),
+      userStatusBadge: document.getElementById('user-status-badge'),
       checklistCount: document.getElementById('checklist-count'),
       checklistLimit: document.getElementById('checklist-limit'),
       limitNotice: document.getElementById('limit-notice')
@@ -246,6 +247,11 @@
       // Merge membership flags (prefer true if any source has it)
       isPaid = Boolean((emailData && emailData.isPaid) || (uidData && uidData.isPaid));
       elements.userStatus.textContent = isPaid ? 'VIP會員' : '普通會員';
+      try {
+        if (elements.userStatusBadge) {
+          elements.userStatusBadge.className = isPaid ? 'badge-vip' : 'badge-normal';
+        }
+      } catch(_) {}
       elements.checklistLimit.textContent = isPaid ? '∞' : FREE_LIMIT;
 
       // If we used users/{uid} as source and have lists, try to sync into users_by_email for future reads

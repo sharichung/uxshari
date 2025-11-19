@@ -196,10 +196,10 @@ onAuthStateChanged(auth, async (user) => {
           const memberSince = document.getElementById('member-since');
 
           if (data.isPaid) {
-            if (statusBadge) statusBadge.innerHTML = '<span class="badge bg-primary rounded-pill"><i class="fas fa-crown me-2"></i>VIP會員</span>';
+            if (statusBadge) statusBadge.innerHTML = '<span class="badge-vip"><i class="fas fa-crown me-2"></i>VIP會員</span>';
             if (statusText) statusText.textContent = 'VIP會員';
           } else {
-            if (statusBadge) statusBadge.innerHTML = '<span class="badge bg-light text-dark fs-6"><i class="fas fa-star me-2"></i>普通會員</span>';
+            if (statusBadge) statusBadge.innerHTML = '<span class="badge-normal"><i class="fas fa-user me-2"></i>普通會員</span>';
             if (statusText) statusText.textContent = '普通會員';
           }
           

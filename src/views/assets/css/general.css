@@ -621,6 +621,51 @@
       color: white;
     }
 
+    /* Unified Membership Badges */
+    .badge-vip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #fff;
+      background: linear-gradient(135deg, #F7C948 0%, #E9B949 35%, #D4A72C 70%, #B08900 100%);
+      box-shadow: 0 6px 20px rgba(208, 160, 16, 0.35), 0 0 24px rgba(247, 201, 72, 0.35);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .badge-vip::after {
+      content: '';
+      position: absolute;
+      top: -150%;
+      left: -50%;
+      width: 200%;
+      height: 400%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.45), transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.25), transparent 50%);
+      transform: rotate(10deg);
+      pointer-events: none;
+    }
+
+    .badge-normal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #374151;
+      background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
     /* Product Store Section */
     .product-store-card {
       background: linear-gradient(135deg, rgba(255, 107, 53, 0.05) 0%, rgba(255, 152, 0, 0.05) 100%);

@@ -145,15 +145,15 @@ function updateUI(userData) {
   // 更新會員狀態徽章
   if (isPaid) {
     elements.statusBadge.innerHTML = `
-      <span class="status-badge paid">
+      <span class="badge-vip">
         <i class="fas fa-crown"></i>
         VIP會員
       </span>
     `;
   } else {
     elements.statusBadge.innerHTML = `
-      <span class="status-badge free">
-        <i class="fas fa-star"></i>
+      <span class="badge-normal">
+        <i class="fas fa-user"></i>
         普通會員
       </span>
     `;
