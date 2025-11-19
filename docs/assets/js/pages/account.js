@@ -70,6 +70,31 @@ displayNameInput?.addEventListener('input', function () {
   else hint?.classList.remove('show');
 });
 
+function updateNavbarAvatar(url) {
+  try {
+    if (!url) return;
+    try { localStorage.setItem('userAvatar', url); sessionStorage.setItem('userAvatar', url); } catch (_) {}
+    let navImg = document.getElementById('userAvatar');
+    if (navImg && navImg.tagName === 'IMG') {
+      navImg.src = url;
+    } else {
+      const navLink = document.querySelector('#mainNavbar a[href="account.html"]') || document.querySelector('a[href="account.html"]');
+      if (navLink) {
+        const img = document.createElement('img');
+        img.id = 'userAvatar';
+        img.alt = 'User Avatar';
+        img.className = 'rounded-circle';
+        img.style.width = '32px';
+        img.style.height = '32px';
+        img.style.objectFit = 'cover';
+        img.src = url;
+        navLink.innerHTML = '';
+        navLink.appendChild(img);
+      }
+    }
+  } catch (_) { }
+}
+
 // Auth gating
 onAuthStateChanged(auth, (user) => {
   document.getElementById('loading-overlay').style.display = 'none';
@@ -80,7 +105,7 @@ onAuthStateChanged(auth, (user) => {
     settingsSection.classList.remove('d-none');
     emailEl.textContent = user.email || '';
     displayNameEl.value = user.displayName || '';
-    if (user.photoURL) avatarPreview.src = user.photoURL;
+    if (user.photoURL) { avatarPreview.src = user.photoURL; updateNavbarAvatar(user.photoURL); }
   } else {
     profileSection.classList.add('d-none');
     avatarSection.classList.add('d-none');
@@ -275,7 +300,9 @@ function openCropperModal(dataUrl) {
         await Promise.allSettled(toDelete.map(obj => deleteObject(obj)));
       } catch (e) { console.warn('清理舊頭像失敗（已忽略）:', e?.message || e); }
 
+      // Update preview and navbar + persist avatar URL
       avatarPreview.src = url;
+      updateNavbarAvatar(url);
       confirmBtn.blur(); bsModal.hide();
       showSavedToast();
       const statusEl = document.getElementById('avatar-status');

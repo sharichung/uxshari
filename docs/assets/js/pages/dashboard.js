@@ -202,6 +202,31 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
+  // Persist and reflect avatar in navbar
+  try {
+    if (user.photoURL) {
+      try { localStorage.setItem('userAvatar', user.photoURL); sessionStorage.setItem('userAvatar', user.photoURL); } catch (_) {}
+      const navImg = document.getElementById('userAvatar');
+      if (navImg && navImg.tagName === 'IMG') {
+        navImg.src = user.photoURL;
+      } else {
+        const navLink = document.querySelector('#mainNavbar a[href="account.html"]') || document.querySelector('a[href="account.html"]');
+        if (navLink) {
+          const img = document.createElement('img');
+          img.id = 'userAvatar';
+          img.alt = 'User Avatar';
+          img.className = 'rounded-circle';
+          img.style.width = '32px';
+          img.style.height = '32px';
+          img.style.objectFit = 'cover';
+          img.src = user.photoURL;
+          navLink.innerHTML = '';
+          navLink.appendChild(img);
+        }
+      }
+    }
+  } catch (_) {}
+
   // 更新用戶名稱
   elements.userName.textContent = user.displayName || user.email?.split('@')[0] || '會員';
 

@@ -115,6 +115,16 @@ if (fs.existsSync(jsDir)) {
     });
 }
 
+// 複製 Components（Navbar/Footer）
+ensureDir("docs/components");
+const compsDir = "src/views/components";
+if (fs.existsSync(compsDir)) {
+    const compFiles = fs.readdirSync(compsDir).filter(f => f.endsWith(".html"));
+    compFiles.forEach(file => {
+        fs.copyFileSync(path.join(compsDir, file), path.join("docs/components", file));
+    });
+}
+
 // 複製圖片
 if (fs.existsSync("src/assets/images")) {
     ensureDir("docs/assets/images");

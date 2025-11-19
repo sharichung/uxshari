@@ -22,21 +22,7 @@
       <a class="d-flex align-items-center text-dark text-decoration-none" href="account.html" role="button">
         <img src="" alt="User Avatar" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;" id="userAvatar">
       </a>
-      
-      <script>
-        // Load user avatar from account
-        document.addEventListener('DOMContentLoaded', function() {
-          const avatar = localStorage.getItem('userAvatar') || sessionStorage.getItem('userAvatar');
-          const avatarImg = document.getElementById('userAvatar');
-          
-          if (avatar) {
-        avatarImg.src = avatar;
-          } else {
-        // Fallback to default icon if no avatar is saved
-        avatarImg.outerHTML = '<i class="fas fa-user-circle text-dark" role="img" aria-label="會員帳號" style="font-size: 32px;"></i>';
-          }
-        });
-      </script>
+      <script src="assets/js/layout/apply-navbar-avatar.js" defer></script>
     </div>
   </nav>
 
