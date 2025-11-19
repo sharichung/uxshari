@@ -207,6 +207,9 @@
       perkTeam: document.getElementById('perk-team')
     };
 
+    // First paint: ensure UI becomes interactive even before data
+    try { updateUI(); } catch (_) {}
+
     let dataReady = false;
     // Watchdog: ensure UI becomes interactive quickly even before data
     function scheduleInitialUIFlush() {
@@ -714,7 +717,7 @@
     };
 
     // Create New Checklist with Project Type
-    elements.createBtn.addEventListener('click', () => {
+    if (elements.createBtn) elements.createBtn.addEventListener('click', () => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
         alert('已達普通會員上限（3 張清單）\n\n升級到 VIP 會員以建立無限數量清單！');
         return;
