@@ -75,13 +75,10 @@
             <div class="col-md-8">
               <h1 class="h4 mb-2">
                 <i class="fas fa-user-circle text-primary-shari me-2"></i>
-                你好，<span id="user-name">會員</span>！
+                你好，<span id="user-name"><span class="skeleton skeleton-text" style="width: 100px; display: inline-block;"></span></span>！
               </h1>
               <div id="status-badge-container">
-                <span class="badge-normal">
-                  <i class="fas fa-user"></i>
-                  普通會員
-                </span>
+                <span class="skeleton skeleton-badge" style="width: 120px; display: inline-block;"></span>
               </div>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
@@ -110,9 +107,7 @@
                   <h3 class="h5 mb-1">一對一輔導預約</h3>
                   <p class="text-muted small mb-0">
                     剩餘點數：<strong id="credits-count" class="text-primary-shari fs-4">
-                      <span class="placeholder-glow">
-                        <span class="placeholder col-2"></span>
-                      </span>
+                      <span class="skeleton skeleton-text" style="width: 40px; display: inline-block; vertical-align: middle;"></span>
                     </strong> 次
                   </p>
                 </div>
@@ -121,8 +116,8 @@
 
             <!-- 右側：動作按鈕 -->
             <div class="col-md-6 text-md-end">
-              <button id="book-session-btn" class="btn btn-lg btn-primary-shari w-100 w-md-auto placeholder-glow" disabled>
-                <span class="placeholder col-8"></span>
+              <button id="book-session-btn" class="btn btn-lg btn-primary-shari w-100 w-md-auto" disabled style="min-width: 200px;">
+                <span class="skeleton skeleton-text" style="width: 120px; height: 20px; display: inline-block;"></span>
               </button>
             </div>
           </div>
@@ -217,12 +212,52 @@
 
           <!-- 產品卡片網格 -->
           <div id="products-grid" class="row g-4">
-            <!-- 載入中狀態 -->
-            <div class="col-12 text-center py-5" id="products-loading">
-              <div class="spinner-border text-primary-shari" role="status">
-                <span class="visually-hidden">載入中...</span>
+            <!-- 載入中骨架屏 -->
+            <div class="col-12" id="products-loading">
+              <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-4">
+                  <div class="card border-0 shadow-sm h-100">
+                    <div class="skeleton skeleton-image" style="height: 200px;"></div>
+                    <div class="card-body">
+                      <div class="skeleton skeleton-heading mb-2" style="width: 80%;"></div>
+                      <div class="skeleton skeleton-text mb-2" style="width: 100%;"></div>
+                      <div class="skeleton skeleton-text mb-3" style="width: 90%;"></div>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="skeleton skeleton-badge" style="width: 80px;"></div>
+                        <div class="skeleton skeleton-button" style="width: 100px; height: 36px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                  <div class="card border-0 shadow-sm h-100">
+                    <div class="skeleton skeleton-image" style="height: 200px;"></div>
+                    <div class="card-body">
+                      <div class="skeleton skeleton-heading mb-2" style="width: 75%;"></div>
+                      <div class="skeleton skeleton-text mb-2" style="width: 95%;"></div>
+                      <div class="skeleton skeleton-text mb-3" style="width: 85%;"></div>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="skeleton skeleton-badge" style="width: 80px;"></div>
+                        <div class="skeleton skeleton-button" style="width: 100px; height: 36px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                  <div class="card border-0 shadow-sm h-100">
+                    <div class="skeleton skeleton-image" style="height: 200px;"></div>
+                    <div class="card-body">
+                      <div class="skeleton skeleton-heading mb-2" style="width: 70%;"></div>
+                      <div class="skeleton skeleton-text mb-2" style="width: 100%;"></div>
+                      <div class="skeleton skeleton-text mb-3" style="width: 80%;"></div>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="skeleton skeleton-badge" style="width: 80px;"></div>
+                        <div class="skeleton skeleton-button" style="width: 100px; height: 36px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p class="text-muted mt-3">正在載入產品...</p>
             </div>
 
             <!-- 空狀態 -->

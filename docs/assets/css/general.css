@@ -127,6 +127,104 @@
 .border-base { border-color: var(--border-base) !important; }
 .border-light { border-color: var(--border-light) !important; }
 
+/* ===== Skeleton Screen Loading System ===== */
+/* Base skeleton element */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0%,
+    #f8f8f8 20%,
+    #f0f0f0 40%,
+    #f0f0f0 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Skeleton variants for different content types */
+.skeleton-text {
+  border-radius: 6px;
+  height: 16px;
+}
+
+.skeleton-heading {
+  border-radius: 6px;
+  height: 24px;
+}
+
+.skeleton-badge {
+  border-radius: 12px;
+  height: 28px;
+}
+
+.skeleton-bar {
+  border-radius: 999px;
+  height: 8px;
+}
+
+.skeleton-item {
+  border-radius: 8px;
+  height: 48px;
+}
+
+.skeleton-avatar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.skeleton-image {
+  border-radius: 8px;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  position: relative;
+}
+
+.skeleton-button {
+  border-radius: 8px;
+  height: 40px;
+  width: 120px;
+}
+
+/* Skeleton group for organizing multiple skeletons */
+.skeleton-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Skeleton pulse variant (alternative to shimmer) */
+.skeleton-pulse {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Dark mode skeleton */
+@media (prefers-color-scheme: dark) {
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      #2a2a2a 0%,
+      #3a3a3a 20%,
+      #2a2a2a 40%,
+      #2a2a2a 100%
+    );
+    background-size: 200% 100%;
+  }
+}
+
 /* ===== Checkbox 品牌配色 (Secondary Purple) ===== */
 /* Override Bootstrap's default blue checkbox with brand secondary purple */
 input[type="checkbox"] {
