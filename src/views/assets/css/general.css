@@ -2909,14 +2909,15 @@ body {
 @media print {
   .no-print, 
   .navbar, 
-  .footer { 
+  .footer,
+  .progress { 
     display: none !important; 
   }
   
   body { 
     background: #fff;
     font-size: 11pt;
-    line-height: 1.3;
+    line-height: 1.2;
   }
   
   #detail-wrapper { 
@@ -2930,24 +2931,24 @@ body {
   }
   
   .checklist-section {
-    margin-bottom: 0.75rem !important;
+    margin-bottom: 0.5rem !important;
   }
   
   .section-title {
     font-size: 0.95rem !important;
-    margin-bottom: 0.25rem !important;
-    padding: 0.25rem 0 !important;
+    margin-bottom: 0.2rem !important;
+    padding: 0.2rem 0 !important;
   }
   
   .checklist-item {
-    padding: 0.25rem 0 !important;
-    margin-bottom: 0.15rem !important;
-    gap: 0.35rem !important;
+    padding: 0.15rem 0 !important;
+    margin-bottom: 0.1rem !important;
+    gap: 0.25rem !important;
   }
   
   .checklist-item-text {
     font-size: 0.9rem !important;
-    line-height: 1.3 !important;
+    line-height: 1.2 !important;
   }
   
   .print-checklist-title {

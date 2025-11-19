@@ -544,6 +544,7 @@
       const renderItem = (cat, item, itemIndex) => {
         const severity = item.severity || 'none';
         const severityColors = { none: 'secondary', low: 'success', medium: 'warning', high: 'danger' };
+        const severityBtnColors = { none: 'secondary', low: 'success', medium: 'warning', high: 'danger' };
         const severityLabels = { none: '未設定', low: '低', medium: '中', high: '高' };
         const hasPriority = item.priority || false;
         const hasNote = item.note && item.note.trim();
@@ -569,7 +570,7 @@
                 </button>
                 <!-- Severity dropdown -->
                 <div class="dropdown d-inline-block">
-                  <button class="btn btn-sm btn-outline-${severityColors[severity]} dropdown-toggle py-0 px-2 btn-chip" 
+                  <button class="btn btn-sm ${severity === 'none' ? 'btn-outline-secondary' : 'btn-' + severityBtnColors[severity]} dropdown-toggle py-0 px-2 btn-chip" 
                           type="button" data-bs-toggle="dropdown" style="font-size: 0.8rem; line-height: 1.4; min-height: 32px; min-width: 52px;">
                     ${severityLabels[severity]}
                   </button>
