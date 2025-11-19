@@ -173,6 +173,7 @@
     let selectedProjectType = null;
     let selectedIndex = -1;
     let searchQuery = '';
+    let showPriorityOnly = false;
     const FREE_LIMIT = 3;
 
     // Undo State
@@ -482,13 +483,14 @@
         const severityLabels = { none: '未設定', low: '低', medium: '中', high: '高' };
         const hasPriority = item.priority || false;
         const hasNote = item.note && item.note.trim();
+        const isCustom = item.custom === true;
         
         return `<div class="checklist-item ${item.checked?'checked':''}" data-cat="${cat}" data-item-id="${item.id}">
           <input type="checkbox" id="d-${idx}-${item.id}" ${item.checked?'checked':''} data-cat="${cat}" data-id="${item.id}">
           <div class="checklist-item-text">
             <div class="d-flex align-items-start gap-2 w-100">
               <span class="flex-grow-1">${item.text}</span>
-              <div class="d-flex align-items-center gap-1 flex-shrink-0">
+              <div class="d-flex align-items-center gap-1 flex-shrink-0 no-print">
                 <!-- Priority star -->
                 <button class="btn btn-sm btn-link p-0 text-decoration-none priority-btn ${hasPriority?'active':''}" 
                         data-cat="${cat}" data-id="${item.id}" title="標記為重點">
@@ -513,9 +515,14 @@
                   <i class="fas fa-sticky-note"></i>
                 </button>
                 <!-- Explanation icon -->
-                ${item.suggestion?`<button class="btn btn-sm btn-link p-0 text-decoration-none text-info" 
+                ${item.suggestion?`<button class="btn btn-sm btn-link p-0 text-decoration-none text-info suggestion-btn" 
                                            data-suggestion="${encodeURIComponent(item.suggestion)}" title="查看建議">
                   <i class="fas fa-info-circle"></i>
+                </button>`:''}
+                <!-- Delete button (custom items only) -->
+                ${isCustom?`<button class="btn btn-sm btn-link p-0 text-decoration-none text-danger delete-item-btn" 
+                                    data-cat="${cat}" data-id="${item.id}" title="刪除自定義項目">
+                  <i class="fas fa-trash-alt"></i>
                 </button>`:''}
               </div>
             </div>
@@ -525,9 +532,11 @@
       };
       const section = (title, iconClass, catArrName) => {
         const items = checklist.items[catArrName];
+        const filteredItems = showPriorityOnly ? items.filter(i => i.priority) : items;
         const catTotal = items.length;
         const catChecked = items.filter(i => i.checked).length;
         const catProgress = catTotal ? Math.round((catChecked / catTotal) * 100) : 0;
+        const customCount = items.filter(i => i.custom).length;
         
         return `
         <div class="checklist-section" data-category="${catArrName}">
@@ -537,16 +546,17 @@
               <span>${title}</span>
               <span class="badge bg-light text-muted">${catChecked}/${catTotal}</span>
             </div>
-            <div class="progress" style="width: 80px; height: 6px;">
+            <div class="progress no-print" style="width: 80px; height: 6px;">
               <div class="progress-bar bg-secondary-shari" role="progressbar" style="width: ${catProgress}%" 
                    aria-valuenow="${catProgress}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
           </div>
-          ${items.map((item, itemIndex)=>renderItem(catArrName,item,itemIndex)).join('')}
-          <button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn" 
+          ${filteredItems.map((item, itemIndex)=>renderItem(catArrName,item,itemIndex)).join('')}
+          ${showPriorityOnly ? '' : `<button class="btn btn-sm btn-outline-secondary-shari mt-2 w-100 add-custom-item-btn no-print" 
                   data-category="${catArrName}">
             <i class="fas fa-plus me-1"></i>新增自定義痛點
-          </button>
+            <span class="text-muted small">(最多 5 個，已使用 ${customCount})</span>
+          </button>`}
         </div>`;
       };
       const html = [
@@ -635,6 +645,35 @@
         });
       });
 
+      // Suggestion button
+      elements.detailSections.querySelectorAll('.suggestion-btn').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const suggestion = decodeURIComponent(e.currentTarget.getAttribute('data-suggestion') || '');
+          if (suggestion) {
+            alert('💡 建議：\n\n' + suggestion);
+          }
+        });
+      });
+
+      // Delete custom item button
+      elements.detailSections.querySelectorAll('.delete-item-btn').forEach(btn=>{
+        btn.addEventListener('click', async (e)=>{
+          e.preventDefault();
+          if (!confirm('確定要刪除此自定義項目嗎？')) return;
+          const cat = e.currentTarget.getAttribute('data-cat');
+          const itemId = e.currentTarget.getAttribute('data-id');
+          const itemIndex = userChecklists[idx].items[cat].findIndex(i=>i.id===itemId);
+          if (itemIndex !== -1){
+            userChecklists[idx].items[cat].splice(itemIndex, 1);
+            userChecklists[idx].updatedAt = new Date().toISOString();
+            await saveToFirestore();
+            showSaveIndicator();
+            renderDetail();
+          }
+        });
+      });
+
       // Add custom item buttons
       elements.detailSections.querySelectorAll('.add-custom-item-btn').forEach(btn=>{
         btn.addEventListener('click', (e)=>{
@@ -655,6 +694,23 @@
             showSaveIndicator();
             renderSidebar();
           }, 400);
+        };
+      }
+
+      // Priority filter button
+      const priorityFilterBtn = document.getElementById('priority-filter-btn');
+      if (priorityFilterBtn) {
+        priorityFilterBtn.onclick = () => {
+          showPriorityOnly = !showPriorityOnly;
+          priorityFilterBtn.classList.toggle('active', showPriorityOnly);
+          if (showPriorityOnly) {
+            priorityFilterBtn.classList.remove('btn-outline-warning');
+            priorityFilterBtn.classList.add('btn-warning');
+          } else {
+            priorityFilterBtn.classList.remove('btn-warning');
+            priorityFilterBtn.classList.add('btn-outline-warning');
+          }
+          renderDetail();
         };
       }
 
