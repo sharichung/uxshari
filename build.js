@@ -51,6 +51,11 @@ function getAllHtmlFiles(dir, base = "") {
 // 先乾淨化輸出目錄，避免殘留舊版頁面
 cleanDocs("docs");
 
+// 確保 GitHub Pages 不經 Jekyll 處理
+try {
+    fs.writeFileSync(path.join("docs", ".nojekyll"), "\n");
+} catch (_) {}
+
 // 處理 HTML views（支援子資料夾）
 const viewFiles = getAllHtmlFiles("src/views");
 
