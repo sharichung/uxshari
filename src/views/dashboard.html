@@ -594,7 +594,7 @@
                       <span>${progress.completedUnits.length}/${progress.totalUnits} 單元</span>
                     </div>
                     <div class="product-progress">
-                      <div class="product-progress-bar" style="width: ${progressPercent}%"></div>
+                      <div class="product-progress-bar" style="width: 0%;"></div>
                     </div>
                   </div>
                 ` : ''}
@@ -623,93 +623,6 @@
               </div>
             </div>
           </div>
-        `;
-      }).join('');
-    }
-
-    // 購買產品
-    window.purchaseProduct = async function(productId) {
-      const user = auth.currentUser;
-      if (!user || !user.email) {
-        alert('請先登入');
-        return;
-      }
-
-      try {
-        const btn = event.target.closest('button');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> 處理中...';
-
-        const response = await fetch(`${WORKER_BASE}/api/checkout/create-product-session`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            productId,
-            userEmail: user.email
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.ok && data.checkoutUrl) {
-          window.location.href = data.checkoutUrl;
-        } else {
-          throw new Error(data.error || '建立付款頁面失敗');
-        }
-      } catch (error) {
-        console.error('❌ 購買錯誤:', error);
-        alert(error.message || '購買失敗，請重試');
-        event.target.closest('button').disabled = false;
-        event.target.closest('button').innerHTML = '<i class="fas fa-shopping-cart me-2"></i> 購買';
-      }
-    };
-
-    // 存取產品
-    window.accessProduct = function(productId, type, url) {
-      if (type === 'course') {
-        // 導向課程頁面（未來實作）
-        window.location.href = `/lesson.html?course=${productId}`;
-      } else if (type === 'challenge') {
-        // 導向挑戰頁面（未來實作）
-        window.location.href = `/challenge.html?id=${productId}`;
-      } else if (url) {
-        // 直接下載或開啟連結
-        window.open(url, '_blank');
-      } else {
-        alert('此產品暫無內容連結');
-      }
-    };
-
-    // 篩選按鈕事件
-    document.getElementById('product-filter-buttons').addEventListener('click', (e) => {
-      if (e.target.tagName === 'BUTTON') {
-        // 更新按鈕狀態
-        document.querySelectorAll('#product-filter-buttons button').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        e.target.classList.add('active');
-
-        // 更新篩選條件
-        currentFilter = e.target.dataset.filter;
-        renderProducts();
-      }
-    });
-
-    // 搜尋事件
-    document.getElementById('product-search').addEventListener('input', () => {
-      renderProducts();
-    });
-
-    // 初始化產品
-    loadProducts();
-
-    // 當使用者登入後載入已購產品
-    onAuthStateChanged(auth, (user) => {
-      if (user && user.email) {
-        loadUserPurchases(user.email);
-      }
-    });
-  </script>
 
 
 
