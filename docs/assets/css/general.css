@@ -613,20 +613,20 @@ input[type="checkbox"]:hover {
 
 /* Mobile dropdown and actions button neutral colors */
 #mobileChecklistDropdown,
-#detail-wrapper .dropdown-toggle {
+#detail-wrapper .dropdown-toggle:not(.severity-btn) {
   border-color: var(--bs-border-color-translucent) !important;
   background-color: var(--bs-body-bg) !important;
   color: var(--bs-body-color) !important;
 }
 
 #mobileChecklistDropdown i,
-#detail-wrapper .dropdown-toggle i {
+#detail-wrapper .dropdown-toggle:not(.severity-btn) i {
   color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity));
   --bs-text-opacity: 1;
 }
 
 #mobileChecklistDropdown:hover,
-#detail-wrapper .dropdown-toggle:hover {
+#detail-wrapper .dropdown-toggle:not(.severity-btn):hover {
   background-color: var(--bs-secondary-bg) !important;
 }
 
