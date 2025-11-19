@@ -5,7 +5,7 @@
 
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, updateProfile, signOut, sendPasswordResetEmail, reload, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, EmailAuthProvider, reauthenticateWithCredential, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, setDoc, doc, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, setDoc, doc, serverTimestamp, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getStorage, ref as sRef, uploadBytes, getDownloadURL, listAll, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
@@ -180,14 +180,15 @@ onAuthStateChanged(auth, async (user) => {
     displayNameEl.value = user.displayName || '';
     if (user.photoURL) { avatarPreview.src = user.photoURL; updateNavbarAvatar(user.photoURL); }
     
-    // 載入會員資料與付款紀錄
+    // 載入會員資料與付款紀錄（即時監聽）
     if (user.email) {
-      try {
-        const docRef = doc(db, "users_by_email", encEmail(user.email));
-        const snapshot = await getDoc(docRef);
-        
+      const docRef = doc(db, "users_by_email", encEmail(user.email));
+      
+      // 使用 onSnapshot 實現即時更新
+      onSnapshot(docRef, (snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.data();
+          console.log('📊 [ACCOUNT] Firestore 資料更新:', data);
           
           // 更新會員狀態
           const statusBadge = document.getElementById('member-status-badge');
@@ -228,10 +229,12 @@ onAuthStateChanged(auth, async (user) => {
           } else {
             paymentsList.innerHTML = '<p class="text-muted mb-0">尚無付款紀錄</p>';
           }
+        } else {
+          console.warn('⚠️ [ACCOUNT] Firestore 文檔不存在');
         }
-      } catch (error) {
-        console.error('載入會員資料失敗:', error);
-      }
+      }, (error) => {
+        console.error('❌ [ACCOUNT] Firestore 監聽錯誤:', error);
+      });
     }
   } else {
     profileSection.classList.add('d-none');
