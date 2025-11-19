@@ -2679,24 +2679,38 @@ body {
   pointer-events: none;
 }
 
-/* Mobile: Bottom slide-up, full-width */
+/* Mobile: Top-center compact popup */
 @media (max-width: 767px) {
   #achievement-toast {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(100%);
-    padding: 1rem;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, -120px);
+    max-width: 320px;
+    width: calc(100% - 2rem);
   }
   
   #achievement-toast.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
     pointer-events: auto;
   }
   
   .achievement-card {
-    border-radius: 1.5rem 1.5rem 0 0 !important;
+    border-radius: 1rem !important;
+    padding: 0.875rem !important;
+  }
+  
+  .achievement-card h6 {
+    font-size: 0.95rem !important;
+  }
+  
+  .achievement-card p {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .achievement-card .progress {
+    height: 6px !important;
   }
 }
 
