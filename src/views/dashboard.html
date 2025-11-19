@@ -131,18 +131,36 @@
 
     <!-- 🛍️ 數位產品商店 -->
     <section class="container py-2 mb-4">
-      <div class="card border-0 shadow-sm">
-        <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
-          <h3 class="h5 mb-0">
-            <i class="fas fa-store me-2"></i>
-            數位產品商店
-          </h3>
-          <div class="btn-group btn-group-sm" role="group" id="product-filter-buttons">
-            <button type="button" class="btn btn-outline-primary active" data-filter="all">全部</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="tool">🧰 工具</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="course">📚 課程</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="challenge">🎯 挑戰</button>
-            <button type="button" class="btn btn-outline-primary" data-filter="resource">📦 資源</button>
+      <div class="product-store-card">
+        <div class="product-store-header">
+          <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3">
+            <div>
+              <h3 class="product-store-title">
+                <i class="fas fa-store me-2"></i>
+                數位產品商店
+              </h3>
+              <p class="product-store-subtitle mb-0">探索專業工具與課程，提升您的 UX 技能</p>
+            </div>
+            <div class="btn-group btn-group-sm product-filter-buttons" role="group" id="product-filter-buttons">
+              <button type="button" class="btn product-filter-btn active" data-filter="all">
+                <i class="fas fa-th me-1"></i>全部
+              </button>
+              <button type="button" class="btn product-filter-btn" data-filter="purchased">
+                <i class="fas fa-check-circle me-1"></i>已購買
+              </button>
+              <button type="button" class="btn product-filter-btn" data-filter="tool">
+                🧰 工具
+              </button>
+              <button type="button" class="btn product-filter-btn" data-filter="course">
+                📚 課程
+              </button>
+              <button type="button" class="btn product-filter-btn" data-filter="challenge">
+                🎯 挑戰
+              </button>
+              <button type="button" class="btn product-filter-btn" data-filter="resource">
+                📦 資源
+              </button>
+            </div>
           </div>
         </div>
         <div class="card-body">

@@ -344,11 +344,20 @@ function renderProducts() {
 
   // 篩選產品
   let filtered = allProducts.filter(p => {
-    const matchFilter = currentFilter === 'all' || p.type === currentFilter;
+    // 篩選器邏輯
+    let matchFilter = true;
+    if (currentFilter === 'purchased') {
+      matchFilter = isPurchased(p.id);
+    } else if (currentFilter !== 'all') {
+      matchFilter = p.type === currentFilter;
+    }
+    
+    // 搜尋邏輯
     const matchSearch = !searchTerm ||
       p.title.toLowerCase().includes(searchTerm) ||
       p.description.toLowerCase().includes(searchTerm) ||
       (p.tags || []).some(tag => tag.toLowerCase().includes(searchTerm));
+    
     return matchFilter && matchSearch;
   });
 
