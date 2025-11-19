@@ -2640,3 +2640,26 @@ body {
     border: 0 !important; 
   }
 }
+
+/* === Mobile Checklist Dropdown (Themed) === */
+#mobile-checklist-menu .mobile-search-item { padding: 0; }
+#mobile-checklist-menu .input-group { 
+  border: 2px solid var(--border-base);
+  border-radius: 12px;
+  overflow: hidden;
+}
+#mobile-checklist-menu .input-group .input-group-text { 
+  background: var(--bg-elevated);
+  color: var(--text-tertiary);
+  border: 0;
+}
+#mobile-checklist-menu .form-control { 
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 0;
+  padding: 0.875rem 0.875rem;
+}
+#mobile-checklist-menu .form-control::placeholder { color: var(--text-muted); }
+#mobile-checklist-menu .form-control:focus { box-shadow: none; outline: none; }
+#mobile-checklist-menu .dropdown-divider { border-color: var(--border-light); }
+#mobile-checklist-menu .dropdown-header { color: var(--text-secondary); }
