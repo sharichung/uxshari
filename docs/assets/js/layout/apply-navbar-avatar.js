@@ -67,11 +67,11 @@
       if (paid) {
         badge.classList.add('paid');
         badge.innerHTML = '<i class="fas fa-crown" aria-hidden="true"></i>';
-        badge.title = '付費會員';
+        badge.title = 'VIP會員';
       } else {
         badge.classList.add('free');
         badge.innerHTML = '<i class="fas fa-star" aria-hidden="true"></i>';
-        badge.title = '免費會員';
+        badge.title = '普通會員';
       }
     } catch (_) {}
   }
