@@ -800,11 +800,11 @@
           showPriorityOnly = !showPriorityOnly;
           priorityFilterBtn.classList.toggle('active', showPriorityOnly);
           if (showPriorityOnly) {
-            priorityFilterBtn.classList.remove('btn-outline-warning-shari');
-            priorityFilterBtn.classList.add('btn-warning-shari');
+            priorityFilterBtn.classList.remove('btn-outline-error-shari');
+            priorityFilterBtn.classList.add('btn-error-shari');
           } else {
-            priorityFilterBtn.classList.remove('btn-warning-shari');
-            priorityFilterBtn.classList.add('btn-outline-warning-shari');
+            priorityFilterBtn.classList.remove('btn-error-shari');
+            priorityFilterBtn.classList.add('btn-outline-error-shari');
           }
           renderDetail();
         };
@@ -816,8 +816,8 @@
         filterIncompleteBtn.onclick = () => {
           showOnlyIncomplete = !showOnlyIncomplete;
           if (showOnlyIncomplete) {
-            filterIncompleteBtn.classList.remove('btn-outline-warning-shari');
-            filterIncompleteBtn.classList.add('btn-warning-shari');
+            filterIncompleteBtn.classList.remove('btn-outline-error-shari');
+            filterIncompleteBtn.classList.add('btn-error-shari');
             showOnlyNeedsWork = false; // 互斥
             const needsWorkBtn = document.getElementById('filter-needs-work-btn');
             if (needsWorkBtn) {
@@ -825,8 +825,8 @@
               needsWorkBtn.classList.add('btn-outline-error-shari');
             }
           } else {
-            filterIncompleteBtn.classList.remove('btn-warning-shari');
-            filterIncompleteBtn.classList.add('btn-outline-warning-shari');
+            filterIncompleteBtn.classList.remove('btn-error-shari');
+            filterIncompleteBtn.classList.add('btn-outline-error-shari');
           }
           renderDetail();
         };
