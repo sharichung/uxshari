@@ -578,10 +578,31 @@
           if (pinBtn) pinBtn.onclick = async (e)=>{
             e.stopPropagation();
             const idx = parseInt(li.dataset.index);
+            
+            // Show loading spinner immediately
+            const icon = pinBtn.querySelector('i');
+            const originalIcon = icon.className;
+            icon.className = 'fas fa-spinner fa-spin';
+            pinBtn.disabled = true;
+            
+            // Optimistic update
+            const previousState = userChecklists[idx].pinned;
             userChecklists[idx].pinned = !userChecklists[idx].pinned;
             userChecklists[idx].updatedAt = new Date().toISOString();
-            await saveToFirestore();
+            
+            // Update UI immediately
             renderSidebar();
+            
+            // Save in background
+            try {
+              await saveToFirestore();
+            } catch (err) {
+              // Rollback on error
+              console.error('Pin toggle failed:', err);
+              userChecklists[idx].pinned = previousState;
+              renderSidebar();
+              alert('收藏狀態更新失敗，請重試');
+            }
           };
           // dnd
           li.addEventListener('dragstart', ()=>{ li.classList.add('dragging'); });
