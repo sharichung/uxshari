@@ -67,9 +67,6 @@ viewFiles.forEach(relPath => {
     const navbarPath = `src/views/components/${pageType}-navbar.html`;
     const footerPath = `src/views/components/${pageType}-footer.html`;
     
-    // 保險：若仍殘留以 console.log("🟢 [DASHBOARD-OPT] 開頭的垃圾段落，直接清除到 Tawk 腳本前
-    html = html.replace(/\n\s*console\.log\(\"🟢 \[DASHBOARD-OPT\][\s\S]*?(?=<!--Start of Tawk\.to Script-->)/, "\n\n");
-    
     let navbar = "";
     let footer = "";
     
@@ -114,22 +111,6 @@ html = html.replace(/<\/main>/, `${footer}\n</main>`);
     html = html.replace(/(src|href)="\.?\/?(assets\/[^"]+)"/g, '$1="$2"');
     html = html.replace(/(src|href)="\.?\/?(css\/[^"]+)"/g, '$1="assets/$2"');
     html = html.replace(/(src|href)="\.?\/?(js\/[^"]+)"/g, '$1="assets/$2"');
-
-    // 針對 dashboard.html：強制保持只載入外部模組腳本
-    if (fileName === "dashboard.html") {
-        const beforeHasInline = html.includes('console.log("🟢 [DASHBOARD-OPT]');
-        // 先嘗試以區段替換（Firebase 標記到 Tawk 標記）
-        html = html.replace(
-            /(<!--\s*Firebase SDK \+ Dashboard Logic\s*-->)[\s\S]*?(<!--Start of Tawk\.to Script-->)/,
-            `$1\n  <script type=\"module\" src=\"assets/js/pages/dashboard.js\"></script>\n\n$2`
-        );
-        // 再保險：移除任何殘留的 console.log 開頭到 Tawk 前的段落
-        html = html.replace(/\s*console\.log\(\"🟢 \[DASHBOARD-OPT\][\s\S]*?(?=<!--Start of Tawk\.to Script-->)/, "\n\n");
-        const afterHasInline = html.includes('console.log("🟢 [DASHBOARD-OPT]');
-        if (beforeHasInline && afterHasInline) {
-            console.warn('⚠️ [DASHBOARD] Inline block still present after cleanup');
-        }
-    }
 
     // 輸出至 docs/（保留相對路徑）
     const outPath = path.join("docs", relPath);
