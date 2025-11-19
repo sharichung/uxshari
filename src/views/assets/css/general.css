@@ -2402,3 +2402,203 @@ body {
   ✅ Focus indicators:           3px outline, 0.5 opacity
 
 */
+
+/* ========================================
+   UX CHECKLIST PAGE SPECIFIC STYLES
+   ======================================== */
+
+/* === Sidebar & List Items === */
+.small-draggable .list-group-item { 
+  cursor: grab; 
+}
+
+.small-draggable .list-group-item.dragging { 
+  opacity: 0.7; 
+}
+
+.small-draggable .progress { 
+  height: 6px; 
+}
+
+.list-item-title { 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+.pin-btn { 
+  color: var(--accent-star); 
+}
+
+.pin-btn.inactive { 
+  color: var(--text-muted); 
+}
+
+/* === Offcanvas & Sidebar Layout === */
+@media (min-width: 768px) {
+  .offcanvas-md { 
+    position: static; 
+    display: block; 
+    visibility: visible; 
+    transform: none; 
+  }
+  
+  #checklistSidebar { 
+    width: 100% !important; 
+  }
+  
+  #checklistSidebar .offcanvas-body { 
+    display: block; 
+  }
+  
+  .offcanvas-backdrop { 
+    display: none; 
+  }
+}
+
+#checklistSidebar .offcanvas-body { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.75rem; 
+}
+
+#favoritesCollapse .list-group-item:first-child { 
+  border-top: 0; 
+}
+
+/* === Detail Title Focus === */
+#detail-title:focus { 
+  outline: none; 
+  box-shadow: 0 0 0 0.2rem rgba(255, 149, 0, 0.25); 
+}
+
+/* === Achievement Toast Notifications === */
+#achievement-toast { 
+  position: fixed;
+  z-index: 1050;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mobile: Bottom slide-up, full-width */
+@media (max-width: 767px) {
+  #achievement-toast {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    padding: 1rem;
+  }
+  
+  #achievement-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  
+  .achievement-card {
+    border-radius: 1.5rem 1.5rem 0 0 !important;
+  }
+}
+
+/* Desktop: Top-right corner */
+@media (min-width: 768px) {
+  #achievement-toast {
+    top: 80px;
+    right: 20px;
+    max-width: 360px;
+    transform: translateX(400px);
+  }
+  
+  #achievement-toast.show {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+}
+
+.achievement-card {
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* === Undo Toast === */
+#undo-toast { 
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  pointer-events: none;
+}
+
+#undo-toast.show { 
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+/* === Touch Feedback === */
+.touch-feedback {
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.touch-feedback:active {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(0.98);
+}
+
+/* === Checkbox Touch Area (WCAG Compliant) === */
+.checkbox-touch-area {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px;
+  margin: -8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+.checkbox-touch-area input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* === Category Collapse Animation === */
+.category-items {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.collapse-btn {
+  transition: transform 0.3s ease;
+}
+
+.section-title[data-toggle-category]:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+/* === Print Styles === */
+@media print {
+  .no-print, 
+  .navbar, 
+  .footer { 
+    display: none !important; 
+  }
+  
+  body { 
+    background: #fff; 
+  }
+  
+  #detail-wrapper { 
+    box-shadow: none !important; 
+    border: 0 !important; 
+  }
+}

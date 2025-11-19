@@ -76,9 +76,6 @@
       
       <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 gap-md-3">
         <div class="d-flex align-items-center gap-2 gap-md-3 w-100 w-md-auto">
-          <button class="btn btn-light d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#checklistSidebar" aria-controls="checklistSidebar">
-            <i class="fas fa-bars"></i>
-          </button>
           <div class="flex-grow-1">
             <h1 class="h4 h-md-3 fw-bold mb-1"><i class="fas fa-clipboard-check me-2"></i>UX 痛點觀察清單</h1>
             <div class="small opacity-90 d-none d-md-block">側邊欄 + 搜尋 + 收藏 — 高效導航</div>
@@ -110,11 +107,19 @@
         <i class="fas fa-chevron-down"></i>
       </button>
       <ul class="dropdown-menu w-100" aria-labelledby="mobileChecklistDropdown" id="mobile-checklist-menu" style="max-height: 400px; overflow-y: auto;">
+        <!-- 搜尋框 -->
+        <li class="px-3 py-2">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+            <input id="mobile-sidebar-search" type="text" class="form-control" placeholder="搜尋清單或關鍵字…"/>
+          </div>
+        </li>
+        <li><hr class="dropdown-divider mt-0"></li>
         <!-- 收藏清單 -->
         <li><h6 class="dropdown-header"><i class="fas fa-star text-warning me-1"></i>收藏清單</h6></li>
         <li><div id="mobile-favorites-list"></div></li>
         <li><hr class="dropdown-divider"></li>
-        <!-- 最近使用 -->
+        <!-- 所有清單 -->
         <li><h6 class="dropdown-header"><i class="fas fa-clock me-1"></i>所有清單</h6></li>
         <li><div id="mobile-all-list"></div></li>
       </ul>
@@ -251,18 +256,18 @@
               <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
                 <!-- 篩選器按鈕 -->
                 <button id="filter-incomplete-btn" class="btn btn-outline-secondary btn-sm" type="button" title="只顯示未完成">
-                  <i class="fas fa-square me-1"></i><span class="d-none d-md-inline">未完成</span>
+                  <i class="fas fa-square d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-square me-1"></i>未完成</span><span class="d-md-none">未完成</span>
                 </button>
                 <button id="filter-needs-work-btn" class="btn btn-outline-danger btn-sm" type="button" title="只顯示需修正">
-                  <i class="fas fa-exclamation-circle me-1"></i><span class="d-none d-md-inline">需修正</span>
+                  <i class="fas fa-exclamation-circle d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-exclamation-circle me-1"></i>需修正</span><span class="d-md-none">需修正</span>
                 </button>
                 <!-- 折疊控制 -->
                 <button id="collapse-all-btn" class="btn btn-outline-secondary btn-sm" type="button" title="折疊所有類別">
-                  <i class="fas fa-compress-alt me-1"></i><span class="d-none d-md-inline">折疊</span>
+                  <i class="fas fa-compress-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-compress-alt me-1"></i>折疊</span><span class="d-md-none">折疊</span>
                 </button>
                 <!-- 重點篩選 -->
                 <button id="priority-filter-btn" class="btn btn-outline-warning btn-sm" type="button" title="只顯示重點項目">
-                  <i class="fas fa-star me-1"></i><span class="d-none d-md-inline">重點</span>
+                  <i class="fas fa-star d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-star me-1"></i>重點</span><span class="d-md-none">重點</span>
                 </button>
                 <div class="dropdown">
                   <button class="btn btn-outline-secondary-shari btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -403,143 +408,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <style>
-    /* Sidebar list item */
-    .small-draggable .list-group-item{ cursor:grab; }
-    .small-draggable .list-group-item.dragging{ opacity:.7; }
-    .small-draggable .progress{ height:6px; }
-    .list-item-title{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .pin-btn{ color:#f59e0b; }
-    .pin-btn.inactive{ color:#9CA3AF; }
-    @media (min-width:768px){
-      .offcanvas-md{ position:static; display:block; visibility:visible; transform:none; }
-      /* Make the sidebar fill the column width on desktop */
-      #checklistSidebar{ width:100% !important; }
-      #checklistSidebar .offcanvas-body{ display:block; }
-      .offcanvas-backdrop{ display:none; }
-    }
-    /* Stack cards inside offcanvas body vertically with spacing */
-    #checklistSidebar .offcanvas-body{ display:flex; flex-direction:column; gap:0.75rem; }
-    /* Collapsible favorites */
-    #favoritesCollapse .list-group-item:first-child{ border-top:0; }
-    /* Simplified toolbar */
-    #detail-title:focus{ outline:none; box-shadow:0 0 0 0.2rem rgba(255,107,53,0.25); }
-    /* Notification animations */
-    #achievement-toast{ 
-      position: fixed;
-      z-index: 1050;
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      opacity: 0;
-      pointer-events: none;
-    }
-    
-    /* 手機版：底部滑出，全寬 */
-    @media (max-width: 767px) {
-      #achievement-toast {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        transform: translateY(100%);
-        padding: 1rem;
-      }
-      #achievement-toast.show {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-      }
-      .achievement-card {
-        border-radius: 1.5rem 1.5rem 0 0 !important;
-      }
-    }
-    
-    /* 桌面版：右上角 */
-    @media (min-width: 768px) {
-      #achievement-toast {
-        top: 80px;
-        right: 20px;
-        max-width: 360px;
-        transform: translateX(400px);
-      }
-      #achievement-toast.show {
-        opacity: 1;
-        transform: translateX(0);
-        pointer-events: auto;
-      }
-    }
-    
-    .achievement-card {
-      animation: bounce 0.6s ease;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    
-    #undo-toast{ 
-      transition: all 0.3s ease;
-      opacity: 0;
-      transform: translate(-50%, 20px);
-      pointer-events: none;
-    }
-    #undo-toast.show{ 
-      opacity: 1;
-      transform: translate(-50%, 0);
-      pointer-events: auto;
-    }
-    
-    /* 觸控回饋 */
-    .touch-feedback {
-      transition: background-color 0.15s ease, transform 0.1s ease;
-    }
-    
-    .touch-feedback:active {
-      background-color: rgba(0, 0, 0, 0.05);
-      transform: scale(0.98);
-    }
-    
-    /* 增大 checkbox 觸控區域 */
-    .checkbox-touch-area {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 44px;
-      min-height: 44px;
-      padding: 8px;
-      margin: -8px;
-      cursor: pointer;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-    }
-    
-    .checkbox-touch-area input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-    }
-    
-    /* 類別折疊動畫 */
-    .category-items {
-      transition: all 0.3s ease;
-      overflow: hidden;
-    }
-    
-    .collapse-btn {
-      transition: transform 0.3s ease;
-    }
-    
-    .section-title[data-toggle-category]:hover {
-      background-color: rgba(0, 0, 0, 0.02);
-      border-radius: 8px;
-    }
-    /* Print-friendly area */
-    @media print{
-      .no-print, .navbar, .footer{ display:none !important; }
-      body{ background:#fff; }
-      #detail-wrapper{ box-shadow:none !important; border:0 !important; }
-    }
-  </style>
-
-  <script type="module" src="assets/js/pages/ux-checklist.js?v=20251119b"></script>
+  <script type="module" src="assets/js/pages/ux-checklist.js?v=20251119c"></script>
 
 </body>
 </html>

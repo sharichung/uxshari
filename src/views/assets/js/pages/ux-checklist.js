@@ -551,9 +551,9 @@
             <input type="checkbox" id="d-${idx}-${item.id}" ${item.checked?'checked':''} data-cat="${cat}" data-id="${item.id}">
           </label>
           <div class="checklist-item-text">
-            <div class="d-flex align-items-start gap-2 w-100">
-              <span class="flex-grow-1">${item.text}</span>
-              <div class="d-flex align-items-center gap-1 flex-shrink-0 no-print">
+            <div class="d-flex flex-column flex-md-row align-items-start gap-2 w-100">
+              <span class="flex-grow-1 mb-2 mb-md-0">${item.text}</span>
+              <div class="d-flex align-items-center gap-2 flex-shrink-0 no-print">
                 <!-- Priority star -->
                 <button class="btn btn-sm btn-link p-0 text-decoration-none priority-btn ${hasPriority?'active':''}" 
                         data-cat="${cat}" data-id="${item.id}" title="標記為重點">
@@ -561,8 +561,8 @@
                 </button>
                 <!-- Severity dropdown -->
                 <div class="dropdown d-inline-block">
-                  <button class="btn btn-sm btn-outline-${severityColors[severity]} dropdown-toggle py-0 px-1" 
-                          type="button" data-bs-toggle="dropdown" style="font-size: 0.75rem; line-height: 1.2;">
+                  <button class="btn btn-sm btn-outline-${severityColors[severity]} dropdown-toggle py-0 px-2" 
+                          type="button" data-bs-toggle="dropdown" style="font-size: 0.75rem; line-height: 1.4; min-width: 48px;">
                     ${severityLabels[severity]}
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -1152,6 +1152,11 @@
       }
       if (elements.sidebarSearch){
         elements.sidebarSearch.oninput = (e)=>{ searchQuery = e.target.value || ''; renderSidebar(); };
+      }
+      // Bind mobile search input
+      const mobileSearch = document.getElementById('mobile-sidebar-search');
+      if (mobileSearch) {
+        mobileSearch.oninput = (e)=>{ searchQuery = e.target.value || ''; renderSidebar(); };
       }
     }
 
