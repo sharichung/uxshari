@@ -15,6 +15,9 @@
   --light: #f8f9fa;
   --success: #00c853;
   --success-pale: #CCF4DD;
+  --info: #8b5cf6; /* Purple for info alerts */
+  --info-pale: #f3e8ff; /* Very light purple background */
+  --info-text: #5b21b6; /* Dark purple text for contrast */
   --gray: #a0a0c0;
   --gray-light: #e9ecef;
   --cyan: #00e5ff;
@@ -26,6 +29,61 @@
 .bg-success { background-color: var(--success) !important; }
 .text-primary-shari { color: var(--primary); }
 .bg-pale-primary { background-color: var(--primary-pale); }
+
+/* ===== Checkbox 品牌配色 (Secondary Purple) ===== */
+/* Override Bootstrap's default blue checkbox with brand secondary purple */
+input[type="checkbox"] {
+  accent-color: var(--secondary);
+  cursor: pointer;
+}
+
+/* Custom styled checkbox for better WCAG compliance */
+.form-check-input:checked {
+  background-color: var(--secondary) !important;
+  border-color: var(--secondary) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--secondary-light) !important;
+  box-shadow: 0 0 0 0.25rem rgba(110, 0, 255, 0.25) !important;
+}
+
+/* Checklist item checkbox styling */
+.checklist-item input[type="checkbox"]:checked {
+  accent-color: var(--secondary);
+}
+
+/* ===== Alert 品牌配色 (WCAG Compliant) ===== */
+/* Info alerts with brand purple */
+.alert-info {
+  background-color: var(--info-pale) !important;
+  border-color: var(--info) !important;
+  color: var(--info-text) !important;
+}
+
+.alert-info .alert-link {
+  color: var(--secondary-dark) !important;
+  text-decoration: underline;
+}
+
+.alert-info i,
+.alert-info strong {
+  color: var(--info) !important;
+}
+
+/* Success alerts */
+.alert-success {
+  background-color: var(--success-pale) !important;
+  border-color: var(--success) !important;
+  color: #065f46 !important;
+}
+
+/* Warning alerts */
+.alert-warning {
+  background-color: #fef3c7 !important;
+  border-color: #f59e0b !important;
+  color: #78350f !important;
+}
 
 /* ===== 動畫效果 ===== */
 .fade-in-up {
