@@ -494,6 +494,30 @@ input[type="checkbox"]:hover {
   line-height: 1.1; 
 }
 
+/* Severity dropdown explicit color reinforcement (avoid neutral overrides) */
+.severity-btn.btn-success { 
+  background-color: rgba(var(--bs-success-rgb), 0.18) !important; 
+  color: var(--bs-success-text) !important; 
+  border: 1px solid rgba(var(--bs-success-rgb), 0.35) !important; 
+}
+.severity-btn.btn-warning { 
+  background-color: rgba(var(--bs-warning-rgb), 0.25) !important; 
+  color: var(--bs-warning-text) !important; 
+  border: 1px solid rgba(var(--bs-warning-rgb), 0.45) !important; 
+}
+.severity-btn.btn-danger { 
+  background-color: rgba(var(--bs-danger-rgb), 0.18) !important; 
+  color: var(--bs-danger-text) !important; 
+  border: 1px solid rgba(var(--bs-danger-rgb), 0.40) !important; 
+}
+.severity-btn.btn-outline-secondary { 
+  background-color: var(--bs-body-bg) !important; 
+  color: var(--bs-secondary-color) !important; 
+  border: 1px solid var(--bs-border-color-translucent) !important; 
+}
+
+.severity-btn:focus, .severity-btn:hover { filter: brightness(0.97); }
+
 /* Ghost button variant (secondary) - subtle action like 更多 */
 .btn-ghost-secondary-shari {
   color: var(--secondary);

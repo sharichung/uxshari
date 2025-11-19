@@ -570,8 +570,8 @@
                 </button>
                 <!-- Severity dropdown -->
                 <div class="dropdown d-inline-block">
-                  <button class="btn btn-sm ${severity === 'none' ? 'btn-outline-secondary' : 'btn-' + severityBtnColors[severity]} dropdown-toggle py-0 px-2 btn-chip" 
-                          type="button" data-bs-toggle="dropdown" style="font-size: 0.8rem; line-height: 1.4; min-height: 32px; min-width: 52px;">
+                  <button class="btn btn-sm severity-btn ${severity === 'none' ? 'btn-outline-secondary' : 'btn-' + severityBtnColors[severity]} dropdown-toggle py-0 px-2 btn-chip" 
+                          type="button" data-bs-toggle="dropdown" data-severity="${severity}" style="font-size: 0.8rem; line-height: 1.4; min-height: 32px; min-width: 52px;">
                     ${severityLabels[severity]}
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end">
