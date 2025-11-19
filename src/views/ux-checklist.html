@@ -71,14 +71,20 @@
 
             <!-- Favorites Section -->
             <div class="card border-0 shadow-sm mb-3">
-              <div class="card-header bg-white d-flex align-items-center justify-content-between py-2">
+              <div class="card-header bg-white d-flex align-items-center justify-content-between py-2" role="button" data-bs-toggle="collapse" data-bs-target="#favoritesCollapse" aria-expanded="true">
                 <div class="d-flex align-items-center gap-2">
                   <i class="fas fa-thumbtack text-warning"></i>
                   <span class="fw-bold">收藏</span>
+                  <span class="badge bg-light text-muted" id="favorites-count">0</span>
                 </div>
-                <small class="text-muted">拖曳調整順序</small>
+                <i class="fas fa-chevron-down"></i>
               </div>
-              <ul id="favorites-list" class="list-group list-group-flush small-draggable"></ul>
+              <div class="collapse show" id="favoritesCollapse">
+                <ul id="favorites-list" class="list-group list-group-flush small-draggable"></ul>
+                <div class="p-3 text-center text-muted small d-none" id="favorites-empty">
+                  <i class="fas fa-info-circle me-1"></i>點擊圖釘收藏常用清單
+                </div>
+              </div>
             </div>
 
             <!-- All Lists Section -->
@@ -127,43 +133,59 @@
             <!-- Toolbar -->
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print">
               <div class="d-flex align-items-center gap-2 flex-grow-1">
-                <input id="detail-title" class="form-control form-control-lg fw-bold" placeholder="清單名稱"/>
+                <input id="detail-title" class="form-control fw-bold border-0 bg-transparent" style="font-size:1.25rem; padding: 0.25rem 0.5rem;" placeholder="清單名稱"/>
+                <small class="text-muted flex-shrink-0" id="detail-save-status">
+                  <i class="fas fa-check-circle text-success d-none" id="save-icon"></i>
+                </small>
               </div>
-              <div class="btn-group flex-shrink-0" role="group">
-                <button id="btn-duplicate" class="btn btn-outline-secondary" title="複製"><i class="fas fa-copy"></i></button>
-                <button id="btn-print" class="btn btn-outline-secondary" title="列印"><i class="fas fa-print"></i></button>
-                <button id="btn-delete" class="btn btn-outline-danger" title="刪除"><i class="fas fa-trash"></i></button>
+              <div class="dropdown flex-shrink-0">
+                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h"></i> 更多
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#" id="btn-duplicate"><i class="fas fa-copy me-2"></i>複製清單</a></li>
+                  <li><a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print me-2"></i>列印</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="#" id="btn-delete"><i class="fas fa-trash me-2"></i>刪除清單</a></li>
+                </ul>
               </div>
             </div>
 
-            <!-- Progress + Meta -->
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <div class="flex-grow-1 me-3">
-                <div class="progress" style="height: 10px;">
-                  <div id="detail-progress-bar" class="progress-bar" style="width: 0%"></div>
+            <!-- Progress + Meta + VIP Perks -->
+            <div class="mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="flex-grow-1 me-3">
+                  <div class="progress" style="height: 10px;">
+                    <div id="detail-progress-bar" class="progress-bar" style="width: 0%"></div>
+                  </div>
+                </div>
+                <div class="text-muted small">
+                  更新：<span id="detail-updated">—</span>
                 </div>
               </div>
-              <div class="text-muted small">
-                更新：<span id="detail-updated">—</span>
-              </div>
-            </div>
-
-            <!-- VIP Perks -->
-            <div class="row g-2 no-print mb-3">
-              <div class="col-12 col-sm-4">
-                <button id="perk-pdf" class="btn w-100 btn-outline-primary-shari"><i class="fas fa-file-pdf me-2"></i>PDF 報告</button>
-              </div>
-              <div class="col-12 col-sm-4">
-                <button id="perk-ai" class="btn w-100 btn-outline-primary-shari"><i class="fas fa-robot me-2"></i>AI 建議</button>
-              </div>
-              <div class="col-12 col-sm-4">
-                <button id="perk-team" class="btn w-100 btn-outline-primary-shari"><i class="fas fa-users me-2"></i>團隊協作</button>
+              <div class="d-flex gap-2 flex-wrap no-print" id="vip-perks-area">
+                <button id="perk-pdf" class="btn btn-sm btn-outline-secondary" title="VIP 會員專屬">
+                  <i class="fas fa-lock me-1"></i>PDF 報告
+                </button>
+                <button id="perk-ai" class="btn btn-sm btn-outline-secondary" title="VIP 會員專屬">
+                  <i class="fas fa-lock me-1"></i>AI 建議
+                </button>
+                <button id="perk-team" class="btn btn-sm btn-outline-secondary" title="VIP 會員專屬">
+                  <i class="fas fa-lock me-1"></i>團隊協作
+                </button>
               </div>
             </div>
 
             <!-- Sections -->
             <div id="detail-sections">
-              <div class="text-muted text-center py-5" id="detail-empty">請從左側選擇或建立清單</div>
+              <div class="text-center py-5" id="detail-empty">
+                <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">開始您的第一個 UX 專案</h5>
+                <p class="text-muted mb-4">選擇專案類型，系統將自動載入專業的痛點檢查模板</p>
+                <button class="btn btn-primary btn-lg" onclick="document.getElementById('create-checklist-btn').click()">
+                  <i class="fas fa-plus me-2"></i>建立第一張清單
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -171,26 +193,22 @@
     </div>
   </div>
 
-  <!-- 成就提示 Toast -->
-  <div id="achievement-toast" class="achievement-toast">
-    <div class="d-flex align-items-center">
+  <!-- 成就提示 Toast (top-right) -->
+  <div id="achievement-toast" class="achievement-toast" style="position:fixed; top:80px; right:20px; z-index:1050; max-width:320px;">
+    <div class="d-flex align-items-center bg-white rounded shadow-lg p-3">
       <i class="fas fa-trophy fa-2x text-warning me-3"></i>
       <div>
-        <p class="mb-0 small" id="achievement-text">你已經掌握 80% 的 UX 痛點觀察技巧</p>
+        <p class="mb-0 small fw-semibold" id="achievement-text"></p>
       </div>
     </div>
   </div>
 
-  <!-- 儲存指示器 -->
-  <div id="save-indicator" class="save-indicator">
-    <i class="fas fa-check-circle"></i>
-    <span>已自動儲存</span>
-  </div>
-
-  <!-- 復原提示 -->
-  <div id="undo-toast" class="undo-toast">
-    <span id="undo-text">已刪除</span>
-    <button id="undo-btn" class="btn btn-light btn-sm">復原</button>
+  <!-- 復原提示 (bottom-center) -->
+  <div id="undo-toast" class="undo-toast" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:1050; min-width:300px;">
+    <div class="bg-dark text-white rounded shadow-lg p-3 d-flex align-items-center justify-content-between">
+      <span id="undo-text"></span>
+      <button id="undo-btn" class="btn btn-light btn-sm ms-3">復原</button>
+    </div>
   </div>
 
   <!-- 專案類型選擇 Modal -->
@@ -204,6 +222,10 @@
         <div class="modal-body">
           <p class="text-muted mb-3">系統將根據專案類型自動載入對應的痛點檢查模板</p>
           <div class="project-type-grid" id="project-type-grid"></div>
+          <div class="alert alert-info mt-3 small">
+            <i class="fas fa-lightbulb me-2"></i>
+            <strong>提示：</strong>不同類型包含針對性的痛點檢查項目，選擇最符合您專案的類型以獲得更精準的檢查清單。
+          </div>
         </div>
         <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
@@ -237,6 +259,17 @@
     }
     /* Stack cards inside offcanvas body vertically with spacing */
     #checklistSidebar .offcanvas-body{ display:flex; flex-direction:column; gap:0.75rem; }
+    /* Collapsible favorites */
+    #favoritesCollapse .list-group-item:first-child{ border-top:0; }
+    /* Simplified toolbar */
+    #detail-title:focus{ outline:none; box-shadow:0 0 0 0.2rem rgba(255,107,53,0.25); }
+    /* VIP perks subtle styling */
+    #vip-perks-area .btn{ opacity:0.7; }
+    #vip-perks-area .btn:hover{ opacity:1; }
+    /* Notification animations */
+    #achievement-toast, #undo-toast{ transition: all 0.3s ease; opacity:0; transform:translateY(-20px); pointer-events:none; }
+    #achievement-toast.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+    #undo-toast.show{ opacity:1; transform:translate(-50%, 0); pointer-events:auto; }
     /* Print-friendly area */
     @media print{
       .no-print, .navbar, .footer{ display:none !important; }

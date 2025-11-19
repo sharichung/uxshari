@@ -392,7 +392,21 @@
       const filtered = userChecklists.map((cl,i)=>({cl,i})).filter(({cl})=>filterFn(cl));
       const favs = filtered.filter(({cl})=>!!cl.pinned);
       const others = filtered.filter(({cl})=>!cl.pinned);
-      favWrap.innerHTML = favs.map(({cl,i})=>listToLi(cl,i)).join('') || '<li class="list-group-item text-muted">無收藏清單</li>';
+      
+      // Update favorites count badge
+      const countBadge = document.getElementById('favorites-count');
+      if (countBadge) countBadge.textContent = favs.length;
+      
+      // Update favorites list and empty hint
+      const emptyHint = document.getElementById('favorites-empty');
+      if (favs.length > 0) {
+        favWrap.innerHTML = favs.map(({cl,i})=>listToLi(cl,i)).join('');
+        if (emptyHint) emptyHint.classList.add('d-none');
+      } else {
+        favWrap.innerHTML = '';
+        if (emptyHint) emptyHint.classList.remove('d-none');
+      }
+      
       allWrap.innerHTML = others.map(({cl,i})=>listToLi(cl,i)).join('');
       elements.emptyState.classList.toggle('d-none', userChecklists.length !== 0);
 
@@ -435,6 +449,21 @@
       ].join('');
       elements.detailSections.innerHTML = html;
 
+      // Wire dropdown menu actions
+      document.querySelectorAll('.dropdown-item[data-action]').forEach(item => {
+        item.addEventListener('click', async (e) => {
+          e.preventDefault();
+          const action = e.currentTarget.getAttribute('data-action');
+          if (action === 'duplicate') {
+            await duplicateChecklistWithUI(idx);
+          } else if (action === 'print') {
+            window.print();
+          } else if (action === 'delete') {
+            await deleteChecklistWithUI(idx);
+          }
+        });
+      });
+      
       // checkbox changes
       elements.detailSections.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
         cb.addEventListener('change', async (e)=>{
@@ -470,115 +499,6 @@
       if (elements.btnDelete) elements.btnDelete.onclick = ()=>window.deleteChecklistWithUI?window.deleteChecklistWithUI(idx, elements.btnDelete):window.deleteChecklist(idx);
       if (elements.btnPrint) elements.btnPrint.onclick = ()=>window.print && window.print();
     }
-      const totalItems = checklist.items.process.length + checklist.items.interface.length + checklist.items.context.length;
-      const checkedItems = [
-        ...checklist.items.process,
-        ...checklist.items.interface,
-        ...checklist.items.context
-      ].filter(item => item.checked).length;
-      const progress = Math.round((checkedItems / totalItems) * 100);
-      const isCompleted = progress >= 80;
-      
-      const projectType = projectTypes.find(pt => pt.id === checklist.projectType) || projectTypes.find(pt => pt.id === 'general');
-
-      // helper to safely embed suggestion text for data-attributes
-      const encAttr = (s) => encodeURIComponent(s || '');
-
-      // Build section items without nested template literals (robust parsing)
-      const renderItem = (cat, item) => {
-        return '<div class="checklist-item ' + (item.checked ? 'checked' : '') + '">' +
-               '<input type="checkbox" ' +
-               'id="check-' + index + '-' + item.id + '" ' +
-               (item.checked ? 'checked' : '') + ' ' +
-               'onchange="window.toggleCheckbox(' + index + ', &quot;' + cat + '&quot;, &quot;' + item.id + '&quot;)">' +
-               '<div class="checklist-item-text">' +
-               item.text +
-               (item.suggestion ? ('<div class="suggestion-pill" data-suggestion="' + encAttr(item.suggestion) + '"><i class="fas fa-lightbulb"></i> 建議</div>') : '') +
-               '</div>' +
-               '</div>';
-      };
-
-      const processHtml = checklist.items.process.map(item => renderItem('process', item)).join('');
-      const interfaceHtml = checklist.items.interface.map(item => renderItem('interface', item)).join('');
-      const contextHtml = checklist.items.context.map(item => renderItem('context', item)).join('');
-
-      return `
-        <div class="checklist-card ${isCompleted ? 'completed' : ''}" data-index="${index}">
-          <div class="checklist-header">
-            <input type="text" value="${checklist.name}" 
-                   class="checklist-name-input" 
-                   data-index="${index}"
-                   placeholder="清單名稱">
-            <div class="checklist-actions no-print">
-              <button class="action-btn duplicate" data-action="duplicate" title="複製清單">
-                <i class="fas fa-copy"></i> 複製
-              </button>
-              <button class="action-btn print" data-action="print" title="列印清單">
-                <i class="fas fa-print"></i> 列印
-              </button>
-              <button class="action-btn delete" data-action="delete" title="刪除清單">
-                <i class="fas fa-trash"></i> 刪除
-              </button>
-            </div>
-          </div>
-
-          <div class="checklist-meta">
-            <span class="checklist-badge project-type">
-              <span>${projectType.icon}</span>
-              <span>${projectType.name}</span>
-            </span>
-            <span class="checklist-badge">
-              <i class="fas fa-clock"></i>
-              更新：${new Date(checklist.updatedAt).toLocaleDateString('zh-TW')}
-            </span>
-          </div>
-
-          <div class="progress-wrapper">
-            <div class="progress">
-              <div class="progress-bar ${progress === 100 ? 'complete' : ''}" style="width: ${progress}%"></div>
-            </div>
-            <div class="progress-label">
-              <span>${checkedItems} / ${totalItems} 項完成</span>
-              <span class="fw-bold">${progress}%</span>
-            </div>
-          </div>
-
-          <!-- Process Category -->
-          <div class="checklist-section">
-            <div class="section-title">
-              <div class="section-icon process">
-                <i class="fas fa-route"></i>
-              </div>
-              <span>流程痛點</span>
-            </div>
-            ${processHtml}
-          </div>
-
-          <!-- Interface Category -->
-          <div class="checklist-section">
-            <div class="section-title">
-              <div class="section-icon interface">
-                <i class="fas fa-window-maximize"></i>
-              </div>
-              <span>介面痛點</span>
-            </div>
-            ${interfaceHtml}
-          </div>
-
-          <!-- Context Category -->
-          <div class="checklist-section">
-            <div class="section-title">
-              <div class="section-icon context">
-                <i class="fas fa-users"></i>
-              </div>
-              <span>情境痛點</span>
-            </div>
-            ${contextHtml}
-          </div>
-        </div>
-
-          `;
-            }
 
             // Show Achievement Toast
     function showAchievement(text) {
@@ -591,9 +511,25 @@
 
     // Show Save Indicator
     function showSaveIndicator() {
+      // Show save icon next to title
+      const saveIcon = document.getElementById('save-icon');
+      if (saveIcon) {
+        saveIcon.classList.remove('d-none');
+        setTimeout(() => {
+          saveIcon.classList.add('d-none');
+        }, 2000);
+      }
+      
+      // Legacy save indicator (if still present)
       const indicator = document.getElementById('save-indicator');
-      indicator.classList.add('show');
-      setTimeout(() => indicator.classList.remove('show'), 2000);
+      if (indicator) {
+        indicator.classList.remove('show');
+        void indicator.offsetWidth; // force reflow
+        indicator.classList.add('show');
+        setTimeout(() => {
+          indicator.classList.remove('show');
+        }, 2000);
+      }
     }
 
     // Undo Toast helpers
@@ -845,6 +781,46 @@
       });
     };
 
+    // VIP perk click handlers
+    const setupVIPPerkHandlers = () => {
+      const perkPdf = document.getElementById('perk-pdf');
+      const perkAi = document.getElementById('perk-ai');
+      const perkTeam = document.getElementById('perk-team');
+      
+      if (perkPdf) {
+        perkPdf.addEventListener('click', () => {
+          if (!isPaid) {
+            alert('升級到 VIP 會員以使用 PDF 匯出功能！\n\n立即升級：前往「定價方案」頁面');
+          } else {
+            // TODO: Implement PDF export
+            alert('PDF 匯出功能開發中…');
+          }
+        });
+      }
+      
+      if (perkAi) {
+        perkAi.addEventListener('click', () => {
+          if (!isPaid) {
+            alert('升級到 VIP 會員以使用 AI 優化建議功能！\n\n立即升級：前往「定價方案」頁面');
+          } else {
+            // TODO: Implement AI suggestions
+            alert('AI 優化建議功能開發中…');
+          }
+        });
+      }
+      
+      if (perkTeam) {
+        perkTeam.addEventListener('click', () => {
+          if (!isPaid) {
+            alert('升級到 VIP 會員以使用團隊協作功能！\n\n立即升級：前往「定價方案」頁面');
+          } else {
+            // TODO: Implement team collaboration
+            alert('團隊協作功能開發中…');
+          }
+        });
+      }
+    };
+
     // Duplicate Checklist (basic)
     window.duplicateChecklist = async (index) => {
       if (!isPaid && userChecklists.length >= FREE_LIMIT) {
@@ -957,6 +933,7 @@
       userEmail = user.email;
       await loadUserData(user.email);
       initProjectTypeModal();
+      setupVIPPerkHandlers();
       dataReady = true;
       // Default select first checklist if available
       if (userChecklists.length > 0 && selectedIndex === -1) {
