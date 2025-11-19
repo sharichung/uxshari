@@ -495,7 +495,26 @@
       }
 
       // actions
-      if (elements.btnDuplicate) elements.btnDuplicate.onclick = ()=>window.duplicateChecklistWithUI?window.duplicateChecklistWithUI(idx, elements.btnDuplicate):window.duplicateChecklist(idx);
+      if (elements.btnDuplicate) {
+        elements.btnDuplicate.onclick = async () => {
+          const dropdownToggle = document.querySelector('.dropdown-toggle');
+          if (dropdownToggle) {
+            const icon = dropdownToggle.querySelector('i');
+            const originalIcon = icon.className;
+            icon.className = 'fas fa-spinner fa-spin';
+            dropdownToggle.disabled = true;
+            
+            try {
+              await (window.duplicateChecklistWithUI ? window.duplicateChecklistWithUI(idx, elements.btnDuplicate) : window.duplicateChecklist(idx));
+            } finally {
+              if (icon) icon.className = originalIcon;
+              if (dropdownToggle) dropdownToggle.disabled = false;
+            }
+          } else {
+            await (window.duplicateChecklistWithUI ? window.duplicateChecklistWithUI(idx, elements.btnDuplicate) : window.duplicateChecklist(idx));
+          }
+        };
+      }
       if (elements.btnDelete) elements.btnDelete.onclick = ()=>window.deleteChecklistWithUI?window.deleteChecklistWithUI(idx, elements.btnDelete):window.deleteChecklist(idx);
       if (elements.btnPrint) elements.btnPrint.onclick = ()=>window.print && window.print();
     }
