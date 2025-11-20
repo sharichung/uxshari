@@ -1841,8 +1841,8 @@
     }
 
     function renderDetail() {
+      const idx = selectedIndex;
       // --- 自動補齊 checklist.items 內 pain point 的 roi 屬性（migration）---
-      // idx 已於 migration 區塊宣告
       if (idx >= 0 && idx < userChecklists.length) {
         const checklist = userChecklists[idx];
         const pt = projectTypes.find(p => p.id === checklist.projectType) || projectTypes.find(p => p.id === 'general');
@@ -1864,15 +1864,14 @@
           });
         }
       }
-          // ROI 篩選：包裝原 pain point 過濾邏輯
-          function filterByROI(item) {
-            // roiFilterActive: ROI 篩選條件（array），item.roi: pain point 的 ROI 標籤（array）
-            if (!Array.isArray(roiFilterActive) || roiFilterActive.length === 0) return true;
-            if (!Array.isArray(item.roi)) return false;
-            // 只要有一個 ROI tag match 就顯示
-            return item.roi.some(tag => roiFilterActive.includes(tag));
-          }
-      const idx = selectedIndex;
+      // ROI 篩選：包裝原 pain point 過濾邏輯
+      function filterByROI(item) {
+        // roiFilterActive: ROI 篩選條件（array），item.roi: pain point 的 ROI 標籤（array）
+        if (!Array.isArray(roiFilterActive) || roiFilterActive.length === 0) return true;
+        if (!Array.isArray(item.roi)) return false;
+        // 只要有一個 ROI tag match 就顯示
+        return item.roi.some(tag => roiFilterActive.includes(tag));
+      }
       const toolbar = document.getElementById('detail-toolbar');
       const meta = document.getElementById('detail-meta');
       if (idx < 0 || idx >= userChecklists.length) {
