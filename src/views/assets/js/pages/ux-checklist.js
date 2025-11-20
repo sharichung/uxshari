@@ -108,1141 +108,1352 @@
     const encEmail = (e) => btoa(e).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 
     // 專案類型與模板定義
-    const projectTypes = [{
-        id: 'ecommerce',
-        name: '電商平台',
-        icon: '🛒',
-        desc: '購物、結帳、物流',
-        template: {
-          process: [{
-              id: 'e_p1',
-              text: '商品搜尋功能是否直覺？能否快速找到目標商品？',
-              checked: false,
-              suggestion: '建議：加入智能推薦、篩選條件'
-            },
-            {
-              id: 'e_p2',
-              text: '加入購物車流程是否順暢？',
-              checked: false,
-              suggestion: '參考：一鍵加購、批量選購'
-            },
-            {
-              id: 'e_p3',
-              text: '結帳步驟是否過於複雜？需要多少步驟完成？',
-              checked: false,
-              suggestion: '優化：減少表單欄位、支援快速結帳'
-            },
-            {
-              id: 'e_p4',
-              text: '付款方式是否多元？（信用卡、轉帳、第三方支付）',
-              checked: false,
-              suggestion: '提供：多種支付選項提升轉換率'
-            },
-            {
-              id: 'e_p5',
-              text: '訂單追蹤與退貨流程是否清晰？',
-              checked: false,
-              suggestion: '必備：即時物流追蹤、簡易退貨政策'
-            }
-          ],
-          interface: [{
-              id: 'e_i1',
-              text: '商品圖片是否清晰？支援多角度檢視？',
-              checked: false,
-              suggestion: '建議：360度檢視、放大功能'
-            },
-            {
-              id: 'e_i2',
-              text: '商品描述是否完整？（規格、尺寸、材質）',
-              checked: false,
-              suggestion: '優化：結構化描述、對比表格'
-            },
-            {
-              id: 'e_i3',
-              text: '價格、折扣顯示是否清楚？',
-              checked: false,
-              suggestion: '透明：原價、折扣、運費一目了然'
-            },
-            {
-              id: 'e_i4',
-              text: '購物車圖示與商品數量提示是否明顯？',
-              checked: false,
-              suggestion: '設計：固定懸浮按鈕、數字徽章'
-            },
-            {
-              id: 'e_i5',
-              text: '行動版商品卡片是否易於瀏覽與點擊？',
-              checked: false,
-              suggestion: '響應式：大縮圖、清晰CTA'
-            }
-          ],
-          context: [{
-              id: 'e_c1',
-              text: '首次訪客能否快速理解網站賣什麼？',
-              checked: false,
-              suggestion: '首頁：清晰價值主張、熱門商品'
-            },
-            {
-              id: 'e_c2',
-              text: '是否提供客服管道？（線上客服、FAQ）',
-              checked: false,
-              suggestion: '即時：聊天機器人、常見問題'
-            },
-            {
-              id: 'e_c3',
-              text: '網站載入速度是否夠快？（特別是商品圖片）',
-              checked: false,
-              suggestion: '優化：圖片壓縮、CDN加速'
-            },
-            {
-              id: 'e_c4',
-              text: '是否支援訪客結帳？（無需強制註冊）',
-              checked: false,
-              suggestion: '彈性：訪客結帳降低門檻'
-            },
-            {
-              id: 'e_c5',
-              text: '是否有信任指標？（評論、認證、退款保證）',
-              checked: false,
-              suggestion: '建立信任：用戶評價、安全標章'
-            }
-          ],
-          cognitive: [{
-              id: 'e_cg1',
-              text: '商品資訊是否過多，造成使用者無法聚焦？',
-              checked: false,
-              suggestion: '分段呈現、逐步顯示'
-            },
-            {
-              id: 'e_cg2',
-              text: '商品分類與架構是否清晰？',
-              checked: false,
-              suggestion: '優化：多層分類、麵包屑導航'
-            },
-            {
-              id: 'e_cg3',
-              text: '用語是否一致？是否存在專業術語或翻譯問題？',
-              checked: false,
-              suggestion: '建立用語字典、統一翻譯'
-            },
-            {
-              id: 'e_cg4',
-              text: '購物流程是否符合使用者的認知模型？',
-              checked: false,
-              suggestion: '參考常見模式、降低學習成本'
-            },
-            {
-              id: 'e_cg5',
-              text: '是否提供足夠的引導與說明？',
-              checked: false,
-              suggestion: '工具提示、逐步教學'
-            }
-          ],
-          emotional: [{
-              id: 'e_em1',
-              text: '使用者是否在結帳過程中感到焦慮或不確定？',
-              checked: false,
-              suggestion: '即時回饋、清楚錯誤訊息'
-            },
-            {
-              id: 'e_em2',
-              text: '是否有錯誤處理不清楚，造成挫折感？',
-              checked: false,
-              suggestion: '具體修正建議、重試選項'
-            },
-            {
-              id: 'e_em3',
-              text: '等待物流或付款確認是否導致失望？',
-              checked: false,
-              suggestion: '骨架屏、進度提示'
-            },
-            {
-              id: 'e_em4',
-              text: '是否有互動設計讓使用者感到被忽略？',
-              checked: false,
-              suggestion: '確認操作成功、回饋動畫'
-            },
-            {
-              id: 'e_em5',
-              text: '是否有情境設計讓使用者感到不被尊重或理解？',
-              checked: false,
-              suggestion: '文化敏感設計、包容性文案'
-            }
-          ],
-          support: [{
-              id: 'e_s1',
-              text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
-              checked: false,
-              suggestion: '建議：首頁或結帳頁加入明顯的幫助入口'
-            },
-            {
-              id: 'e_s2',
-              text: '客服回應是否即時且有用？（Live chat、回覆時間）',
-              checked: false,
-              suggestion: '參考：導入 chatbot 或標示預估回覆時間'
-            },
-            {
-              id: 'e_s3',
-              text: '退貨、退款、修改訂單等支援流程是否容易理解？',
-              checked: false,
-              suggestion: '優化：用圖示或步驟說明簡化流程'
-            },
-            {
-              id: 'e_s4',
-              text: '是否提供訂單異常處理機制？（付款失敗、庫存不足）',
-              checked: false,
-              suggestion: '必備：明確錯誤訊息與替代方案'
-            },
-            {
-              id: 'e_s5',
-              text: '是否能追蹤客服處理進度？（Ticket 編號、回覆紀錄）',
-              checked: false,
-              suggestion: '透明化：提供查詢入口與進度更新'
-            }
-          ],
-          accessibility: [{
-              id: 'e_a1',
-              text: '頁面是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
-              checked: false,
-              suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
-            },
-            {
-              id: 'e_a2',
-              text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
-              checked: false,
-              suggestion: '參考：提供高對比模式與字體調整選項'
-            },
-            {
-              id: 'e_a3',
-              text: '是否支援多語系切換？（尤其是結帳與客服流程）',
-              checked: false,
-              suggestion: '必備：語言切換按鈕與本地化文案'
-            },
-            {
-              id: 'e_a4',
-              text: '互動元素是否有足夠的點擊區域與操作提示？',
-              checked: false,
-              suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
-            },
-            {
-              id: 'e_a5',
-              text: '是否考慮色盲或視覺障礙者的使用情境？',
-              checked: false,
-              suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
-            }
-          ]
-
-        }
+    const projectTypes = [
+      {
+  id: 'ecommerce',
+  name: '電商平台',
+  icon: '🛒',
+  desc: '購物、結帳、物流',
+  template: {
+    process: [
+      {
+        id: 'e_p1',
+        text: '商品搜尋功能是否直覺？能否快速找到目標商品？',
+        checked: false,
+        suggestion: '建議：加入智能推薦、篩選條件',
+        roi: ['conversion','retention']
       },
       {
-        id: 'education',
-        name: '教育平台',
-        icon: '📚',
-        desc: '課程、學習、進度',
-        template: {
-          process: [{
-              id: 'ed_p1',
-              text: '課程搜尋與篩選是否直覺？',
-              checked: false,
-              suggestion: '建議：依類別、難度、評分篩選'
-            },
-            {
-              id: 'ed_p2',
-              text: '註冊/登入流程是否簡潔？',
-              checked: false,
-              suggestion: '優化：社群登入、單頁註冊'
-            },
-            {
-              id: 'ed_p3',
-              text: '購買課程流程是否順暢？',
-              checked: false,
-              suggestion: '簡化：快速結帳、試看功能'
-            },
-            {
-              id: 'ed_p4',
-              text: '學習進度是否能自動儲存與同步？',
-              checked: false,
-              suggestion: '必備：跨裝置學習進度同步'
-            },
-            {
-              id: 'ed_p5',
-              text: '作業提交與批改流程是否清楚？',
-              checked: false,
-              suggestion: '明確：截止日期、提交狀態'
-            }
-          ],
-          interface: [{
-              id: 'ed_i1',
-              text: '課程導航是否清晰？（章節、單元）',
-              checked: false,
-              suggestion: '設計：側邊欄目錄、進度條'
-            },
-            {
-              id: 'ed_i2',
-              text: '影片播放器是否易用？（速度調整、字幕）',
-              checked: false,
-              suggestion: '功能：倍速播放、重點筆記'
-            },
-            {
-              id: 'ed_i3',
-              text: '學習儀表板是否一目了然？',
-              checked: false,
-              suggestion: '視覺：學習時數、完成課程、成就'
-            },
-            {
-              id: 'ed_i4',
-              text: '課程資料下載是否方便？（講義、作業）',
-              checked: false,
-              suggestion: '便利：一鍵下載全部資料'
-            },
-            {
-              id: 'ed_i5',
-              text: '討論區與問答功能是否易於使用？',
-              checked: false,
-              suggestion: '互動：標籤分類、搜尋功能'
-            }
-          ],
-          context: [{
-              id: 'ed_c1',
-              text: '新學員能否快速找到適合的課程？',
-              checked: false,
-              suggestion: '引導：推薦系統、學習路徑'
-            },
-            {
-              id: 'ed_c2',
-              text: '是否提供試看或免費課程？',
-              checked: false,
-              suggestion: '降低門檻：試看 10分鐘'
-            },
-            {
-              id: 'ed_c3',
-              text: '是否支援離線學習？',
-              checked: false,
-              suggestion: '彈性：下載課程離線觀看'
-            },
-            {
-              id: 'ed_c4',
-              text: '是否有學習提醒與激勵機制？',
-              checked: false,
-              suggestion: '持續學習：每日提醒、成就徽章'
-            },
-            {
-              id: 'ed_c5',
-              text: '行動裝置學習體驗是否流暢？',
-              checked: false,
-              suggestion: '優化：響應式設計、觸控友善'
-            }
-          ],
-          cognitive: [{
-              id: 'ed_cg1',
-              text: '課程資訊是否過多，造成學員無法聚焦？',
-              checked: false,
-              suggestion: '分段呈現、逐步顯示'
-            },
-            {
-              id: 'ed_cg2',
-              text: '課程架構是否清晰？章節與單元是否容易理解？',
-              checked: false,
-              suggestion: '優化：樹狀結構、進度導覽'
-            },
-            {
-              id: 'ed_cg3',
-              text: '用語是否一致？是否存在專業術語或翻譯問題？',
-              checked: false,
-              suggestion: '建立用語字典、統一翻譯'
-            },
-            {
-              id: 'ed_cg4',
-              text: '學習流程是否符合學員的認知模型？',
-              checked: false,
-              suggestion: '參考常見學習模式、降低學習成本'
-            },
-            {
-              id: 'ed_cg5',
-              text: '是否提供足夠的引導與說明？',
-              checked: false,
-              suggestion: '工具提示、逐步教學'
-            }
-          ],
-          emotional: [{
-              id: 'ed_em1',
-              text: '學員是否在學習過程中感到焦慮或不確定？',
-              checked: false,
-              suggestion: '即時回饋、清楚錯誤訊息'
-            },
-            {
-              id: 'ed_em2',
-              text: '是否有作業或考試壓力過大，造成挫折感？',
-              checked: false,
-              suggestion: '彈性：分段測驗、即時提示'
-            },
-            {
-              id: 'ed_em3',
-              text: '等待批改或回覆是否導致失望？',
-              checked: false,
-              suggestion: '改善：自動批改、快速回覆'
-            },
-            {
-              id: 'ed_em4',
-              text: '是否有互動設計讓學員感到被忽略？',
-              checked: false,
-              suggestion: '設計：即時互動、導師回饋'
-            },
-            {
-              id: 'ed_em5',
-              text: '是否有情境設計讓學員感到不被尊重或理解？',
-              checked: false,
-              suggestion: '文化敏感設計、包容性文案'
-            }
-          ],
-          support: [{
-              id: 'ed_s1',
-              text: '學員遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
-              checked: false,
-              suggestion: '建議：課程頁或學習儀表板加入明顯的幫助入口'
-            },
-            {
-              id: 'ed_s2',
-              text: '客服回應是否即時且有用？（Live chat、回覆時間）',
-              checked: false,
-              suggestion: '參考：導入 chatbot 或標示預估回覆時間'
-            },
-            {
-              id: 'ed_s3',
-              text: '是否提供技術支援？（影片無法播放、作業無法提交）',
-              checked: false,
-              suggestion: '必備：技術問題回報機制與即時處理流程'
-            },
-            {
-              id: 'ed_s4',
-              text: '是否能追蹤問題處理進度？（Ticket 編號、回覆紀錄）',
-              checked: false,
-              suggestion: '透明化：提供查詢入口與進度更新'
-            },
-            {
-              id: 'ed_s5',
-              text: '是否提供學習建議或課程選修諮詢？',
-              checked: false,
-              suggestion: '加值：學習顧問、推薦引擎'
-            }
-          ],
-          accessibility: [{
-              id: 'ed_a1',
-              text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
-              checked: false,
-              suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
-            },
-            {
-              id: 'ed_a2',
-              text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
-              checked: false,
-              suggestion: '參考：提供高對比模式與字體調整選項'
-            },
-            {
-              id: 'ed_a3',
-              text: '是否支援多語系切換？（尤其是課程、測驗、客服流程）',
-              checked: false,
-              suggestion: '必備：語言切換按鈕與本地化文案'
-            },
-            {
-              id: 'ed_a4',
-              text: '影片與教材是否提供字幕、語音描述或文字稿？',
-              checked: false,
-              suggestion: '包容性：提供多種輔助學習方式'
-            },
-            {
-              id: 'ed_a5',
-              text: '互動元素是否有足夠的點擊區域與操作提示？',
-              checked: false,
-              suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
-            },
-            {
-              id: 'ed_a6',
-              text: '是否考慮色盲或視覺障礙者的使用情境？',
-              checked: false,
-              suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
-            }
-          ]
-
-        }
+        id: 'e_p2',
+        text: '加入購物車流程是否順暢？',
+        checked: false,
+        suggestion: '參考：一鍵加購、批量選購',
+        roi: ['conversion']
       },
       {
-        id: 'onboarding',
-        name: 'App 引導',
-        icon: '🚀',
-        desc: '新手教學、權限',
-        template: {
-          process: [{
-              id: 'ob_p1',
-              text: '首次啟動時，價值主張是否清晰？',
-              checked: false,
-              suggestion: '建議：3秒內說明核心價值'
-            },
-            {
-              id: 'ob_p2',
-              text: '註冊流程是否簡潔？（3步驟內完成）',
-              checked: false,
-              suggestion: '優化：延後非必要資訊收集'
-            },
-            {
-              id: 'ob_p3',
-              text: '引導流程是否可跳過？',
-              checked: false,
-              suggestion: '彈性：提供「跳過」選項'
-            },
-            {
-              id: 'ob_p4',
-              text: '權限請求是否在適當時機出現？',
-              checked: false,
-              suggestion: '時機：用到才請求，說明原因'
-            },
-            {
-              id: 'ob_p5',
-              text: '完成引導後，使用者是否知道下一步？',
-              checked: false,
-              suggestion: '明確：CTA 引導第一個行動'
-            }
-          ],
-          interface: [{
-              id: 'ob_i1',
-              text: '引導畫面是否視覺友善？（插圖、動畫）',
-              checked: false,
-              suggestion: '設計：簡潔插圖、流暢動畫'
-            },
-            {
-              id: 'ob_i2',
-              text: '進度指示器是否清楚？（第幾步/共幾步）',
-              checked: false,
-              suggestion: '視覺：進度點、百分比'
-            },
-            {
-              id: 'ob_i3',
-              text: '文字說明是否簡潔易懂？（避免專業術語）',
-              checked: false,
-              suggestion: '文案：口語化、關注利益點'
-            },
-            {
-              id: 'ob_i4',
-              text: '按鈕設計是否明確？（繼續、跳過、完成）',
-              checked: false,
-              suggestion: '清晰：主要CTA突出'
-            },
-            {
-              id: 'ob_i5',
-              text: '是否支援手勢操作？（滑動切換）',
-              checked: false,
-              suggestion: '互動：滑動換頁、點擊跳轉'
-            }
-          ],
-          context: [{
-              id: 'ob_c1',
-              text: '引導內容是否能個人化？（依用戶類型）',
-              checked: false,
-              suggestion: '智能：依使用情境調整'
-            },
-            {
-              id: 'ob_c2',
-              text: '是否提供互動式教學？（而非純文字）',
-              checked: false,
-              suggestion: '體驗：讓用戶實際操作'
-            },
-            {
-              id: 'ob_c3',
-              text: '引導結束後，是否可重新查看？',
-              checked: false,
-              suggestion: '幫助：設定中提供教學重播'
-            },
-            {
-              id: 'ob_c4',
-              text: '首次使用是否有範例資料？',
-              checked: false,
-              suggestion: '降低門檻：預載範例內容'
-            },
-            {
-              id: 'ob_c5',
-              text: '是否追蹤引導完成率？（優化弱點）',
-              checked: false,
-              suggestion: '數據：分析流失步驟'
-            }
-          ],
-          cognitive: [{
-              id: 'ob_cg1',
-              text: '引導資訊是否過多，造成使用者無法聚焦？',
-              checked: false,
-              suggestion: '分段呈現、逐步顯示'
-            },
-            {
-              id: 'ob_cg2',
-              text: '引導架構是否清晰？使用者能否理解流程層級？',
-              checked: false,
-              suggestion: '優化：步驟分組、進度導覽'
-            },
-            {
-              id: 'ob_cg3',
-              text: '用語是否一致？是否存在專業術語或翻譯問題？',
-              checked: false,
-              suggestion: '建立用語字典、統一翻譯'
-            },
-            {
-              id: 'ob_cg4',
-              text: '引導流程是否符合使用者的認知模型？',
-              checked: false,
-              suggestion: '參考常見模式、降低學習成本'
-            },
-            {
-              id: 'ob_cg5',
-              text: '是否提供足夠的引導與說明？',
-              checked: false,
-              suggestion: '工具提示、逐步教學'
-            }
-          ],
-          emotional: [{
-              id: 'ob_em1',
-              text: '使用者是否在引導過程中感到焦慮或不確定？',
-              checked: false,
-              suggestion: '即時回饋、清楚錯誤訊息'
-            },
-            {
-              id: 'ob_em2',
-              text: '是否有過多步驟造成挫折感？',
-              checked: false,
-              suggestion: '簡化：減少步驟、提供跳過選項'
-            },
-            {
-              id: 'ob_em3',
-              text: '等待或重複操作是否導致失望？',
-              checked: false,
-              suggestion: '改善：進度提示、避免重複輸入'
-            },
-            {
-              id: 'ob_em4',
-              text: '是否有互動設計讓使用者感到被忽略？',
-              checked: false,
-              suggestion: '設計：確認操作成功、回饋動畫'
-            },
-            {
-              id: 'ob_em5',
-              text: '引導內容是否讓使用者感到不被尊重或理解？',
-              checked: false,
-              suggestion: '文化敏感設計、包容性文案'
-            }
-          ],
-          support: [{
-              id: 'ob_s1',
-              text: '首次使用時是否提供幫助入口？（FAQ、客服、教學重播）',
-              checked: false,
-              suggestion: '建議：在設定或首頁提供明顯的幫助入口'
-            },
-            {
-              id: 'ob_s2',
-              text: '使用者遇到問題時是否能即時獲得支援？',
-              checked: false,
-              suggestion: '參考：導入 chatbot 或顯示預估回覆時間'
-            },
-            {
-              id: 'ob_s3',
-              text: '引導過程中是否有技術問題回報機制？（按鈕失效、頁面卡住）',
-              checked: false,
-              suggestion: '必備：提供「回報問題」按鈕或錯誤提示'
-            },
-            {
-              id: 'ob_s4',
-              text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
-              checked: false,
-              suggestion: '透明化：提供查詢入口與進度更新'
-            },
-            {
-              id: 'ob_s5',
-              text: '是否提供新手引導諮詢或建議？',
-              checked: false,
-              suggestion: '加值：新手顧問、推薦操作路徑'
-            }
-          ],
-          accessibility: [{
-              id: 'ob_a1',
-              text: '引導畫面是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
-              checked: false,
-              suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
-            },
-            {
-              id: 'ob_a2',
-              text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
-              checked: false,
-              suggestion: '參考：提供高對比模式與字體調整選項'
-            },
-            {
-              id: 'ob_a3',
-              text: '引導影片或動畫是否提供字幕、語音描述或文字稿？',
-              checked: false,
-              suggestion: '包容性：提供多種輔助學習方式'
-            },
-            {
-              id: 'ob_a4',
-              text: '互動元素是否有足夠的點擊區域與操作提示？',
-              checked: false,
-              suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
-            },
-            {
-              id: 'ob_a5',
-              text: '是否考慮色盲或視覺障礙者的使用情境？',
-              checked: false,
-              suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
-            }
-          ]
-
-        }
+        id: 'e_p3',
+        text: '結帳步驟是否過於複雜？需要多少步驟完成？',
+        checked: false,
+        suggestion: '優化：減少表單欄位、支援快速結帳',
+        roi: ['conversion']
       },
       {
-        id: 'saas',
-        name: 'SaaS 工具',
-        icon: '⚙️',
-        desc: '協作、訂閱、儀表板',
-        template: {
-          process: [{
-              id: 'saas_p1',
-              text: '免費試用流程是否簡單？（無需信用卡）',
-              checked: false,
-              suggestion: '降低門檻：免卡試用'
-            },
-            {
-              id: 'saas_p2',
-              text: '資料匯入/匯出是否方便？',
-              checked: false,
-              suggestion: '必備：支援多種格式'
-            },
-            {
-              id: 'saas_p3',
-              text: '團隊協作邀請流程是否順暢？',
-              checked: false,
-              suggestion: '便利：Email 邀請、角色管理'
-            },
-            {
-              id: 'saas_p4',
-              text: '訂閱升級/降級流程是否清楚？',
-              checked: false,
-              suggestion: '透明：方案比較、無痛切換'
-            },
-            {
-              id: 'saas_p5',
-              text: '取消訂閱是否容易？（不刻意刁難）',
-              checked: false,
-              suggestion: '誠信：簡單取消建立信任'
-            }
-          ],
-          interface: [{
-              id: 'saas_i1',
-              text: '儀表板是否清晰展示關鍵數據？',
-              checked: false,
-              suggestion: '設計：卡片式布局、圖表視覺化'
-            },
-            {
-              id: 'saas_i2',
-              text: '設定選項是否易於找到與調整？',
-              checked: false,
-              suggestion: '組織：分類清楚、搜尋功能'
-            },
-            {
-              id: 'saas_i3',
-              text: '通知系統是否不過度打擾？',
-              checked: false,
-              suggestion: '平衡：重要通知、可自訂'
-            },
-            {
-              id: 'saas_i4',
-              text: '搜尋功能是否強大且快速？',
-              checked: false,
-              suggestion: '必備：全局搜尋、快捷鍵'
-            },
-            {
-              id: 'saas_i5',
-              text: '深色模式支援是否完整？',
-              checked: false,
-              suggestion: '體驗：保護視力、節省電力'
-            }
-          ],
-          context: [{
-              id: 'saas_c1',
-              text: '產品導覽是否針對不同角色？',
-              checked: false,
-              suggestion: '個人化：管理員vs使用者'
-            },
-            {
-              id: 'saas_c2',
-              text: '是否提供API文件與整合支援？',
-              checked: false,
-              suggestion: '擴展性：開放API、Webhook'
-            },
-            {
-              id: 'saas_c3',
-              text: '客服回應速度是否快速？',
-              checked: false,
-              suggestion: '保證：SLA承諾、多管道支援'
-            },
-            {
-              id: 'saas_c4',
-              text: '是否有完整的說明文件與影片教學？',
-              checked: false,
-              suggestion: '自助：知識庫、影片庫'
-            },
-            {
-              id: 'saas_c5',
-              text: '資料安全與隱私保護是否清楚說明？',
-              checked: false,
-              suggestion: '信任：認證標章、隱私政策'
-            }
-          ],
-          cognitive: [{
-              id: 'saas_cg1',
-              text: '功能與設定是否過於複雜，造成使用者理解困難？',
-              checked: false,
-              suggestion: '簡化：分步設定、預設模板'
-            },
-            {
-              id: 'saas_cg2',
-              text: '儀表板資訊是否過載，使用者能否聚焦關鍵數據？',
-              checked: false,
-              suggestion: '優化：資訊分層、可自訂視圖'
-            },
-            {
-              id: 'saas_cg3',
-              text: '用語是否一致？是否存在專業術語或翻譯問題？',
-              checked: false,
-              suggestion: '建立用語字典、統一翻譯'
-            },
-            {
-              id: 'saas_cg4',
-              text: '操作流程是否符合使用者的認知模型？',
-              checked: false,
-              suggestion: '參考常見模式、降低學習成本'
-            },
-            {
-              id: 'saas_cg5',
-              text: '是否提供足夠的引導與說明？',
-              checked: false,
-              suggestion: '工具提示、逐步教學'
-            }
-          ],
-          emotional: [{
-              id: 'saas_em1',
-              text: '使用者是否在設定或操作過程中感到焦慮或不確定？',
-              checked: false,
-              suggestion: '即時回饋、清楚錯誤訊息'
-            },
-            {
-              id: 'saas_em2',
-              text: '是否有訂閱或付款流程造成挫折感？',
-              checked: false,
-              suggestion: '透明：清楚方案比較、簡單付款'
-            },
-            {
-              id: 'saas_em3',
-              text: '等待客服或技術支援是否導致失望？',
-              checked: false,
-              suggestion: '改善：即時客服、快速回覆'
-            },
-            {
-              id: 'saas_em4',
-              text: '是否有互動設計讓使用者感到被忽略？',
-              checked: false,
-              suggestion: '設計：確認操作成功、回饋動畫'
-            },
-            {
-              id: 'saas_em5',
-              text: '是否有情境設計讓使用者感到不被尊重或理解？',
-              checked: false,
-              suggestion: '文化敏感設計、包容性文案'
-            }
-          ],
-          support: [{
-              id: 'saas_s1',
-              text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
-              checked: false,
-              suggestion: '建議：在儀表板或設定頁提供明顯的幫助入口'
-            },
-            {
-              id: 'saas_s2',
-              text: '客服回應是否即時且有用？（Live chat、回覆時間）',
-              checked: false,
-              suggestion: '參考：導入 chatbot 或標示預估回覆時間'
-            },
-            {
-              id: 'saas_s3',
-              text: '技術支援是否涵蓋常見問題？（API錯誤、整合失敗）',
-              checked: false,
-              suggestion: '必備：提供錯誤代碼說明與解決方案'
-            },
-            {
-              id: 'saas_s4',
-              text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
-              checked: false,
-              suggestion: '透明化：提供查詢入口與進度更新'
-            },
-            {
-              id: 'saas_s5',
-              text: '是否提供專業顧問或成功案例支援？',
-              checked: false,
-              suggestion: '加值：專屬顧問、最佳實踐分享'
-            }
-          ],
-          accessibility: [{
-              id: 'saas_a1',
-              text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
-              checked: false,
-              suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
-            },
-            {
-              id: 'saas_a2',
-              text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
-              checked: false,
-              suggestion: '參考：提供高對比模式與字體調整選項'
-            },
-            {
-              id: 'saas_a3',
-              text: '圖表與數據是否提供替代文字或語音描述？',
-              checked: false,
-              suggestion: '包容性：提供文字摘要或語音輔助'
-            },
-            {
-              id: 'saas_a4',
-              text: '互動元素是否有足夠的點擊區域與操作提示？',
-              checked: false,
-              suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
-            },
-            {
-              id: 'saas_a5',
-              text: '是否考慮色盲或視覺障礙者的使用情境？',
-              checked: false,
-              suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
-            }
-          ]
-
-        }
+        id: 'e_p4',
+        text: '付款方式是否多元？（信用卡、轉帳、第三方支付）',
+        checked: false,
+        suggestion: '提供：多種支付選項提升轉換率',
+        roi: ['conversion']
       },
       {
-        id: 'general',
-        name: '通用模板',
-        icon: '📋',
-        desc: '基礎痛點檢查',
-        template: {
-          process: [{
-              id: 'p1',
-              text: '註冊/登入流程是否過於複雜或步驟過多？',
-              checked: false,
-              suggestion: '建議：社群登入、減少必填欄位'
-            },
-            {
-              id: 'p2',
-              text: '使用者能否清楚理解下一步該做什麼？',
-              checked: false,
-              suggestion: '優化：清晰CTA、引導提示'
-            },
-            {
-              id: 'p3',
-              text: '完成核心任務需要經過幾個步驟？是否可以簡化？',
-              checked: false,
-              suggestion: '精簡：3步驟內完成主要任務'
-            },
-            {
-              id: 'p4',
-              text: '錯誤處理機制是否明確？使用者知道如何修正錯誤嗎？',
-              checked: false,
-              suggestion: '友善：具體錯誤訊息、修正建議'
-            },
-            {
-              id: 'p5',
-              text: '是否有不必要的確認步驟或重複操作？',
-              checked: false,
-              suggestion: '流暢：減少摩擦點'
-            }
-          ],
-          interface: [{
-              id: 'i1',
-              text: 'CTA 按鈕是否足夠明顯？位置是否符合使用者預期？',
-              checked: false,
-              suggestion: '設計：對比色、F型閱讀路徑'
-            },
-            {
-              id: 'i2',
-              text: '導覽列是否清晰？使用者能否快速找到目標功能？',
-              checked: false,
-              suggestion: '結構：扁平化、搜尋功能'
-            },
-            {
-              id: 'i3',
-              text: '表單設計是否友善？欄位標籤是否清楚？',
-              checked: false,
-              suggestion: '易用：內嵌標籤、即時驗證'
-            },
-            {
-              id: 'i4',
-              text: '視覺層級是否合理？重要資訊是否突出？',
-              checked: false,
-              suggestion: '視覺：大小、顏色、位置'
-            },
-            {
-              id: 'i5',
-              text: '行動裝置上的可點擊區域是否夠大（至少 44×44px）？',
-              checked: false,
-              suggestion: '觸控：足夠點擊區域'
-            }
-          ],
-          context: [{
-              id: 'c1',
-              text: '使用情境是否符合目標使用者的真實需求？',
-              checked: false,
-              suggestion: '用戶研究：訪談、觀察'
-            },
-            {
-              id: 'c2',
-              text: '是否考慮到不同裝置（手機/平板/桌機）的使用情境？',
-              checked: false,
-              suggestion: '響應式：各尺寸測試'
-            },
-            {
-              id: 'c3',
-              text: '首次使用者是否能理解產品價值與使用方法？',
-              checked: false,
-              suggestion: '清晰：價值主張、引導流程'
-            },
-            {
-              id: 'c4',
-              text: '是否有考慮到網路不穩定或載入緩慢的情況？',
-              checked: false,
-              suggestion: '體驗：離線模式、骨架屏'
-            },
-            {
-              id: 'c5',
-              text: '多語系使用者是否能順暢使用？（中英文切換、文字長度）',
-              checked: false,
-              suggestion: '國際化：i18n、彈性布局'
-            }
-          ],
-          cognitive: [{
-              id: 'cg1',
-              text: '資訊是否過多，造成使用者無法聚焦？',
-              checked: false,
-              suggestion: '分段呈現、逐步顯示'
-            },
-            {
-              id: 'cg2',
-              text: '資訊架構是否清晰？使用者能否快速理解層級？',
-              checked: false,
-              suggestion: '優化：卡片分類、樹狀結構'
-            },
-            {
-              id: 'cg3',
-              text: '用語是否一致？是否存在專業術語或翻譯問題？',
-              checked: false,
-              suggestion: '建立用語字典、統一翻譯'
-            },
-            {
-              id: 'cg4',
-              text: '操作流程是否符合使用者的認知模型？',
-              checked: false,
-              suggestion: '參考常見模式、降低學習成本'
-            },
-            {
-              id: 'cg5',
-              text: '是否提供足夠的引導與說明？',
-              checked: false,
-              suggestion: '工具提示、逐步教學'
-            }
-          ],
-          emotional: [{
-              id: 'em1',
-              text: '使用者是否在操作過程中感到焦慮或不確定？',
-              checked: false,
-              suggestion: '即時回饋、清楚錯誤訊息'
-            },
-            {
-              id: 'em2',
-              text: '是否有過多步驟造成挫折感？',
-              checked: false,
-              suggestion: '簡化：減少步驟、提供跳過選項'
-            },
-            {
-              id: 'em3',
-              text: '等待或重複操作是否導致失望？',
-              checked: false,
-              suggestion: '改善：進度提示、避免重複輸入'
-            },
-            {
-              id: 'em4',
-              text: '是否有互動設計讓使用者感到被忽略？',
-              checked: false,
-              suggestion: '設計：確認操作成功、回饋動畫'
-            },
-            {
-              id: 'em5',
-              text: '產品內容或文案是否讓使用者感到不被尊重或理解？',
-              checked: false,
-              suggestion: '文化敏感設計、包容性文案'
-            }
-          ],
-          support: [{
-              id: 's1',
-              text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
-              checked: false,
-              suggestion: '建議：在主要頁面提供明顯的幫助入口'
-            },
-            {
-              id: 's2',
-              text: '客服回應是否即時且有用？（Live chat、回覆時間）',
-              checked: false,
-              suggestion: '參考：導入 chatbot 或標示預估回覆時間'
-            },
-            {
-              id: 's3',
-              text: '是否提供技術支援？（登入失敗、功能異常）',
-              checked: false,
-              suggestion: '必備：錯誤回報機制與即時處理流程'
-            },
-            {
-              id: 's4',
-              text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
-              checked: false,
-              suggestion: '透明化：提供查詢入口與進度更新'
-            },
-            {
-              id: 's5',
-              text: '是否提供使用建議或最佳實踐？',
-              checked: false,
-              suggestion: '加值：知識庫、案例分享'
-            }
-          ],
-          accessibility: [{
-              id: 'a1',
-              text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
-              checked: false,
-              suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
-            },
-            {
-              id: 'a2',
-              text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
-              checked: false,
-              suggestion: '參考：提供高對比模式與字體調整選項'
-            },
-            {
-              id: 'a3',
-              text: '是否支援多語系切換？（尤其是註冊、客服流程）',
-              checked: false,
-              suggestion: '必備：語言切換按鈕與本地化文案'
-            },
-            {
-              id: 'a4',
-              text: '互動元素是否有足夠的點擊區域與操作提示？',
-              checked: false,
-              suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
-            },
-            {
-              id: 'a5',
-              text: '是否考慮色盲或視覺障礙者的使用情境？',
-              checked: false,
-              suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
-            }
-          ]
-        }
+        id: 'e_p5',
+        text: '訂單追蹤與退貨流程是否清晰？',
+        checked: false,
+        suggestion: '必備：即時物流追蹤、簡易退貨政策',
+        roi: ['retention','nps']
       }
+    ],
+    interface: [
+      {
+        id: 'e_i1',
+        text: '商品圖片是否清晰？支援多角度檢視？',
+        checked: false,
+        suggestion: '建議：360度檢視、放大功能',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_i2',
+        text: '商品描述是否完整？（規格、尺寸、材質）',
+        checked: false,
+        suggestion: '優化：結構化描述、對比表格',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_i3',
+        text: '價格、折扣顯示是否清楚？',
+        checked: false,
+        suggestion: '透明：原價、折扣、運費一目了然',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_i4',
+        text: '購物車圖示與商品數量提示是否明顯？',
+        checked: false,
+        suggestion: '設計：固定懸浮按鈕、數字徽章',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_i5',
+        text: '行動版商品卡片是否易於瀏覽與點擊？',
+        checked: false,
+        suggestion: '響應式：大縮圖、清晰CTA',
+        roi: ['conversion']
+      }
+    ],
+    context: [
+      {
+        id: 'e_c1',
+        text: '首次訪客能否快速理解網站賣什麼？',
+        checked: false,
+        suggestion: '首頁：清晰價值主張、熱門商品',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_c2',
+        text: '是否提供客服管道？（線上客服、FAQ）',
+        checked: false,
+        suggestion: '即時：聊天機器人、常見問題',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'e_c3',
+        text: '網站載入速度是否夠快？（特別是商品圖片）',
+        checked: false,
+        suggestion: '優化：圖片壓縮、CDN加速',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'e_c4',
+        text: '是否支援訪客結帳？（無需強制註冊）',
+        checked: false,
+        suggestion: '彈性：訪客結帳降低門檻',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_c5',
+        text: '是否有信任指標？（評論、認證、退款保證）',
+        checked: false,
+        suggestion: '建立信任：用戶評價、安全標章',
+        roi: ['conversion','nps']
+      }
+    ],
+    cognitive: [
+      {
+        id: 'e_cg1',
+        text: '商品資訊是否過多，造成使用者無法聚焦？',
+        checked: false,
+        suggestion: '分段呈現、逐步顯示',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_cg2',
+        text: '商品分類與架構是否清晰？',
+        checked: false,
+        suggestion: '優化：多層分類、麵包屑導航',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'e_cg3',
+        text: '用語是否一致？是否存在專業術語或翻譯問題？',
+        checked: false,
+        suggestion: '建立用語字典、統一翻譯',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_cg4',
+        text: '購物流程是否符合使用者的認知模型？',
+        checked: false,
+        suggestion: '參考常見模式、降低學習成本',
+        roi: ['conversion']
+      },
+      {
+        id: 'e_cg5',
+        text: '是否提供足夠的引導與說明？',
+        checked: false,
+        suggestion: '工具提示、逐步教學',
+        roi: ['conversion','retention']
+      }
+    ],
+    emotional: [
+      {
+        id: 'e_em1',
+        text: '使用者是否在結帳過程中感到焦慮或不確定？',
+        checked: false,
+        suggestion: '即時回饋、清楚錯誤訊息',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'e_em2',
+        text: '是否有錯誤處理不清楚，造成挫折感？',
+        checked: false,
+        suggestion: '具體修正建議、重試選項',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'e_em3',
+        text: '等待物流或付款確認是否導致失望？',
+        checked: false,
+        suggestion: '骨架屏、進度提示',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'e_em4',
+        text: '是否有互動設計讓使用者感到被忽略？',
+        checked: false,
+        suggestion: '確認操作成功、回饋動畫',
+        roi: ['nps']
+      },
+      {
+        id: 'e_em5',
+        text: '是否有情境設計讓使用者感到不被尊重或理解？',
+        checked: false,
+        suggestion: '文化敏感設計、包容性文案',
+        roi: ['nps']
+      }
+    ],
+    support: [
+      {
+        id: 'e_s1',
+        text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+        checked: false,
+        suggestion: '建議：首頁或結帳頁加入明顯的幫助入口',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'e_s2',
+        text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+        checked: false,
+        suggestion: '參考：導入 chatbot 或標示預估回覆時間',
+        roi: ['nps']
+      },
+      {
+        id: 'e_s3',
+        text: '退貨、退款、修改訂單等支援流程是否容易理解？',
+        checked: false,
+        suggestion: '優化：用圖示或步驟說明簡化流程',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'e_s4',
+        text: '是否提供訂單異常處理機制？（付款失敗、庫存不足）',
+        checked: false,
+        suggestion: '必備：明確錯誤訊息與替代方案',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'e_s5',
+        text: '是否能追蹤客服處理進度？（Ticket 編號、回覆紀錄）',
+        checked: false,
+        suggestion: '透明化：提供查詢入口與進度更新',
+        roi: ['nps','retention']
+      }
+    ],
+        accessibility: [
+      {
+        id: 'e_a1',
+        text: '頁面是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+        checked: false,
+        suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'e_a2',
+        text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+        checked: false,
+        suggestion: '參考：提供高對比模式與字體調整選項',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'e_a3',
+        text: '是否支援多語系切換？（尤其是結帳與客服流程）',
+        checked: false,
+        suggestion: '必備：語言切換按鈕與本地化文案',
+        roi: ['conversion','compliance','nps']
+      },
+      {
+        id: 'e_a4',
+        text: '互動元素是否有足夠的點擊區域與操作提示？',
+        checked: false,
+        suggestion: '優化：放大點擊區域、加入 hover/active 狀態',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'e_a5',
+        text: '是否考慮色盲或視覺障礙者的使用情境？',
+        checked: false,
+        suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助',
+        roi: ['compliance','nps']
+      }
+    ]
+  }
+},
+
+      {
+  id: 'education',
+  name: '教育平台',
+  icon: '📚',
+  desc: '課程、學習、進度',
+  template: {
+    process: [
+      {
+        id: 'ed_p1',
+        text: '課程搜尋與篩選是否直覺？',
+        checked: false,
+        suggestion: '建議：依類別、難度、評分篩選',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ed_p2',
+        text: '註冊/登入流程是否簡潔？',
+        checked: false,
+        suggestion: '優化：社群登入、單頁註冊',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ed_p3',
+        text: '購買課程流程是否順暢？',
+        checked: false,
+        suggestion: '簡化：快速結帳、試看功能',
+        roi: ['conversion']
+      },
+      {
+        id: 'ed_p4',
+        text: '學習進度是否能自動儲存與同步？',
+        checked: false,
+        suggestion: '必備：跨裝置學習進度同步',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_p5',
+        text: '作業提交與批改流程是否清楚？',
+        checked: false,
+        suggestion: '明確：截止日期、提交狀態',
+        roi: ['retention','nps']
+      }
+    ],
+    interface: [
+      {
+        id: 'ed_i1',
+        text: '課程導航是否清晰？（章節、單元）',
+        checked: false,
+        suggestion: '設計：側邊欄目錄、進度條',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_i2',
+        text: '影片播放器是否易用？（速度調整、字幕）',
+        checked: false,
+        suggestion: '功能：倍速播放、重點筆記',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ed_i3',
+        text: '學習儀表板是否一目了然？',
+        checked: false,
+        suggestion: '視覺：學習時數、完成課程、成就',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_i4',
+        text: '課程資料下載是否方便？（講義、作業）',
+        checked: false,
+        suggestion: '便利：一鍵下載全部資料',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_i5',
+        text: '討論區與問答功能是否易於使用？',
+        checked: false,
+        suggestion: '互動：標籤分類、搜尋功能',
+        roi: ['retention','nps']
+      }
+    ],
+    context: [
+      {
+        id: 'ed_c1',
+        text: '新學員能否快速找到適合的課程？',
+        checked: false,
+        suggestion: '引導：推薦系統、學習路徑',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ed_c2',
+        text: '是否提供試看或免費課程？',
+        checked: false,
+        suggestion: '降低門檻：試看 10分鐘',
+        roi: ['conversion']
+      },
+      {
+        id: 'ed_c3',
+        text: '是否支援離線學習？',
+        checked: false,
+        suggestion: '彈性：下載課程離線觀看',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_c4',
+        text: '是否有學習提醒與激勵機制？',
+        checked: false,
+        suggestion: '持續學習：每日提醒、成就徽章',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ed_c5',
+        text: '行動裝置學習體驗是否流暢？',
+        checked: false,
+        suggestion: '優化：響應式設計、觸控友善',
+        roi: ['retention']
+      }
+    ],
+    cognitive: [
+      {
+        id: 'ed_cg1',
+        text: '課程資訊是否過多，造成學員無法聚焦？',
+        checked: false,
+        suggestion: '分段呈現、逐步顯示',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_cg2',
+        text: '課程架構是否清晰？章節與單元是否容易理解？',
+        checked: false,
+        suggestion: '優化：樹狀結構、進度導覽',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_cg3',
+        text: '用語是否一致？是否存在專業術語或翻譯問題？',
+        checked: false,
+        suggestion: '建立用語字典、統一翻譯',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_cg4',
+        text: '學習流程是否符合學員的認知模型？',
+        checked: false,
+        suggestion: '參考常見學習模式、降低學習成本',
+        roi: ['retention']
+      },
+      {
+        id: 'ed_cg5',
+        text: '是否提供足夠的引導與說明？',
+        checked: false,
+        suggestion: '工具提示、逐步教學',
+        roi: ['retention']
+      }
+    ],
+    emotional: [
+      {
+        id: 'ed_em1',
+        text: '學員是否在學習過程中感到焦慮或不確定？',
+        checked: false,
+        suggestion: '即時回饋、清楚錯誤訊息',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ed_em2',
+        text: '是否有作業或考試壓力過大，造成挫折感？',
+        checked: false,
+        suggestion: '彈性：分段測驗、即時提示',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ed_em3',
+        text: '等待批改或回覆是否導致失望？',
+        checked: false,
+        suggestion: '改善：自動批改、快速回覆',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ed_em4',
+        text: '是否有互動設計讓學員感到被忽略？',
+        checked: false,
+        suggestion: '設計：即時互動、導師回饋',
+        roi: ['nps']
+      },
+      {
+        id: 'ed_em5',
+        text: '是否有情境設計讓學員感到不被尊重或理解？',
+        checked: false,
+        suggestion: '文化敏感設計、包容性文案',
+        roi: ['nps']
+      }
+    ],
+    support: [
+      {
+        id: 'ed_s1',
+        text: '學員遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+        checked: false,
+        suggestion: '建議：課程頁或學習儀表板加入明顯的幫助入口',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'ed_s2',
+        text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+        checked: false,
+        suggestion: '參考：導入 chatbot 或標示預估回覆時間',
+        roi: ['nps']
+      },
+      {
+        id: 'ed_s3',
+        text: '是否提供技術支援？（影片無法播放、作業無法提交）',
+        checked: false,
+        suggestion: '必備：技術問題回報機制與即時處理流程',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'ed_s4',
+        text: '是否能追蹤問題處理進度？（Ticket 編號、回覆紀錄）',
+        checked: false,
+        suggestion: '透明化：提供查詢入口與進度更新',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'ed_s5',
+        text: '是否提供學習建議或課程選修諮詢？',
+        checked: false,
+        suggestion: '加值：學習顧問、推薦引擎',
+        roi: ['retention','nps']
+      }
+    ],
+        accessibility: [
+      {
+        id: 'ed_a1',
+        text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+        checked: false,
+        suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'ed_a2',
+        text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+        checked: false,
+        suggestion: '參考：提供高對比模式與字體調整選項',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'ed_a3',
+        text: '是否支援多語系切換？（尤其是課程、測驗、客服流程）',
+        checked: false,
+        suggestion: '必備：語言切換按鈕與本地化文案',
+        roi: ['conversion','compliance','nps']
+      },
+      {
+        id: 'ed_a4',
+        text: '影片與教材是否提供字幕、語音描述或文字稿？',
+        checked: false,
+        suggestion: '包容性：提供多種輔助學習方式',
+        roi: ['compliance','nps','retention']
+      },
+      {
+        id: 'ed_a5',
+        text: '互動元素是否有足夠的點擊區域與操作提示？',
+        checked: false,
+        suggestion: '優化：放大點擊區域、加入 hover/active 狀態',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'ed_a6',
+        text: '是否考慮色盲或視覺障礙者的使用情境？',
+        checked: false,
+        suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助',
+        roi: ['compliance','nps']
+      }
+    ]
+  }
+},
+      {
+  id: 'onboarding',
+  name: 'App 引導',
+  icon: '🚀',
+  desc: '新手教學、權限',
+  template: {
+    process: [
+      {
+        id: 'ob_p1',
+        text: '首次啟動時，價值主張是否清晰？',
+        checked: false,
+        suggestion: '建議：3秒內說明核心價值',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ob_p2',
+        text: '註冊流程是否簡潔？（3步驟內完成）',
+        checked: false,
+        suggestion: '優化：延後非必要資訊收集',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ob_p3',
+        text: '引導流程是否可跳過？',
+        checked: false,
+        suggestion: '彈性：提供「跳過」選項',
+        roi: ['retention']
+      },
+      {
+        id: 'ob_p4',
+        text: '權限請求是否在適當時機出現？',
+        checked: false,
+        suggestion: '時機：用到才請求，說明原因',
+        roi: ['conversion','compliance']
+      },
+      {
+        id: 'ob_p5',
+        text: '完成引導後，使用者是否知道下一步？',
+        checked: false,
+        suggestion: '明確：CTA 引導第一個行動',
+        roi: ['conversion','retention']
+      }
+    ],
+    interface: [
+      {
+        id: 'ob_i1',
+        text: '引導畫面是否視覺友善？（插圖、動畫）',
+        checked: false,
+        suggestion: '設計：簡潔插圖、流暢動畫',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_i2',
+        text: '進度指示器是否清楚？（第幾步/共幾步）',
+        checked: false,
+        suggestion: '視覺：進度點、百分比',
+        roi: ['retention']
+      },
+      {
+        id: 'ob_i3',
+        text: '文字說明是否簡潔易懂？（避免專業術語）',
+        checked: false,
+        suggestion: '文案：口語化、關注利益點',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ob_i4',
+        text: '按鈕設計是否明確？（繼續、跳過、完成）',
+        checked: false,
+        suggestion: '清晰：主要CTA突出',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ob_i5',
+        text: '是否支援手勢操作？（滑動切換）',
+        checked: false,
+        suggestion: '互動：滑動換頁、點擊跳轉',
+        roi: ['retention','nps']
+      }
+    ],
+    context: [
+      {
+        id: 'ob_c1',
+        text: '引導內容是否能個人化？（依用戶類型）',
+        checked: false,
+        suggestion: '智能：依使用情境調整',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_c2',
+        text: '是否提供互動式教學？（而非純文字）',
+        checked: false,
+        suggestion: '體驗：讓用戶實際操作',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_c3',
+        text: '引導結束後，是否可重新查看？',
+        checked: false,
+        suggestion: '幫助：設定中提供教學重播',
+        roi: ['retention']
+      },
+      {
+        id: 'ob_c4',
+        text: '首次使用是否有範例資料？',
+        checked: false,
+        suggestion: '降低門檻：預載範例內容',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ob_c5',
+        text: '是否追蹤引導完成率？（優化弱點）',
+        checked: false,
+        suggestion: '數據：分析流失步驟',
+        roi: ['retention']
+      }
+    ],
+    cognitive: [
+      {
+        id: 'ob_cg1',
+        text: '引導資訊是否過多，造成使用者無法聚焦？',
+        checked: false,
+        suggestion: '分段呈現、逐步顯示',
+        roi: ['retention']
+      },
+      {
+        id: 'ob_cg2',
+        text: '引導架構是否清晰？使用者能否理解流程層級？',
+        checked: false,
+        suggestion: '優化：步驟分組、進度導覽',
+        roi: ['retention']
+      },
+      {
+        id: 'ob_cg3',
+        text: '用語是否一致？是否存在專業術語或翻譯問題？',
+        checked: false,
+        suggestion: '建立用語字典、統一翻譯',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'ob_cg4',
+        text: '引導流程是否符合使用者的認知模型？',
+        checked: false,
+        suggestion: '參考常見模式、降低學習成本',
+        roi: ['retention']
+      },
+      {
+        id: 'ob_cg5',
+        text: '是否提供足夠的引導與說明？',
+        checked: false,
+        suggestion: '工具提示、逐步教學',
+        roi: ['retention']
+      }
+    ],
+    emotional: [
+      {
+        id: 'ob_em1',
+        text: '使用者是否在引導過程中感到焦慮或不確定？',
+        checked: false,
+        suggestion: '即時回饋、清楚錯誤訊息',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_em2',
+        text: '是否有過多步驟造成挫折感？',
+        checked: false,
+        suggestion: '簡化：減少步驟、提供跳過選項',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_em3',
+        text: '等待或重複操作是否導致失望？',
+        checked: false,
+        suggestion: '改善：進度提示、避免重複輸入',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_em4',
+        text: '是否有互動設計讓使用者感到被忽略？',
+        checked: false,
+        suggestion: '設計：確認操作成功、回饋動畫',
+        roi: ['nps']
+      },
+      {
+        id: 'ob_em5',
+        text: '引導內容是否讓使用者感到不被尊重或理解？',
+        checked: false,
+        suggestion: '文化敏感設計、包容性文案',
+        roi: ['nps']
+      }
+    ],
+    support: [
+      {
+        id: 'ob_s1',
+        text: '首次使用時是否提供幫助入口？（FAQ、客服、教學重播）',
+        checked: false,
+        suggestion: '建議：在設定或首頁提供明顯的幫助入口',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'ob_s2',
+        text: '使用者遇到問題時是否能即時獲得支援？',
+        checked: false,
+        suggestion: '參考：導入 chatbot 或顯示預估回覆時間',
+        roi: ['nps']
+      },
+      {
+        id: 'ob_s3',
+        text: '引導過程中是否有技術問題回報機制？（按鈕失效、頁面卡住）',
+        checked: false,
+        suggestion: '必備：提供「回報問題」按鈕或錯誤提示',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'ob_s4',
+        text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
+        checked: false,
+        suggestion: '透明化：提供查詢入口與進度更新',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'ob_s5',
+        text: '是否提供新手引導諮詢或建議？',
+        checked: false,
+        suggestion: '加值：新手顧問、推薦操作路徑',
+        roi: ['retention','nps']
+      }
+    ],
+        accessibility: [
+      {
+        id: 'ob_a1',
+        text: '引導畫面是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+        checked: false,
+        suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'ob_a2',
+        text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+        checked: false,
+        suggestion: '參考：提供高對比模式與字體調整選項',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'ob_a3',
+        text: '引導影片或動畫是否提供字幕、語音描述或文字稿？',
+        checked: false,
+        suggestion: '包容性：提供多種輔助學習方式',
+        roi: ['compliance','nps','retention']
+      },
+      {
+        id: 'ob_a4',
+        text: '互動元素是否有足夠的點擊區域與操作提示？',
+        checked: false,
+        suggestion: '優化：放大點擊區域、加入 hover/active 狀態',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'ob_a5',
+        text: '是否考慮色盲或視覺障礙者的使用情境？',
+        checked: false,
+        suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助',
+        roi: ['compliance','nps']
+      }
+    ]
+  }
+},
+      {
+  id: 'saas',
+  name: 'SaaS 工具',
+  icon: '⚙️',
+  desc: '協作、訂閱、儀表板',
+  template: {
+    process: [
+      {
+        id: 'saas_p1',
+        text: '免費試用流程是否簡單？（無需信用卡）',
+        checked: false,
+        suggestion: '降低門檻：免卡試用',
+        roi: ['conversion']
+      },
+      {
+        id: 'saas_p2',
+        text: '資料匯入/匯出是否方便？',
+        checked: false,
+        suggestion: '必備：支援多種格式',
+        roi: ['retention']
+      },
+      {
+        id: 'saas_p3',
+        text: '團隊協作邀請流程是否順暢？',
+        checked: false,
+        suggestion: '便利：Email 邀請、角色管理',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'saas_p4',
+        text: '訂閱升級/降級流程是否清楚？',
+        checked: false,
+        suggestion: '透明：方案比較、無痛切換',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'saas_p5',
+        text: '取消訂閱是否容易？（不刻意刁難）',
+        checked: false,
+        suggestion: '誠信：簡單取消建立信任',
+        roi: ['nps','retention']
+      }
+    ],
+    interface: [
+      {
+        id: 'saas_i1',
+        text: '儀表板是否清晰展示關鍵數據？',
+        checked: false,
+        suggestion: '設計：卡片式布局、圖表視覺化',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'saas_i2',
+        text: '設定選項是否易於找到與調整？',
+        checked: false,
+        suggestion: '組織：分類清楚、搜尋功能',
+        roi: ['retention']
+      },
+      {
+        id: 'saas_i3',
+        text: '通知系統是否不過度打擾？',
+        checked: false,
+        suggestion: '平衡：重要通知、可自訂',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'saas_i4',
+        text: '搜尋功能是否強大且快速？',
+        checked: false,
+        suggestion: '必備：全局搜尋、快捷鍵',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'saas_i5',
+        text: '深色模式支援是否完整？',
+        checked: false,
+        suggestion: '體驗：保護視力、節省電力',
+        roi: ['nps']
+      }
+    ],
+    context: [
+      {
+        id: 'saas_c1',
+        text: '產品導覽是否針對不同角色？',
+        checked: false,
+        suggestion: '個人化：管理員vs使用者',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'saas_c2',
+        text: '是否提供API文件與整合支援？',
+        checked: false,
+        suggestion: '擴展性：開放API、Webhook',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'saas_c3',
+        text: '客服回應速度是否快速？',
+        checked: false,
+        suggestion: '保證：SLA承諾、多管道支援',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'saas_c4',
+        text: '是否有完整的說明文件與影片教學？',
+        checked: false,
+        suggestion: '自助：知識庫、影片庫',
+        roi: ['retention']
+      },
+      {
+        id: 'saas_c5',
+        text: '資料安全與隱私保護是否清楚說明？',
+        checked: false,
+        suggestion: '信任：認證標章、隱私政策',
+        roi: ['compliance','nps']
+      }
+    ],
+    cognitive: [
+      {
+        id: 'saas_cg1',
+        text: '功能與設定是否過於複雜，造成使用者理解困難？',
+        checked: false,
+        suggestion: '簡化：分步設定、預設模板',
+        roi: ['retention']
+      },
+      {
+        id: 'saas_cg2',
+        text: '儀表板資訊是否過載，使用者能否聚焦關鍵數據？',
+        checked: false,
+        suggestion: '優化：資訊分層、可自訂視圖',
+        roi: ['retention']
+      },
+      {
+        id: 'saas_cg3',
+        text: '用語是否一致？是否存在專業術語或翻譯問題？',
+        checked: false,
+        suggestion: '建立用語字典、統一翻譯',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'saas_cg4',
+        text: '操作流程是否符合使用者的認知模型？',
+        checked: false,
+        suggestion: '參考常見模式、降低學習成本',
+        roi: ['retention']
+      },
+      {
+        id: 'saas_cg5',
+        text: '是否提供足夠的引導與說明？',
+        checked: false,
+        suggestion: '工具提示、逐步教學',
+        roi: ['retention']
+      }
+    ],
+    emotional: [
+      {
+        id: 'saas_em1',
+        text: '使用者是否在設定或操作過程中感到焦慮或不確定？',
+        checked: false,
+        suggestion: '即時回饋、清楚錯誤訊息',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'saas_em2',
+        text: '是否有訂閱或付款流程造成挫折感？',
+        checked: false,
+        suggestion: '透明：清楚方案比較、簡單付款',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'saas_em3',
+        text: '等待客服或技術支援是否導致失望？',
+        checked: false,
+        suggestion: '改善：即時客服、快速回覆',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'saas_em4',
+        text: '是否有互動設計讓使用者感到被忽略？',
+        checked: false,
+        suggestion: '設計：確認操作成功、回饋動畫',
+        roi: ['nps']
+      },
+      {
+        id: 'saas_em5',
+        text: '是否有情境設計讓使用者感到不被尊重或理解？',
+        checked: false,
+        suggestion: '文化敏感設計、包容性文案',
+        roi: ['nps']
+      }
+    ],
+    support: [
+      {
+        id: 'saas_s1',
+        text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+        checked: false,
+        suggestion: '建議：在儀表板或設定頁提供明顯的幫助入口',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'saas_s2',
+        text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+        checked: false,
+        suggestion: '參考：導入 chatbot 或標示預估回覆時間',
+        roi: ['nps']
+      },
+      {
+        id: 'saas_s3',
+        text: '技術支援是否涵蓋常見問題？（API錯誤、整合失敗）',
+        checked: false,
+        suggestion: '必備：提供錯誤代碼說明與解決方案',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'saas_s4',
+        text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
+        checked: false,
+        suggestion: '透明化：提供查詢入口與進度更新',
+        roi: ['nps','retention']
+      },
+      {
+        id: 'saas_s5',
+        text: '是否提供專業顧問或成功案例支援？',
+        checked: false,
+        suggestion: '加值：專屬顧問、最佳實踐分享',
+        roi: ['proposal','nps']
+      }
+    ],
+        accessibility: [
+      {
+        id: 'saas_a1',
+        text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+        checked: false,
+        suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'saas_a2',
+        text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+        checked: false,
+        suggestion: '參考：提供高對比模式與字體調整選項',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'saas_a3',
+        text: '圖表與數據是否提供替代文字或語音描述？',
+        checked: false,
+        suggestion: '包容性：提供文字摘要或語音輔助',
+        roi: ['compliance','nps','retention']
+      },
+      {
+        id: 'saas_a4',
+        text: '互動元素是否有足夠的點擊區域與操作提示？',
+        checked: false,
+        suggestion: '優化：放大點擊區域、加入 hover/active 狀態',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'saas_a5',
+        text: '是否考慮色盲或視覺障礙者的使用情境？',
+        checked: false,
+        suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助',
+        roi: ['compliance','nps']
+      }
+    ]
+  }
+},
+      {
+  id: 'general',
+  name: '通用模板',
+  icon: '📋',
+  desc: '基礎痛點檢查',
+  template: {
+    process: [
+      {
+        id: 'p1',
+        text: '註冊/登入流程是否過於複雜或步驟過多？',
+        checked: false,
+        suggestion: '建議：社群登入、減少必填欄位',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'p2',
+        text: '使用者能否清楚理解下一步該做什麼？',
+        checked: false,
+        suggestion: '優化：清晰CTA、引導提示',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'p3',
+        text: '完成核心任務需要經過幾個步驟？是否可以簡化？',
+        checked: false,
+        suggestion: '精簡：3步驟內完成主要任務',
+        roi: ['conversion']
+      },
+      {
+        id: 'p4',
+        text: '錯誤處理機制是否明確？使用者知道如何修正錯誤嗎？',
+        checked: false,
+        suggestion: '友善：具體錯誤訊息、修正建議',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'p5',
+        text: '是否有不必要的確認步驟或重複操作？',
+        checked: false,
+        suggestion: '流暢：減少摩擦點',
+        roi: ['conversion','retention']
+      }
+    ],
+    interface: [
+      {
+        id: 'i1',
+        text: 'CTA 按鈕是否足夠明顯？位置是否符合使用者預期？',
+        checked: false,
+        suggestion: '設計：對比色、F型閱讀路徑',
+        roi: ['conversion']
+      },
+      {
+        id: 'i2',
+        text: '導覽列是否清晰？使用者能否快速找到目標功能？',
+        checked: false,
+        suggestion: '結構：扁平化、搜尋功能',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'i3',
+        text: '表單設計是否友善？欄位標籤是否清楚？',
+        checked: false,
+        suggestion: '易用：內嵌標籤、即時驗證',
+        roi: ['conversion']
+      },
+      {
+        id: 'i4',
+        text: '視覺層級是否合理？重要資訊是否突出？',
+        checked: false,
+        suggestion: '視覺：大小、顏色、位置',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'i5',
+        text: '行動裝置上的可點擊區域是否夠大（至少 44×44px）？',
+        checked: false,
+        suggestion: '觸控：足夠點擊區域',
+        roi: ['conversion','nps']
+      }
+    ],
+    context: [
+      {
+        id: 'c1',
+        text: '使用情境是否符合目標使用者的真實需求？',
+        checked: false,
+        suggestion: '用戶研究：訪談、觀察',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'c2',
+        text: '是否考慮到不同裝置（手機/平板/桌機）的使用情境？',
+        checked: false,
+        suggestion: '響應式：各尺寸測試',
+        roi: ['retention']
+      },
+      {
+        id: 'c3',
+        text: '首次使用者是否能理解產品價值與使用方法？',
+        checked: false,
+        suggestion: '清晰：價值主張、引導流程',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'c4',
+        text: '是否有考慮到網路不穩定或載入緩慢的情況？',
+        checked: false,
+        suggestion: '體驗：離線模式、骨架屏',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'c5',
+        text: '多語系使用者是否能順暢使用？（中英文切換、文字長度）',
+        checked: false,
+        suggestion: '國際化：i18n、彈性布局',
+        roi: ['conversion','compliance','nps']
+      }
+    ],
+    cognitive: [
+      {
+        id: 'cg1',
+        text: '資訊是否過多，造成使用者無法聚焦？',
+        checked: false,
+        suggestion: '分段呈現、逐步顯示',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'cg2',
+        text: '資訊架構是否清晰？使用者能否快速理解層級？',
+        checked: false,
+        suggestion: '優化：卡片分類、樹狀結構',
+        roi: ['retention']
+      },
+      {
+        id: 'cg3',
+        text: '用語是否一致？是否存在專業術語或翻譯問題？',
+        checked: false,
+        suggestion: '建立用語字典、統一翻譯',
+        roi: ['conversion','retention']
+      },
+      {
+        id: 'cg4',
+        text: '操作流程是否符合使用者的認知模型？',
+        checked: false,
+        suggestion: '參考常見模式、降低學習成本',
+        roi: ['retention']
+      },
+      {
+        id: 'cg5',
+        text: '是否提供足夠的引導與說明？',
+        checked: false,
+        suggestion: '工具提示、逐步教學',
+        roi: ['retention']
+      }
+    ],
+    emotional: [
+      {
+        id: 'em1',
+        text: '使用者是否在操作過程中感到焦慮或不確定？',
+        checked: false,
+        suggestion: '即時回饋、清楚錯誤訊息',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'em2',
+        text: '是否有過多步驟造成挫折感？',
+        checked: false,
+        suggestion: '簡化：減少步驟、提供跳過選項',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'em3',
+        text: '等待或重複操作是否導致失望？',
+        checked: false,
+        suggestion: '改善：進度提示、避免重複輸入',
+        roi: ['retention','nps']
+      },
+      {
+        id: 'em4',
+        text: '是否有互動設計讓使用者感到被忽略？',
+        checked: false,
+        suggestion: '設計：確認操作成功、回饋動畫',
+        roi: ['nps']
+      },
+      {
+        id: 'em5',
+        text: '產品內容或文案是否讓使用者感到不被尊重或理解？',
+        checked: false,
+        suggestion: '文化敏感設計、包容性文案',
+        roi: ['nps']
+      }
+    ],
+    support: [
+      {
+        id: 's1',
+        text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+        checked: false,
+        suggestion: '建議：在主要頁面提供明顯的幫助入口',
+        roi: ['retention','nps']
+      },
+      {
+        id: 's2',
+        text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+        checked: false,
+        suggestion: '參考：導入 chatbot 或標示預估回覆時間',
+        roi: ['nps']
+      },
+      {
+        id: 's3',
+        text: '是否提供技術支援？（登入失敗、功能異常）',
+        checked: false,
+        suggestion: '必備：錯誤回報機制與即時處理流程',
+        roi: ['retention','nps']
+      },
+      {
+        id: 's4',
+        text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
+        checked: false,
+        suggestion: '透明化：提供查詢入口與進度更新',
+        roi: ['retention','nps']
+      },
+      {
+        id: 's5',
+        text: '是否提供使用建議或最佳實踐？',
+        checked: false,
+        suggestion: '加值：知識庫、案例分享',
+        roi: ['proposal','nps']
+      }
+    ],
+        accessibility: [
+      {
+        id: 'a1',
+        text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+        checked: false,
+        suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'a2',
+        text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+        checked: false,
+        suggestion: '參考：提供高對比模式與字體調整選項',
+        roi: ['compliance','nps']
+      },
+      {
+        id: 'a3',
+        text: '是否支援多語系切換？（尤其是註冊、客服流程）',
+        checked: false,
+        suggestion: '必備：語言切換按鈕與本地化文案',
+        roi: ['conversion','compliance','nps']
+      },
+      {
+        id: 'a4',
+        text: '互動元素是否有足夠的點擊區域與操作提示？',
+        checked: false,
+        suggestion: '優化：放大點擊區域、加入 hover/active 狀態',
+        roi: ['conversion','nps']
+      },
+      {
+        id: 'a5',
+        text: '是否考慮色盲或視覺障礙者的使用情境？',
+        checked: false,
+        suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助',
+        roi: ['compliance','nps']
+      }
+    ]
+  }
+}
+
+
 
     ];
 
