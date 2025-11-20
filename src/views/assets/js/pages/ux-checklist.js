@@ -1759,13 +1759,24 @@
         }
         // 若有新分類，預設 icon
       };
-      const html = Object.keys(checklist.items).map(cat => {
-        const meta = categoryMeta[cat] || {
-          title: cat,
-          icon: 'fas fa-folder'
-        };
-        return section(meta.title, meta.icon, cat);
-      }).join('');
+      const CATEGORY_ORDER = [
+        'process',    // 流程痛點
+        'interface',  // 介面痛點
+        'context',    // 情境痛點
+        'cognitive',  // 認知痛點
+        'emotional',  // 情緒痛點
+        'support',    // 支援性痛點
+        'accessibility' // 可及性痛點
+      ];
+      const html = CATEGORY_ORDER
+        .filter(cat => checklist.items[cat])
+        .map(cat => {
+          const meta = categoryMeta[cat] || {
+            title: cat,
+            icon: 'fas fa-folder'
+          };
+          return section(meta.title, meta.icon, cat);
+        }).join('');
       elements.detailSections.innerHTML = html;
 
       // 修正：折疊按鈕支援所有類別
