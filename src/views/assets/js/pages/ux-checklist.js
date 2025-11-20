@@ -1841,29 +1841,29 @@
     }
 
     function renderDetail() {
-            // --- 自動補齊 checklist.items 內 pain point 的 roi 屬性（migration）---
-            const idx = selectedIndex;
-            if (idx >= 0 && idx < userChecklists.length) {
-              const checklist = userChecklists[idx];
-              const pt = projectTypes.find(p => p.id === checklist.projectType) || projectTypes.find(p => p.id === 'general');
-              if (checklist && checklist.items && pt && pt.template) {
-                Object.keys(pt.template).forEach(cat => {
-                  if (!Array.isArray(checklist.items[cat])) return;
-                  checklist.items[cat].forEach((item, i) => {
-                    // 只補齊 roi 欄位（不覆蓋已存在的）
-                    if (!Array.isArray(item.roi)) {
-                      // 以 id 對應 template
-                      const tplItem = pt.template[cat].find(t => t.id === item.id);
-                      if (tplItem && Array.isArray(tplItem.roi)) {
-                        item.roi = [...tplItem.roi];
-                      } else {
-                        item.roi = [];
-                      }
-                    }
-                  });
-                });
+      // --- 自動補齊 checklist.items 內 pain point 的 roi 屬性（migration）---
+      // idx 已於 migration 區塊宣告
+      if (idx >= 0 && idx < userChecklists.length) {
+        const checklist = userChecklists[idx];
+        const pt = projectTypes.find(p => p.id === checklist.projectType) || projectTypes.find(p => p.id === 'general');
+        if (checklist && checklist.items && pt && pt.template) {
+          Object.keys(pt.template).forEach(cat => {
+            if (!Array.isArray(checklist.items[cat])) return;
+            checklist.items[cat].forEach((item, i) => {
+              // 只補齊 roi 欄位（不覆蓋已存在的）
+              if (!Array.isArray(item.roi)) {
+                // 以 id 對應 template
+                const tplItem = pt.template[cat].find(t => t.id === item.id);
+                if (tplItem && Array.isArray(tplItem.roi)) {
+                  item.roi = [...tplItem.roi];
+                } else {
+                  item.roi = [];
+                }
               }
-            }
+            });
+          });
+        }
+      }
           // ROI 篩選：包裝原 pain point 過濾邏輯
           function filterByROI(item) {
             // roiFilterActive: ROI 篩選條件（array），item.roi: pain point 的 ROI 標籤（array）
