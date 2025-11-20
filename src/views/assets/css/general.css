@@ -954,7 +954,8 @@ input[type="checkbox"]:hover {
 
 /* Mobile search padding */
 #mobile-checklist-menu .mobile-search-item {
-  padding: .5rem;
+  padding: 0 .5rem .5rem .5rem;
+  margin: .5rem 0 0 0;
 }
 
 /* Dropdown active background */
