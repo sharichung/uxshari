@@ -1843,10 +1843,11 @@
     function renderDetail() {
           // ROI 篩選：包裝原 pain point 過濾邏輯
           function filterByROI(item) {
-            if (!roiFilterActive || roiFilterActive.length === 0) return true;
-            // 有選 ROI 時，僅顯示 roi 屬性有包含所選 ROI 的 pain point
-            if (!item.roi || !Array.isArray(item.roi)) return false;
-            return item.roi.some(r => roiFilterActive.includes(r));
+            // roiFilterActive: ROI 篩選條件（array），item.roi: pain point 的 ROI 標籤（array）
+            if (!Array.isArray(roiFilterActive) || roiFilterActive.length === 0) return true;
+            if (!Array.isArray(item.roi)) return false;
+            // 只要有一個 ROI tag match 就顯示
+            return item.roi.some(tag => roiFilterActive.includes(tag));
           }
       const idx = selectedIndex;
       const toolbar = document.getElementById('detail-toolbar');
