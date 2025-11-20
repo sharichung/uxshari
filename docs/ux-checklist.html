@@ -325,6 +325,36 @@
               </div>
             </div>
 
+            <!-- ROI Filter 面板 -->
+            <div id="roi-filter-panel-wrapper" class="d-flex align-items-center gap-2 flex-wrap position-relative">
+              <button id="roi-filter-toggle" class="btn btn-outline-secondary-shari btn-sm d-md-none" type="button" aria-expanded="false" aria-controls="roi-filter-panel" style="padding: 0.35em 0.8em;">
+                <i class="fas fa-filter me-1"></i>ROI
+              </button>
+              <div id="roi-filter-panel" class="d-flex align-items-center gap-2 flex-wrap roi-panel-content" style="transition: max-height 0.3s; overflow: hidden; max-height: 1000px;">
+                <label class="form-label mb-0 me-2 d-none d-md-block" style="font-size:0.95em;">ROI 篩選：</label>
+                <div class="form-check form-check-inline mb-0">
+                  <input class="form-check-input" type="checkbox" id="roi-filter-conversion" value="conversion">
+                  <label class="form-check-label" for="roi-filter-conversion"><span class="d-md-none">轉</span><span class="d-none d-md-inline">轉換</span></label>
+                </div>
+                <div class="form-check form-check-inline mb-0">
+                  <input class="form-check-input" type="checkbox" id="roi-filter-retention" value="retention">
+                  <label class="form-check-label" for="roi-filter-retention"><span class="d-md-none">留</span><span class="d-none d-md-inline">留存</span></label>
+                </div>
+                <div class="form-check form-check-inline mb-0">
+                  <input class="form-check-input" type="checkbox" id="roi-filter-proposal" value="proposal">
+                  <label class="form-check-label" for="roi-filter-proposal"><span class="d-md-none">提</span><span class="d-none d-md-inline">提案</span></label>
+                </div>
+                <div class="form-check form-check-inline mb-0">
+                  <input class="form-check-input" type="checkbox" id="roi-filter-compliance" value="compliance">
+                  <label class="form-check-label" for="roi-filter-compliance"><span class="d-md-none">合</span><span class="d-none d-md-inline">合規</span></label>
+                </div>
+                <div class="form-check form-check-inline mb-0">
+                  <input class="form-check-input" type="checkbox" id="roi-filter-nps" value="nps">
+                  <label class="form-check-label" for="roi-filter-nps"><span class="d-md-none">NPS</span><span class="d-none d-md-inline">NPS</span></label>
+                </div>
+              </div>
+            </div>
+
             <!-- Sections -->
             <div id="detail-sections">
               <div class="text-center py-5" id="detail-empty">
