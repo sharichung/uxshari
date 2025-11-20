@@ -3584,7 +3584,7 @@ body {
 }
 
 /* === Mobile Checklist Dropdown (Themed) === */
-#mobile-checklist-menu .mobile-search-item {
+#mobile-checklist-menu {
   padding: 0;
 }
 
