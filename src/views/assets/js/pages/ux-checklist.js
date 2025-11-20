@@ -1981,7 +1981,14 @@
       };
       const section = (title, iconClass, catArrName) => {
         const items = checklist.items[catArrName];
-        let filteredItems = items.filter(filterByROI);
+        // Debug: 輸出目前分類、原始 pain point、ROI 篩選狀態
+        console.log('[ROI DEBUG]', {
+          category: catArrName,
+          items,
+          roiFilterActive,
+          filtered: Array.isArray(items) ? items.filter(filterByROI) : []
+        });
+        let filteredItems = Array.isArray(items) ? items.filter(filterByROI) : [];
         // 應用多重篩選
         if (showPriorityOnly) {
           filteredItems = filteredItems.filter(i => i.priority);
