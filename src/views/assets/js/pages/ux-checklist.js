@@ -1844,8 +1844,8 @@
           // ROI 篩選：包裝原 pain point 過濾邏輯
           function filterByROI(item) {
             if (!roiFilterActive || roiFilterActive.length === 0) return true;
-            // 沒有 roi 屬性（如自訂項目）預設顯示
-            if (!item.roi || !Array.isArray(item.roi)) return true;
+            // 有選 ROI 時，僅顯示 roi 屬性有包含所選 ROI 的 pain point
+            if (!item.roi || !Array.isArray(item.roi)) return false;
             return item.roi.some(r => roiFilterActive.includes(r));
           }
       const idx = selectedIndex;
