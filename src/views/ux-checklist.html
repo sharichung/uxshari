@@ -285,61 +285,27 @@
             </div>
 
             <!-- ROI Filter 面板 (Mobile-Optimized) -->
-            <div id="roi-filter-panel-wrapper" class="d-flex align-items-center gap-2 flex-wrap position-relative">
-              <!-- Mobile: Use dropdown for better UX -->
+            <div id="roi-filter-panel-wrapper" class="roi-filter-wrapper d-flex align-items-center gap-2 flex-wrap position-relative">
+              <!-- Mobile: Dropdown -->
               <div class="d-md-none w-100 mb-3">
-              <div class="dropdown w-100">
-                <button id="roi-filter-toggle" class="btn btn-outline-secondary-shari btn-sm w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="roi-filter-panel">
-                <span><i class="fas fa-filter me-1"></i>ROI 篩選</span>
-                <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="dropdown-menu w-100 p-2" id="roi-filter-panel" style="min-width: 220px;">
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="roi-filter-conversion" value="conversion">
-                  <label class="form-check-label" for="roi-filter-conversion">轉換</label>
-                </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="roi-filter-retention" value="retention">
-                  <label class="form-check-label" for="roi-filter-retention">留存</label>
-                </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="roi-filter-proposal" value="proposal">
-                  <label class="form-check-label" for="roi-filter-proposal">提案</label>
-                </div>
-                <div class="form-check mb-2">
-                  <input class="form-check-input" type="checkbox" id="roi-filter-compliance" value="compliance">
-                  <label class="form-check-label" for="roi-filter-compliance">合規</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="roi-filter-nps" value="nps">
-                  <label class="form-check-label" for="roi-filter-nps">NPS</label>
-                </div>
+                <div class="dropdown w-100">
+                  <button id="roi-filter-toggle" class="btn btn-outline-secondary-shari btn-sm w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span><i class="fas fa-filter me-1"></i>ROI 篩選</span>
+                    <span id="roi-filter-badges-mobile" class="ms-2"></span>
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                  <div class="dropdown-menu w-100 p-2" id="roi-filter-panel-mobile" style="min-width: 220px;">
+                    <div id="roi-filter-options-mobile"></div>
+                    <button id="roi-filter-reset-mobile" class="btn btn-link text-danger w-100 mt-2">清除篩選</button>
+                  </div>
                 </div>
               </div>
-              </div>
-              <!-- Desktop: Inline panel as before -->
-              <div id="roi-filter-panel" class="d-none d-md-flex align-items-center gap-2 flex-wrap roi-panel-content mb-3" style="transition: max-height 0.3s; overflow: hidden; max-height: 1000px;">
-              <label class="form-label mb-0 me-2 d-none d-md-block" style="font-size:0.95em;">ROI 篩選：</label>
-              <div class="form-check form-check-inline mb-0">
-                <input class="form-check-input" type="checkbox" id="roi-filter-conversion" value="conversion">
-                <label class="form-check-label" for="roi-filter-conversion">轉換</label>
-              </div>
-              <div class="form-check form-check-inline mb-0">
-                <input class="form-check-input" type="checkbox" id="roi-filter-retention" value="retention">
-                <label class="form-check-label" for="roi-filter-retention">留存</label>
-              </div>
-              <div class="form-check form-check-inline mb-0">
-                <input class="form-check-input" type="checkbox" id="roi-filter-proposal" value="proposal">
-                <label class="form-check-label" for="roi-filter-proposal">提案</label>
-              </div>
-              <div class="form-check form-check-inline mb-0">
-                <input class="form-check-input" type="checkbox" id="roi-filter-compliance" value="compliance">
-                <label class="form-check-label" for="roi-filter-compliance">合規</label>
-              </div>
-              <div class="form-check form-check-inline mb-0">
-                <input class="form-check-input" type="checkbox" id="roi-filter-nps" value="nps">
-                <label class="form-check-label" for="roi-filter-nps">NPS</label>
-              </div>
+              <!-- Desktop: Inline panel -->
+              <div id="roi-filter-panel-desktop" class="d-none d-md-flex align-items-center gap-2 flex-wrap roi-panel-content mb-3">
+                <label class="form-label mb-0 me-2 d-none d-md-block" style="font-size:0.95em;">ROI 篩選：</label>
+                <div id="roi-filter-options-desktop" class="d-flex gap-2"></div>
+                <button id="roi-filter-reset-desktop" class="btn btn-link text-danger ms-2">清除篩選</button>
+                <span id="roi-filter-badges-desktop" class="ms-2"></span>
               </div>
             </div>
 

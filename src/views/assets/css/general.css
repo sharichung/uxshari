@@ -1,3 +1,36 @@
+/* ROI Filter Panel Styles */
+.roi-badge-selected {
+  background: #f3eaff;
+  color: #6e00ff;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 0.25em 0.75em;
+  font-size: 0.95em;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e0d3fa;
+}
+.form-check-input:checked {
+  border-color: #6e00ff;
+  background-color: #6e00ff;
+}
+.form-check-label {
+  font-weight: 400;
+  transition: font-weight 0.2s, color 0.2s;
+}
+.form-check-input:checked + .form-check-label {
+  font-weight: 700;
+  color: #6e00ff;
+}
+#roi-filter-panel-desktop .form-check-input:focus,
+#roi-filter-panel-mobile .form-check-input:focus {
+  box-shadow: 0 0 0 2px #e0d3fa;
+}
+.roi-filter-wrapper .btn-link.text-danger {
+  color: #d32f2f !important;
+  font-weight: 500;
+  text-decoration: underline;
+}
 /* 白色麵包屑分隔線 */
 .breadcrumb-item+.breadcrumb-item::before {
   float: left;

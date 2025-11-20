@@ -1,3 +1,79 @@
+    // ROI Filter Panel Logic
+    const ROI_OPTIONS = [
+      { value: 'conversion', label: '轉換', icon: 'fa-cart-shopping' },
+      { value: 'retention', label: '留存', icon: 'fa-user-check' },
+      { value: 'proposal', label: '提案', icon: 'fa-file-signature' },
+      { value: 'compliance', label: '合規', icon: 'fa-shield-halved' },
+      { value: 'nps', label: 'NPS', icon: 'fa-face-smile' }
+    ];
+    let selectedROIs = [];
+    function renderROIFilterOptions() {
+      // Mobile
+      const mobile = document.getElementById('roi-filter-options-mobile');
+      if (mobile) mobile.innerHTML = ROI_OPTIONS.map(opt => `
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="roi-filter-mobile-${opt.value}" value="${opt.value}" ${selectedROIs.includes(opt.value) ? 'checked' : ''}>
+          <label class="form-check-label" for="roi-filter-mobile-${opt.value}"><i class="fa-solid ${opt.icon} me-1"></i>${opt.label}</label>
+        </div>
+      `).join('');
+      // Desktop
+      const desktop = document.getElementById('roi-filter-options-desktop');
+      if (desktop) desktop.innerHTML = ROI_OPTIONS.map(opt => `
+        <div class="form-check form-check-inline mb-0">
+          <input class="form-check-input" type="checkbox" id="roi-filter-desktop-${opt.value}" value="${opt.value}" ${selectedROIs.includes(opt.value) ? 'checked' : ''}>
+          <label class="form-check-label" for="roi-filter-desktop-${opt.value}"><i class="fa-solid ${opt.icon} me-1"></i>${opt.label}</label>
+        </div>
+      `).join('');
+    }
+    function renderROIBadges() {
+      const badges = selectedROIs.map(val => {
+        const opt = ROI_OPTIONS.find(o => o.value === val);
+        return `<span class="badge roi-badge-selected me-1"><i class="fa-solid ${opt.icon} me-1"></i>${opt.label}</span>`;
+      }).join('');
+      const mobile = document.getElementById('roi-filter-badges-mobile');
+      if (mobile) mobile.innerHTML = badges;
+      const desktop = document.getElementById('roi-filter-badges-desktop');
+      if (desktop) desktop.innerHTML = badges;
+    }
+    function bindROIFilterEvents() {
+      // Mobile
+      const mobile = document.getElementById('roi-filter-options-mobile');
+      if (mobile) mobile.addEventListener('change', e => {
+        if (e.target.classList.contains('form-check-input')) {
+          updateSelectedROIs(e.target.value, e.target.checked);
+        }
+      });
+      const resetMobile = document.getElementById('roi-filter-reset-mobile');
+      if (resetMobile) resetMobile.onclick = () => { selectedROIs = []; updateROIFilterUI(); };
+      // Desktop
+      const desktop = document.getElementById('roi-filter-options-desktop');
+      if (desktop) desktop.addEventListener('change', e => {
+        if (e.target.classList.contains('form-check-input')) {
+          updateSelectedROIs(e.target.value, e.target.checked);
+        }
+      });
+      const resetDesktop = document.getElementById('roi-filter-reset-desktop');
+      if (resetDesktop) resetDesktop.onclick = () => { selectedROIs = []; updateROIFilterUI(); };
+    }
+    function updateSelectedROIs(value, checked) {
+      if (checked) {
+        if (!selectedROIs.includes(value)) selectedROIs.push(value);
+      } else {
+        selectedROIs = selectedROIs.filter(v => v !== value);
+      }
+      updateROIFilterUI();
+      if (typeof filterChecklistByROI === 'function') filterChecklistByROI(selectedROIs);
+    }
+    function updateROIFilterUI() {
+      renderROIFilterOptions();
+      renderROIBadges();
+    }
+    function initROIFilterPanel() {
+      renderROIFilterOptions();
+      renderROIBadges();
+      bindROIFilterEvents();
+    }
+    document.addEventListener('DOMContentLoaded', initROIFilterPanel);
     import {
       initializeApp,
       getApps
