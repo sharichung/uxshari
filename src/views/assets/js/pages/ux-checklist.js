@@ -596,8 +596,18 @@
         return;
       }
       const checklist = userChecklists[idx];
-      const { totalItems, checkedItems, progress } = computeProgress(checklist);
+      // --- Auto-migrate: 補齊缺少的分類（如 cognitive/emotional）---
       const pt = projectTypes.find(p=>p.id===checklist.projectType) || projectTypes.find(p=>p.id==='general');
+      if (checklist && checklist.items && pt && pt.template) {
+        // 需補齊的類別
+        ["cognitive", "emotional"].forEach(cat => {
+          if (!Array.isArray(checklist.items[cat])) {
+            // 深拷貝 template，避免 reference 問題
+            checklist.items[cat] = pt.template[cat].map(item => ({...item}));
+          }
+        });
+      }
+      const { totalItems, checkedItems, progress } = computeProgress(checklist);
       
       // Update project type badge
       const ptBadge = document.getElementById('detail-project-type');
