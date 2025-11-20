@@ -1371,7 +1371,7 @@ accessibility: [
       const { totalItems, checkedItems, progress } = computeProgress(checklist);
       
       // 類別完成度檢查
-      ['process', 'interface', 'context'].forEach(cat => {
+      ['process', 'interface', 'context', 'cognitive', 'emotional', 'support', 'accessibility'].forEach(cat => {
         const items = checklist.items[cat];
         const catTotal = items.length;
         const catChecked = items.filter(i => i.checked).length;
