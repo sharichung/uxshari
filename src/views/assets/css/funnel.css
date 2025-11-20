@@ -1,3 +1,143 @@
+/* Funnel Hero 區 */
+.funnel-hero {
+  background: linear-gradient(135deg, #ff9500 0%, #6e00ff 100%);
+  color: #fff;
+  padding: 72px 0 48px 0;
+  text-align: center;
+  position: relative;
+}
+.funnel-hero-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 16px rgba(110,0,255,0.08);
+}
+.funnel-hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  color: #fffbe6;
+}
+.funnel-hero-cta .btn {
+  min-width: 160px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem 2.5rem;
+  border-radius: 32px;
+  box-shadow: 0 2px 12px rgba(255,149,0,0.08);
+}
+
+/* 痛點共鳴區 */
+.funnel-painpoints {
+  background: #fff;
+  color: #222;
+  padding: 56px 0 40px 0;
+  text-align: center;
+}
+.funnel-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #ff9500;
+}
+.funnel-pain-list {
+  list-style: disc inside;
+  margin: 0 auto 1.5rem auto;
+  max-width: 480px;
+  text-align: left;
+  color: #6e00ff;
+  font-size: 1.1rem;
+}
+.funnel-pain-list li {
+  margin-bottom: 0.5rem;
+}
+.funnel-pain-desc {
+  color: #b35900;
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  font-weight: 500;
+}
+
+/* 工具展示區 */
+.funnel-features {
+  background: #f8f9fa;
+  color: #222;
+  padding: 56px 0 40px 0;
+  text-align: center;
+}
+.funnel-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 1.5rem auto;
+  max-width: 600px;
+  text-align: left;
+  color: #6e00ff;
+  font-size: 1.1rem;
+}
+.funnel-feature-list li {
+  margin-bottom: 0.75rem;
+}
+.funnel-feature-desc {
+  color: #222;
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  font-weight: 500;
+}
+
+/* 定價區 */
+.funnel-pricing {
+  background: #fff;
+  color: #222;
+  padding: 56px 0 40px 0;
+  text-align: center;
+}
+.funnel-pricing-table-wrapper {
+  overflow-x: auto;
+}
+.funnel-pricing-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(110,0,255,0.06);
+  font-size: 1.05rem;
+}
+.funnel-pricing-table th, .funnel-pricing-table td {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid #f3f3f3;
+}
+.funnel-pricing-table th {
+  background: #f8f9fa;
+  color: #6e00ff;
+  font-weight: 700;
+}
+.funnel-pricing-table tr:last-child td {
+  border-bottom: none;
+}
+.funnel-pricing-cta .btn {
+  min-width: 160px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.75rem 2.5rem;
+  border-radius: 32px;
+  margin-bottom: 0.5rem;
+}
+
+.funnel-footer {
+  background: #f8f9fa;
+  color: #888;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 767px) {
+  .funnel-hero-title { font-size: 1.4rem; }
+  .funnel-section-title { font-size: 1.1rem; }
+  .funnel-pricing-table th, .funnel-pricing-table td { padding: 0.7rem 0.2rem; }
+}
 :root {
   --primary: #ff9500;
   --primary-dark: #e67e00;

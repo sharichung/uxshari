@@ -60,7 +60,71 @@
       { id: 'e_em3', text: '等待物流或付款確認是否導致失望？', checked: false, suggestion: '骨架屏、進度提示' },
       { id: 'e_em4', text: '是否有互動設計讓使用者感到被忽略？', checked: false, suggestion: '確認操作成功、回饋動畫' },
       { id: 'e_em5', text: '是否有情境設計讓使用者感到不被尊重或理解？', checked: false, suggestion: '文化敏感設計、包容性文案' }
-    ]
+    ],
+    support: [
+  {
+    id: 'e_s1',
+    text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+    checked: false,
+    suggestion: '建議：首頁或結帳頁加入明顯的幫助入口'
+  },
+  {
+    id: 'e_s2',
+    text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+    checked: false,
+    suggestion: '參考：導入 chatbot 或標示預估回覆時間'
+  },
+  {
+    id: 'e_s3',
+    text: '退貨、退款、修改訂單等支援流程是否容易理解？',
+    checked: false,
+    suggestion: '優化：用圖示或步驟說明簡化流程'
+  },
+  {
+    id: 'e_s4',
+    text: '是否提供訂單異常處理機制？（付款失敗、庫存不足）',
+    checked: false,
+    suggestion: '必備：明確錯誤訊息與替代方案'
+  },
+  {
+    id: 'e_s5',
+    text: '是否能追蹤客服處理進度？（Ticket 編號、回覆紀錄）',
+    checked: false,
+    suggestion: '透明化：提供查詢入口與進度更新'
+  }
+],accessibility: [
+  {
+    id: 'e_a1',
+    text: '頁面是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+    checked: false,
+    suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
+  },
+  {
+    id: 'e_a2',
+    text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+    checked: false,
+    suggestion: '參考：提供高對比模式與字體調整選項'
+  },
+  {
+    id: 'e_a3',
+    text: '是否支援多語系切換？（尤其是結帳與客服流程）',
+    checked: false,
+    suggestion: '必備：語言切換按鈕與本地化文案'
+  },
+  {
+    id: 'e_a4',
+    text: '互動元素是否有足夠的點擊區域與操作提示？',
+    checked: false,
+    suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
+  },
+  {
+    id: 'e_a5',
+    text: '是否考慮色盲或視覺障礙者的使用情境？',
+    checked: false,
+    suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
+  }
+]
+
   }
 },
       {
@@ -103,7 +167,78 @@
       { id: 'ed_em3', text: '等待批改或回覆是否導致失望？', checked: false, suggestion: '改善：自動批改、快速回覆' },
       { id: 'ed_em4', text: '是否有互動設計讓學員感到被忽略？', checked: false, suggestion: '設計：即時互動、導師回饋' },
       { id: 'ed_em5', text: '是否有情境設計讓學員感到不被尊重或理解？', checked: false, suggestion: '文化敏感設計、包容性文案' }
-    ]
+    ],
+    support: [
+  {
+    id: 'ed_s1',
+    text: '學員遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+    checked: false,
+    suggestion: '建議：課程頁或學習儀表板加入明顯的幫助入口'
+  },
+  {
+    id: 'ed_s2',
+    text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+    checked: false,
+    suggestion: '參考：導入 chatbot 或標示預估回覆時間'
+  },
+  {
+    id: 'ed_s3',
+    text: '是否提供技術支援？（影片無法播放、作業無法提交）',
+    checked: false,
+    suggestion: '必備：技術問題回報機制與即時處理流程'
+  },
+  {
+    id: 'ed_s4',
+    text: '是否能追蹤問題處理進度？（Ticket 編號、回覆紀錄）',
+    checked: false,
+    suggestion: '透明化：提供查詢入口與進度更新'
+  },
+  {
+    id: 'ed_s5',
+    text: '是否提供學習建議或課程選修諮詢？',
+    checked: false,
+    suggestion: '加值：學習顧問、推薦引擎'
+  }
+],
+accessibility: [
+  {
+    id: 'ed_a1',
+    text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+    checked: false,
+    suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
+  },
+  {
+    id: 'ed_a2',
+    text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+    checked: false,
+    suggestion: '參考：提供高對比模式與字體調整選項'
+  },
+  {
+    id: 'ed_a3',
+    text: '是否支援多語系切換？（尤其是課程、測驗、客服流程）',
+    checked: false,
+    suggestion: '必備：語言切換按鈕與本地化文案'
+  },
+  {
+    id: 'ed_a4',
+    text: '影片與教材是否提供字幕、語音描述或文字稿？',
+    checked: false,
+    suggestion: '包容性：提供多種輔助學習方式'
+  },
+  {
+    id: 'ed_a5',
+    text: '互動元素是否有足夠的點擊區域與操作提示？',
+    checked: false,
+    suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
+  },
+  {
+    id: 'ed_a6',
+    text: '是否考慮色盲或視覺障礙者的使用情境？',
+    checked: false,
+    suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
+  }
+]
+
   }
 },
       {
@@ -146,7 +281,72 @@
       { id: 'ob_em3', text: '等待或重複操作是否導致失望？', checked: false, suggestion: '改善：進度提示、避免重複輸入' },
       { id: 'ob_em4', text: '是否有互動設計讓使用者感到被忽略？', checked: false, suggestion: '設計：確認操作成功、回饋動畫' },
       { id: 'ob_em5', text: '引導內容是否讓使用者感到不被尊重或理解？', checked: false, suggestion: '文化敏感設計、包容性文案' }
-    ]
+    ],
+    support: [
+  {
+    id: 'ob_s1',
+    text: '首次使用時是否提供幫助入口？（FAQ、客服、教學重播）',
+    checked: false,
+    suggestion: '建議：在設定或首頁提供明顯的幫助入口'
+  },
+  {
+    id: 'ob_s2',
+    text: '使用者遇到問題時是否能即時獲得支援？',
+    checked: false,
+    suggestion: '參考：導入 chatbot 或顯示預估回覆時間'
+  },
+  {
+    id: 'ob_s3',
+    text: '引導過程中是否有技術問題回報機制？（按鈕失效、頁面卡住）',
+    checked: false,
+    suggestion: '必備：提供「回報問題」按鈕或錯誤提示'
+  },
+  {
+    id: 'ob_s4',
+    text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
+    checked: false,
+    suggestion: '透明化：提供查詢入口與進度更新'
+  },
+  {
+    id: 'ob_s5',
+    text: '是否提供新手引導諮詢或建議？',
+    checked: false,
+    suggestion: '加值：新手顧問、推薦操作路徑'
+  }
+],
+accessibility: [
+  {
+    id: 'ob_a1',
+    text: '引導畫面是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+    checked: false,
+    suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
+  },
+  {
+    id: 'ob_a2',
+    text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+    checked: false,
+    suggestion: '參考：提供高對比模式與字體調整選項'
+  },
+  {
+    id: 'ob_a3',
+    text: '引導影片或動畫是否提供字幕、語音描述或文字稿？',
+    checked: false,
+    suggestion: '包容性：提供多種輔助學習方式'
+  },
+  {
+    id: 'ob_a4',
+    text: '互動元素是否有足夠的點擊區域與操作提示？',
+    checked: false,
+    suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
+  },
+  {
+    id: 'ob_a5',
+    text: '是否考慮色盲或視覺障礙者的使用情境？',
+    checked: false,
+    suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
+  }
+]
+
   }
 },
       {
@@ -189,7 +389,72 @@
       { id: 'saas_em3', text: '等待客服或技術支援是否導致失望？', checked: false, suggestion: '改善：即時客服、快速回覆' },
       { id: 'saas_em4', text: '是否有互動設計讓使用者感到被忽略？', checked: false, suggestion: '設計：確認操作成功、回饋動畫' },
       { id: 'saas_em5', text: '是否有情境設計讓使用者感到不被尊重或理解？', checked: false, suggestion: '文化敏感設計、包容性文案' }
-    ]
+    ],
+    support: [
+  {
+    id: 'saas_s1',
+    text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+    checked: false,
+    suggestion: '建議：在儀表板或設定頁提供明顯的幫助入口'
+  },
+  {
+    id: 'saas_s2',
+    text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+    checked: false,
+    suggestion: '參考：導入 chatbot 或標示預估回覆時間'
+  },
+  {
+    id: 'saas_s3',
+    text: '技術支援是否涵蓋常見問題？（API錯誤、整合失敗）',
+    checked: false,
+    suggestion: '必備：提供錯誤代碼說明與解決方案'
+  },
+  {
+    id: 'saas_s4',
+    text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
+    checked: false,
+    suggestion: '透明化：提供查詢入口與進度更新'
+  },
+  {
+    id: 'saas_s5',
+    text: '是否提供專業顧問或成功案例支援？',
+    checked: false,
+    suggestion: '加值：專屬顧問、最佳實踐分享'
+  }
+],
+accessibility: [
+  {
+    id: 'saas_a1',
+    text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+    checked: false,
+    suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
+  },
+  {
+    id: 'saas_a2',
+    text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+    checked: false,
+    suggestion: '參考：提供高對比模式與字體調整選項'
+  },
+  {
+    id: 'saas_a3',
+    text: '圖表與數據是否提供替代文字或語音描述？',
+    checked: false,
+    suggestion: '包容性：提供文字摘要或語音輔助'
+  },
+  {
+    id: 'saas_a4',
+    text: '互動元素是否有足夠的點擊區域與操作提示？',
+    checked: false,
+    suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
+  },
+  {
+    id: 'saas_a5',
+    text: '是否考慮色盲或視覺障礙者的使用情境？',
+    checked: false,
+    suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
+  }
+]
+
   }
 },
       {
@@ -232,7 +497,71 @@
       { id: 'em3', text: '等待或重複操作是否導致失望？', checked: false, suggestion: '改善：進度提示、避免重複輸入' },
       { id: 'em4', text: '是否有互動設計讓使用者感到被忽略？', checked: false, suggestion: '設計：確認操作成功、回饋動畫' },
       { id: 'em5', text: '產品內容或文案是否讓使用者感到不被尊重或理解？', checked: false, suggestion: '文化敏感設計、包容性文案' }
-    ]
+    ],
+    support: [
+  {
+    id: 's1',
+    text: '使用者遇到問題時是否能快速找到幫助？（FAQ、客服入口）',
+    checked: false,
+    suggestion: '建議：在主要頁面提供明顯的幫助入口'
+  },
+  {
+    id: 's2',
+    text: '客服回應是否即時且有用？（Live chat、回覆時間）',
+    checked: false,
+    suggestion: '參考：導入 chatbot 或標示預估回覆時間'
+  },
+  {
+    id: 's3',
+    text: '是否提供技術支援？（登入失敗、功能異常）',
+    checked: false,
+    suggestion: '必備：錯誤回報機制與即時處理流程'
+  },
+  {
+    id: 's4',
+    text: '是否能追蹤支援請求進度？（Ticket 編號、回覆紀錄）',
+    checked: false,
+    suggestion: '透明化：提供查詢入口與進度更新'
+  },
+  {
+    id: 's5',
+    text: '是否提供使用建議或最佳實踐？',
+    checked: false,
+    suggestion: '加值：知識庫、案例分享'
+  }
+],
+accessibility: [
+  {
+    id: 'a1',
+    text: '平台是否支援無障礙瀏覽？（螢幕閱讀器、鍵盤操作）',
+    checked: false,
+    suggestion: '建議：加入 aria 標籤、確保 tab 鍵可操作'
+  },
+  {
+    id: 'a2',
+    text: '文字大小、對比度是否足夠？是否能自訂顯示方式？',
+    checked: false,
+    suggestion: '參考：提供高對比模式與字體調整選項'
+  },
+  {
+    id: 'a3',
+    text: '是否支援多語系切換？（尤其是註冊、客服流程）',
+    checked: false,
+    suggestion: '必備：語言切換按鈕與本地化文案'
+  },
+  {
+    id: 'a4',
+    text: '互動元素是否有足夠的點擊區域與操作提示？',
+    checked: false,
+    suggestion: '優化：放大點擊區域、加入 hover/active 狀態'
+  },
+  {
+    id: 'a5',
+    text: '是否考慮色盲或視覺障礙者的使用情境？',
+    checked: false,
+    suggestion: '設計：避免單一色彩傳達資訊、加入圖示輔助'
+  }
+]
   }
 }
 
@@ -596,13 +925,11 @@
         return;
       }
       const checklist = userChecklists[idx];
-      // --- Auto-migrate: 補齊缺少的分類（如 cognitive/emotional）---
+      // --- Auto-migrate: 補齊缺少的分類（如 cognitive/emotional/support/accessibility）---
       const pt = projectTypes.find(p=>p.id===checklist.projectType) || projectTypes.find(p=>p.id==='general');
       if (checklist && checklist.items && pt && pt.template) {
-        // 需補齊的類別
-        ["cognitive", "emotional"].forEach(cat => {
-          if (!Array.isArray(checklist.items[cat])) {
-            // 深拷貝 template，避免 reference 問題
+        ["cognitive", "emotional", "support", "accessibility"].forEach(cat => {
+          if (!Array.isArray(checklist.items[cat]) && Array.isArray(pt.template[cat])) {
             checklist.items[cat] = pt.template[cat].map(item => ({...item}));
           }
         });
@@ -737,7 +1064,9 @@
         section('介面痛點','fas fa-window-maximize','interface'),
         section('情境痛點','fas fa-users','context'),
         section('認知痛點','fas fa-brain','cognitive'),
-        section('情緒痛點','fas fa-heartbeat','emotional')
+        section('情緒痛點','fas fa-heartbeat','emotional'),
+        section('支援性痛點','fas fa-hands-helping','support'),
+        section('可及性痛點','fas fa-universal-access','accessibility')
       ].join('');
       elements.detailSections.innerHTML = html;
 
