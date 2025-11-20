@@ -1,6 +1,1 @@
-// Load navbar
-fetch('/navbar.html')
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('navbar-placeholder').innerHTML = html;
-  });
+fetch("/navbar.html").then(e=>e.text()).then(e=>{document.getElementById("navbar-placeholder").innerHTML=e});

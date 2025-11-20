@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const CleanCSS = require("clean-css");
+const terser = require("terser");
 
 // 先清空 docs 目錄，避免遺留舊檔（保留 CNAME/.nojekyll）
 function cleanDocs(dir = "docs") {
@@ -129,22 +131,42 @@ ensureDir("docs/assets/css");
 if (fs.existsSync("src/views/assets/css")) {
     const cssFiles = fs.readdirSync("src/views/assets/css").filter(f => f.endsWith(".css"));
     cssFiles.forEach(file => {
-        fs.copyFileSync(`src/views/assets/css/${file}`, `docs/assets/css/${file}`);
+        const src = `src/views/assets/css/${file}`;
+        const dest = `docs/assets/css/${file}`;
+        const css = fs.readFileSync(src, "utf-8");
+        const minified = new CleanCSS({}).minify(css).styles;
+        fs.writeFileSync(dest, minified, "utf-8");
     });
 }
 
 // 複製 JS 資料夾
 const jsDirs = ["auth", "layout", "visual", "pages"];
-jsDirs.forEach(subdir => {
-    const from = path.join("src/views/assets/js", subdir);
-    const to = path.join("docs/assets/js", subdir);
+
+function copyAndMinifyJsDir(from, to) {
     ensureDir(to);
-    if (fs.existsSync(from)) {
-        const files = fs.readdirSync(from);
-        files.forEach(file => {
-            fs.copyFileSync(path.join(from, file), path.join(to, file));
-        });
-    }
+    if (!fs.existsSync(from)) return;
+    const entries = fs.readdirSync(from, { withFileTypes: true });
+    entries.forEach(entry => {
+        const src = path.join(from, entry.name);
+        const dest = path.join(to, entry.name);
+        if (entry.isDirectory()) {
+            copyAndMinifyJsDir(src, dest);
+        } else if (entry.isFile() && entry.name.endsWith('.js')) {
+            const js = fs.readFileSync(src, 'utf-8');
+            terser.minify(js).then(minified => {
+                fs.writeFileSync(dest, minified.code || js, 'utf-8');
+            }).catch(() => {
+                fs.writeFileSync(dest, js, 'utf-8');
+            });
+        } else if (entry.isFile()) {
+            fs.copyFileSync(src, dest);
+        }
+    });
+}
+jsDirs.forEach(subdir => {
+    const from = path.join('src/views/assets/js', subdir);
+    const to = path.join('docs/assets/js', subdir);
+    copyAndMinifyJsDir(from, to);
 });
 
 // 複製根層 JS 檔案
@@ -154,9 +176,18 @@ if (fs.existsSync(jsDir)) {
     const allJs = fs.readdirSync(jsDir);
     allJs.forEach(file => {
         const fullPath = path.join(jsDir, file);
+        const dest = path.join("docs/assets/js", file);
         if (fs.statSync(fullPath).isFile() && file.endsWith(".js")) {
-            fs.copyFileSync(fullPath, path.join("docs/assets/js", file));
+            const js = fs.readFileSync(fullPath, "utf-8");
+            terser.minify(js).then(minified => {
+                fs.writeFileSync(dest, minified.code || js, "utf-8");
+            }).catch(() => {
+                fs.writeFileSync(dest, js, "utf-8");
+            });
+        } else if (fs.statSync(fullPath).isFile()) {
+            fs.copyFileSync(fullPath, dest);
         }
+        // 若是資料夾則跳過
     });
 }
 

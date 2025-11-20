@@ -19,6 +19,8 @@
   "homepage": "https://github.com/sharichung/uxshari#readme",
   "dependencies": {
     "firebase-admin": "^13.6.0",
-    "stripe": "^19.3.1"
+    "stripe": "^19.3.1",
+    "clean-css": "^5.3.3",
+    "terser": "^5.27.0"
   }
 }
