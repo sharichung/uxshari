@@ -1381,7 +1381,11 @@ accessibility: [
           const categoryNames = {
             process: '流程痛點',
             interface: '介面痛點',
-            context: '情境痛點'
+            context: '情境痛點',
+            cognitive: '認知痛點',
+            emotional: '情緒痛點',
+            support: '支援性痛點',
+            accessibility: '可及性痛點'
           };
           showAchievement(
             `${categoryNames[cat]}類別全部完成！`,
@@ -1396,7 +1400,11 @@ accessibility: [
             const categoryNames = {
               process: '流程痛點',
               interface: '介面痛點',
-              context: '情境痛點'
+              context: '情境痛點',
+              cognitive: '認知痛點',
+              emotional: '情緒痛點',
+              support: '支援性痛點',
+              accessibility: '可及性痛點'
             };
             showAchievement(
               `${categoryNames[cat]}快完成了！`,
