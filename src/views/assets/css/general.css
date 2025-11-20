@@ -2313,6 +2313,12 @@ body {
   z-index: 1;
 }
 
+@media (max-width: 767px) {
+  .hero-section {
+    margin-bottom: 0;
+  }
+}
+
 /* Star twinkle effect for .hero-section */
 .hero-section .twinkle-star {
   position: absolute;
