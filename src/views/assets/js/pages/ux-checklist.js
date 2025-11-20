@@ -1059,15 +1059,21 @@ accessibility: [
           </div>
         </div>`;
       };
-      const html = [
-        section('流程痛點','fas fa-route','process'),
-        section('介面痛點','fas fa-window-maximize','interface'),
-        section('情境痛點','fas fa-users','context'),
-        section('認知痛點','fas fa-brain','cognitive'),
-        section('情緒痛點','fas fa-heartbeat','emotional'),
-        section('支援性痛點','fas fa-hands-helping','support'),
-        section('可及性痛點','fas fa-universal-access','accessibility')
-      ].join('');
+      // 自動根據 checklist.items 的 key 產生 section，確保所有分類都能折疊
+      const categoryMeta = {
+        process: { title: '流程痛點', icon: 'fas fa-route' },
+        interface: { title: '介面痛點', icon: 'fas fa-window-maximize' },
+        context: { title: '情境痛點', icon: 'fas fa-users' },
+        cognitive: { title: '認知痛點', icon: 'fas fa-brain' },
+        emotional: { title: '情緒痛點', icon: 'fas fa-heartbeat' },
+        support: { title: '支援性痛點', icon: 'fas fa-hands-helping' },
+        accessibility: { title: '可及性痛點', icon: 'fas fa-universal-access' }
+        // 若有新分類，預設 icon
+      };
+      const html = Object.keys(checklist.items).map(cat => {
+        const meta = categoryMeta[cat] || { title: cat, icon: 'fas fa-folder' };
+        return section(meta.title, meta.icon, cat);
+      }).join('');
       elements.detailSections.innerHTML = html;
 
       // 修正：折疊按鈕支援所有類別
