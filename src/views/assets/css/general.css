@@ -5,6 +5,7 @@
   color: #fff;
   content: var(--bs-breadcrumb-divider, "/");
 }
+
 /* ========================================
    UX SHARI COLOR SYSTEM
    專業、親切、現代感配色體系
@@ -2324,41 +2325,81 @@ body {
 }
 
 .hero-section .twinkle-star.star1 {
-  width: 6px; height: 6px; top: 18%; left: 12%;
+  width: 6px;
+  height: 6px;
+  top: 18%;
+  left: 12%;
   animation-delay: 0s;
 }
+
 .hero-section .twinkle-star.star2 {
-  width: 4px; height: 4px; top: 32%; left: 80%;
+  width: 4px;
+  height: 4px;
+  top: 32%;
+  left: 80%;
   animation-delay: 0.7s;
 }
+
 .hero-section .twinkle-star.star3 {
-  width: 8px; height: 8px; top: 55%; left: 35%;
+  width: 8px;
+  height: 8px;
+  top: 55%;
+  left: 35%;
   animation-delay: 1.2s;
 }
+
 .hero-section .twinkle-star.star4 {
-  width: 5px; height: 5px; top: 70%; left: 60%;
+  width: 5px;
+  height: 5px;
+  top: 70%;
+  left: 60%;
   animation-delay: 1.7s;
 }
+
 .hero-section .twinkle-star.star5 {
-  width: 7px; height: 7px; top: 40%; left: 45%;
+  width: 7px;
+  height: 7px;
+  top: 40%;
+  left: 45%;
   animation-delay: 0.4s;
 }
+
 .hero-section .twinkle-star.star6 {
-  width: 3px; height: 3px; top: 80%; left: 20%;
+  width: 3px;
+  height: 3px;
+  top: 80%;
+  left: 20%;
   animation-delay: 1.9s;
 }
+
 .hero-section .twinkle-star.star7 {
-  width: 5px; height: 5px; top: 25%; left: 65%;
+  width: 5px;
+  height: 5px;
+  top: 25%;
+  left: 65%;
   animation-delay: 1.3s;
 }
+
 .hero-section .twinkle-star.star8 {
-  width: 4px; height: 4px; top: 60%; left: 75%;
+  width: 4px;
+  height: 4px;
+  top: 60%;
+  left: 75%;
   animation-delay: 0.9s;
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.3; transform: scale(0.5);}
-  50% { opacity: 1; transform: scale(1);}
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.5);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .checklist-card {
@@ -2454,7 +2495,8 @@ body {
 
 .checklist-item {
   display: flex;
-  align-items: center; /* y 軸置中 */
+  align-items: center;
+  /* y 軸置中 */
   padding: 0.75rem;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
@@ -2742,6 +2784,9 @@ body {
 
 .checklist-item.checked .checklist-item-text {
   color: #10b981;
+}
+
+.item-text.checked {
   text-decoration: line-through;
 }
 
