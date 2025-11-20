@@ -1275,7 +1275,7 @@ accessibility: [
       if (collapseAllBtn) {
         collapseAllBtn.onclick = () => {
           // 支援所有類別（含 cognitive/emotional）
-          const allCategories = ['process','interface','context','cognitive','emotional'];
+          const allCategories = ['process','interface','context','cognitive','emotional','support','accessibility'];
           const allCollapsed = allCategories.every(cat => collapsedCategories.has(cat));
           if (allCollapsed) {
             // 全部展開
