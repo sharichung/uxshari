@@ -925,16 +925,16 @@
       const collapseAllBtn = document.getElementById('collapse-all-btn');
       if (collapseAllBtn) {
         collapseAllBtn.onclick = () => {
-          const allCollapsed = collapsedCategories.size === 3;
+          // 支援所有類別（含 cognitive/emotional）
+          const allCategories = ['process','interface','context','cognitive','emotional'];
+          const allCollapsed = allCategories.every(cat => collapsedCategories.has(cat));
           if (allCollapsed) {
             // 全部展開
             collapsedCategories.clear();
             collapseAllBtn.innerHTML = '<i class="fas fa-compress-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-compress-alt me-1"></i>折疊</span><span class="d-md-none">折疊</span>';
           } else {
             // 全部折疊
-            collapsedCategories.add('process');
-            collapsedCategories.add('interface');
-            collapsedCategories.add('context');
+            allCategories.forEach(cat => collapsedCategories.add(cat));
             collapseAllBtn.innerHTML = '<i class="fas fa-expand-alt d-md-none"></i><span class="d-none d-md-inline"><i class="fas fa-expand-alt me-1"></i>展開</span><span class="d-md-none">展開</span>';
           }
           renderDetail();
