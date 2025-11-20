@@ -1,3 +1,9 @@
+    // ROI 篩選主邏輯：根據 selectedROIs 過濾 pain point，並觸發 renderDetail()
+    let roiFilterActive = [];
+    function filterChecklistByROI(selected) {
+      roiFilterActive = Array.isArray(selected) ? selected.slice() : [];
+      renderDetail();
+    }
     // ROI Filter Panel Logic
     const ROI_OPTIONS = [
       { value: 'conversion', label: '轉換', icon: 'fa-cart-shopping' },
@@ -1835,6 +1841,12 @@
     }
 
     function renderDetail() {
+          // ROI 篩選：包裝原 pain point 過濾邏輯
+          function filterByROI(item) {
+            if (!roiFilterActive || roiFilterActive.length === 0) return true;
+            if (!item.roi || !Array.isArray(item.roi)) return false;
+            return item.roi.some(r => roiFilterActive.includes(r));
+          }
       const idx = selectedIndex;
       const toolbar = document.getElementById('detail-toolbar');
       const meta = document.getElementById('detail-meta');
@@ -1968,8 +1980,7 @@
       };
       const section = (title, iconClass, catArrName) => {
         const items = checklist.items[catArrName];
-        let filteredItems = items;
-
+        let filteredItems = items.filter(filterByROI);
         // 應用多重篩選
         if (showPriorityOnly) {
           filteredItems = filteredItems.filter(i => i.priority);
