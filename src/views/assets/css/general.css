@@ -3508,7 +3508,8 @@ body {
   .navbar,
   .footer,
   .progress,
-  .collapse-btn {
+  .collapse-btn,
+  #roi-filter-panel-wrapper {
     display: none !important;
   }
 
