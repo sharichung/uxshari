@@ -1070,6 +1070,20 @@ accessibility: [
       ].join('');
       elements.detailSections.innerHTML = html;
 
+      // 修正：折疊按鈕支援所有類別
+      document.querySelectorAll('.collapse-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const cat = btn.getAttribute('data-toggle-category');
+          if (!cat) return;
+          if (collapsedCategories.has(cat)) {
+            collapsedCategories.delete(cat);
+          } else {
+            collapsedCategories.add(cat);
+          }
+          renderDetail();
+        });
+      });
+
       // Wire dropdown menu actions
       document.querySelectorAll('.dropdown-item[data-action]').forEach(item => {
         item.addEventListener('click', async (e) => {

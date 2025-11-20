@@ -3,239 +3,488 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UX 五維痛點清單，快速定位使用者卡關點，提升轉換率。支援 PDF 匯出與產業模板，設計師與顧問必備工具。" />
-  <meta property="og:title" content="UX 五維痛點清單｜設計師、顧問、PM 都在用的痛點快篩工具" />
-  <meta property="og:description" content="快速定位使用者卡關點，提升轉換率。支援 PDF 匯出與產業模板，設計師與顧問必備工具。" />
+  <meta name="description" content="UX 七維痛點檢查表：快速定位用戶體驗痛點，提升電商轉換率、SaaS 留存率、客服 NPS；支援合規（WCAG/ADA）、PDF 匯出與產業模板。" />
+  <meta property="og:title" content="UX 七維痛點檢查表｜電商、SaaS、顧問、合規、客服通用的用戶體驗工具" />
+  <meta property="og:description" content="用戶體驗痛點快篩：電商結帳優化、SaaS Onboarding、顧問報告、合規可及性、客服支援流程，七維完整檢查，一鍵 PDF 匯出。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://uxshari.com/funnel.html" />
-  <meta property="og:image" content="https://placehold.co/1200x630?text=UX+Checklist+Preview" />
+  <meta property="og:image" content="https://placehold.co/1200x630?text=UX+7D+Checklist" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="UX 五維痛點清單｜設計師、顧問、PM 都在用的痛點快篩工具" />
-  <meta name="twitter:description" content="快速定位使用者卡關點，提升轉換率。支援 PDF 匯出與產業模板，設計師與顧問必備工具。" />
-  <meta name="twitter:image" content="https://placehold.co/1200x630?text=UX+Checklist+Preview" />
-  <title>UX 五維痛點清單 Funnel</title>
+  <meta name="twitter:title" content="UX 七維痛點檢查表｜提升轉換率、留存率、NPS" />
+  <meta name="twitter:description" content="UX is everywhere. UX 人人識：七維檢查（流程、介面、情境、認知、情緒、支援性、可及性），一頁報告，立刻行動。" />
+  <title>UX 七維痛點檢查 Funnel</title>
   <link rel="stylesheet" href="assets/css/funnel.css">
   <link rel="stylesheet" href="assets/css/general.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Noto Sans TC', sans-serif; }
-  </style>
+  <style>body { font-family: 'Noto Sans TC', sans-serif; }</style>
 </head>
 <body>
-  <!-- Hero 區 -->
-  <section class="funnel-hero">
+
+  <!-- Hero 區：A/B 測試三變體 -->
+  <section class="funnel-hero" id="funnel-hero-ab">
     <div class="container">
-      <h1 class="funnel-hero-title">👉 快速定位 UX 痛點，讓轉換率不再流失</h1>
-      <p class="funnel-hero-subtitle">流程、介面、情境、認知、情緒五大面向，一次掌握使用者卡關點 + 解法</p>
-      <p class="funnel-hero-tagline"><strong>設計師、PM、顧問都在用的 UX 決策加速器</strong></p>
-      <div class="funnel-hero-demo mt-4 mb-4">
-        <img src="https://placehold.co/600x320?text=UX+Checklist+Demo" alt="UX 清單畫面與 PDF 匯出示意圖" style="max-width:100%;border-radius:18px;box-shadow:0 4px 32px rgba(110,0,255,0.10);background:#fff;" loading="lazy">
+      <div id="hero-ab-ecom" style="display:none">
+        <h1 class="funnel-hero-title">👉 電商 UX：結帳痛點減少，轉換率立刻提升</h1>
+        <p class="funnel-hero-subtitle">流程精簡、明確 CTA、客服入口，三步驟提升 ROI</p>
+        <p class="funnel-hero-tagline"><strong>電商/行銷團隊專用，提升結帳完成率</strong></p>
+        <div class="funnel-hero-cta" style="margin-top:18px;">
+          <a href="#quiz" class="btn btn-primary-shari btn-lg ab-cta" data-ab="ecom">馬上檢查結帳痛點，提升 ROI</a>
+          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg ab-cta" data-ab="ecom">免費試用，3 分鐘完成第一份清單</a>
+        </div>
       </div>
-      <div class="funnel-hero-cta">
-        <div class="funnel-hero-cta-roles" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-bottom:8px;">
-          <a href="#pricing" class="btn btn-primary-shari btn-lg" style="min-width:220px;">設計師：馬上標記痛點，讓團隊聚焦</a>
-          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg" style="min-width:220px;">PM：3 分鐘匯出報告，快速對齊決策</a>
-          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg" style="min-width:220px;">顧問：一頁報告，提案更有說服力</a>
+      <div id="hero-ab-saas" style="display:none">
+        <h1 class="funnel-hero-title">👉 SaaS Onboarding：減少卡關，留存率提升 15%</h1>
+        <p class="funnel-hero-subtitle">分步體驗、互動教學、可及性檢查，降低 churn</p>
+        <p class="funnel-hero-tagline"><strong>SaaS 產品團隊專用，提升用戶留存</strong></p>
+        <div class="funnel-hero-cta" style="margin-top:18px;">
+          <a href="#quiz" class="btn btn-primary-shari btn-lg ab-cta" data-ab="saas">立即分析 Onboarding，提升留存</a>
+          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg ab-cta" data-ab="saas">免費試用，3 分鐘完成第一份清單</a>
+        </div>
+      </div>
+      <div id="hero-ab-consult" style="display:none">
+        <h1 class="funnel-hero-title">👉 顧問/代理商：一頁痛點報告，提案更有說服力</h1>
+        <p class="funnel-hero-subtitle">七維檢查 + PDF 報告，交付更專業</p>
+        <p class="funnel-hero-tagline"><strong>顧問/代理商專用，提升提案成功率</strong></p>
+        <div class="funnel-hero-cta" style="margin-top:18px;">
+          <a href="#quiz" class="btn btn-primary-shari btn-lg ab-cta" data-ab="consult">生成一頁痛點報告，交付更專業</a>
+          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg ab-cta" data-ab="consult">免費試用，3 分鐘完成第一份清單</a>
+        </div>
+      </div>
+      <div id="hero-ab-default">
+        <h1 class="funnel-hero-title">👉 快速定位用戶體驗痛點，直接提升轉換率、留存率、NPS</h1>
+        <p class="funnel-hero-subtitle">流程、介面、情境、認知、情緒 + 支援性、可及性｜七維一次掌握，UX is everywhere.</p>
+        <p class="funnel-hero-tagline"><strong>UX 人人識，因為用戶體驗比英語更重要。</strong></p>
+        <div class="role-tabs" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px;">
+          <a href="#role-ecom" class="btn btn-primary-shari btn-sm">電商/行銷（轉換率）</a>
+          <a href="#role-saas" class="btn btn-outline-secondary-shari btn-sm">SaaS（留存率）</a>
+          <a href="#role-consult" class="btn btn-outline-secondary-shari btn-sm">顧問/代理商（提案成功率）</a>
+          <a href="#role-legal" class="btn btn-outline-secondary-shari btn-sm">合規/法務（WCAG/ADA）</a>
+          <a href="#role-cx" class="btn btn-outline-secondary-shari btn-sm">客服/客戶成功（NPS）</a>
+          <a href="#role-ux" class="btn btn-outline-secondary-shari btn-sm">UX/產品團隊（週會效率）</a>
+          <a href="#role-global" class="btn btn-outline-secondary-shari btn-sm">跨國產品（多語系/可及性）</a>
+          <a href="#role-edu" class="btn btn-outline-secondary-shari btn-sm">教育平台（學員留存）</a>
+          <a href="#role-pitch" class="btn btn-outline-secondary-shari btn-sm">創業 Pitch Deck（投資人）</a>
+          <a href="#role-research" class="btn btn-outline-secondary-shari btn-sm">學術/研究（用戶研究）</a>
+        </div>
+        <div class="funnel-hero-cta" style="margin-top:18px;">
+          <a href="#quiz" class="btn btn-primary-shari btn-lg">30 秒痛點快測 → 生成你的 ROI 建議</a>
+          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg">首月免費試用（$0 → $9.99/月）</a>
         </div>
       </div>
     </div>
   </section>
-    <!-- 痛點統計圖區 -->
-    <section class="funnel-stats" style="background:#f8f9fa;padding:48px 0 32px 0;">
-      <div class="container" style="text-align:center;">
-        <h2 class="funnel-section-title" style="color:#6e00ff;">常見 UX 痛點分布統計</h2>
-        <p>來自 500+ UX 專案的真實統計：最常見的卡關類型如下</p>
-        <ul style="text-align:left;max-width:480px;margin:0 auto 1.5rem auto;">
-          <li>流程痛點：42%</li>
-          <li>介面痛點：31%</li>
-          <li>情緒痛點：18%</li>
-          <li>其他（認知、情境）：9%</li>
-        </ul>
-        <p style="color:#6e00ff;">這些數據來自真實 UX 專案，幫助你快速聚焦最常見問題</p>
-      </div>
-    </section>
-  <!-- UX 團隊會議情境示意圖區 -->
-  <section class="funnel-scenario" style="background:#fffbe6;padding:48px 0 32px 0;">
-    <div class="container" style="text-align:center;">
-      <h2 class="funnel-section-title" style="color:#ff9500;">真實情境：UX 團隊會議現場</h2>
-      <p><strong>真實場景：</strong>UX 團隊正在用痛點清單對齊產品方向</p>
-      <p>設計師標記痛點 → PM 匯出報告 → 團隊 10 分鐘內對齊決策</p>
-      <div class="funnel-scenario-flow" style="color:#6e00ff;font-size:1.05em;max-width:600px;margin:0 auto 2rem auto;text-align:left;">
-        <strong>使用流程：</strong>
-        <ol style="margin:0 0 0 1.2em;padding:0;">
-          <li>開啟清單</li>
-          <li>設計師標記痛點</li>
-          <li>PM 匯出報告</li>
-          <li>團隊 10 分鐘內對齊決策</li>
-        </ol>
-      </div>
-      <img src="https://placehold.co/800x360?text=UX+Team+Meeting+Scenario" alt="UX 團隊會議使用五維痛點清單的情境示意圖" style="max-width:100%;border-radius:18px;box-shadow:0 4px 32px rgba(255,149,0,0.10);background:#fff;" loading="lazy">
+  <script>
+    // Hero 三變體 A/B 測試切換
+    (function() {
+      function getAB() {
+        const m = location.search.match(/[?&]ab=(ecom|saas|consult)/);
+        return m ? m[1] : null;
+      }
+      var ab = getAB();
+      if (ab === 'ecom') {
+        document.getElementById('hero-ab-ecom').style.display = '';
+        document.getElementById('hero-ab-default').style.display = 'none';
+      } else if (ab === 'saas') {
+        document.getElementById('hero-ab-saas').style.display = '';
+        document.getElementById('hero-ab-default').style.display = 'none';
+      } else if (ab === 'consult') {
+        document.getElementById('hero-ab-consult').style.display = '';
+        document.getElementById('hero-ab-default').style.display = 'none';
+      } else {
+        document.getElementById('hero-ab-default').style.display = '';
+      }
+    })();
+  </script>
+
+  <!-- 角色化 ROI + 案例數據 -->
+  <!-- 角色區塊 SEO 內鏈導覽 -->
+  <nav class="role-silo-nav container" style="margin-top:28px;margin-bottom:12px;">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+      <a href="#role-ecom" class="btn btn-outline-secondary-shari btn-sm">電商 UX</a>
+      <a href="#role-saas" class="btn btn-outline-secondary-shari btn-sm">SaaS UX</a>
+      <a href="#role-consult" class="btn btn-outline-secondary-shari btn-sm">顧問/代理商</a>
+      <a href="#role-legal" class="btn btn-outline-secondary-shari btn-sm">合規/法務</a>
+      <a href="#role-cx" class="btn btn-outline-secondary-shari btn-sm">客服/客戶成功</a>
+      <a href="#role-ux" class="btn btn-outline-secondary-shari btn-sm">UX/產品團隊</a>
+      <a href="#role-global" class="btn btn-outline-secondary-shari btn-sm">跨國產品</a>
+      <a href="#role-edu" class="btn btn-outline-secondary-shari btn-sm">教育平台</a>
+      <a href="#role-pitch" class="btn btn-outline-secondary-shari btn-sm">創業 Pitch Deck</a>
+      <a href="#role-research" class="btn btn-outline-secondary-shari btn-sm">學術/研究</a>
+    </div>
+  </nav>
+  <section class="role-panels container">
+    <!-- 電商/行銷 -->
+    <div id="role-ecom" class="role-panel">
+      <h2 id="role-ecom-h2">電商 UX｜結帳痛點 → 轉換率提升</h2>
+      <h3>電商 UX 案例</h3>
+      <p>熱門關鍵字：電商 UX、購物流程優化、結帳痛點、轉換率提升、行銷漏斗</p>
+      <ol class="case-3step">
+        <li><strong>痛點：</strong>結帳流程步驟多、欄位複雜，使用者容易中斷。</li>
+        <li><strong>優化動作：</strong>精簡流程、明確 CTA、加上客服入口（支援性）。</li>
+        <li><strong>指標提升：</strong>結帳痛點每減少 1 項，轉換率提升 5–12%，營收直接增加。</li>
+      </ol>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">立即檢查你的結帳流程</a>
+    </div>
+
+    <!-- SaaS 產品 -->
+    <div id="role-saas" class="role-panel">
+      <h2 id="role-saas-h2">SaaS UX｜Onboarding 痛點 → 留存率提升</h2>
+      <h3>SaaS UX 案例</h3>
+      <p>熱門關鍵字：SaaS UX、Onboarding 流程、降低 churn、留存率提升</p>
+      <ol class="case-3step">
+        <li><strong>痛點：</strong>新用戶註冊後不知如何開始，Onboarding 卡關流失。</li>
+        <li><strong>優化動作：</strong>分步體驗、互動教學、加上字幕/鍵盤操作（可及性）。</li>
+        <li><strong>指標提升：</strong>Onboarding 痛點每減少 1 項，D30 留存率提升 10–15%，churn 下降。</li>
+      </ol>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">立即分析你的 Onboarding</a>
+    </div>
+
+    <!-- 顧問/代理商 -->
+    <div id="role-consult" class="role-panel">
+      <h2 id="role-consult-h2">顧問/代理商 UX｜一頁痛點報告 → 提案成功率提升</h2>
+      <h3>顧問/代理商 UX 案例</h3>
+      <p>熱門關鍵字：UX 顧問工具、設計顧問報告、用戶研究報告、顧問交付物</p>
+      <ol class="case-3step">
+        <li><strong>痛點：</strong>傳統報告冗長，客戶難以聚焦重點，決策拖延。</li>
+        <li><strong>優化動作：</strong>七維檢查、pin 清單、notes，並一鍵匯出 PDF 報告。</li>
+        <li><strong>指標提升：</strong>報告交付時間縮短 40%，客戶快速理解，簽單率上升。</li>
+      </ol>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">生成你的提案一頁報告</a>
+    </div>
+
+    <!-- 合規/法務 -->
+    <div id="role-legal" class="role-panel">
+      <h2 id="role-legal-h2">合規/法務 UX｜WCAG/ADA 檢查 → 法律風險降低</h2>
+      <h3>合規/法務 UX 案例</h3>
+      <p>熱門關鍵字：UX 合規、無障礙檢查、可及性設計、WCAG、ADA、GDPR</p>
+      <ol class="case-3step">
+        <li><strong>痛點：</strong>缺乏可及性檢查，網站不符 WCAG/ADA，潛在法律風險。</li>
+        <li><strong>優化動作：</strong>ARIA、對比度、字幕、鍵盤操作、語言切換（可及性七維）。</li>
+        <li><strong>指標提升：</strong>可及性痛點改善，風險預警，避免訴訟與品牌損害。</li>
+      </ol>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">立即進行可及性快速檢核</a>
+    </div>
+
+    <!-- 客服/客戶成功 -->
+    <div id="role-cx" class="role-panel">
+      <h2 id="role-cx-h2">客服/客戶成功 UX｜支援流程透明 → NPS 提升</h2>
+      <h3>客服/客戶成功 UX 案例</h3>
+      <p>熱門關鍵字：客服 UX、客戶成功工具、NPS 提升、支援流程優化</p>
+      <ol class="case-3step">
+        <li><strong>痛點：</strong>支援流程不透明，客戶無法追蹤進度，NPS 下降。</li>
+        <li><strong>優化動作：</strong>清楚入口、SLA 標示、進度追蹤、FAQ 可視化（支援性七維）。</li>
+        <li><strong>指標提升：</strong>NPS 提升 15–20%，投訴率下降。</li>
+      </ol>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">優化你的支援流程</a>
+    </div>
+
+    <!-- UX/產品團隊週會 -->
+    <div id="role-ux" class="role-panel">
+      <h2 id="role-ux-h2">UX/產品團隊｜痛點清單 → 決策效率提升</h2>
+      <h3>UX/產品團隊 案例</h3>
+      <p>熱門關鍵字：UX 團隊工具、產品會議效率、痛點清單、UX 決策工具</p>
+      <ol class="case-3step">
+        <li><strong>痛點：</strong>會議討論發散，痛點難聚焦，決策效率低。</li>
+        <li><strong>優化動作：</strong>pin 清單、notes、tips，三步（標記→分組→匯出）。</li>
+        <li><strong>指標提升：</strong>會議時間縮短 40%，10 分鐘內對齊決策。</li>
+      </ol>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">用痛點清單加速你的週會</a>
+          <!-- 桌面專屬功能提示與圖示 -->
+          <div class="desktop-feature-tip" style="margin-top:18px;padding:14px 18px;background:#eaf6ff;border-radius:8px;display:flex;align-items:center;gap:14px;">
+            <span style="display:inline-flex;align-items:center;">
+              <!-- Pin SVG -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#6e00ff" style="margin-right:6px;"><path d="M16.7 2.3a1 1 0 0 1 1.4 1.4l-2.1 2.1 3.5 3.5a1 1 0 0 1-1.4 1.4l-2.1-2.1-7.6 7.6a2 2 0 0 0-.5 1l-.3 1.2-1.2.3a2 2 0 0 0-1 0.5l-1.1 1.1a1 1 0 1 1-1.4-1.4l1.1-1.1a2 2 0 0 0 .5-1l.3-1.2 1.2-.3a2 2 0 0 0 1-.5l7.6-7.6-2.1-2.1a1 1 0 0 1 1.4-1.4l3.5 3.5z"></path></svg>
+              <!-- Drag SVG (animated) -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#0099cc" style="animation:dragmove 1.2s infinite alternate cubic-bezier(.4,1.6,.6,1);"><rect x="7" y="10" width="10" height="4" rx="2"/><rect x="11" y="6" width="2" height="2" rx="1"/><rect x="11" y="16" width="2" height="2" rx="1"/></svg>
+            </span>
+            <span style="font-size:1.08em;color:#005580;">
+              <b>桌面專屬：</b>可將痛點 <b>pin</b> 置頂，並用滑鼠<b>拖動</b>排序，10 秒完成分組與決策！<br>
+              <span style="font-size:0.98em;color:#0077b6;">（僅限桌面瀏覽器，支援滑鼠拖曳與快捷鍵）</span>
+            </span>
+          </div>
+          <style>
+            @keyframes dragmove {
+              0% { transform: translateY(0); }
+              100% { transform: translateY(-6px); }
+            }
+          </style>
+    </div>
+
+    <!-- 跨國產品 -->
+    <div id="role-global" class="role-panel">
+      <h2 id="role-global-h2">跨國產品 UX｜多語系 + 可及性 → 市場擴張</h2>
+      <h3>跨國產品 UX 案例</h3>
+      <p>熱門關鍵字：多語系 UX、國際化設計、全球用戶體驗、可及性設計</p>
+      <ul>
+        <li>語言切換、文案在地化、字長彈性 → 提升各市場可用性</li>
+        <li>WCAG 檢查 → 降低文化與合規風險</li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">檢查你的多語系與可及性</a>
+    </div>
+
+    <!-- 教育平台 -->
+    <div id="role-edu" class="role-panel">
+      <h2 id="role-edu-h2">教育平台 UX｜學習流程優化 → 學員留存率提升</h2>
+      <h3>教育平台 UX 案例</h3>
+      <p>熱門關鍵字：教育 UX、學習平台體驗、課程留存率、EdTech</p>
+      <ul>
+        <li>播放器可用性 + 作業提交流程 + 支援性 → 留存率提升 10–15%</li>
+        <li>字幕、文字稿、對比度 → 無障礙學習</li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">優化你的教育平台體驗</a>
+    </div>
+
+    <!-- 創業 Pitch Deck -->
+    <div id="role-pitch" class="role-panel">
+      <h2 id="role-pitch-h2">創業 Pitch Deck UX｜痛點報告 → 投資人信任</h2>
+      <h3>創業 Pitch Deck UX 案例</h3>
+      <p>熱門關鍵字：Pitch Deck UX、投資人報告、創業提案工具、用戶痛點分析</p>
+      <ul>
+        <li>一頁報告：痛點 → 方案 → 影響 → 指標</li>
+        <li>把 UX 和營收模型綁定 → 提高融資成功率</li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">生成投資人一頁報告</a>
+    </div>
+
+    <!-- 學術/研究 -->
+    <div id="role-research" class="role-panel">
+      <h2 id="role-research-h2">學術/研究 UX｜結構化痛點 → 研究發表更有說服力</h2>
+      <h3>學術/研究 UX 案例</h3>
+      <p>熱門關鍵字：UX 研究工具、用戶研究方法、痛點分析、研究報告</p>
+      <ul>
+        <li>notes 可放觀察/研究/方案 → 統整更快</li>
+        <li>七維框架 → 文獻脈絡與跨場景比較更清楚</li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary-shari btn-sm">用七維框架整理你的研究</a>
     </div>
   </section>
 
-  <!-- 痛點共鳴區 -->
-  <section class="funnel-painpoints">
+  <!-- 七維差異化展示 -->
+  <section class="funnel-7d" style="background:#f8f9fa;padding:36px 0;">
     <div class="container">
-      <h2 class="funnel-section-title">你是否遇到這些問題？</h2>
-      <ul class="funnel-pain-list">
-        <li>使用者不知道下一步，流程太長 <span style="color:#b35900;font-weight:600;">（每次卡關 = 一次流失）</span></li>
-        <li>按鈕不明顯、文字難讀 <span style="color:#b35900;font-weight:600;">（每個離開的使用者，可能是 £50 的損失）</span></li>
-        <li>在特定裝置或環境下無法順利使用 <span style="color:#b35900;font-weight:600;">（錯過一次成交機會）</span></li>
-        <li>資訊過多、架構混亂 <span style="color:#b35900;font-weight:600;">（用戶迷路就直接關掉）</span></li>
-        <li>使用者感到焦慮、失望、被忽略 <span style="color:#b35900;font-weight:600;">（品牌信任感下降）</span></li>
+      <h2>為什麼是七維？不只是設計，還包含支援性與可及性</h2>
+      <ul>
+        <li><strong>流程/介面/情境/認知/情緒：</strong>基礎 UX</li>
+        <li><strong>支援性：</strong>客服入口、SLA、ticket 透明、退換貨與技術支援</li>
+        <li><strong>可及性：</strong>WCAG、ARIA、對比度、字幕、鍵盤操作、語言切換</li>
       </ul>
-      <ul style="margin:1.5em auto 0 auto;text-align:left;max-width:480px;color:#d7263d;font-weight:600;">
-        <li>流程太長 → 使用者流失率 +15%</li>
-        <li>按鈕不明顯 → 點擊率下降 30%</li>
-        <li>資訊混亂 → 平均停留時間減少 40%</li>
-      </ul>
-      <div class="funnel-pain-desc" style="color:#d7263d;font-weight:700;">
-        每一次卡關，都是一次流失。你還能承受幾次？
-      </div>
-      <div class="funnel-pain-roles mt-3" style="color:#6e00ff;font-size:1.05em;max-width:520px;margin:0 auto;">
-        <span style="font-weight:700;">設計師痛點：</span>常卡在「到底哪裡是痛點」<br>
-        <span style="font-weight:700;">PM 痛點：</span>無法快速對齊決策方向<br>
-        <span style="font-weight:700;">顧問痛點：</span>難以用數據說服客戶
-      </div>
-    </div>
-  </section>
-
-  <!-- 工具展示區 -->
-  <section class="funnel-features">
-    <div class="container">
-      <h2 class="funnel-section-title">UX 五維痛點清單能幫你做到什麼？</h2>
-      <ul class="funnel-feature-list">
-        <li><strong>結構化檢查：</strong>五大面向一次聚焦，團隊討論不再各說各話</li>
-        <li><strong>即時紀錄：</strong>notes & badges 標記痛點，討論重點一目了然</li>
-        <li><strong>一頁式報告：</strong>一鍵匯出 PDF，讓 UX 討論不再卡住</li>
-        <li><strong>產業模板：</strong>電商、教育、SaaS、Onboarding，10 秒快速套用</li>
-      </ul>
-      <div class="funnel-feature-desc" style="font-weight:600;color:#6e00ff;">
-        從觀察 → 標記 → 匯出 → 對齊，只需 10 分鐘。<br>一份清單，讓 UX 決策更有底氣。
-      </div>
-      <div class="funnel-feature-compare mt-4" style="color:#b35900;font-size:1.05em;max-width:600px;margin:0 auto;">
-        <strong>為什麼不是 Notion、Excel？</strong><br>
-        自動分類 + PDF 匯出，團隊討論更快更準，無需手動整理。
-      </div>
-    </div>
-  </section>
-
-  <!-- 定價區 -->
-  <section class="funnel-pricing" id="pricing">
-      <!-- 限時優惠區 -->
-      <section class="funnel-promo" style="background:#fff3cd;padding:18px 0;text-align:center;">
-        <span style="color:#b35900;font-weight:700;font-size:1.15em;">限時優惠：專業版首月免費，或限時 £7.99/月（原價 £9.99）</span>
-      </section>
-      <!-- 痛點改善前後對比案例區 -->
-      <section class="funnel-case" style="background:#e6f7ff;padding:36px 0 24px 0;">
-        <div class="container" style="max-width:700px;text-align:center;">
-          <h2 class="funnel-section-title" style="color:#0077b6;">痛點改善前後對比</h2>
-          <div style="font-size:1.08em;margin-bottom:1.2em;">某 SaaS 團隊導入五維痛點清單後：</div>
-          <ul style="text-align:left;display:inline-block;margin:0 auto 1.2em auto;font-size:1.05em;">
-            <li>註冊流程痛點數：<span style="color:#d7263d;font-weight:700;">減少 3 項</span></li>
-            <li>團隊討論時間：<span style="color:#6e00ff;font-weight:700;">縮短 40%</span></li>
-            <li>轉換率：<span style="color:#ff9500;font-weight:700;">提升 12%</span></li>
-          </ul>
-          <div style="color:#888;font-size:0.98em;">（真實用戶回饋，數據已匿名化）</div>
-        </div>
-      </section>
-    <div class="container">
-      <h2 class="funnel-section-title">選擇最適合你的方案</h2>
-      <div class="funnel-pricing-table-wrapper">
-        <table class="funnel-pricing-table">
-          <thead>
-            <tr>
-              <th>方案</th>
-              <th>功能亮點</th>
-              <th>儲存上限</th>
-              <th>價格</th>
-            </tr>
+      <p><strong>結論：</strong>七維 = 轉換率 + 留存率 + NPS + 合規。企業採購看重這四件事。</p>
+      <!-- 七維 vs 五維 差異化對照表 -->
+      <div class="funnel-7d-compare" style="margin-top:32px;">
+        <h3 style="font-weight:700;color:#6e00ff;">五維 vs 七維：差異化對照</h3>
+        <table style="width:100%;max-width:680px;margin:0 auto 18px auto;background:#fff;border-radius:8px;box-shadow:0 2px 8px #eee;">
+          <thead style="background:#f3e8ff;font-weight:700;">
+            <tr><th style="padding:8px 6px;">維度</th><th>五維（傳統 UX）</th><th>七維（本產品）</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>免費版</td>
-              <td>三維痛點（流程、介面、情境）、單人使用</td>
-              <td>3 張表單</td>
-              <td>免費</td>
-            </tr>
-            <tr style="background:#f3e8ff;position:relative;">
-              <td style="position:relative;">
-                專業版（月租）<br>
-                <span style="display:inline-block;background:#ff9500;color:#fff;font-size:0.95em;font-weight:700;padding:2px 10px;border-radius:12px;position:absolute;left:50%;transform:translateX(-50%);top:-18px;box-shadow:0 2px 8px rgba(255,149,0,0.10);">最受歡迎</span>
-              </td>
-              <td>五維痛點、notes & badges、PDF 匯出</td>
-              <td>100 張表單</td>
-              <td style="font-weight:700;color:#6e00ff;">
-                £9.99/月<br>
-                <a href="#" class="btn btn-primary-shari btn-sm mt-2" style="font-size:1em;padding:0.5em 1.5em;">立即升級，解鎖五維痛點 + 100 張表單</a>
-              </td>
-            </tr>
-            <tr>
-              <td>模板商城（買斷）</td>
-              <td>專屬產業模板（電商、教育、SaaS、Onboarding）</td>
-              <td>每包 30 張表單</td>
-              <td>£49–99/包</td>
-            </tr>
+            <tr><td style="padding:6px;">流程</td><td>✔️</td><td>✔️</td></tr>
+            <tr><td>介面</td><td>✔️</td><td>✔️</td></tr>
+            <tr><td>情境</td><td>✔️</td><td>✔️</td></tr>
+            <tr><td>認知</td><td>✔️</td><td>✔️</td></tr>
+            <tr><td>情緒</td><td>✔️</td><td>✔️</td></tr>
+            <tr style="background:#f8f9fa;"><td>支援性</td><td>—</td><td style="color:#6e00ff;font-weight:700;">✔️（客服、SLA、ticket、退換貨）</td></tr>
+            <tr style="background:#f8f9fa;"><td>可及性</td><td>—</td><td style="color:#6e00ff;font-weight:700;">✔️（WCAG、ARIA、字幕、鍵盤）</td></tr>
           </tbody>
         </table>
-      </div>
-      <div class="funnel-pricing-cta mt-4">
-              <div class="funnel-pricing-note mt-3" style="color:#b35900;font-weight:600;">
-                <div style="color:#b35900;">
-                  免費版僅限 3 張表單，專案一多就卡住！<br>
-                  專業版支援五維痛點 + PDF 報告 + 100 張表單儲存，讓你不再受限。
-                </div>
-              </div>
-        <a href="#" class="btn btn-primary-shari btn-lg me-3">馬上開始，3 分鐘內完成第一份痛點清單</a>
-        <a href="#" class="btn btn-outline-secondary-shari btn-lg">解鎖五維痛點，提升 UX 決策力</a>
+        <ul style="margin-bottom:0;line-height:1.8;">
+          <li><b>支援性</b>：直接影響 <b>客服 NPS</b>、<b>投訴率</b>、<b>留存率</b>，也是企業採購重點。</li>
+          <li><b>可及性</b>：關聯 <b>合規（WCAG/ADA）</b>，避免法律風險，擴大用戶群（如銀髮、障礙者）。</li>
+          <li>七維檢查能同時提升 <b>轉換率</b>（流程/介面）、<b>留存率</b>（情境/認知/情緒）、<b>NPS</b>（支援性）、<b>合規</b>（可及性）。</li>
+        </ul>
+        <div style="margin-top:10px;color:#b35900;font-size:1.05em;">
+          <b>ROI 掛鉤：</b>七維一次檢查，讓你同時提升營收、降低流失、減少法律風險，企業採購最重視！
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- 痛點快測（低門檻互動） -->
+  <section id="quiz" class="funnel-quiz container" style="padding:24px 0;">
+    <h2>30 秒痛點快測：立刻獲得你的 ROI 建議</h2>
+    <p>選擇你的場景與卡關，系統將生成一頁建議。你可選擇「Email 取得」或「免 Email 立即預覽」。</p>
+    <form id="quiz-form" style="max-width:520px;margin:0 auto;">
+      <div class="mb-2">
+        <label for="quiz-scenario" style="font-weight:600;">1. 場景：</label>
+        <select id="quiz-scenario" class="form-select" required>
+          <option value="">請選擇</option>
+          <option value="ecom">電商結帳</option>
+          <option value="saas">SaaS Onboarding</option>
+          <option value="cx">客服支援</option>
+          <option value="a11y">可及性檢查</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label for="quiz-pain" style="font-weight:600;">2. 主要卡關：</label>
+        <select id="quiz-pain" class="form-select" required>
+          <option value="">請選擇</option>
+          <option value="flow">流程太長/複雜</option>
+          <option value="ui">介面不明確/難用</option>
+          <option value="support">客服/支援不透明</option>
+          <option value="a11y">無障礙/合規問題</option>
+        </select>
+      </div>
+      <div class="mb-2" id="quiz-email-block">
+        <label for="quiz-email" style="font-weight:600;">3. Email（可選）：</label>
+        <input type="email" id="quiz-email" class="form-control" placeholder="填寫 Email 取得完整建議（可選）">
+      </div>
+      <div class="d-flex gap-2 mt-3">
+        <button type="submit" class="btn btn-primary-shari">Email 取得建議</button>
+        <button type="button" id="quiz-preview-btn" class="btn btn-outline-secondary-shari">免 Email 立即預覽</button>
+      </div>
+      <div id="quiz-result" style="display:none;margin-top:18px;"></div>
+    </form>
+    <script>
+      // 30秒快測交互邏輯
+      document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('quiz-form');
+        var previewBtn = document.getElementById('quiz-preview-btn');
+        var resultDiv = document.getElementById('quiz-result');
+        function genAdvice(scenario, pain) {
+          var map = {
+            ecom: {
+              flow: '【電商結帳】流程太長 → 建議精簡欄位、強化進度條，並加上客服入口。',
+              ui: '【電商結帳】介面不明 → 建議加大 CTA、優化欄位排版，提升可用性。',
+              support: '【電商結帳】客服不透明 → 建議結帳頁明顯顯示客服聯絡方式。',
+              a11y: '【電商結帳】無障礙問題 → 建議檢查對比度、支援鍵盤操作。'
+            },
+            saas: {
+              flow: '【SaaS Onboarding】流程卡關 → 建議分步引導、加上互動教學。',
+              ui: '【SaaS Onboarding】介面不明 → 建議加註提示、優化新手教學。',
+              support: '【SaaS Onboarding】客服不透明 → 建議 onboarding 流程中嵌入支援入口。',
+              a11y: '【SaaS Onboarding】無障礙問題 → 建議字幕、ARIA 標籤、支援螢幕閱讀。'
+            },
+            cx: {
+              flow: '【客服支援】流程複雜 → 建議簡化提問流程、明確分流。',
+              ui: '【客服支援】介面不明 → 建議強化 FAQ、提升 ticket 狀態可視化。',
+              support: '【客服支援】支援不透明 → 建議公開 SLA、進度追蹤。',
+              a11y: '【客服支援】無障礙問題 → 建議支援語音、文字輔助。'
+            },
+            a11y: {
+              flow: '【可及性檢查】流程障礙 → 建議檢查 tab 鍵可用性、流程簡化。',
+              ui: '【可及性檢查】介面障礙 → 建議提升對比度、加大字體。',
+              support: '【可及性檢查】支援障礙 → 建議提供多元聯絡方式。',
+              a11y: '【可及性檢查】合規問題 → 建議依 WCAG/ADA 標準檢查。'
+            }
+          };
+          return (map[scenario] && map[scenario][pain]) || '請選擇場景與卡關';
+        }
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var scenario = document.getElementById('quiz-scenario').value;
+          var pain = document.getElementById('quiz-pain').value;
+          var email = document.getElementById('quiz-email').value;
+          if (!scenario || !pain) {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<span style="color:#d7263d;">請選擇場景與卡關</span>';
+            return;
+          }
+          // Email 模擬流程
+          if (email && email.includes('@')) {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<b>建議已寄送至：</b>' + email + '<br>' + genAdvice(scenario, pain);
+          } else {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<span style="color:#d7263d;">請輸入有效 Email 或點選「免 Email 立即預覽」</span>';
+          }
+        });
+        previewBtn.addEventListener('click', function() {
+          var scenario = document.getElementById('quiz-scenario').value;
+          var pain = document.getElementById('quiz-pain').value;
+          if (!scenario || !pain) {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<span style="color:#d7263d;">請選擇場景與卡關</span>';
+            return;
+          }
+          resultDiv.style.display = 'block';
+          resultDiv.innerHTML = '<b>即時預覽建議：</b><br>' + genAdvice(scenario, pain);
+        });
+      });
+    </script>
+  </section>
+
+  <!-- 定價區（USD + 風險反轉） -->
+  <section class="funnel-pricing" id="pricing" style="background:#fff3cd20;padding:36px 0;">
+    <div class="container">
+      <h2>選擇最適合你的 UX 工具方案（USD）</h2>
+      <div class="funnel-pricing-promo" style="background:#fffbe6;border-radius:10px;padding:12px 18px;margin-bottom:18px;color:#b35900;font-weight:600;">
+        <span>限時優惠：<b>首月免費</b>・<b>7 天無條件退款</b>・<b>限量 100 組模板包</b>・<a href="#whitepaper" style="color:#6e00ff;text-decoration:underline;">下載企業白皮書</a>（需 Email）</span>
+      </div>
+      <table class="funnel-pricing-table">
+        <thead>
+          <tr>
+            <th>方案</th>
+            <th>功能亮點</th>
+            <th>儲存上限</th>
+            <th>價格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>免費版</td>
+            <td>三維痛點（流程、介面、情境）、單人使用</td>
+            <td>3 張表單</td>
+            <td><strong>Free</strong></td>
+          </tr>
+          <tr style="background:#f3e8ff;">
+            <td>專業版（月租）<br><span style="display:inline-block;background:#ff9500;color:#fff;font-size:0.95em;font-weight:700;padding:2px 10px;border-radius:12px;margin-top:4px;">最受歡迎</span></td>
+            <td>七維痛點、notes & badges、PDF 匯出、pin 清單、桌面版拖動位置</td>
+            <td>100 張表單</td>
+            <td style="font-weight:700;color:#6e00ff;">
+              $9.99/月<br>
+              <span style="font-size:0.95em;color:#b35900;">首月免費・7 天退款保證・限量模板包</span><br>
+              <a href="#" class="btn btn-primary-shari btn-sm mt-2">立即升級，解鎖七維痛點</a>
+            </td>
+          </tr>
+          <tr>
+            <td>企業版</td>
+            <td>合規檢查（WCAG/ADA）+ 客戶成功模組 + 團隊協作 + API</td>
+            <td>不限</td>
+            <td style="font-weight:700;color:#6e00ff;">$49.99/月<br><a href="#contact" class="btn btn-outline-secondary-shari btn-sm mt-2">預約企業諮詢</a><br><a href="#whitepaper" class="btn btn-link btn-sm mt-1" style="color:#b35900;text-decoration:underline;">下載企業白皮書</a></td>
+          </tr>
+          <tr>
+            <td>模板商城（買斷）</td>
+            <td>產業模板（電商、教育、SaaS、Onboarding），多語系/可及性加值包</td>
+            <td>每包 30 張表單</td>
+            <td>$49–99/包</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="funnel-pricing-cta mt-3">
+        <a href="#" class="btn btn-primary-shari btn-lg">開始 14 天免費試用（不需信用卡）</a>
+        <a href="#contact" class="btn btn-outline-secondary-shari btn-lg">需要團隊/企業方案？聯絡我們</a>
+      </div>
+      <div class="funnel-pricing-note mt-2" style="color:#b35900;font-size:1em;">
+        <b>風險反轉：</b>首月免費、7天無條件退款，完全零風險。<br>
+        <b>稀缺性：</b>限量 100 組模板包，送完即止。<br>
+        <b>企業專屬：</b>下載 <a href="#whitepaper" style="color:#6e00ff;text-decoration:underline;">企業白皮書</a>（需 Email），掌握 UX 七維落地策略。
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials（角色化） -->
+  <section class="funnel-testimonials" style="background:#f8f9fa;padding:36px 0;">
+    <div class="container">
+      <h2>真實用戶回饋：不同角色的成果</h2>
+      <ul style="line-height:1.8;">
+        <li><strong>電商 PM：</strong>「結帳痛點減少，轉換率 12% 立刻反映在營收。」</li>
+        <li><strong>SaaS Lead：</strong>「Onboarding 優化後，D30 留存率提升 15%，會議效率翻倍。」</li>
+        <li><strong>顧問：</strong>「一頁報告讓客戶快速理解，簽單更順利。」</li>
+        <li><strong>合規主管：</strong>「WCAG 檢查清單清楚可行，降低法律風險。」</li>
+        <li><strong>客服主管：</strong>「支援流程透明化，NPS 提升 18%，投訴率下降。」</li>
+        <li><strong>教育平台 PM：</strong>「學習流程更順，學員留存率提升 10%+。」</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer 宣言 -->
   <footer class="funnel-footer text-center py-4 text-muted small">
-        <!-- FAQ 區 -->
-        <section class="funnel-faq" style="background:#f8f9fa;padding:48px 0 32px 0;">
-          <div class="container" style="max-width:700px;">
-            <h2 class="funnel-section-title" style="color:#6e00ff;">常見問題 FAQ</h2>
-            <ul style="text-align:left;font-size:1.08em;line-height:1.7;">
-              <li><strong>Q：清單是否可重複使用？</strong><br>A：可，建立一次可多次複製與編輯。</li>
-              <li><strong>Q：匯出的 PDF 包含哪些內容？</strong><br>A：包含所有痛點分類、notes、badges 與討論紀錄。</li>
-              <li><strong>Q：是否支援中文/英文切換？</strong><br>A：支援，介面與匯出報告皆可中英文切換。</li>
-            </ul>
-          </div>
-        </section>
-      <!-- 使用者回饋區 -->
-      <section class="funnel-testimonials" style="background:#f8f9fa;padding:48px 0 32px 0;">
-        <div class="container">
-          <h2 class="funnel-section-title" style="color:#6e00ff;">真實 UX 團隊回饋</h2>
-          <div style="color:#b35900;font-size:1.08em;margin-bottom:2rem;">這些回饋來自 500+ UX 專案，真實使用者的聲音</div>
-          <div class="funnel-testimonial-list" style="display:flex;flex-wrap:wrap;gap:32px;justify-content:center;max-width:900px;margin:0 auto;">
-            <div class="funnel-testimonial-item" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(110,0,255,0.06);padding:24px 20px;max-width:320px;flex:1 1 260px;display:flex;align-items:flex-start;gap:14px;">
-              <img src="https://placehold.co/48x48?text=UX" alt="UX Lead 頭像" style="border-radius:50%;width:48px;height:48px;object-fit:cover;">
-              <div>
-                <div style="font-size:1.1em;font-weight:500;">「第一次用這份清單，團隊討論效率直接提升一倍，大家終於聚焦在真正的痛點上！」</div>
-                <div style="margin-top:12px;color:#888;font-size:0.98em;"><span style="background:#f3e8ff;color:#6e00ff;padding:2px 8px;border-radius:8px;font-size:0.95em;">UX Lead</span> , SaaS 新創</div>
-              </div>
-            </div>
-            <div class="funnel-testimonial-item" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(110,0,255,0.06);padding:24px 20px;max-width:320px;flex:1 1 260px;display:flex;align-items:flex-start;gap:14px;">
-              <img src="https://placehold.co/48x48?text=AD" alt="顧問頭像" style="border-radius:50%;width:48px;height:48px;object-fit:cover;">
-              <div>
-                <div style="font-size:1.1em;font-weight:500;">「PDF 報告超方便，直接貼給老闆和客戶，提案流程順暢很多！」</div>
-                <div style="margin-top:12px;color:#888;font-size:0.98em;"><span style="background:#ffe6cc;color:#b35900;padding:2px 8px;border-radius:8px;font-size:0.95em;">顧問</span> , 產品設計顧問</div>
-              </div>
-            </div>
-            <div class="funnel-testimonial-item" style="background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(110,0,255,0.06);padding:24px 20px;max-width:320px;flex:1 1 260px;display:flex;align-items:flex-start;gap:14px;">
-              <img src="https://placehold.co/48x48?text=PM" alt="PM 頭像" style="border-radius:50%;width:48px;height:48px;object-fit:cover;">
-              <div>
-                <div style="font-size:1.1em;font-weight:500;">「痛點分類很細緻，讓我們 onboarding 流程優化成果立竿見影！」</div>
-                <div style="margin-top:12px;color:#888;font-size:0.98em;"><span style="background:#e6f7ff;color:#0077b6;padding:2px 8px;border-radius:8px;font-size:0.95em;">PM</span> , 教育平台 PM</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    &copy; 2025 UXShari. All rights reserved.
+    <div class="container">
+      <div style="font-size:1.1em;color:#6e00ff;font-weight:600;margin-top:2rem;">
+        我們相信 UX 是世界的通用語言。<br>
+        UX 人人識，世界更積極。UX is everywhere.
+      </div>
+    </div>
   </footer>
 </body>
 </html>
