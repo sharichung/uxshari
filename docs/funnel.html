@@ -1,483 +1,658 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="UX 七維痛點檢查表：快速定位用戶體驗痛點，提升電商轉換率、SaaS 留存率、客服 NPS；支援合規（WCAG/ADA）、PDF 匯出與產業模板。" />
-  <meta property="og:title" content="UX 七維痛點檢查表｜電商、SaaS、顧問、合規、客服通用的用戶體驗工具" />
-  <meta property="og:description" content="用戶體驗痛點快篩：電商結帳優化、SaaS Onboarding、顧問報告、合規可及性、客服支援流程，七維完整檢查，一鍵 PDF 匯出。" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://uxshari.com/funnel.html" />
-  <meta property="og:image" content="https://placehold.co/1200x630?text=UX+7D+Checklist" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="UX 七維痛點檢查表｜提升轉換率、留存率、NPS" />
-  <meta name="twitter:description" content="UX is everywhere. UX 人人識：七維檢查（流程、介面、情境、認知、情緒、支援性、可及性），一頁報告，立刻行動。" />
-  <title>UX 七維痛點檢查 Funnel</title>
-  <link rel="stylesheet" href="assets/css/funnel.css">
-  <link rel="stylesheet" href="assets/css/general.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-  <style>body { font-family: 'Noto Sans TC', sans-serif; }</style>
-</head>
-<body>
-
-  <!-- Hero 區：A/B 測試三變體 -->
-  <section class="funnel-hero" id="funnel-hero-ab">
-    <div class="container">
-      <div id="hero-ab-ecom" style="display:none">
-        <h1 class="funnel-hero-title">👉 電商 UX：結帳痛點減少，轉換率立刻提升</h1>
-        <p class="funnel-hero-subtitle">流程精簡、明確 CTA、客服入口，三步驟提升 ROI</p>
-        <p class="funnel-hero-tagline"><strong>電商/行銷團隊專用，提升結帳完成率</strong></p>
-        <div class="funnel-hero-cta" style="margin-top:18px;">
-          <a href="#quiz" class="btn btn-primary-shari btn-lg ab-cta" data-ab="ecom">馬上檢查結帳痛點，提升 ROI</a>
-          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg ab-cta" data-ab="ecom">免費試用，3 分鐘完成第一份清單</a>
-        </div>
-      </div>
-      <div id="hero-ab-saas" style="display:none">
-        <h1 class="funnel-hero-title">👉 SaaS Onboarding：減少卡關，留存率提升 15%</h1>
-        <p class="funnel-hero-subtitle">分步體驗、互動教學、可及性檢查，降低 churn</p>
-        <p class="funnel-hero-tagline"><strong>SaaS 產品團隊專用，提升用戶留存</strong></p>
-        <div class="funnel-hero-cta" style="margin-top:18px;">
-          <a href="#quiz" class="btn btn-primary-shari btn-lg ab-cta" data-ab="saas">立即分析 Onboarding，提升留存</a>
-          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg ab-cta" data-ab="saas">免費試用，3 分鐘完成第一份清單</a>
-        </div>
-      </div>
-      <div id="hero-ab-consult" style="display:none">
-        <h1 class="funnel-hero-title">👉 顧問/代理商：一頁痛點報告，提案更有說服力</h1>
-        <p class="funnel-hero-subtitle">七維檢查 + PDF 報告，交付更專業</p>
-        <p class="funnel-hero-tagline"><strong>顧問/代理商專用，提升提案成功率</strong></p>
-        <div class="funnel-hero-cta" style="margin-top:18px;">
-          <a href="#quiz" class="btn btn-primary-shari btn-lg ab-cta" data-ab="consult">生成一頁痛點報告，交付更專業</a>
-          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg ab-cta" data-ab="consult">免費試用，3 分鐘完成第一份清單</a>
-        </div>
-      </div>
-      <div id="hero-ab-default">
-        <h1 class="funnel-hero-title">👉 快速定位用戶體驗痛點，直接提升轉換率、留存率、NPS</h1>
-        <p class="funnel-hero-subtitle">流程、介面、情境、認知、情緒 + 支援性、可及性｜七維一次掌握，UX is everywhere.</p>
-        <p class="funnel-hero-tagline"><strong>UX 人人識，因為用戶體驗比英語更重要。</strong></p>
-        <div class="role-tabs" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px;">
-          <a href="#role-ecom" class="btn btn-primary-shari btn-sm">電商/行銷（轉換率）</a>
-          <a href="#role-saas" class="btn btn-outline-secondary-shari btn-sm">SaaS（留存率）</a>
-          <a href="#role-consult" class="btn btn-outline-secondary-shari btn-sm">顧問/代理商（提案成功率）</a>
-          <a href="#role-legal" class="btn btn-outline-secondary-shari btn-sm">合規/法務（WCAG/ADA）</a>
-          <a href="#role-cx" class="btn btn-outline-secondary-shari btn-sm">客服/客戶成功（NPS）</a>
-          <a href="#role-ux" class="btn btn-outline-secondary-shari btn-sm">UX/產品團隊（週會效率）</a>
-          <a href="#role-global" class="btn btn-outline-secondary-shari btn-sm">跨國產品（多語系/可及性）</a>
-          <a href="#role-edu" class="btn btn-outline-secondary-shari btn-sm">教育平台（學員留存）</a>
-          <a href="#role-pitch" class="btn btn-outline-secondary-shari btn-sm">創業 Pitch Deck（投資人）</a>
-          <a href="#role-research" class="btn btn-outline-secondary-shari btn-sm">學術/研究（用戶研究）</a>
-        </div>
-        <div class="funnel-hero-cta" style="margin-top:18px;">
-          <a href="#quiz" class="btn btn-primary-shari btn-lg">30 秒痛點快測 → 生成你的 ROI 建議</a>
-          <a href="#pricing" class="btn btn-outline-secondary-shari btn-lg">首月免費試用（$0 → $9.99/月）</a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <script>
-    // Hero 三變體 A/B 測試切換
-    (function() {
-      function getAB() {
-        const m = location.search.match(/[?&]ab=(ecom|saas|consult)/);
-        return m ? m[1] : null;
+<!doctype html>
+<html lang="zh-TW">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UX ROI 七維加速器 | Shari Chung</title>
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #ff9500;
+      --primary-dark: #e67e00;
+      --primary-light: #ffb74d;
+      --secondary: #6e00ff;
+      --secondary-light: #9d4eff;
+      --accent: #ff3d00;
+      --dark: #1a1a2e;
+      --dark-blue: #16213e;
+      --light: #f8f9fa;
+      --cyan: #00e5ff;
+      --text-content-accessible: #e5e7eb; /* WCAG AA 合規：對比度 7.2:1 */
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(255, 149, 0, 0.5), 0 0 40px rgba(110, 0, 255, 0.3);
       }
-      var ab = getAB();
-      if (ab === 'ecom') {
-        document.getElementById('hero-ab-ecom').style.display = '';
-        document.getElementById('hero-ab-default').style.display = 'none';
-      } else if (ab === 'saas') {
-        document.getElementById('hero-ab-saas').style.display = '';
-        document.getElementById('hero-ab-default').style.display = 'none';
-      } else if (ab === 'consult') {
-        document.getElementById('hero-ab-consult').style.display = '';
-        document.getElementById('hero-ab-default').style.display = 'none';
-      } else {
-        document.getElementById('hero-ab-default').style.display = '';
+      50% { 
+        box-shadow: 0 0 30px rgba(255, 149, 0, 0.7), 0 0 60px rgba(110, 0, 255, 0.5);
       }
-    })();
-  </script>
-
-  <!-- 角色化 ROI + 案例數據 -->
-  <!-- 角色區塊 SEO 內鏈導覽 -->
-  <nav class="role-silo-nav container" style="margin-top:28px;margin-bottom:12px;">
-    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
-      <a href="#role-ecom" class="btn btn-outline-secondary-shari btn-sm">電商 UX</a>
-      <a href="#role-saas" class="btn btn-outline-secondary-shari btn-sm">SaaS UX</a>
-      <a href="#role-consult" class="btn btn-outline-secondary-shari btn-sm">顧問/代理商</a>
-      <a href="#role-legal" class="btn btn-outline-secondary-shari btn-sm">合規/法務</a>
-      <a href="#role-cx" class="btn btn-outline-secondary-shari btn-sm">客服/客戶成功</a>
-      <a href="#role-ux" class="btn btn-outline-secondary-shari btn-sm">UX/產品團隊</a>
-      <a href="#role-global" class="btn btn-outline-secondary-shari btn-sm">跨國產品</a>
-      <a href="#role-edu" class="btn btn-outline-secondary-shari btn-sm">教育平台</a>
-      <a href="#role-pitch" class="btn btn-outline-secondary-shari btn-sm">創業 Pitch Deck</a>
-      <a href="#role-research" class="btn btn-outline-secondary-shari btn-sm">學術/研究</a>
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes scan-line {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+    
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    
+    .slide-in {
+      animation: slideIn 0.6s ease-out forwards;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    
+    .tech-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 149, 0, 0.3);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tech-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      animation: scan-line 3s linear infinite;
+    }
+    
+    .tech-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(255, 149, 0, 0.4), 0 0 60px rgba(110, 0, 255, 0.3);
+    }
+    
+    .neon-border {
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 15px rgba(255, 149, 0, 0.5), 
+                  0 0 30px rgba(255, 149, 0, 0.3),
+                  inset 0 0 15px rgba(255, 149, 0, 0.1);
+    }
+    
+    .glow-button {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      box-shadow: 0 4px 20px rgba(255, 149, 0, 0.5), 0 0 40px rgba(255, 61, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .glow-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .glow-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .glow-button:hover {
+      box-shadow: 0 6px 30px rgba(255, 149, 0, 0.7), 0 0 60px rgba(255, 61, 0, 0.5);
+      transform: translateY(-2px) scale(1.02);
+    }
+    
+    .cyber-grid {
+      background-image: 
+        linear-gradient(rgba(110, 0, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(110, 0, 255, 0.08) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    
+    .animated-gradient {
+      background: linear-gradient(270deg, var(--primary), var(--accent), var(--secondary), var(--cyan));
+      background-size: 400% 400%;
+      animation: gradient-shift 8s ease infinite;
+    }
+    
+    .stat-badge {
+      background: rgba(110, 0, 255, 0.2);
+      border: 2px solid var(--secondary);
+      box-shadow: 0 0 20px rgba(110, 0, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+    
+    .stat-badge:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(110, 0, 255, 0.6);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="min-h-full" style="background-color: var(--dark); background-image: radial-gradient(circle at 10% 20%, rgba(110, 0, 255, 0.15) 0%, transparent 30%), radial-gradient(circle at 90% 80%, rgba(255, 149, 0, 0.15) 0%, transparent 30%), linear-gradient(to bottom, var(--dark) 0%, var(--dark-blue) 100%); font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;">
+  <main class="min-h-full"><!-- Hero Section with Urgency -->
+   <section class="py-16 px-4 cyber-grid" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+    <div class="max-w-4xl mx-auto text-center" style="color: #fffbe6;">
+     <div class="mb-8 slide-in">
+      <div class="inline-block text-white px-6 py-2 rounded-full text-sm font-bold mb-6 pulse-glow neon-border" style="background: rgba(255, 61, 0, 0.8);">
+       ⚠️ 緊急警告
+      </div>
+      <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-4 leading-tight" style="letter-spacing: 2px; text-shadow: 0 2px 20px rgba(110, 0, 255, 0.4), 0 0 50px rgba(255, 149, 0, 0.3); font-weight: 800;">每拖一天，平均損失 US$2,000+ 潛在營收</h1>
+      <p id="hero-subtitle" class="text-xl md:text-2xl mb-6 font-semibold">再猶豫一天，10位高價客戶可能已流失</p>
+     </div><!-- Loss Progress Bar -->
+     <div class="tech-card rounded-2xl p-6 mb-8 slide-in neon-border">
+      <div class="flex justify-between items-center mb-3"><span class="text-lg font-bold">💸 損失進度條</span> <span class="text-xl font-bold" style="color: var(--primary-light);">US$2,000+/天</span>
+      </div>
+      <div class="bg-black/30 rounded-full h-5 overflow-hidden" style="border: 2px solid rgba(255, 149, 0, 0.4);" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="訪客流失進度">
+       <div class="animated-gradient h-full rounded-full pulse-glow" style="width: 73%;"></div>
+      </div>
+      <p class="text-sm mt-3 font-semibold">已有 73% 訪客流失 ⚠️</p>
+     </div><!-- CTA Button --> <button id="hero-cta" class="glow-button text-white font-bold text-xl px-12 py-5 rounded-full relative z-10" style="border-radius: 32px; min-width: 200px; font-weight: 700;"> 立即停止流失 (US$14) → </button>
     </div>
-  </nav>
-  <section class="role-panels container">
-    <!-- 電商/行銷 -->
-    <div id="role-ecom" class="role-panel">
-      <h2 id="role-ecom-h2">電商 UX｜結帳痛點 → 轉換率提升</h2>
-      <h3>電商 UX 案例</h3>
-      <p>熱門關鍵字：電商 UX、購物流程優化、結帳痛點、轉換率提升、行銷漏斗</p>
-      <ol class="case-3step">
-        <li><strong>痛點：</strong>結帳流程步驟多、欄位複雜，使用者容易中斷。</li>
-        <li><strong>優化動作：</strong>精簡流程、明確 CTA、加上客服入口（支援性）。</li>
-        <li><strong>指標提升：</strong>結帳痛點每減少 1 項，轉換率提升 5–12%，營收直接增加。</li>
-      </ol>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">立即檢查你的結帳流程</a>
+   </section><!-- Problem Section -->
+   <section class="py-16 px-4" style="background-color: var(--dark);">
+    <div class="max-w-6xl mx-auto">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4 gradient-text">每1000名訪客，平均有950人流失</h2>
+      <p class="text-2xl" style="color: var(--primary-light);">你的漏斗正在漏錢 💸</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-6">
+      <div class="tech-card rounded-2xl p-8 hover:shadow-xl transition-shadow" style="border-color: var(--accent);">
+       <div class="text-5xl mb-4">
+        ❌
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">為什麼付款卡住？</h3>
+       <p class="mb-4 leading-relaxed" style="color: var(--text-content-accessible);">結帳流程太複雜，客戶直接放棄購物車</p>
+       <p class="text-xl font-bold" style="color: var(--accent);">平均每月損失 US$800+</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 hover:shadow-xl transition-shadow" style="border-color: var(--accent);">
+       <div class="text-5xl mb-4">
+        ❌
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">為什麼找不到商品？</h3>
+       <p class="text-gray-300 mb-4 leading-relaxed">導航混亂，用戶迷路在你的網站裡</p>
+       <p class="text-xl font-bold" style="color: var(--accent);">流失率高達 95%</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 hover:shadow-xl transition-shadow" style="border-color: var(--accent);">
+       <div class="text-5xl mb-4">
+        ❌
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">廣告費白花了</h3>
+       <p class="text-gray-300 mb-4 leading-relaxed">流量進來了，但轉換率低得����憐</p>
+       <p class="text-xl font-bold" style="color: var(--accent);">漏斗每月流失 US$2,000+ 訂單</p>
+      </div>
+     </div>
     </div>
-
-    <!-- SaaS 產品 -->
-    <div id="role-saas" class="role-panel">
-      <h2 id="role-saas-h2">SaaS UX｜Onboarding 痛點 → 留存率提升</h2>
-      <h3>SaaS UX 案例</h3>
-      <p>熱門關鍵字：SaaS UX、Onboarding 流程、降低 churn、留存率提升</p>
-      <ol class="case-3step">
-        <li><strong>痛點：</strong>新用戶註冊後不知如何開始，Onboarding 卡關流失。</li>
-        <li><strong>優化動作：</strong>分步體驗、互動教學、加上字幕/鍵盤操作（可及性）。</li>
-        <li><strong>指標提升：</strong>Onboarding 痛點每減少 1 項，D30 留存率提升 10–15%，churn 下降。</li>
-      </ol>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">立即分析你的 Onboarding</a>
+   </section><!-- Solution Section -->
+   <section class="py-16 px-4 cyber-grid" style="background: linear-gradient(135deg, var(--secondary) 0%, var(--dark-blue) 100%);">
+    <div class="max-w-6xl mx-auto" style="color: var(--light);">
+     <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4" style="color: var(--primary-light); letter-spacing: 1px; text-shadow: 0 0 30px rgba(255, 149, 0, 0.3);">🛠️ UX ROI 七維加速器</h2>
+      <p class="text-2xl font-semibold" style="color: #fffbe6;">系統化解決用戶體驗問題，直接提升營收</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="tech-card rounded-xl p-6 float-animation">
+       <div class="text-4xl mb-4">
+        📈
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">轉換率</h3>
+       <p class="text-sm leading-relaxed" style="color: var(--text-content-accessible);">一鍵檢查，立即修復：流程、介面、情境、認知、情緒、支援、可及性</p>
+      </div>
+      <div class="tech-card rounded-xl p-6 float-animation" style="animation-delay: 0.1s;">
+       <div class="text-4xl mb-4">
+        🔄
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">留存率</h3>
+       <p class="text-sm text-gray-300 leading-relaxed">用戶回流、重複購買，營收持續成長</p>
+      </div>
+      <div class="tech-card rounded-xl p-6 float-animation" style="animation-delay: 0.2s;">
+       <div class="text-4xl mb-4">
+        😊
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">淨推薦值</h3>
+       <p class="text-sm text-gray-300 leading-relaxed">客戶滿意���提升，口碑擴散</p>
+      </div>
+      <div class="tech-card rounded-xl p-6 float-animation" style="animation-delay: 0.3s;">
+       <div class="text-4xl mb-4">
+        ✅
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">合規</h3>
+       <p class="text-sm text-gray-300 leading-relaxed">跨國電商合規，避免隱性風險</p>
+      </div>
+      <div class="tech-card rounded-xl p-6 float-animation" style="animation-delay: 0.4s;">
+       <div class="text-4xl mb-4">
+        💡
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">提案力</h3>
+       <p class="text-sm text-gray-300 leading-relaxed">UX 建議落地，直接帶來 ROI</p>
+      </div>
+      <div class="tech-card rounded-xl p-6 float-animation" style="animation-delay: 0.5s;">
+       <div class="text-4xl mb-4">
+        🎯
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">發現</h3>
+       <p class="text-sm text-gray-300 leading-relaxed">用戶精準找��你的產品</p>
+      </div>
+      <div class="tech-card rounded-xl p-6 float-animation" style="animation-delay: 0.6s;">
+       <div class="text-4xl mb-4">
+        ⚡
+       </div>
+       <h3 class="font-bold text-xl mb-3" style="color: var(--primary);">效能</h3>
+       <p class="text-sm text-gray-300 leading-relaxed">速度快一秒，轉換率提升 10%+</p>
+      </div>
+     </div>
     </div>
-
-    <!-- 顧問/代理商 -->
-    <div id="role-consult" class="role-panel">
-      <h2 id="role-consult-h2">顧問/代理商 UX｜一頁痛點報告 → 提案成功率提升</h2>
-      <h3>顧問/代理商 UX 案例</h3>
-      <p>熱門關鍵字：UX 顧問工具、設計顧問報告、用戶研究報告、顧問交付物</p>
-      <ol class="case-3step">
-        <li><strong>痛點：</strong>傳統報告冗長，客戶難以聚焦重點，決策拖延。</li>
-        <li><strong>優化動作：</strong>七維檢查、pin 清單、notes，並一鍵匯出 PDF 報告。</li>
-        <li><strong>指標提升：</strong>報告交付時間縮短 40%，客戶快速理解，簽單率上升。</li>
-      </ol>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">生成你的提案一頁報告</a>
+   </section><!-- What You Get -->
+   <section class="py-16 px-4" style="background-color: var(--dark);">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 gradient-text">🎁 你將獲得</h2>
+     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="tech-card rounded-2xl p-8 neon-border">
+       <div class="text-6xl mb-4">
+        🎬
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">30 分鐘<br>
+        UX ROI 框架課</h3>
+       <p style="color: var(--text-content-accessible);">零基礎也能立即上手</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 neon-border">
+       <div class="text-6xl mb-4">
+        📑
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">5 大場景<br>
+        診斷清單模板</h3>
+       <p style="color: var(--text-content-accessible);">電商、教育、SaaS、App、通用 → 即用型</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 neon-border">
+       <div class="text-6xl mb-4">
+        📊
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">ROI 對照庫</h3>
+       <p style="color: var(--text-content-accessible);">勾選 KPI → 自動生成痛點清單</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 neon-border">
+       <div class="text-6xl mb-4">
+        🧩
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="color: var(--primary);">七維痛點框架</h3>
+       <p style="color: var(--text-content-accessible);">流程、介面、情境、認知、情緒、支援、可及性</p>
+      </div>
+     </div>
     </div>
-
-    <!-- 合規/法務 -->
-    <div id="role-legal" class="role-panel">
-      <h2 id="role-legal-h2">合規/法務 UX｜WCAG/ADA 檢查 → 法律風險降低</h2>
-      <h3>合規/法務 UX 案例</h3>
-      <p>熱門關鍵字：UX 合規、無障礙檢查、可及性設計、WCAG、ADA、GDPR</p>
-      <ol class="case-3step">
-        <li><strong>痛點：</strong>缺乏可及性檢查，網站不符 WCAG/ADA，潛在法律風險。</li>
-        <li><strong>優化動作：</strong>ARIA、對比度、字幕、鍵盤操作、語言切換（可及性七維）。</li>
-        <li><strong>指標提升：</strong>可及性痛點改善，風險預警，避免訴訟與品牌損害。</li>
-      </ol>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">立即進行可及性快速檢核</a>
+   </section><!-- Social Proof -->
+   <section class="py-16 px-4" style="background: linear-gradient(to bottom, var(--dark-blue), var(--dark));">
+    <div class="max-w-6xl mx-auto">
+     <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 gradient-text">🔒 實戰經驗會說話</h2>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div class="tech-card rounded-2xl p-8 neon-border text-center">
+       <div class="text-6xl font-bold mb-4 animated-gradient" style="background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        +35%
+       </div>
+       <h3 class="text-xl font-bold mb-4" style="color: var(--primary);">大型連鎖超市電商平台</h3>
+       <p class="text-gray-300 leading-relaxed">提升銷售額 35%，從 UX 角度優��購���流程</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 neon-border text-center">
+       <div class="text-6xl font-bold mb-4 animated-gradient" style="background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        +4.5%
+       </div>
+       <h3 class="text-xl font-bold mb-4" style="color: var(--primary);">醫��電商 APP</h3>
+       <p class="text-gray-300 leading-relaxed">1 個月內提升註冊轉換率 4.5%</p>
+      </div>
+      <div class="tech-card rounded-2xl p-8 neon-border text-center">
+       <div class="text-6xl font-bold mb-4 animated-gradient" style="background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        -80%
+       </div>
+       <h3 class="text-xl font-bold mb-4" style="color: var(--primary);">零售商場 APP</h3>
+       <p class="text-gray-300 leading-relaxed">改善 80%+ 使用迷路問題，客服壓力大幅下降，收到顧客讚美！</p>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <p class="text-2xl font-bold" style="color: var(--light);">👉 這不是「漂亮外殼」的 UX/UI 建議<br><span style="color: var(--primary);">而是一個跨產業 ROI 實戰系統！</span></p>
+      <p class="text-sm mt-6 opacity-70" style="color: var(--text-content-accessible);">* 以上為真實客戶案例成果。實際結果因客戶業務條件、執行程度及市場環境而異。本課程提供系統化框架與工具，但不保證特定營收成果。</p>
+     </div>
     </div>
-
-    <!-- 客服/客戶成功 -->
-    <div id="role-cx" class="role-panel">
-      <h2 id="role-cx-h2">客服/客戶成功 UX｜支援流程透明 → NPS 提升</h2>
-      <h3>客服/客戶成功 UX 案例</h3>
-      <p>熱門關鍵字：客服 UX、客戶成功工具、NPS 提升、支援流程優化</p>
-      <ol class="case-3step">
-        <li><strong>痛點：</strong>支援流程不透明，客戶無法追蹤進度，NPS 下降。</li>
-        <li><strong>優化動作：</strong>清楚入口、SLA 標示、進度追蹤、FAQ 可視化（支援性七維）。</li>
-        <li><strong>指標提升：</strong>NPS 提升 15–20%，投訴率下降。</li>
-      </ol>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">優化你的支援流程</a>
-    </div>
-
-    <!-- UX/產品團隊週會 -->
-    <div id="role-ux" class="role-panel">
-      <h2 id="role-ux-h2">UX/產品團隊｜痛點清單 → 決策效率提升</h2>
-      <h3>UX/產品團隊 案例</h3>
-      <p>熱門關鍵字：UX 團隊工具、產品會議效率、痛點清單、UX 決策工具</p>
-      <ol class="case-3step">
-        <li><strong>痛點：</strong>會議討論發散，痛點難聚焦，決策效率低。</li>
-        <li><strong>優化動作：</strong>pin 清單、notes、tips，三步（標記→分組→匯出）。</li>
-        <li><strong>指標提升：</strong>會議時間縮短 40%，10 分鐘內對齊決策。</li>
-      </ol>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">用痛點清單加速你的週會</a>
-          <!-- 桌面專屬功能提示與圖示 -->
-          <div class="desktop-feature-tip" style="margin-top:18px;padding:14px 18px;background:#eaf6ff;border-radius:8px;display:flex;align-items:center;gap:14px;">
-            <span style="display:inline-flex;align-items:center;">
-              <!-- Pin SVG -->
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="#6e00ff" style="margin-right:6px;"><path d="M16.7 2.3a1 1 0 0 1 1.4 1.4l-2.1 2.1 3.5 3.5a1 1 0 0 1-1.4 1.4l-2.1-2.1-7.6 7.6a2 2 0 0 0-.5 1l-.3 1.2-1.2.3a2 2 0 0 0-1 0.5l-1.1 1.1a1 1 0 1 1-1.4-1.4l1.1-1.1a2 2 0 0 0 .5-1l.3-1.2 1.2-.3a2 2 0 0 0 1-.5l7.6-7.6-2.1-2.1a1 1 0 0 1 1.4-1.4l3.5 3.5z"></path></svg>
-              <!-- Drag SVG (animated) -->
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="#0099cc" style="animation:dragmove 1.2s infinite alternate cubic-bezier(.4,1.6,.6,1);"><rect x="7" y="10" width="10" height="4" rx="2"/><rect x="11" y="6" width="2" height="2" rx="1"/><rect x="11" y="16" width="2" height="2" rx="1"/></svg>
-            </span>
-            <span style="font-size:1.08em;color:#005580;">
-              <b>桌面專屬：</b>可將痛點 <b>pin</b> 置頂，並用滑鼠<b>拖動</b>排序，10 秒完成分組與決策！<br>
-              <span style="font-size:0.98em;color:#0077b6;">（僅限桌面瀏覽器，支援滑鼠拖曳與快捷鍵）</span>
-            </span>
+   </section><!-- Pricing Section -->
+   <section class="py-20 px-4 cyber-grid" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 text-white" style="text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);">💸 立即預購（限量 100 名）</h2>
+     <div class="tech-card rounded-3xl p-10 md:p-12 neon-border" style="background: rgba(26, 26, 46, 0.95);">
+      <div class="text-center mb-8">
+       <div class="flex items-center justify-center gap-6 mb-6"><span id="original-price" class="text-3xl text-gray-500 line-through">US$39.99</span> <span id="sale-price" class="text-7xl font-bold gradient-text">US$14</span>
+       </div>
+       <div class="inline-block px-8 py-3 rounded-full text-2xl font-bold mb-4 pulse-glow" style="background: var(--accent); color: white; border: 2px solid var(--primary);">
+        35 折
+       </div>
+       <p class="text-3xl font-bold" style="color: var(--primary-light);">現省 <strong>US$25.99</strong>！</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 mb-8">
+       <div class="text-center p-8 stat-badge rounded-xl">
+        <div class="text-6xl font-bold mb-2" style="color: var(--primary);">
+         27
+        </div>
+        <p class="text-gray-300 font-bold text-lg">僅剩席次</p>
+       </div>
+       <div class="text-center p-8 stat-badge rounded-xl">
+        <div id="countdown-timer" class="text-3xl font-bold mb-2" style="color: var(--accent);">
+         <div class="flex justify-center gap-2">
+          <div>
+           <span id="days">0</span><span class="text-sm block">天</span>
           </div>
-          <style>
-            @keyframes dragmove {
-              0% { transform: translateY(0); }
-              100% { transform: translateY(-6px); }
-            }
-          </style>
+          <div>
+           <span id="hours">00</span><span class="text-sm block">時</span>
+          </div>
+          <div>
+           <span id="minutes">00</span><span class="text-sm block">分</span>
+          </div>
+          <div>
+           <span id="seconds">00</span><span class="text-sm block">秒</span>
+          </div>
+         </div>
+        </div>
+        <p class="font-bold text-lg" style="color: var(--text-content-accessible);">優惠倒數</p>
+       </div>
+      </div><button id="main-cta" class="w-full glow-button text-white font-bold text-2xl py-7 rounded-full mb-6 relative z-10" style="font-weight: 800;"> 立即預購 US$14 → </button> <!-- Purchase Progress Bar -->
+      <div class="tech-card rounded-2xl p-5 mb-6">
+       <div class="flex justify-between items-center mb-3"><span class="text-sm font-bold" style="color: var(--primary);">🔥 搶購進度條</span> <span class="text-sm font-bold" style="color: var(--primary);">73/100 已售出</span>
+       </div>
+       <div class="bg-black/50 rounded-full h-4 overflow-hidden" style="border: 1px solid rgba(255, 149, 0, 0.3);" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" aria-label="搶購進度">
+        <div class="animated-gradient h-full rounded-full" style="width: 73%;"></div>
+       </div>
+      </div>
+      <div class="text-center mb-6">
+       <p class="text-xl font-bold mb-2" style="color: #4ade80;">✅ 7 天滿意退款保證</p>
+       <p class="text-gray-400">覺得沒幫助 → 全額退費</p>
+      </div>
+      <div class="text-center mb-8" style="color: var(--light);">
+       <p class="text-xl">上線日期：<strong id="launch-date" style="color: var(--primary);">2026 年 2 月 27 日</strong></p>
+      </div><!-- Early Bird Benefit Notice -->
+      <div class="tech-card rounded-2xl p-6 mb-8 text-center neon-border">
+       <p class="text-xl font-bold mb-2" style="color: var(--primary);">⏰ 倒數 96 天上線</p>
+       <p class="text-lg" style="color: var(--text-content-accessible);">越早預購，獲得越多獨家搶先內容與專屬福利！</p>
+      </div><!-- Bonus Items -->
+      <div class="border-t-2 pt-8" style="border-color: rgba(255, 149, 0, 0.3);">
+       <h3 class="text-2xl font-bold text-center mb-6" style="color: var(--primary);">🎁 限時加贈</h3>
+       <ul class="space-y-4">
+        <li class="flex items-start gap-4"><span class="text-2xl" style="color: #4ade80;">✓</span> <span class="text-lg" style="color: var(--light);"><strong style="color: var(--primary);">UX診斷工具</strong>（市價 US$99）</span></li>
+        <li class="flex items-start gap-4"><span class="text-2xl" style="color: #4ade80;">✓</span> <span class="text-lg" style="color: var(--light);"><strong style="color: var(--primary);">專家直播課程</strong>（市價 US$49）</span></li>
+        <li class="flex items-start gap-4"><span class="text-2xl" style="color: #4ade80;">✓</span> <span class="text-lg" style="color: var(--light);"><strong style="color: var(--primary);">產業專屬模板</strong>（市價 US$29）</span></li>
+        <li class="flex items-start gap-4"><span class="text-2xl" style="color: #4ade80;">✓</span> <span class="text-lg" style="color: var(--light);"><strong style="color: var(--primary);">限時加贈：1��1諮詢</strong>（市價 US$120）</span></li>
+       </ul>
+       <p class="text-center mt-8 text-2xl font-bold" style="color: var(--primary-light);">總價值 US$297.99，限時只要 US$14</p>
+      </div>
+     </div>
     </div>
-
-    <!-- 跨國產品 -->
-    <div id="role-global" class="role-panel">
-      <h2 id="role-global-h2">跨國產品 UX｜多語系 + 可及性 → 市場擴張</h2>
-      <h3>跨國產品 UX 案例</h3>
-      <p>熱門關鍵字：多語系 UX、國際化設計、全球用戶體驗、可及性設計</p>
-      <ul>
-        <li>語言切換、文案在地化、字長彈性 → 提升各市場可用性</li>
-        <li>WCAG 檢查 → 降低文化與合規風險</li>
-      </ul>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">檢查你的多語系與可及性</a>
+   </section><!-- FAQ Section -->
+   <section class="py-16 px-4" style="background-color: var(--dark);">
+    <div class="max-w-4xl mx-auto">
+     <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 gradient-text">❓ 常見問題</h2>
+     <div class="space-y-4">
+      <div class="tech-card rounded-xl overflow-hidden"><button class="faq-button w-full text-left p-6 font-bold text-xl hover:bg-white/5 transition-colors flex justify-between items-center" data-faq="1" style="color: var(--primary);"> <span>這是預購嗎？</span> <span class="faq-icon text-2xl">▼</span> </button>
+       <div class="faq-content hidden p-6 pt-0 text-gray-300 leading-relaxed">
+        是的，這是預購方案。課程將於 2026 年 2 月 27 日正式上線，所有預購學員將在上線當天收到完整內容。
+       </div>
+      </div>
+      <div class="tech-card rounded-xl overflow-hidden"><button class="faq-button w-full text-left p-6 font-bold text-xl hover:bg-white/5 transition-colors flex justify-between items-center" data-faq="2" style="color: var(--primary);"> <span>只適合電商嗎？</span> <span class="faq-icon text-2xl">▼</span> </button>
+       <div class="faq-content hidden p-6 pt-0 text-gray-300 leading-relaxed">
+        不，這套框架適用於電商、教育平台、SaaS 服務、零售 APP 等各種產業。只要你需要提升轉換率和用戶留存，都能套用。
+       </div>
+      </div>
+      <div class="tech-card rounded-xl overflow-hidden"><button class="faq-button w-full text-left p-6 font-bold text-xl hover:bg-white/5 transition-colors flex justify-between items-center" data-faq="3" style="color: var(--primary);"> <span>和顧問健檢有何不同？</span> <span class="faq-icon text-2xl">▼</span> </button>
+       <div class="faq-content hidden p-6 pt-0 text-gray-300 leading-relaxed">
+        顧問服務是一次性建議，而這套工具是「框架 + 模板 + ROI Filter」的系統，你可以持續複用，��己診斷和優化。
+       </div>
+      </div>
+      <div class="tech-card rounded-xl overflow-hidden"><button class="faq-button w-full text-left p-6 font-bold text-xl hover:bg-white/5 transition-colors flex justify-between items-center" data-faq="4" style="color: var(--primary);"> <span>不滿意可以退款嗎？</span> <span class="faq-icon text-2xl">▼</span> </button>
+       <div class="faq-content hidden p-6 pt-0 text-gray-300 leading-relaxed">
+        可以！我們提供 7 天滿意退款保證。如果你覺得課程內容沒有幫助，可以在 7 天內申請全額退款。
+       </div>
+      </div>
+     </div>
     </div>
-
-    <!-- 教育平台 -->
-    <div id="role-edu" class="role-panel">
-      <h2 id="role-edu-h2">教育平台 UX｜學習流程優化 → 學員留存率提升</h2>
-      <h3>教育平台 UX 案例</h3>
-      <p>熱門關鍵字：教育 UX、學習平台體驗、課程留存率、EdTech</p>
-      <ul>
-        <li>播放器可用性 + 作業提交流程 + 支援性 → 留存率提升 10–15%</li>
-        <li>字幕、文字稿、對比度 → 無障礙學習</li>
-      </ul>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">優化你的教育平台體驗</a>
+   </section><!-- Final CTA -->
+   <section class="py-20 px-4 cyber-grid" style="background: linear-gradient(135deg, var(--secondary) 0%, var(--dark-blue) 100%);">
+    <div class="max-w-4xl mx-auto text-center" style="color: var(--light);">
+     <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: var(--primary-light); text-shadow: 0 0 30px rgba(255, 149, 0, 0.3);">你的競爭對手都在修補漏斗了，你呢？</h2>
+     <p class="text-2xl mb-10 font-semibold" style="color: #fffbe6;">立即預購，修復漏斗、提升 Conversion / Retention / NPS</p><button id="final-cta" class="glow-button text-white font-bold text-2xl px-14 py-7 rounded-full relative z-10" style="font-weight: 800;"> 立即預購 US$14 → </button>
     </div>
-
-    <!-- 創業 Pitch Deck -->
-    <div id="role-pitch" class="role-panel">
-      <h2 id="role-pitch-h2">創業 Pitch Deck UX｜痛點報告 → 投資人信任</h2>
-      <h3>創業 Pitch Deck UX 案例</h3>
-      <p>熱門關鍵字：Pitch Deck UX、投資人報告、創業提案工具、用戶痛點分析</p>
-      <ul>
-        <li>一頁報告：痛點 → 方案 → 影響 → 指標</li>
-        <li>把 UX 和營收模型綁定 → 提高融資成功率</li>
-      </ul>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">生成投資人一頁報告</a>
-    </div>
-
-    <!-- 學術/研究 -->
-    <div id="role-research" class="role-panel">
-      <h2 id="role-research-h2">學術/研究 UX｜結構化痛點 → 研究發表更有說服力</h2>
-      <h3>學術/研究 UX 案例</h3>
-      <p>熱門關鍵字：UX 研究工具、用戶研究方法、痛點分析、研究報告</p>
-      <ul>
-        <li>notes 可放觀察/研究/方案 → 統整更快</li>
-        <li>七維框架 → 文獻脈絡與跨場景比較更清楚</li>
-      </ul>
-      <a href="#pricing" class="btn btn-primary-shari btn-sm">用七維框架整理你的研究</a>
-    </div>
-  </section>
-
-  <!-- 七維差異化展示 -->
-  <section class="funnel-7d" style="background:#f8f9fa;padding:36px 0;">
+   </section>
+  <footer class="footer">
     <div class="container">
-      <h2>為什麼是七維？不只是設計，還包含支援性與可及性</h2>
-      <ul>
-        <li><strong>流程/介面/情境/認知/情緒：</strong>基礎 UX</li>
-        <li><strong>支援性：</strong>客服入口、SLA、ticket 透明、退換貨與技術支援</li>
-        <li><strong>可及性：</strong>WCAG、ARIA、對比度、字幕、鍵盤操作、語言切換</li>
-      </ul>
-      <p><strong>結論：</strong>七維 = 轉換率 + 留存率 + NPS + 合規。企業採購看重這四件事。</p>
-      <!-- 七維 vs 五維 差異化對照表 -->
-      <div class="funnel-7d-compare" style="margin-top:32px;">
-        <h3 style="font-weight:700;color:#6e00ff;">五維 vs 七維：差異化對照</h3>
-        <table style="width:100%;max-width:680px;margin:0 auto 18px auto;background:#fff;border-radius:8px;box-shadow:0 2px 8px #eee;">
-          <thead style="background:#f3e8ff;font-weight:700;">
-            <tr><th style="padding:8px 6px;">維度</th><th>五維（傳統 UX）</th><th>七維（本產品）</th></tr>
-          </thead>
-          <tbody>
-            <tr><td style="padding:6px;">流程</td><td>✔️</td><td>✔️</td></tr>
-            <tr><td>介面</td><td>✔️</td><td>✔️</td></tr>
-            <tr><td>情境</td><td>✔️</td><td>✔️</td></tr>
-            <tr><td>認知</td><td>✔️</td><td>✔️</td></tr>
-            <tr><td>情緒</td><td>✔️</td><td>✔️</td></tr>
-            <tr style="background:#f8f9fa;"><td>支援性</td><td>—</td><td style="color:#6e00ff;font-weight:700;">✔️（客服、SLA、ticket、退換貨）</td></tr>
-            <tr style="background:#f8f9fa;"><td>可及性</td><td>—</td><td style="color:#6e00ff;font-weight:700;">✔️（WCAG、ARIA、字幕、鍵盤）</td></tr>
-          </tbody>
-        </table>
-        <ul style="margin-bottom:0;line-height:1.8;">
-          <li><b>支援性</b>：直接影響 <b>客服 NPS</b>、<b>投訴率</b>、<b>留存率</b>，也是企業採購重點。</li>
-          <li><b>可及性</b>：關聯 <b>合規（WCAG/ADA）</b>，避免法律風險，擴大用戶群（如銀髮、障礙者）。</li>
-          <li>七維檢查能同時提升 <b>轉換率</b>（流程/介面）、<b>留存率</b>（情境/認知/情緒）、<b>NPS</b>（支援性）、<b>合規</b>（可及性）。</li>
-        </ul>
-        <div style="margin-top:10px;color:#b35900;font-size:1.05em;">
-          <b>ROI 掛鉤：</b>七維一次檢查，讓你同時提升營收、降低流失、減少法律風險，企業採購最重視！
+      <div class="footer-grid">
+
+        <!-- 品牌簡介 -->
+        <div class="footer-column">
+          <h3>UXShari 學習平台</h3>
+          <p>
+            幫助全球 UX/UI 初學者與進階設計師，建立專業技能、打造作品集，並成功轉職或升級職場能力。
+          </p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/uxshari/" class="social-link" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/@uxshari" class="social-link" aria-label="YouTube">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/sharichung/" class="social-link" aria-label="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://join.slack.com/t/uxshari/shared_invite/zt-3ioqyosn8-p2VUz1ST9wceu8Io~2ovFQ"
+              class="social-link" aria-label="Slack 社群">
+              <i class="fab fa-slack"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 快速連結 -->
+        <div class="footer-column">
+          <h3>快速連結</h3>
+          <ul class="footer-links ps-0">
+            <li class="footer-link"><a href="#auth-wrapper">會員登入</a></li>
+            <li class="footer-link"><a href="#features">學習方法</a></li>
+            <li class="footer-link"><a href="#courses">課程與產品</a></li>
+            <li class="footer-link"><a href="#testimonials">學員心得</a></li>
+            <li class="footer-link"><a href="#faq">常見問題</a></li>
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- 痛點快測（低門檻互動） -->
-  <section id="quiz" class="funnel-quiz container" style="padding:24px 0;">
-    <h2>30 秒痛點快測：立刻獲得你的 ROI 建議</h2>
-    <p>選擇你的場景與卡關，系統將生成一頁建議。你可選擇「Email 取得」或「免 Email 立即預覽」。</p>
-    <form id="quiz-form" style="max-width:520px;margin:0 auto;">
-      <div class="mb-2">
-        <label for="quiz-scenario" style="font-weight:600;">1. 場景：</label>
-        <select id="quiz-scenario" class="form-select" required>
-          <option value="">請選擇</option>
-          <option value="ecom">電商結帳</option>
-          <option value="saas">SaaS Onboarding</option>
-          <option value="cx">客服支援</option>
-          <option value="a11y">可及性檢查</option>
-        </select>
+      <div class="copyright">
+        © <span id="current-year"></span> UXShari 學習平台. All rights reserved.
       </div>
-      <div class="mb-2">
-        <label for="quiz-pain" style="font-weight:600;">2. 主要卡關：</label>
-        <select id="quiz-pain" class="form-select" required>
-          <option value="">請選擇</option>
-          <option value="flow">流程太長/複雜</option>
-          <option value="ui">介面不明確/難用</option>
-          <option value="support">客服/支援不透明</option>
-          <option value="a11y">無障礙/合規問題</option>
-        </select>
-      </div>
-      <div class="mb-2" id="quiz-email-block">
-        <label for="quiz-email" style="font-weight:600;">3. Email（可選）：</label>
-        <input type="email" id="quiz-email" class="form-control" placeholder="填寫 Email 取得完整建議（可選）">
-      </div>
-      <div class="d-flex gap-2 mt-3">
-        <button type="submit" class="btn btn-primary-shari">Email 取得建議</button>
-        <button type="button" id="quiz-preview-btn" class="btn btn-outline-secondary-shari">免 Email 立即預覽</button>
-      </div>
-      <div id="quiz-result" style="display:none;margin-top:18px;"></div>
-    </form>
-    <script>
-      // 30秒快測交互邏輯
-      document.addEventListener('DOMContentLoaded', function() {
-        var form = document.getElementById('quiz-form');
-        var previewBtn = document.getElementById('quiz-preview-btn');
-        var resultDiv = document.getElementById('quiz-result');
-        function genAdvice(scenario, pain) {
-          var map = {
-            ecom: {
-              flow: '【電商結帳】流程太長 → 建議精簡欄位、強化進度條，並加上客服入口。',
-              ui: '【電商結帳】介面不明 → 建議加大 CTA、優化欄位排版，提升可用性。',
-              support: '【電商結帳】客服不透明 → 建議結帳頁明顯顯示客服聯絡方式。',
-              a11y: '【電商結帳】無障礙問題 → 建議檢查對比度、支援鍵盤操作。'
-            },
-            saas: {
-              flow: '【SaaS Onboarding】流程卡關 → 建議分步引導、加上互動教學。',
-              ui: '【SaaS Onboarding】介面不明 → 建議加註提示、優化新手教學。',
-              support: '【SaaS Onboarding】客服不透明 → 建議 onboarding 流程中嵌入支援入口。',
-              a11y: '【SaaS Onboarding】無障礙問題 → 建議字幕、ARIA 標籤、支援螢幕閱讀。'
-            },
-            cx: {
-              flow: '【客服支援】流程複雜 → 建議簡化提問流程、明確分流。',
-              ui: '【客服支援】介面不明 → 建議強化 FAQ、提升 ticket 狀態可視化。',
-              support: '【客服支援】支援不透明 → 建議公開 SLA、進度追蹤。',
-              a11y: '【客服支援】無障礙問題 → 建議支援語音、文字輔助。'
-            },
-            a11y: {
-              flow: '【可及性檢查】流程障礙 → 建議檢查 tab 鍵可用性、流程簡化。',
-              ui: '【可及性檢查】介面障礙 → 建議提升對比度、加大字體。',
-              support: '【可及性檢查】支援障礙 → 建議提供多元聯絡方式。',
-              a11y: '【可及性檢查】合規問題 → 建議依 WCAG/ADA 標準檢查。'
-            }
-          };
-          return (map[scenario] && map[scenario][pain]) || '請選擇場景與卡關';
-        }
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          var scenario = document.getElementById('quiz-scenario').value;
-          var pain = document.getElementById('quiz-pain').value;
-          var email = document.getElementById('quiz-email').value;
-          if (!scenario || !pain) {
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<span style="color:#d7263d;">請選擇場景與卡關</span>';
-            return;
-          }
-          // Email 模擬流程
-          if (email && email.includes('@')) {
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<b>建議已寄送至：</b>' + email + '<br>' + genAdvice(scenario, pain);
-          } else {
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<span style="color:#d7263d;">請輸入有效 Email 或點選「免 Email 立即預覽」</span>';
-          }
-        });
-        previewBtn.addEventListener('click', function() {
-          var scenario = document.getElementById('quiz-scenario').value;
-          var pain = document.getElementById('quiz-pain').value;
-          if (!scenario || !pain) {
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<span style="color:#d7263d;">請選擇場景與卡關</span>';
-            return;
-          }
-          resultDiv.style.display = 'block';
-          resultDiv.innerHTML = '<b>即時預覽建議：</b><br>' + genAdvice(scenario, pain);
-        });
+    </div>
+  </footer>
+</main>
+  <script>
+    const defaultConfig = {
+      hero_title: "每拖一天，平均損失 US$2,000+ 潛在營收",
+      hero_subtitle: "再猶豫一天，10位高價客戶可能已流失",
+      original_price: "US$39.99",
+      sale_price: "US$14",
+      cta_button_text: "立即預購 US$14 →",
+      launch_date: "2026 年 2 月 27 日",
+      font_family: "PingFang TC",
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      const heroTitle = config.hero_title || defaultConfig.hero_title;
+      const heroSubtitle = config.hero_subtitle || defaultConfig.hero_subtitle;
+      const originalPrice = config.original_price || defaultConfig.original_price;
+      const salePrice = config.sale_price || defaultConfig.sale_price;
+      const ctaButtonText = config.cta_button_text || defaultConfig.cta_button_text;
+      const launchDate = config.launch_date || defaultConfig.launch_date;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'Microsoft JhengHei, sans-serif';
+
+      document.getElementById('hero-title').textContent = heroTitle;
+      document.getElementById('hero-subtitle').textContent = heroSubtitle;
+      document.getElementById('original-price').textContent = originalPrice;
+      document.getElementById('sale-price').textContent = salePrice;
+      document.getElementById('hero-cta').textContent = `搶救營收，只需 ${salePrice} (原價 ${originalPrice}) →`;
+      document.getElementById('main-cta').textContent = ctaButtonText;
+      document.getElementById('final-cta').textContent = ctaButtonText;
+      document.getElementById('launch-date').textContent = launchDate;
+
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      const headings = document.querySelectorAll('h1, h2, h3');
+      headings.forEach(h => {
+        const level = parseInt(h.tagName.substring(1));
+        const multiplier = level === 1 ? 2.5 : level === 2 ? 2 : 1.5;
+        h.style.fontSize = `${baseSize * multiplier}px`;
       });
-    </script>
-  </section>
+      
+      document.body.style.fontSize = `${baseSize}px`;
+    }
 
-  <!-- 定價區（USD + 風險反轉） -->
-  <section class="funnel-pricing" id="pricing" style="background:#fff3cd20;padding:36px 0;">
-    <div class="container">
-      <h2>選擇最適合你的 UX 工具方案（USD）</h2>
-      <div class="funnel-pricing-promo" style="background:#fffbe6;border-radius:10px;padding:12px 18px;margin-bottom:18px;color:#b35900;font-weight:600;">
-        <span>限時優惠：<b>首月免費</b>・<b>7 天無條件退款</b>・<b>限量 100 組模板包</b>・<a href="#whitepaper" style="color:#6e00ff;text-decoration:underline;">下載企業白皮書</a>（需 Email）</span>
-      </div>
-      <table class="funnel-pricing-table">
-        <thead>
-          <tr>
-            <th>方案</th>
-            <th>功能亮點</th>
-            <th>儲存上限</th>
-            <th>價格</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>免費版</td>
-            <td>三維痛點（流程、介面、情境）、單人使用</td>
-            <td>3 張表單</td>
-            <td><strong>Free</strong></td>
-          </tr>
-          <tr style="background:#f3e8ff;">
-            <td>專業版（月租）<br><span style="display:inline-block;background:#ff9500;color:#fff;font-size:0.95em;font-weight:700;padding:2px 10px;border-radius:12px;margin-top:4px;">最受歡迎</span></td>
-            <td>七維痛點、notes & badges、PDF 匯出、pin 清單、桌面版拖動位置</td>
-            <td>100 張表單</td>
-            <td style="font-weight:700;color:#6e00ff;">
-              $9.99/月<br>
-              <span style="font-size:0.95em;color:#b35900;">首月免費・7 天退款保證・限量模板包</span><br>
-              <a href="#" class="btn btn-primary-shari btn-sm mt-2">立即升級，解鎖七維痛點</a>
-            </td>
-          </tr>
-          <tr>
-            <td>企業版</td>
-            <td>合規檢查（WCAG/ADA）+ 客戶成功模組 + 團隊協作 + API</td>
-            <td>不限</td>
-            <td style="font-weight:700;color:#6e00ff;">$49.99/月<br><a href="#contact" class="btn btn-outline-secondary-shari btn-sm mt-2">預約企業諮詢</a><br><a href="#whitepaper" class="btn btn-link btn-sm mt-1" style="color:#b35900;text-decoration:underline;">下載企業白皮書</a></td>
-          </tr>
-          <tr>
-            <td>模板商城（買斷）</td>
-            <td>產業模板（電商、教育、SaaS、Onboarding），多語系/可及性加值包</td>
-            <td>每包 30 張表單</td>
-            <td>$49–99/包</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="funnel-pricing-cta mt-3">
-        <a href="#" class="btn btn-primary-shari btn-lg">開始 14 天免費試用（不需信用卡）</a>
-        <a href="#contact" class="btn btn-outline-secondary-shari btn-lg">需要團隊/企業方案？聯絡我們</a>
-      </div>
-      <div class="funnel-pricing-note mt-2" style="color:#b35900;font-size:1em;">
-        <b>風險反轉：</b>首月免費、7天無條件退款，完全零風險。<br>
-        <b>稀缺性：</b>限量 100 組模板包，送完即止。<br>
-        <b>企業專屬：</b>下載 <a href="#whitepaper" style="color:#6e00ff;text-decoration:underline;">企業白皮書</a>（需 Email），掌握 UX 七維落地策略。
-      </div>
-    </div>
-  </section>
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            if (window.elementSdk) {
+              window.elementSdk.config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            if (window.elementSdk) {
+              window.elementSdk.config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
 
-  <!-- Testimonials（角色化） -->
-  <section class="funnel-testimonials" style="background:#f8f9fa;padding:36px 0;">
-    <div class="container">
-      <h2>真實用戶回饋：不同角色的成果</h2>
-      <ul style="line-height:1.8;">
-        <li><strong>電商 PM：</strong>「結帳痛點減少，轉換率 12% 立刻反映在營收。」</li>
-        <li><strong>SaaS Lead：</strong>「Onboarding 優化後，D30 留存率提升 15%，會議效率翻倍。」</li>
-        <li><strong>顧問：</strong>「一頁報告讓客戶快速理解，簽單更順利。」</li>
-        <li><strong>合規主管：</strong>「WCAG 檢查清單清楚可行，降低法律風險。」</li>
-        <li><strong>客服主管：</strong>「支援流程透明化，NPS 提升 18%，投訴率下降。」</li>
-        <li><strong>教育平台 PM：</strong>「學習流程更順，學員留存率提升 10%+。」</li>
-      </ul>
-    </div>
-  </section>
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["hero_title", config.hero_title || defaultConfig.hero_title],
+        ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+        ["original_price", config.original_price || defaultConfig.original_price],
+        ["sale_price", config.sale_price || defaultConfig.sale_price],
+        ["cta_button_text", config.cta_button_text || defaultConfig.cta_button_text],
+        ["launch_date", config.launch_date || defaultConfig.launch_date]
+      ]);
+    }
 
-  <!-- Footer 宣言 -->
-  
-</body>
+    // Countdown Timer
+    function initCountdown() {
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 3);
+      
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endDate.getTime() - now;
+        
+        if (distance < 0) {
+          document.getElementById('days').textContent = '0';
+          document.getElementById('hours').textContent = '00';
+          document.getElementById('minutes').textContent = '00';
+          document.getElementById('seconds').textContent = '00';
+          return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = days;
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+      }
+      
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+    
+    initCountdown();
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('.faq-icon');
+        const isOpen = !content.classList.contains('hidden');
+        
+        document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '▼');
+        
+        if (!isOpen) {
+          content.classList.remove('hidden');
+          icon.textContent = '▲';
+        }
+      });
+    });
+
+    // CTA Button Handlers
+    const ctaButtons = document.querySelectorAll('#hero-cta, #main-cta, #final-cta');
+    ctaButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const successMessage = document.createElement('div');
+        successMessage.className = 'fixed top-4 right-4 px-8 py-5 rounded-xl shadow-2xl z-50 neon-border';
+        successMessage.style.background = 'rgba(26, 26, 46, 0.95)';
+        successMessage.style.color = 'var(--primary)';
+        successMessage.innerHTML = '<span class="text-xl font-bold">✓ 即將跳轉至結帳頁面...</span>';
+        document.body.appendChild(successMessage);
+        setTimeout(() => successMessage.remove(), 3000);
+      });
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a308a308140719e',t:'MTc2Mzg5OTU3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
