@@ -23,30 +23,70 @@
     <section class="py-5 px-3 cyber-grid"
       style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
       <div class="container-lg text-center" style="color: #fffbe6;">
-        <div class="mb-4 slide-in">
-          <img src="./assets/images/hero.gif" alt="漏斗損失示意圖"
-            class="mx-auto mb-4 rounded-4 shadow-lg w-100" style="max-width:420px;">
-          <div class="d-inline-block text-white px-4 py-1 rounded-pill fs-6 fw-bold mb-4 pulse-glow neon-border"
-            style="background: rgba(255, 61, 0, 0.8);">
-            ⚠️ 緊急警告
+        <div class="container hero-content d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 pt-4 pb-5 py-md-5">
+          <!-- Left: Hero Image & Text -->
+          <div class="col-12 col-md-6 p-0">
+            <div class="d-inline-block text-white px-4 py-1 rounded-pill fs-6 fw-bold mb-4 pulse-glow neon-border"
+              style="background: rgba(255, 61, 0, 0.8);">
+              ⚠️ 緊急警告
+            </div>
+            <h1 id="hero-title" class="fs-1 fw-bold mb-2 lh-tight"
+              style="letter-spacing: 2px; text-shadow: 0 2px 20px rgba(110, 0, 255, 0.4), 0 0 50px rgba(255, 149, 0, 0.3); font-weight: 800;">
+              每拖一天，你都在失去訂單，白白浪費廣告費！
+            </h1>
+            <img src="./assets/images/hero.gif" alt="漏斗損失示意圖"
+              class="mx-auto mb-4 rounded-4 shadow-lg w-100">
+            
+            <p id="hero-subtitle" class="fs-4 mb-4 fw-semibold">使用前：UX漏水，訂單四處流失！<br>使用後：修好UX，訂單穩定流入！<br>一套幫你修好漏斗、提升轉換率的 UX ROI 工具包<br>適合電商、教育、SaaS、App，不會 UX 也能上手
+            </p>
           </div>
-          <h1 id="hero-title" class="fs-1 fw-bold mb-2 lh-tight"
-            style="letter-spacing: 2px; text-shadow: 0 2px 20px rgba(110, 0, 255, 0.4), 0 0 50px rgba(255, 149, 0, 0.3); font-weight: 800;">
-            每拖一天，你都在失去訂單，白白浪費廣告費！
-          </h1>
-          <p id="hero-subtitle" class="fs-4 mb-4 fw-semibold">使用UX ROI 工具包前：漏水的 UX → 訂單四處流失！<br>使用UX
-            ROI 工具包後：修好的 UX → 訂單穩定流入！
-          </p>
+          <!-- Right: Pricing Highlight -->
+          <div class="col-12 col-md-6 ps-3 pe-3 ps-md-0 pe-md-0 d-flex">
+
+            <div class="tech-card rounded-4 p-4 neon-border shadow-lg bg-dark w-100" aria-labelledby="pricing-highlight-title" style="margin: 0 auto;">
+              <div id="pricing-highlight-title" class="h1 mb-2" role="heading" aria-level="2">
+                <span style="text-decoration: line-through; font-size: 0.85em; color: #767676; margin-right: 8px;" aria-label="原價 US$39.99">US$39.99</span><br>
+                <span class="fw-bold" style="font-size: 1.5em; color: var(--accent);" aria-label="早鳥價 US$14">早鳥價 US$14</span>
+              </div>
+              <div class="fs-6 mb-2" style="color: var(--accent);">
+                  上線日期：2026 年 2 月 27 日
+                </div>
+              <ul class="list-unstyled mt-3 text-start mx-auto" aria-label="你將獲得">
+                <li class="mb-2 d-flex align-items-start">
+                  <span class="fs-4 me-2" style="color: #4ade80;" aria-hidden="true">✓</span>
+                  <span><strong style="color: var(--primary);">30 分鐘 UX ROI 框架課</strong>：零基礎也能立即上手</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start">
+                  <span class="fs-4 me-2" style="color: #4ade80;" aria-hidden="true">✓</span>
+                  <span><strong style="color: var(--primary);">5 大場景診斷清單模板</strong>：電商、教育、SaaS、App、通用，一鍵套用</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start">
+                  <span class="fs-4 me-2" style="color: #4ade80;" aria-hidden="true">✓</span>
+                  <span><strong style="color: var(--primary);">ROI 對照庫</strong>：只要勾選指標，就能馬上看到漏斗問題</span>
+                </li>
+                <li class="mb-2 d-flex align-items-start">
+                  <span class="fs-4 me-2" style="color: #4ade80;" aria-hidden="true">✓</span>
+                  <span><strong style="color: var(--primary);">七維痛點框架</strong>：從操作到情緒，全面找出用戶卡住的地方</span>
+                </li>
+              </ul>
+              <div class="mb-4">
+                <div class="fs-5 fw-bold mb-2" style="color: var(--primary);">
+                  🎁 加贈 UX 診斷工具 + 產業模板（總價值 US$128）
+                </div>
+                <div class="fs-6" style="color: var(--text-content-accessible);">
+                  ⏳ 限量 100 名早鳥名額，售完即恢復原價
+                </div>
+              </div>
+              <!-- CTA Button -->
+              <button id="hero-cta"
+                class="btn btn-primary text-white fw-bold fs-4 px-5 py-3 rounded-pill position-relative"
+                style="min-width: 200px; font-weight: 700;">
+                立即預購（限量 100 名） →
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="h1"><span
-            style="text-decoration: line-through; font-size: 0.85em; color: #aaa; margin-right: 8px;">US$39.99</span>
-          早鳥價 US$14</div>
-        <!-- CTA Button -->
-        <button id="hero-cta"
-          class="btn btn-primary text-white fw-bold fs-4 px-5 py-3 rounded-pill position-relative"
-          style="min-width: 200px; font-weight: 700;">
-          現在預購 →
-        </button>
+        
       </div>
     </section>
 
@@ -195,7 +235,7 @@
         <div class="row g-4">
           <div class="col-md-4">
             <div class="tech-card rounded-4 p-4 neon-border text-center h-100">
-              <div class="fs-1 fw-bold mb-2 animated-gradient"
+              <div class="fs-1 fw-bold mb-2 animated-gradient-green"
                 style="background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 +35%
               </div>
@@ -205,7 +245,7 @@
           </div>
           <div class="col-md-4">
             <div class="tech-card rounded-4 p-4 neon-border text-center h-100">
-              <div class="fs-1 fw-bold mb-2 animated-gradient"
+              <div class="fs-1 fw-bold mb-2 animated-gradient-green"
                 style="background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 +4.5%
               </div>
@@ -215,7 +255,7 @@
           </div>
           <div class="col-md-4">
             <div class="tech-card rounded-4 p-4 neon-border text-center h-100">
-              <div class="fs-1 fw-bold mb-2 animated-gradient"
+              <div class="fs-1 fw-bold mb-2 animated-gradient-green"
                 style="background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 +NPS
               </div>

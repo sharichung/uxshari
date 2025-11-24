@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="assets/css/general.css" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Tektur:wght@400;500;600;700&display=swap" as="style" onload="this.rel='stylesheet'">
+    <link rel="preload" href="assets/js/clarity.js" as="script">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UX ROI Accelerator 七維診斷工具 | UXShari 會員工具</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/general.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&amp;family=Tektur:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <script src="assets/js/clarity.js" defer></script>
+ 
+  
+</head>
+<body data-navbar-type="general" style="padding-top: 46px;">
+
+  <!-- Removed full-page loading overlay; using lazy placeholders instead -->
+
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <!-- Header / Hero (compact) -->
+  <section class="hero-section twinkle-star no-print py-3 py-md-4">
+    <!-- Twinkle Stars Effect -->
+    <div class="twinkle-star star1"></div>
+    <div class="twinkle-star star2"></div>
+    <div class="twinkle-star star3"></div>
+    <div class="twinkle-star star4"></div>
+    <div class="twinkle-star star5"></div>
+    <div class="twinkle-star star6"></div>
+    <div class="twinkle-star star7"></div>
+    <div class="twinkle-star star8"></div>
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb mb-0" style="--bs-breadcrumb-divider: '>'; font-size: 0.875rem;">
+          <li class="breadcrumb-item"><a href="/dashboard.html" class="text-white text-decoration-none opacity-75"><i class="fas fa-home"></i> 儀表板</a></li>
+          <li class="breadcrumb-item active text-white" aria-current="page">UX ROI Accelerator 七維診斷工具</li>
+        </ol>
+      </nav>
+      
+      <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 gap-md-3">
+        <div class="d-flex align-items-center gap-2 gap-md-3 w-100 w-md-auto">
+          <div class="flex-grow-1">
+            <h1 class="h4 h-md-3 fw-bold mb-1"><i class="fas fa-clipboard-check me-2"></i>UX ROI Accelerator 七維診斷工具</h1>
+            <div class="small opacity-90 d-none d-md-block">快速定位 UX 瓶頸，直接提升轉換率、留存率、NPS</div>
+          </div>
+        </div>
+        <div class="d-flex flex-row flex-md-column align-items-center align-items-md-end gap-2 w-100 w-md-auto justify-content-between justify-content-md-start">
+          <span id="user-status-badge" class="badge-normal">
+            <i class="fas fa-user me-1 me-md-2"></i>
+            <span id="user-status" class="placeholder-glow"><span class="placeholder col-4"></span></span>
+          </span>
+          <span class="badge" style="background: rgba(255,255,255,0.25); color: white; border: 1px solid rgba(255,255,255,0.3);">
+            <i class="fas fa-list me-1 me-md-2"></i>
+            清單：<strong id="checklist-count" class="placeholder-glow"><span class="placeholder col-2"></span></strong>
+            / <span id="checklist-limit" class="placeholder-glow"><span class="placeholder col-1"></span></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 手機版清單快速切換 -->
+  <div class="container d-md-none mt-3 no-print">
+    <div class="dropdown w-100">
+      <button class="btn btn-outline-secondary-shari w-100 d-flex align-items-center justify-content-between" type="button" id="mobileChecklistDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <span>
+          <i class="fas fa-list me-2"></i>
+          <span id="mobile-current-checklist">選擇清單</span>
+        </span>
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-menu w-100" aria-labelledby="mobileChecklistDropdown" id="mobile-checklist-menu" style="max-height: 400px; overflow-y: auto;">
+        <!-- 搜尋框 -->
+        <li class="mobile-search-item">
+          <div class="input-group w-100">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input id="mobile-sidebar-search" type="text" class="form-control" placeholder="搜尋清單或關鍵字…"/>
+          </div>
+        </li>
+        <li><hr class="dropdown-divider mt-0"></li>
+        <!-- 收藏清單 -->
+        <li><h6 class="dropdown-header"><i class="fas fa-thumbtack text-warning me-1"></i>收藏清單</h6></li>
+        <li><div id="mobile-favorites-list"></div></li>
+        <li><hr class="dropdown-divider"></li>
+        <!-- 所有清單 -->
+        <li><h6 class="dropdown-header"><i class="fas fa-folder-open text-primary-shari me-1"></i>所有清單</h6></li>
+        <li><div id="mobile-all-list"></div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <div class="row g-4">
+      <!-- Sidebar (desktop) / Offcanvas (mobile) -->
+      <div class="col-12 col-md-4 col-lg-3">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="checklistSidebar" aria-labelledby="checklistSidebarLabel">
+          <div class="offcanvas-header d-flex d-md-none">
+            <h5 class="offcanvas-title" id="checklistSidebarLabel">我的清單</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#checklistSidebar" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body p-0">
+            <div class="card border-0 shadow-sm mb-3">
+              <div class="card-body p-3">
+                <div class="input-group">
+                  <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
+                  <input id="sidebar-search" type="text" class="form-control" placeholder="搜尋清單或關鍵字…"/>
+                </div>
+              </div>
+            </div>
+
+            <!-- Favorites Section -->
+            <div class="card border-0 shadow-sm mb-3">
+              <div class="card-header bg-white d-flex align-items-center justify-content-between py-2" role="button" data-bs-toggle="collapse" data-bs-target="#favoritesCollapse" aria-expanded="true">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-thumbtack text-warning"></i>
+                  <span class="fw-bold">收藏</span>
+                  <span class="badge bg-light text-muted" id="favorites-count">0</span>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="collapse show" id="favoritesCollapse">
+                <!-- Loading skeleton for favorites -->
+                <div id="favorites-loading" class="p-3">
+                  <div class="placeholder-glow">
+                    <div class="placeholder col-12 mb-2" style="height: 40px; border-radius: 4px;"></div>
+                    <div class="placeholder col-12" style="height: 40px; border-radius: 4px;"></div>
+                  </div>
+                </div>
+                <ul id="favorites-list" class="list-group list-group-flush small-draggable" style="display: none;"></ul>
+                <div class="p-3 text-center text-muted small d-none" id="favorites-empty">
+                  <i class="fas fa-info-circle me-1"></i>點擊圖釘收藏常用清單
+                </div>
+              </div>
+            </div>
+
+            <!-- All Lists Section -->
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white d-flex align-items-center justify-content-between py-2">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="fas fa-folder-open text-primary-shari"></i>
+                  <span class="fw-bold">全部清單</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <button id="create-checklist-btn" class="btn btn-primary-shari shadow-sm">
+                    <i class="fas fa-plus me-1"></i><span class="fw-bold">新增清單</span>
+                  </button>
+                </div>
+              </div>
+              <!-- Loading skeleton for all lists -->
+              <div id="all-list-loading" class="p-3">
+                <div class="placeholder-glow">
+                  <div class="placeholder col-12 mb-2" style="height: 50px; border-radius: 4px;"></div>
+                  <div class="placeholder col-12 mb-2" style="height: 50px; border-radius: 4px;"></div>
+                  <div class="placeholder col-12" style="height: 50px; border-radius: 4px;"></div>
+                </div>
+              </div>
+              <ul id="all-list" class="list-group list-group-flush small-draggable" style="display: none;"></ul>
+              <div class="p-3 d-none" id="empty-state">
+                <div class="text-center text-muted">
+                  <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                  <div>沒有清單，點擊「新增」開始</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Limit Notice -->
+            <div id="limit-notice" class="limit-notice d-none mt-3">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-exclamation-triangle fa-lg text-warning me-2"></i>
+                <div class="flex-grow-1">
+                  <div class="fw-bold small">已達普通會員清單上限（3 張）</div>
+                  <div class="small text-muted">升級 VIP 會員：無限清單 + AI 建議 + PDF 報告 + 團隊協作</div>
+                </div>
+                <a href="/pricing.html" class="btn btn-warning btn-sm ms-2">
+                  <i class="fas fa-crown me-1"></i>升級
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile FAB (Floating Action Button) - Always visible on mobile -->
+      <button id="mobile-create-btn" class="btn btn-primary-shari shadow-lg d-md-none no-print" 
+              style="position: fixed; bottom: 24px; right: 24px; width: 64px; height: 64px; border-radius: 50%; z-index: 1040; font-size: 1.5rem;"
+              title="新增清單"
+              aria-label="新增清單">
+        <i class="fas fa-plus" style="font-size: 1.5rem;"></i>
+      </button>
+
+      <!-- Detail Area -->
+      <div class="col-12 col-md-8 col-lg-9">
+        <!-- Loading Skeleton Screen -->
+        <div id="detail-loading" class="card border-0 shadow-sm">
+          <div class="card-body p-3 p-md-4">
+            <!-- Toolbar Skeleton -->
+            <div class="skeleton-group mb-3">
+              <div class="skeleton skeleton-badge" style="width: 120px; height: 28px;"></div>
+              <div class="skeleton skeleton-text" style="width: 60%; height: 36px; margin-left: 12px;"></div>
+            </div>
+            <!-- Progress Bar Skeleton -->
+            <div class="skeleton-group mb-3">
+              <div class="skeleton skeleton-bar" style="width: 100%; height: 10px;"></div>
+            </div>
+            <!-- Category Sections Skeleton -->
+            <div class="skeleton-group mb-4">
+              <div class="skeleton skeleton-heading" style="width: 180px; height: 24px; margin-bottom: 12px;"></div>
+              <div class="skeleton skeleton-item" style="width: 100%; height: 48px; margin-bottom: 8px;"></div>
+              <div class="skeleton skeleton-item" style="width: 100%; height: 48px; margin-bottom: 8px;"></div>
+              <div class="skeleton skeleton-item" style="width: 95%; height: 48px;"></div>
+            </div>
+            <div class="skeleton-group">
+              <div class="skeleton skeleton-heading" style="width: 160px; height: 24px; margin-bottom: 12px;"></div>
+              <div class="skeleton skeleton-item" style="width: 100%; height: 48px; margin-bottom: 8px;"></div>
+              <div class="skeleton skeleton-item" style="width: 98%; height: 48px;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div id="detail-wrapper" class="card border-0 shadow-sm">
+          <div class="card-body p-3 p-md-4" style="position: relative;">
+            <!-- Print-only Checklist Title -->
+            <div id="print-checklist-title" class="print-checklist-title print-only"></div>
+            <!-- Top-right corner actions (collapse + actions dropdown) -->
+            <div class="no-print" style="position: absolute; top: 12px; right: 12px; z-index: 10; display: flex; gap: 8px;">
+              <!-- 折疊按鈕 -->
+              <button id="collapse-all-btn" class="btn btn-outline-secondary-shari btn-sm" type="button" title="折疊所有類別" style="border-radius: 8px; border-color: var(--bs-border-color-translucent) !important; background-color: var(--bs-body-bg) !important; color: var(--bs-body-color) !important; border: 2px solid;">
+                <i class="fas fa-compress-alt d-md-none me-1"></i><span class="d-none d-md-inline"><i class="fas fa-compress-alt me-1"></i>折疊</span><span class="d-md-none">折疊</span>
+              </button>
+              <!-- 操作下拉選單 -->
+              <div class="dropdown">
+                <button class="btn btn-outline-secondary-shari btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="清單操作" style="border-radius: 8px;">
+                  <i class="fas fa-ellipsis-v"></i><span class="d-none d-lg-inline ms-2">操作</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                  <li><a class="dropdown-item" href="#" id="btn-duplicate"><i class="fas fa-copy me-2 text-secondary"></i>複製清單</a></li>
+                  <li><a class="dropdown-item" href="#" id="btn-print"><i class="fas fa-print me-2 text-secondary"></i>列印/儲存PDF</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item text-danger" href="#" id="btn-delete"><i class="fas fa-trash me-2"></i>刪除清單</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Toolbar (title + filters) -->
+            <div id="detail-toolbar" class="align-items-center justify-content-between flex-wrap gap-2 mb-3 no-print" style="padding-right: 140px;">
+              <div class="d-flex align-items-center gap-2 flex-grow-1 flex-wrap">
+                <span id="detail-project-type" class="badge bg-light text-dark" style="font-size: 0.9rem;"></span>
+                <input id="detail-title" class="form-control fw-bold border-0 bg-transparent" style="font-size:1.25rem; padding: 0.25rem 0.5rem;" placeholder="清單名稱"/>
+                <small class="text-muted flex-shrink-0" id="detail-save-status">
+                  <i class="fas fa-check-circle text-success d-none" id="save-icon"></i>
+                </small>
+              </div>
+              <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
+                <!-- 篩選器按鈕 -->
+                <button id="filter-incomplete-btn" class="btn btn-outline-error-shari btn-sm btn-chip" type="button" title="只顯示未完成">
+                  <i class="fas fa-square d-md-none me-1"></i><span class="d-none d-md-inline"><i class="fas fa-square me-1"></i>未完成</span><span class="d-md-none">未完成</span>
+                </button>
+                <button id="filter-needs-work-btn" class="btn btn-outline-error-shari btn-sm btn-chip" type="button" title="只顯示需修正">
+                  <i class="fas fa-exclamation-circle d-md-none me-1"></i><span class="d-none d-md-inline"><i class="fas fa-exclamation-circle me-1"></i>需修正</span><span class="d-md-none">需修正</span>
+                </button>
+                <!-- 重點篩選 -->
+                <button id="priority-filter-btn" class="btn btn-outline-error-shari btn-sm btn-chip" type="button" title="只顯示重點項目">
+                  <i class="fas fa-star d-md-none me-1"></i><span class="d-none d-md-inline"><i class="fas fa-star me-1"></i>重點</span><span class="d-md-none">重點</span>
+                </button>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div class="flex-grow-1 me-3">
+                <div class="progress" style="height: 10px;">
+                  <div id="detail-progress-bar" class="progress-bar bg-secondary-shari" style="width: 0%"></div>
+                </div>
+              </div>
+              <div class="text-muted small">
+                更新：<span id="detail-updated">—</span>
+              </div>
+            </div>
+
+            <!-- ROI Filter 面板 (Mobile-Optimized) -->
+            <div id="roi-filter-panel-wrapper" class="roi-filter-wrapper d-flex align-items-center gap-2 flex-wrap position-relative">
+              <!-- Mobile: Dropdown -->
+              <div class="d-md-none w-100 mb-3">
+                <div class="dropdown w-100">
+                  <button id="roi-filter-toggle" class="btn btn-outline-secondary-shari btn-sm w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span><i class="fas fa-filter me-1"></i>ROI 篩選</span>
+                    <span id="roi-filter-badges-mobile" class="ms-2"></span>
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                  <div class="dropdown-menu w-100 p-2" id="roi-filter-panel-mobile" style="min-width: 220px;">
+                    <div id="roi-filter-options-mobile"></div>
+                    <button id="roi-filter-reset-mobile" class="btn btn-link text-danger w-100 mt-2">清除篩選</button>
+                  </div>
+                </div>
+              </div>
+              <!-- Desktop: Inline panel -->
+              <div id="roi-filter-panel-desktop" class="d-none d-md-flex align-items-center gap-2 flex-wrap roi-panel-content mb-3">
+                <label class="form-label mb-0 me-2 d-none d-md-block" style="font-size:0.95em;">ROI 篩選：</label>
+                <div id="roi-filter-options-desktop" class="d-flex gap-2"></div>
+                <button id="roi-filter-reset-desktop" class="btn btn-link text-danger ms-2">清除篩選</button>
+                <span id="roi-filter-badges-desktop" class="ms-2"></span>
+              </div>
+            </div>
+
+            <!-- Sections -->
+            <div id="detail-sections">
+              <div class="text-center py-5" id="detail-empty">
+                <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                <h5 class="text-muted">開始您的第一個 UX 專案</h5>
+                <p class="text-muted mb-4">選擇專案類型，系統將自動載入專業的痛點檢查模板</p>
+                <button class="btn btn-primary-shari btn-lg" onclick="document.getElementById('create-checklist-btn').click() || document.getElementById('mobile-create-btn').click()">
+                  <i class="fas fa-plus me-2"></i>建立第一張清單
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 成就提示 Toast - 手機版全螢幕，桌面版右上角 -->
+  <div id="achievement-toast" class="achievement-toast">
+    <div class="achievement-card bg-white rounded-4 shadow-xl p-4 text-center">
+      <div class="achievement-icon mb-3">
+        <i class="fas fa-trophy fa-4x text-warning"></i>
+      </div>
+      <h4 class="fw-bold mb-2" id="achievement-title">🎉 太棒了！</h4>
+      <p class="text-muted mb-3" id="achievement-text"></p>
+      <div class="achievement-progress mb-2">
+        <div class="progress" style="height: 8px;">
+          <div class="progress-bar bg-success" id="achievement-progress-bar" style="width: 0%"></div>
+        </div>
+      </div>
+      <small class="text-muted" id="achievement-detail"></small>
+    </div>
+  </div>
+
+  <!-- 復原提示 (bottom-center) -->
+  <div id="undo-toast" class="undo-toast" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:1050; min-width:300px;">
+    <div class="bg-dark text-white rounded shadow-lg p-3 d-flex align-items-center justify-content-between">
+      <span id="undo-text"></span>
+      <button id="undo-btn" class="btn btn-light btn-sm ms-3">復原</button>
+    </div>
+  </div>
+
+  <!-- 專案類型選擇 Modal -->
+  <div class="modal fade" id="projectTypeModal" tabindex="-1" aria-labelledby="projectTypeModalLabel">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="projectTypeModalLabel">選擇專案類型</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted mb-3">系統將根據專案類型自動載入對應的痛點檢查模板</p>
+          <!-- Loading placeholder for project types -->
+          <div id="project-type-loading" class="text-center py-4">
+            <div class="spinner-border text-primary-shari" role="status">
+              <span class="visually-hidden">載入專案類型...</span>
+            </div>
+            <p class="text-muted mt-2 small">載入專案類型...</p>
+          </div>
+          <div class="project-type-grid" id="project-type-grid" style="display: none;"></div>
+          <div class="alert alert-info mt-3 small border-0">
+            <i class="fas fa-lightbulb me-2"></i>
+            <strong>提示：</strong>不同類型包含針對性的痛點檢查項目，選擇最符合您專案的類型以獲得更精準的檢查清單。
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary-shari" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary-shari" id="confirm-project-type">
+            <i class="fas fa-check me-2"></i>確認建立
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note Modal -->
+  <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="noteModalLabel">
+            <i class="fas fa-sticky-note me-2 text-secondary-shari"></i>添加筆記
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small mb-3">記錄觀察細節、用戶反應或補充說明</p>
+          <textarea id="note-textarea" class="form-control" rows="5" 
+                    placeholder="例如：在首頁發現此問題，3位受測者都無法找到註冊按鈕..."></textarea>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary-shari" data-bs-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary-shari" id="save-note-btn">
+            <span class="btn-text">
+              <i class="fas fa-save me-2"></i>保存筆記
+            </span>
+            <span class="btn-spinner d-none">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              保存中...
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer"></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="module" src="assets/js/pages/ux-checklist.js?v=20251119c"></script>
+
+</body>
+</html>

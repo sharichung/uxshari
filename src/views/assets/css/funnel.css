@@ -1,3 +1,49 @@
+:root {
+  --primary: #ff9500;
+  --primary-dark: #e67e00;
+  --primary-light: #ffb74d;
+  --primary-pale: #F9EAD5;
+  --secondary: #6e00ff;
+  --secondary-light: #9d4eff;
+  --accent: #ff3d00;
+  --dark: #1a1a2e;
+  --dark-blue: #16213e;
+  --light: #f8f9fa;
+  --success: #00c853;
+  --success-pale: #CCF4DD;
+  --gray: #a0a0c0;
+  --gray-light: #e9ecef;
+  --cyan: #00e5ff;
+  --glow: 0 0 10px rgba(255, 87, 34, 0.5), 0 0 20px rgba(255, 87, 34, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  line-height: 1.6;
+  color: var(--light);
+  background-color: var(--dark);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(110, 0, 255, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.1) 0%, transparent 20%),
+    linear-gradient(to bottom, var(--dark) 0%, var(--dark-blue) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+}
+
 /* Funnel Hero 區 */
 /* Animation & Utility Classes */
 .float-animation {
@@ -89,6 +135,12 @@
 
 .animated-gradient {
   background: linear-gradient(270deg, var(--primary), var(--accent), var(--secondary), var(--cyan));
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.animated-gradient-green {
+  background: linear-gradient(270deg, #00c853, var(--cyan));
   background-size: 400% 400%;
   animation: gradient-shift 8s ease infinite;
 }
@@ -269,51 +321,7 @@
   .funnel-section-title { font-size: 1.1rem; }
   .funnel-pricing-table th, .funnel-pricing-table td { padding: 0.7rem 0.2rem; }
 }
-:root {
-  --primary: #ff9500;
-  --primary-dark: #e67e00;
-  --primary-light: #ffb74d;
-  --primary-pale: #F9EAD5;
-  --secondary: #6e00ff;
-  --secondary-light: #9d4eff;
-  --accent: #ff3d00;
-  --dark: #1a1a2e;
-  --dark-blue: #16213e;
-  --light: #f8f9fa;
-  --success: #00c853;
-  --success-pale: #CCF4DD;
-  --gray: #a0a0c0;
-  --gray-light: #e9ecef;
-  --cyan: #00e5ff;
-  --glow: 0 0 10px rgba(255, 87, 34, 0.5), 0 0 20px rgba(255, 87, 34, 0.3);
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Noto Sans TC', sans-serif;
-  line-height: 1.6;
-  color: var(--light);
-  background-color: var(--dark);
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(110, 0, 255, 0.1) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.1) 0%, transparent 20%),
-    linear-gradient(to bottom, var(--dark) 0%, var(--dark-blue) 100%);
-  background-attachment: fixed;
-  overflow-x: hidden;
-}
-
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  position: relative;
-}
 
 ::marker {
   unicode-bidi: normal;
