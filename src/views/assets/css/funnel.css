@@ -1,4 +1,135 @@
 /* Funnel Hero 區 */
+/* Animation & Utility Classes */
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.slide-in {
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.tech-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 149, 0, 0.3);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.tech-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  animation: scan-line 3s linear infinite;
+}
+.tech-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 0 30px rgba(255, 149, 0, 0.4), 0 0 60px rgba(110, 0, 255, 0.3);
+}
+
+.neon-border {
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 15px rgba(255, 149, 0, 0.5),
+    0 0 30px rgba(255, 149, 0, 0.3),
+    inset 0 0 15px rgba(255, 149, 0, 0.1);
+}
+
+.glow-button {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  box-shadow: 0 4px 20px rgba(255, 149, 0, 0.5), 0 0 40px rgba(255, 61, 0, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.glow-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+.glow-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+.glow-button:hover {
+  box-shadow: 0 6px 30px rgba(255, 149, 0, 0.7), 0 0 60px rgba(255, 61, 0, 0.5);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(110, 0, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110, 0, 255, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.animated-gradient {
+  background: linear-gradient(270deg, var(--primary), var(--accent), var(--secondary), var(--cyan));
+  background-size: 400% 400%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+.stat-badge {
+  background: rgba(110, 0, 255, 0.2);
+  border: 2px solid var(--secondary);
+  box-shadow: 0 0 20px rgba(110, 0, 255, 0.4);
+  transition: all 0.3s ease;
+}
+.stat-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(110, 0, 255, 0.6);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 149, 0, 0.5), 0 0 40px rgba(110, 0, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 149, 0, 0.7), 0 0 60px rgba(110, 0, 255, 0.5);
+  }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
 .funnel-hero {
   background: linear-gradient(135deg, #ff9500 0%, #6e00ff 100%);
   color: #fff;
